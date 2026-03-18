@@ -1,0 +1,2685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java OOP – Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f9fb;
+  --surface: #ffffff;
+  --surface2: #f1f4f8;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --text: #1e293b;
+  --muted: #64748b;
+  --light: #94a3b8;
+
+  /* Chapter colours */
+  --c1: #0369a1;   /* blue - Ch1 packages */
+  --c1l: #e0f2fe;
+  --c2: #7c3aed;   /* purple - Ch2 exceptions */
+  --c2l: #ede9fe;
+  --c3: #059669;   /* green - Ch3 threads */
+  --c3l: #d1fae5;
+
+  /* Accent */
+  --amber: #d97706;
+  --amberl: #fef3c7;
+  --rose: #e11d48;
+  --roseL: #ffe4e6;
+  --teal: #0d9488;
+  --tealL: #ccfbf1;
+  --orange: #ea580c;
+  --orangeL: #ffedd5;
+
+  --code-bg: #1e293b;
+  --code-surface: #0f172a;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #1e1b4b 100%);
+  padding: 64px 40px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(3,105,161,0.3) 0%, transparent 50%),
+              radial-gradient(circle at 80% 30%, rgba(124,58,237,0.25) 0%, transparent 50%),
+              radial-gradient(circle at 60% 80%, rgba(5,150,105,0.2) 0%, transparent 40%);
+}
+.hero-badge {
+  position: relative;
+  display: inline-block;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #93c5fd;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.hero h1 {
+  position: relative;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+.hero h1 span { color: #60a5fa; }
+.hero p { position: relative; color: #94a3b8; font-size: 13.5px; }
+
+/* ── CHAPTER NAV ── */
+.ch-nav {
+  display: flex;
+  background: #fff;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.ch-btn {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.ch-btn:hover { background: var(--surface2); }
+.ch-btn.a1 { border-bottom-color: var(--c1); color: var(--c1); background: var(--c1l); }
+.ch-btn.a2 { border-bottom-color: var(--c2); color: var(--c2); background: var(--c2l); }
+.ch-btn.a3 { border-bottom-color: var(--c3); color: var(--c3); background: var(--c3l); }
+.ch-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.a1 .ch-dot { background: var(--c1); }
+.a2 .ch-dot { background: var(--c2); }
+.a3 .ch-dot { background: var(--c3); }
+
+/* ── MINI TOC ── */
+.toc-bar {
+  display: flex;
+  gap: 6px;
+  padding: 10px 32px;
+  overflow-x: auto;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+.toc-bar::-webkit-scrollbar { display: none; }
+.toc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.toc-link:hover { border-color: var(--c1); color: var(--c1); }
+.toc-num {
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+/* ── CHAPTER HEADER ── */
+.ch-header {
+  padding: 36px 40px 0;
+}
+.ch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 2px solid;
+  margin-bottom: 4px;
+}
+.ch-label.l1 { border-color: #bfdbfe; background: #eff6ff; }
+.ch-label.l2 { border-color: #ddd6fe; background: #f5f3ff; }
+.ch-label.l3 { border-color: #a7f3d0; background: #ecfdf5; }
+.ch-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px; color: #fff; }
+.l1 .ch-num { background: var(--c1); }
+.l2 .ch-num { background: var(--c2); }
+.l3 .ch-num { background: var(--c3); }
+.ch-info-title { font-size: 1.15rem; font-weight: 800; color: var(--text); }
+.ch-info-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ── CONTAINER ── */
+.container { max-width: 1040px; margin: 0 auto; padding: 32px 24px 80px; }
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 52px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.5s ease forwards;
+}
+.section:nth-child(1){animation-delay:.05s}
+.section:nth-child(2){animation-delay:.1s}
+.section:nth-child(3){animation-delay:.15s}
+.section:nth-child(4){animation-delay:.2s}
+.section:nth-child(5){animation-delay:.25s}
+.section:nth-child(6){animation-delay:.3s}
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+.sec-hdr {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border-left: 5px solid;
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.sec-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 5px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.sec-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+.sec-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+/* Section accent classes */
+.s-blue .sec-hdr { border-left-color: var(--c1); background: #f0f9ff; }
+.s-blue .sec-tag { background: var(--c1); }
+.s-purple .sec-hdr { border-left-color: var(--c2); background: #faf5ff; }
+.s-purple .sec-tag { background: var(--c2); }
+.s-green .sec-hdr { border-left-color: var(--c3); background: #f0fdf4; }
+.s-green .sec-tag { background: var(--c3); }
+.s-amber .sec-hdr { border-left-color: var(--amber); background: #fffbeb; }
+.s-amber .sec-tag { background: var(--amber); }
+.s-rose .sec-hdr { border-left-color: var(--rose); background: #fff1f2; }
+.s-rose .sec-tag { background: var(--rose); }
+.s-teal .sec-hdr { border-left-color: var(--teal); background: #f0fdfa; }
+.s-teal .sec-tag { background: var(--teal); }
+.s-orange .sec-hdr { border-left-color: var(--orange); background: #fff7ed; }
+.s-orange .sec-tag { background: var(--orange); }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.ctitle {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--c1);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.ctitle::before { content:''; display:block; width:3px; height:14px; background:var(--c1); border-radius:2px; flex-shrink:0; }
+
+h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 18px 0 8px; }
+p { color: var(--muted); margin-bottom: 10px; line-height: 1.75; }
+strong { color: var(--text); }
+ul { padding-left: 20px; margin: 6px 0 10px; }
+ul li { color: var(--muted); margin-bottom: 5px; font-size: 14px; }
+ul li strong { color: var(--text); }
+
+/* ── ANALOGY ── */
+.analogy {
+  background: var(--amberl);
+  border: 1px solid #fcd34d;
+  border-left: 4px solid var(--amber);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 14px 0;
+}
+.analogy::before {
+  content: '🌍  Real-Life Analogy';
+  display: block;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #92400e;
+  margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.analogy p { color: #78350f; margin: 0; font-size: 13.5px; }
+
+/* ── TIP / WARN / NOTE ── */
+.tip {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-left: 4px solid var(--c1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 13.5px;
+  color: #1e40af;
+}
+.tip strong { color: #1e3a8a; }
+.warn {
+  background: var(--roseL);
+  border: 1px solid #fecdd3;
+  border-left: 4px solid var(--rose);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 13.5px;
+  color: #9f1239;
+}
+.warn strong { color: #881337; }
+.note {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-left: 4px solid var(--c3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 13.5px;
+  color: #065f46;
+}
+
+/* ── CODE ── */
+.code-wrap {
+  background: var(--code-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 14px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.code-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--code-surface);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.code-lang { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #60a5fa; text-transform: uppercase; }
+.dots { display: flex; gap: 5px; }
+.dots span { width: 9px; height: 9px; border-radius: 50%; }
+.dots span:nth-child(1){background:#ff5f57}
+.dots span:nth-child(2){background:#febc2e}
+.dots span:nth-child(3){background:#28c840}
+pre { padding: 18px; overflow-x: auto; line-height: 1.75; color: #94a3b8; }
+.kw{color:#c084fc} .cl{color:#fbbf24} .fn{color:#60a5fa} .st{color:#86efac}
+.co{color:#475569;font-style:italic} .nm{color:#fb923c} .an{color:#f87171}
+.output {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 8px 0 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: #065f46;
+}
+.output::before {
+  content: '▶  Output';
+  display: block;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  color: #15803d;
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+
+/* ── TABLES ── */
+.tw { overflow-x: auto; margin: 14px 0; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead tr { background: var(--surface2); border-bottom: 2px solid var(--border2); }
+thead th { padding: 11px 14px; text-align: left; font-weight: 700; color: var(--text); font-size: 12px; letter-spacing: 0.3px; }
+tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+tbody tr:hover { background: var(--surface2); }
+tbody tr:last-child { border-bottom: none; }
+td { padding: 10px 14px; color: var(--muted); vertical-align: top; }
+td code { background: var(--c1l); color: var(--c1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; }
+code { background: var(--c1l); color: var(--c1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+
+/* ── METHOD LIST ── */
+.mlist { list-style: none; display: flex; flex-direction: column; gap: 6px; padding-left: 0 !important; }
+.mlist li { display: flex; gap: 10px; align-items: flex-start; padding: 9px 13px; background: var(--surface2); border-radius: 7px; border: 1px solid var(--border); font-size: 13.5px; }
+.mlist li code { flex-shrink: 0; white-space: nowrap; }
+.mlist li span { color: var(--muted); }
+
+/* ── HIERARCHY ── */
+.hier {
+  background: #f8faff;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 14px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 2;
+}
+.hr-root { color: var(--c1); font-weight: 800; }
+.hr-child { color: var(--c2); padding-left: 22px; }
+.hr-leaf { color: var(--c3); padding-left: 44px; }
+.hr-note { color: var(--muted); font-size: 11px; padding-left: 64px; }
+
+/* ── 2-COLUMN GRID ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+@media(max-width:640px){ .two-col{grid-template-columns:1fr;} }
+.col-card { border-radius: 9px; padding: 16px; border: 1px solid var(--border); border-top: 3px solid; }
+.col-blue { border-top-color: var(--c1); background: #f0f9ff; }
+.col-purple { border-top-color: var(--c2); background: #faf5ff; }
+.col-green { border-top-color: var(--c3); background: #f0fdf4; }
+.col-amber { border-top-color: var(--amber); background: #fffbeb; }
+.col-rose { border-top-color: var(--rose); background: #fff1f2; }
+.col-teal { border-top-color: var(--teal); background: #f0fdfa; }
+.col-head { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; margin-bottom: 8px; }
+.col-blue .col-head{color:var(--c1)}
+.col-purple .col-head{color:var(--c2)}
+.col-green .col-head{color:var(--c3)}
+.col-amber .col-head{color:var(--amber)}
+.col-rose .col-head{color:var(--rose)}
+.col-teal .col-head{color:var(--teal)}
+.col-card p { font-size: 13px; margin: 0; color: var(--muted); }
+
+/* ── 3-GRID ── */
+.three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 14px 0; }
+@media(max-width:680px){ .three-col{grid-template-columns:1fr;} }
+
+/* ── PACKAGE GRID ── */
+.pkg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0; }
+@media(max-width:640px){.pkg-grid{grid-template-columns:1fr;}}
+.pkg-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--surface);
+  border-top: 3px solid;
+  transition: box-shadow 0.2s;
+}
+.pkg-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.pkg-name { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; margin-bottom: 6px; }
+.pkg-desc { font-size: 12.5px; color: var(--muted); margin: 0; }
+.pkg-items { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+.pkg-item { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+
+/* ── THREAD STATE FLOW ── */
+.states {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 24px;
+  background: var(--surface2);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin: 14px 0;
+}
+.st-box { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.st-pill { padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; font-family: 'JetBrains Mono', monospace; white-space: nowrap; border: 2px solid; }
+.s-new{background:#dbeafe;border-color:#3b82f6;color:#1d4ed8;}
+.s-runable{background:#e0e7ff;border-color:#6366f1;color:#4338ca;}
+.s-running{background:#dcfce7;border-color:#22c55e;color:#15803d;}
+.s-waiting{background:#fef9c3;border-color:#eab308;color:#a16207;}
+.s-dead{background:#fee2e2;border-color:#ef4444;color:#b91c1c;}
+.st-trig { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-align: center; max-width: 80px; }
+.arr { color: var(--muted); font-size: 20px; padding: 0 6px; align-self: flex-start; margin-top: 10px; }
+
+/* ── EXCEPTION HIERARCHY ── */
+.exc-tree {
+  background: #faf5ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 14px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 2;
+}
+.et-root { color: var(--c2); font-weight: 800; }
+.et-l1 { color: var(--c1); padding-left: 22px; }
+.et-l2 { color: var(--c3); padding-left: 44px; }
+.et-l3 { color: var(--orange); padding-left: 66px; }
+.et-note { color: var(--muted); font-size: 11px; }
+
+/* ── SYNC CARDS ── */
+.sync3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 14px 0; }
+@media(max-width:680px){.sync3{grid-template-columns:1fr;}}
+.sy-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 16px; border-top: 3px solid; }
+.sy-card:nth-child(1){border-top-color:var(--c1);}
+.sy-card:nth-child(2){border-top-color:var(--amber);}
+.sy-card:nth-child(3){border-top-color:var(--c2);}
+.sy-card h4 { font-size: 12px; font-weight: 800; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
+.sy-card:nth-child(1) h4{color:var(--c1);}
+.sy-card:nth-child(2) h4{color:var(--amber);}
+.sy-card:nth-child(3) h4{color:var(--c2);}
+.sy-card p { font-size: 12.5px; color: var(--muted); margin: 0; }
+.lock-tag { display: inline-block; margin-top: 8px; padding: 2px 9px; border-radius: 100px; font-size: 10px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.sy-card:nth-child(1) .lock-tag{background:var(--c1l);color:var(--c1);}
+.sy-card:nth-child(2) .lock-tag{background:var(--amberl);color:var(--amber);}
+.sy-card:nth-child(3) .lock-tag{background:var(--c2l);color:var(--c2);}
+
+/* ── QUIZ ── */
+.quiz {
+  background: #faf5ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+  padding: 22px;
+  margin-top: 20px;
+}
+.quiz .ctitle { color: var(--c2); }
+.quiz .ctitle::before { background: var(--c2); }
+.qi { background: var(--surface); border-radius: 8px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); }
+.qt { font-weight: 700; color: var(--text); margin-bottom: 7px; font-size: 14px; }
+.qa { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #065f46; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 7px 11px; display: flex; align-items: flex-start; gap: 7px; }
+.qa::before { content: '✓'; color: var(--c3); font-weight: 800; flex-shrink: 0; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border2), transparent); margin: 40px 0; }
+
+/* ── SUMMARY ── */
+.summary {
+  background: linear-gradient(135deg, #0f172a, #1e3a5f);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 40px;
+  color: #e2e8f0;
+}
+.summary h2 { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 22px; }
+.tricks { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin: 14px 0; }
+@media(max-width:600px){.tricks{grid-template-columns:1fr;}}
+.trick { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 16px; }
+.trick em { font-size: 22px; display: block; margin-bottom: 6px; font-style: normal; }
+.trick strong { color: #fff; display: block; margin-bottom: 4px; font-size: 13.5px; }
+.trick span { color: #94a3b8; font-size: 12.5px; }
+.summary table thead th { color: #93c5fd; }
+.summary table tbody tr { border-bottom-color: rgba(255,255,255,0.08); }
+.summary table td { color: #94a3b8; }
+.summary table tbody tr:hover { background: rgba(255,255,255,0.04); }
+.summary .tw { border-color: rgba(255,255,255,0.1); }
+
+/* ── INTER-THREAD COMMS ── */
+.flow-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  background: var(--surface2);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin: 14px 0;
+  flex-wrap: wrap;
+}
+.fb { text-align: center; padding: 12px 16px; border-radius: 8px; min-width: 100px; border: 2px solid; }
+.fb-p { background: var(--c1l); border-color: var(--c1); color: var(--c1); }
+.fb-q { background: var(--amberl); border-color: var(--amber); color: var(--amber); }
+.fb-c { background: var(--c3l); border-color: var(--c3); color: var(--c3); }
+.fb-label { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 800; }
+.fb-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.fb-arr { color: var(--muted); font-size: 20px; }
+
+footer {
+  text-align: center;
+  padding: 36px;
+  color: var(--light);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 2;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">OOP using Java · 23CSH-207 · Complete Study Guide</div>
+  <h1>Java OOP <span>&amp;</span> Exam Guide</h1>
+  <p>Chapter 1: Packages &amp; I/O Streams &nbsp;·&nbsp; Chapter 2: Exception Handling &nbsp;·&nbsp; Chapter 3: Multithreading</p>
+</div>
+
+<!-- CHAPTER NAV -->
+<nav class="ch-nav">
+  <a href="#ch0" class="ch-btn" style="border-bottom-color:#b45309;color:#b45309;background:#fefce8;"><span class="ch-dot" style="background:#b45309;"></span>Abstract Class</a>
+  <a href="#ch1" class="ch-btn a1"><span class="ch-dot"></span>Ch 1 – Packages &amp; I/O</a>
+  <a href="#ch2" class="ch-btn a2"><span class="ch-dot"></span>Ch 2 – Exception Handling</a>
+  <a href="#ch3" class="ch-btn a3"><span class="ch-dot"></span>Ch 3 – Multithreading</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     ABSTRACT CLASS SECTION (before Ch1)
+══════════════════════════════════════════════ -->
+<div class="toc-bar" style="background:#fefce8;border-color:#fde68a;">
+  <a href="#s-abstract" class="toc-link"><span class="toc-num" style="background:#b45309">📌</span>Abstract Class – Full Topic</a>
+</div>
+
+<div class="ch-header" id="ch0">
+  <div class="ch-label" style="border-color:#fde68a;background:#fefce8;">
+    <span class="ch-num" style="background:#b45309;">OOP Core</span>
+    <div>
+      <div class="ch-info-title">Abstract Class &amp; Interface</div>
+      <div class="ch-info-sub">Abstract class · Abstract methods · Interface vs Abstract class · Real examples</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+<section class="section s-amber" id="s-abstract">
+  <div class="sec-hdr" style="border-left-color:#b45309;background:#fefce8;">
+    <span class="sec-tag" style="background:#b45309;">📌</span>
+    <div>
+      <div class="sec-title">Abstract Class in Java</div>
+      <div class="sec-sub">abstract keyword · abstract methods · rules · real-life examples · vs Interface</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">What is an Abstract Class?</div>
+    <p>An <strong>abstract class</strong> is a class that <strong>cannot be instantiated</strong> (you cannot create objects of it directly). It is declared using the <code>abstract</code> keyword and is meant to be <strong>subclassed</strong>.</p>
+    <p>It can contain:</p>
+    <ul>
+      <li><strong>Abstract methods</strong> — declared but NOT implemented (no body) → subclass MUST implement</li>
+      <li><strong>Concrete methods</strong> — fully implemented methods (with body)</li>
+      <li><strong>Instance variables, constructors, static methods</strong> — all allowed</li>
+    </ul>
+    <div class="analogy"><p>Think of an <strong>abstract class as a blueprint template</strong>. A blueprint for a "Vehicle" says every vehicle MUST have a <code>start()</code> method — but HOW it starts (petrol key vs electric button) is defined by each specific vehicle (Car, Bike, Truck). You can't drive a "Vehicle" — you drive a specific Car or Bike (the concrete subclass).</p></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">Abstract Method</div>
+    <p>An <strong>abstract method</strong> has NO body — just a declaration. The subclass <strong>must</strong> override and implement it.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Abstract Method Syntax</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">abstract class</span> <span class="cl">Shape</span> {
+    <span class="co">// Abstract method — NO body, ends with semicolon</span>
+    <span class="kw">abstract double</span> <span class="fn">area</span>();      <span class="co">// subclass MUST implement this</span>
+    <span class="kw">abstract double</span> <span class="fn">perimeter</span>(); <span class="co">// subclass MUST implement this</span>
+
+    <span class="co">// Concrete method — has body, inherited by subclass</span>
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        System.out.<span class="fn">println</span>(<span class="st">"Area = "</span> + <span class="fn">area</span>());
+        System.out.<span class="fn">println</span>(<span class="st">"Perimeter = "</span> + <span class="fn">perimeter</span>());
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">Complete Abstract Class Example</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Shape Example (Full Program)</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="co">// Step 1: Define abstract class</span>
+<span class="kw">abstract class</span> <span class="cl">Shape</span> {
+    String color;
+
+    <span class="co">// Constructor of abstract class (allowed!)</span>
+    <span class="cl">Shape</span>(String color) {
+        <span class="kw">this</span>.color = color;
+    }
+
+    <span class="co">// Abstract methods — MUST be implemented by subclass</span>
+    <span class="kw">abstract double</span> <span class="fn">area</span>();
+    <span class="kw">abstract double</span> <span class="fn">perimeter</span>();
+
+    <span class="co">// Concrete method — ready to use, inherited</span>
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        System.out.<span class="fn">println</span>(<span class="st">"Color: "</span> + color);
+        System.out.<span class="fn">println</span>(<span class="st">"Area: "</span> + <span class="fn">area</span>());
+        System.out.<span class="fn">println</span>(<span class="st">"Perimeter: "</span> + <span class="fn">perimeter</span>());
+    }
+}
+
+<span class="co">// Step 2: Subclass 1 — implements abstract methods</span>
+<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+    <span class="kw">double</span> radius;
+
+    <span class="cl">Circle</span>(<span class="kw">double</span> r, String color) {
+        <span class="kw">super</span>(color); <span class="co">// call abstract class constructor</span>
+        <span class="kw">this</span>.radius = r;
+    }
+
+    <span class="kw">double</span> <span class="fn">area</span>() {
+        <span class="kw">return</span> Math.PI * radius * radius; <span class="co">// must implement!</span>
+    }
+    <span class="kw">double</span> <span class="fn">perimeter</span>() {
+        <span class="kw">return</span> <span class="nm">2</span> * Math.PI * radius;
+    }
+}
+
+<span class="co">// Step 3: Subclass 2 — implements abstract methods differently</span>
+<span class="kw">class</span> <span class="cl">Rectangle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+    <span class="kw">double</span> length, width;
+
+    <span class="cl">Rectangle</span>(<span class="kw">double</span> l, <span class="kw">double</span> w, String color) {
+        <span class="kw">super</span>(color);
+        <span class="kw">this</span>.length = l; <span class="kw">this</span>.width = w;
+    }
+
+    <span class="kw">double</span> <span class="fn">area</span>()      { <span class="kw">return</span> length * width; }
+    <span class="kw">double</span> <span class="fn">perimeter</span>() { <span class="kw">return</span> <span class="nm">2</span> * (length + width); }
+}
+
+<span class="co">// Step 4: Main class</span>
+<span class="kw">public class</span> <span class="cl">AbstractDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="co">// Shape s = new Shape("Red"); // ERROR! Cannot instantiate abstract class</span>
+
+        Shape c = <span class="kw">new</span> <span class="cl">Circle</span>(<span class="nm">5.0</span>, <span class="st">"Red"</span>);    <span class="co">// OK — Circle is concrete</span>
+        Shape r = <span class="kw">new</span> <span class="cl">Rectangle</span>(<span class="nm">4.0</span>, <span class="nm">6.0</span>, <span class="st">"Blue"</span>); <span class="co">// OK</span>
+
+        System.out.<span class="fn">println</span>(<span class="st">"--- Circle ---"</span>);
+        c.<span class="fn">display</span>(); <span class="co">// calls Shape's display() → which calls Circle's area()</span>
+
+        System.out.<span class="fn">println</span>(<span class="st">"--- Rectangle ---"</span>);
+        r.<span class="fn">display</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">--- Circle ---
+Color: Red
+Area: 78.53981633974483
+Perimeter: 31.41592653589793
+--- Rectangle ---
+Color: Blue
+Area: 24.0
+Perimeter: 20.0</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">Animal Example – Another Classic</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Animal Abstract Class</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">abstract class</span> <span class="cl">Animal</span> {
+    String name;
+    <span class="cl">Animal</span>(String name) { <span class="kw">this</span>.name = name; }
+
+    <span class="kw">abstract void</span> <span class="fn">sound</span>(); <span class="co">// every animal makes a sound — but HOW differs</span>
+
+    <span class="kw">void</span> <span class="fn">breathe</span>() {        <span class="co">// all animals breathe the same way</span>
+        System.out.<span class="fn">println</span>(name + <span class="st">" is breathing..."</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    <span class="cl">Dog</span>(String name) { <span class="kw">super</span>(name); }
+    <span class="kw">void</span> <span class="fn">sound</span>() { System.out.<span class="fn">println</span>(name + <span class="st">" says: Woof!"</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Cat</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    <span class="cl">Cat</span>(String name) { <span class="kw">super</span>(name); }
+    <span class="kw">void</span> <span class="fn">sound</span>() { System.out.<span class="fn">println</span>(name + <span class="st">" says: Meow!"</span>); }
+}
+
+<span class="kw">public class</span> <span class="cl">AnimalDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Animal a1 = <span class="kw">new</span> <span class="cl">Dog</span>(<span class="st">"Tommy"</span>);
+        Animal a2 = <span class="kw">new</span> <span class="cl">Cat</span>(<span class="st">"Kitty"</span>);
+
+        a1.<span class="fn">sound</span>();   a1.<span class="fn">breathe</span>();
+        a2.<span class="fn">sound</span>();   a2.<span class="fn">breathe</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Tommy says: Woof!
+Tommy is breathing...
+Kitty says: Meow!
+Kitty is breathing...</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">Rules of Abstract Class — Must Know!</div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Rule</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Declared with <code>abstract</code> keyword</td><td><code>abstract class Shape { }</code></td></tr>
+        <tr><td>2</td><td><strong>Cannot be instantiated</strong> — no objects</td><td><code>new Shape();</code> → ❌ Compile error</td></tr>
+        <tr><td>3</td><td>Can have abstract AND concrete methods</td><td>Both <code>abstract void area();</code> and <code>void display(){ }</code></td></tr>
+        <tr><td>4</td><td>If a class has even ONE abstract method → class must be abstract</td><td>Can't have abstract method in a normal class</td></tr>
+        <tr><td>5</td><td>Subclass must implement ALL abstract methods</td><td>OR declare itself abstract too</td></tr>
+        <tr><td>6</td><td>Can have constructor (used via <code>super()</code>)</td><td>Called when subclass object is created</td></tr>
+        <tr><td>7</td><td>Can have instance variables, static methods</td><td>All normal class features allowed</td></tr>
+        <tr><td>8</td><td><code>abstract</code> and <code>final</code> cannot be combined</td><td>A final class cannot be subclassed, so abstract is useless</td></tr>
+        <tr><td>9</td><td><code>abstract</code> and <code>static</code> cannot be combined for methods</td><td>Abstract method needs to be overridden, static can't be</td></tr>
+        <tr><td>10</td><td>Reference variable of abstract type is allowed</td><td><code>Shape s = new Circle();</code> ✅</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">Abstract Class vs Interface — The Big Comparison</div>
+    <div class="tw"><table>
+      <thead><tr><th>Feature</th><th>Abstract Class</th><th>Interface</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Keyword</strong></td><td><code>abstract class</code></td><td><code>interface</code></td></tr>
+        <tr><td><strong>Methods</strong></td><td>Both abstract AND concrete</td><td>Only abstract (Java 7). Default/static allowed from Java 8</td></tr>
+        <tr><td><strong>Variables</strong></td><td>Any type (int, String, etc.)</td><td>Only <code>public static final</code> (constants)</td></tr>
+        <tr><td><strong>Constructor</strong></td><td>✅ Can have constructor</td><td>❌ No constructor</td></tr>
+        <tr><td><strong>Inheritance</strong></td><td>Single inheritance (<code>extends</code> one only)</td><td>Multiple — a class can implement many interfaces</td></tr>
+        <tr><td><strong>Access modifiers</strong></td><td>Any (public, private, protected)</td><td>Methods are implicitly <code>public abstract</code></td></tr>
+        <tr><td><strong>Speed</strong></td><td>Slightly faster</td><td>Slightly slower (extra indirection)</td></tr>
+        <tr><td><strong>When to use</strong></td><td>When classes share common code + IS-A relationship</td><td>When unrelated classes need same behaviour</td></tr>
+        <tr><td><strong>Example</strong></td><td>Animal → Dog, Cat (share breathe())</td><td>Flyable → Bird, Airplane, Superman</td></tr>
+        <tr><td><strong>Keyword to use</strong></td><td><code>extends</code></td><td><code>implements</code></td></tr>
+      </tbody>
+    </table></div>
+    <div class="two-col">
+      <div class="col-card col-amber">
+        <div class="col-head">USE ABSTRACT CLASS WHEN</div>
+        <p>• Classes are closely related (Dog IS-A Animal)<br>• You want to share common code (concrete methods)<br>• You need constructors or non-static fields<br>• You need access control (private/protected)</p>
+      </div>
+      <div class="col-card col-blue">
+        <div class="col-head">USE INTERFACE WHEN</div>
+        <p>• Unrelated classes need same behaviour<br>• You need multiple inheritance<br>• You want to define a contract (CAN-DO relationship)<br>• Example: Flyable — Bird, Airplane can both fly</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">Interface Example for Comparison</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Interface</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="co">// Interface — defines a contract</span>
+<span class="kw">interface</span> <span class="cl">Drawable</span> {
+    <span class="kw">void</span> <span class="fn">draw</span>(); <span class="co">// public abstract by default</span>
+}
+
+<span class="kw">interface</span> <span class="cl">Resizable</span> {
+    <span class="kw">void</span> <span class="fn">resize</span>(<span class="kw">double</span> factor);
+}
+
+<span class="co">// A class can implement MULTIPLE interfaces</span>
+<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">implements</span> <span class="cl">Drawable</span>, <span class="cl">Resizable</span> {
+    <span class="kw">double</span> radius;
+    <span class="cl">Circle</span>(<span class="kw">double</span> r) { <span class="kw">this</span>.radius = r; }
+
+    <span class="kw">public void</span> <span class="fn">draw</span>() {
+        System.out.<span class="fn">println</span>(<span class="st">"Drawing circle with radius "</span> + radius);
+    }
+    <span class="kw">public void</span> <span class="fn">resize</span>(<span class="kw">double</span> factor) {
+        radius *= factor;
+        System.out.<span class="fn">println</span>(<span class="st">"Resized! New radius: "</span> + radius);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">InterfaceDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Circle c = <span class="kw">new</span> <span class="cl">Circle</span>(<span class="nm">5.0</span>);
+        c.<span class="fn">draw</span>();
+        c.<span class="fn">resize</span>(<span class="nm">2.0</span>);
+        c.<span class="fn">draw</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Drawing circle with radius 5.0
+Resized! New radius: 10.0
+Drawing circle with radius 10.0</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="color:#b45309">Abstract Class with Runnable — Exam Trick Question!</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Does this compile?</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public abstract class</span> <span class="cl">Test</span> <span class="kw">implements</span> <span class="cl">Runnable</span> {
+    <span class="kw">public void</span> <span class="fn">doSomething</span>() { }
+    <span class="co">// run() is NOT implemented here</span>
+}</pre>
+    </div>
+    <div class="note">✅ <strong>YES — This compiles fine!</strong> Because Test is abstract, it does NOT need to implement run(). A concrete (non-abstract) subclass of Test must implement run().</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Concrete subclass must implement run()</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">ConcreteTest</span> <span class="kw">extends</span> <span class="cl">Test</span> {
+    <span class="kw">public void</span> <span class="fn">run</span>() { <span class="co">// now MUST be implemented</span>
+        System.out.<span class="fn">println</span>(<span class="st">"Running!"</span>);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="ctitle" style="color:#b45309">Exam Questions – Abstract Class</div>
+    <div class="qi"><div class="qt">Q: Can you create an object of an abstract class?</div><div class="qa">NO — abstract class cannot be instantiated. You can only create objects of its concrete subclasses.</div></div>
+    <div class="qi"><div class="qt">Q: Can abstract class have a constructor?</div><div class="qa">YES — but it is called only when a subclass object is created via super()</div></div>
+    <div class="qi"><div class="qt">Q: Can abstract class have concrete (non-abstract) methods?</div><div class="qa">YES — it can have both abstract AND concrete methods. That's one key difference from interfaces.</div></div>
+    <div class="qi"><div class="qt">Q: If a class has one abstract method, what must you do?</div><div class="qa">Declare the entire class as abstract. A non-abstract class cannot have abstract methods.</div></div>
+    <div class="qi"><div class="qt">Q: What happens if subclass doesn't implement all abstract methods?</div><div class="qa">The subclass must also be declared abstract, or it will get a compile-time error.</div></div>
+    <div class="qi"><div class="qt">Q: Difference between abstract class and interface?</div><div class="qa">Abstract class: can have concrete methods, constructors, any fields, single inheritance. Interface: only abstract methods (Java 7), no constructors, constants only, multiple implementation allowed.</div></div>
+    <div class="qi"><div class="qt">Q: Can abstract and final be used together?</div><div class="qa">NO — final class cannot be extended; abstract class MUST be extended. They contradict each other.</div></div>
+    <div class="qi"><div class="qt">Q: Can we have abstract static method?</div><div class="qa">NO — abstract methods are meant to be overridden, but static methods cannot be overridden.</div></div>
+  </div>
+</section>
+</div><!-- end abstract container -->
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 1 TOC
+══════════════════════════════════════════════ -->
+<div class="toc-bar">
+  <a href="#s-packages" class="toc-link"><span class="toc-num" style="background:#0369a1">1.1</span>Built-in Packages</a>
+  <a href="#s-userpkg" class="toc-link"><span class="toc-num" style="background:#7c3aed">1.2</span>User-Defined Packages</a>
+  <a href="#s-iostreams" class="toc-link"><span class="toc-num" style="background:#059669">1.3</span>I/O Streams</a>
+  <a href="#s-fileio" class="toc-link"><span class="toc-num" style="background:#d97706">1.4</span>File I/O Classes</a>
+  <a href="#s-char-streams" class="toc-link"><span class="toc-num" style="background:#0d9488">1.5</span>Character Streams</a>
+  <a href="#s-serial" class="toc-link"><span class="toc-num" style="background:#ea580c">1.6</span>Serialization</a>
+</div>
+
+<!-- CH1 HEADER -->
+<div class="ch-header" id="ch1">
+  <div class="ch-label l1">
+    <span class="ch-num">Chapter 1</span>
+    <div>
+      <div class="ch-info-title">Package and I/O Stream</div>
+      <div class="ch-info-sub">Built-in packages · User-defined packages · Byte &amp; character streams · File I/O · Serialization</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ════════ SECTION 1.1 – BUILT-IN PACKAGES ════════ -->
+<section class="section s-blue" id="s-packages">
+  <div class="sec-hdr">
+    <span class="sec-tag">1.1</span>
+    <div>
+      <div class="sec-title">Built-in Packages</div>
+      <div class="sec-sub">java.awt · java.io · java.lang · java.math · java.sql · java.util</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">What is a Package?</div>
+    <p>A <strong>package</strong> is a group of related classes and interfaces bundled together. Think of it like a <strong>folder on your computer</strong> — it organises your files so you can find them easily.</p>
+    <ul>
+      <li>Prevents <strong>name conflicts</strong> — two classes in different packages can have the same name</li>
+      <li>Provides <strong>access control</strong> — you can hide implementation details</li>
+      <li>Makes code <strong>reusable</strong> and easy to maintain</li>
+      <li>Java has two types: <strong>Built-in</strong> (provided by Java) and <strong>User-defined</strong> (you create them)</li>
+    </ul>
+    <div class="analogy"><p>A package is like a <strong>department in a hospital</strong>. Cardiology has heart doctors, Orthopaedics has bone doctors. They all work in the same building (JVM) but are organized into separate departments (packages). You can call a specialist from any department when needed.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Major Built-in Packages</div>
+    <div class="pkg-grid">
+      <div class="pkg-card" style="border-top-color:#0369a1">
+        <div class="pkg-name" style="color:#0369a1">java.lang</div>
+        <div class="pkg-desc">Fundamental classes. <strong>Auto-imported</strong> — you never need to import it manually.</div>
+        <div class="pkg-items">
+          <span class="pkg-item" style="background:#dbeafe;color:#1d4ed8">String</span>
+          <span class="pkg-item" style="background:#dbeafe;color:#1d4ed8">Math</span>
+          <span class="pkg-item" style="background:#dbeafe;color:#1d4ed8">Object</span>
+          <span class="pkg-item" style="background:#dbeafe;color:#1d4ed8">Thread</span>
+          <span class="pkg-item" style="background:#dbeafe;color:#1d4ed8">System</span>
+          <span class="pkg-item" style="background:#dbeafe;color:#1d4ed8">Integer</span>
+        </div>
+      </div>
+      <div class="pkg-card" style="border-top-color:#059669">
+        <div class="pkg-name" style="color:#059669">java.io</div>
+        <div class="pkg-desc">Input/Output operations — reading &amp; writing files, streams, serialization.</div>
+        <div class="pkg-items">
+          <span class="pkg-item" style="background:#dcfce7;color:#15803d">FileInputStream</span>
+          <span class="pkg-item" style="background:#dcfce7;color:#15803d">FileOutputStream</span>
+          <span class="pkg-item" style="background:#dcfce7;color:#15803d">FileReader</span>
+          <span class="pkg-item" style="background:#dcfce7;color:#15803d">FileWriter</span>
+          <span class="pkg-item" style="background:#dcfce7;color:#15803d">Serializable</span>
+        </div>
+      </div>
+      <div class="pkg-card" style="border-top-color:#7c3aed">
+        <div class="pkg-name" style="color:#7c3aed">java.util</div>
+        <div class="pkg-desc">Utility classes — data structures, date, scanner, collections framework.</div>
+        <div class="pkg-items">
+          <span class="pkg-item" style="background:#ede9fe;color:#6d28d9">ArrayList</span>
+          <span class="pkg-item" style="background:#ede9fe;color:#6d28d9">HashMap</span>
+          <span class="pkg-item" style="background:#ede9fe;color:#6d28d9">Scanner</span>
+          <span class="pkg-item" style="background:#ede9fe;color:#6d28d9">Date</span>
+          <span class="pkg-item" style="background:#ede9fe;color:#6d28d9">Random</span>
+          <span class="pkg-item" style="background:#ede9fe;color:#6d28d9">Stack</span>
+        </div>
+      </div>
+      <div class="pkg-card" style="border-top-color:#d97706">
+        <div class="pkg-name" style="color:#d97706">java.awt</div>
+        <div class="pkg-desc">Abstract Window Toolkit — GUI components for creating desktop applications.</div>
+        <div class="pkg-items">
+          <span class="pkg-item" style="background:#fef3c7;color:#92400e">Button</span>
+          <span class="pkg-item" style="background:#fef3c7;color:#92400e">Frame</span>
+          <span class="pkg-item" style="background:#fef3c7;color:#92400e">Panel</span>
+          <span class="pkg-item" style="background:#fef3c7;color:#92400e">Color</span>
+          <span class="pkg-item" style="background:#fef3c7;color:#92400e">Graphics</span>
+        </div>
+      </div>
+      <div class="pkg-card" style="border-top-color:#0d9488">
+        <div class="pkg-name" style="color:#0d9488">java.sql</div>
+        <div class="pkg-desc">Database connectivity — connecting to MySQL, Oracle, and other databases via JDBC.</div>
+        <div class="pkg-items">
+          <span class="pkg-item" style="background:#ccfbf1;color:#0f766e">Connection</span>
+          <span class="pkg-item" style="background:#ccfbf1;color:#0f766e">Statement</span>
+          <span class="pkg-item" style="background:#ccfbf1;color:#0f766e">ResultSet</span>
+          <span class="pkg-item" style="background:#ccfbf1;color:#0f766e">DriverManager</span>
+        </div>
+      </div>
+      <div class="pkg-card" style="border-top-color:#e11d48">
+        <div class="pkg-name" style="color:#e11d48">java.math</div>
+        <div class="pkg-desc">Arbitrary-precision arithmetic — for very large or very precise numbers.</div>
+        <div class="pkg-items">
+          <span class="pkg-item" style="background:#ffe4e6;color:#be123c">BigInteger</span>
+          <span class="pkg-item" style="background:#ffe4e6;color:#be123c">BigDecimal</span>
+          <span class="pkg-item" style="background:#ffe4e6;color:#be123c">MathContext</span>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><strong>java.lang is special!</strong> It is the only package that Java imports automatically. For all other packages (java.io, java.util, etc.) you must write <code>import packagename.*;</code> or import specific classes.</div>
+  </div>
+</section>
+
+<!-- ════════ SECTION 1.2 – USER-DEFINED PACKAGES ════════ -->
+<section class="section s-purple" id="s-userpkg">
+  <div class="sec-hdr">
+    <span class="sec-tag">1.2</span>
+    <div>
+      <div class="sec-title">User-Defined Packages</div>
+      <div class="sec-sub">Creating · Accessing · Using your own packages</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Creating a User-Defined Package</div>
+    <p>Use the <code>package</code> keyword as the <strong>very first statement</strong> in your Java file (before class declaration).</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Step 1: Create the package</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="co">// File: mypackage/Calculator.java</span>
+<span class="kw">package</span> mypackage;   <span class="co">// MUST be first statement</span>
+
+<span class="kw">public class</span> <span class="cl">Calculator</span> {
+    <span class="kw">public int</span> <span class="fn">add</span>(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+        <span class="kw">return</span> a + b;
+    }
+    <span class="kw">public int</span> <span class="fn">multiply</span>(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+        <span class="kw">return</span> a * b;
+    }
+}</pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Step 2: Accessing/Using the package</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="co">// File: Main.java (outside mypackage folder)</span>
+<span class="kw">import</span> mypackage.Calculator;   <span class="co">// import specific class</span>
+<span class="co">// OR: import mypackage.*;     // import ALL classes in package</span>
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Calculator calc = <span class="kw">new</span> <span class="cl">Calculator</span>();
+        System.out.<span class="fn">println</span>(<span class="st">"Sum = "</span> + calc.<span class="fn">add</span>(<span class="nm">5</span>, <span class="nm">3</span>));
+        System.out.<span class="fn">println</span>(<span class="st">"Product = "</span> + calc.<span class="fn">multiply</span>(<span class="nm">4</span>, <span class="nm">6</span>));
+    }
+}</pre>
+    </div>
+    <div class="output">Sum = 8
+Product = 24</div>
+
+    <h3>Sub-packages (Nested Packages):</h3>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Sub-package</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">package</span> com.university.cse;   <span class="co">// dot-separated hierarchy</span>
+
+<span class="kw">public class</span> <span class="cl">Student</span> {
+    <span class="kw">public</span> String name;
+    <span class="kw">public int</span> rollNo;
+}
+
+<span class="co">// To use it: import com.university.cse.Student;</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Three Ways to Access a Package</div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Method</th><th>Syntax</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Import specific class</strong></td><td><code>import java.util.ArrayList;</code></td><td>Imports only ArrayList from java.util</td></tr>
+          <tr><td><strong>Import all classes</strong></td><td><code>import java.util.*;</code></td><td>Imports all public classes from java.util</td></tr>
+          <tr><td><strong>Fully qualified name</strong></td><td><code>java.util.ArrayList list = new java.util.ArrayList();</code></td><td>No import needed, use full path every time</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip"><strong>Best practice:</strong> Import specific classes (not <code>*</code>) so code is more readable and avoids name conflicts.</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Compile &amp; Run Commands</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Terminal / Command Prompt</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="co"># Compile the package class</span>
+javac mypackage/Calculator.java
+
+<span class="co"># Compile the main class</span>
+javac Main.java
+
+<span class="co"># Run (from directory above mypackage folder)</span>
+java Main</pre>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="ctitle">Exam Questions – Packages</div>
+    <div class="qi"><div class="qt">Q: Which package is auto-imported in Java?</div><div class="qa">java.lang — it is the only package that doesn't need an explicit import statement</div></div>
+    <div class="qi"><div class="qt">Q: What keyword is used to create a package?</div><div class="qa">package keyword — must be the very FIRST statement in the file</div></div>
+    <div class="qi"><div class="qt">Q: What is java.sql used for?</div><div class="qa">Database connectivity using JDBC (Java Database Connectivity)</div></div>
+    <div class="qi"><div class="qt">Q: Difference between import java.util.ArrayList and import java.util.*?</div><div class="qa">First imports only ArrayList. Second imports ALL public classes in java.util package.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════ SECTION 1.3 – I/O STREAMS ════════ -->
+<section class="section s-green" id="s-iostreams">
+  <div class="sec-hdr">
+    <span class="sec-tag">1.3</span>
+    <div>
+      <div class="sec-title">Input/Output Streams – Introduction</div>
+      <div class="sec-sub">What is a stream · Byte vs Character · Stream hierarchy · Predefined streams</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">What is a Stream?</div>
+    <p>A <strong>stream</strong> is an abstraction that either produces or consumes data. Java performs all I/O through streams. All stream classes are in <code>java.io</code>.</p>
+    <div class="analogy"><p>A stream is like a <strong>water pipe</strong>. Data (water) flows in one direction — either INTO your program (InputStream) or OUT of it (OutputStream). Whether the water comes from a tank (file) or river (network), the pipe works the same way.</p></div>
+    <div class="two-col">
+      <div class="col-card col-blue">
+        <div class="col-head">📦 BYTE STREAMS</div>
+        <p>Handle raw bytes. Used for binary data — images, audio, any file. Classes end with <code>Stream</code>.</p>
+        <div style="margin-top:8px;font-size:12px;color:var(--c1)">InputStream / OutputStream</div>
+      </div>
+      <div class="col-card col-green">
+        <div class="col-head">📝 CHARACTER STREAMS</div>
+        <p>Handle Unicode characters. Better for text files. Classes end with <code>Reader</code>/<code>Writer</code>.</p>
+        <div style="margin-top:8px;font-size:12px;color:var(--c3)">Reader / Writer</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Predefined Streams (System class)</div>
+    <div class="tw"><table>
+      <thead><tr><th>Stream</th><th>Type</th><th>Default</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>System.out</code></td><td>PrintStream</td><td>Console (monitor)</td><td>Print output — <code>System.out.println()</code></td></tr>
+        <tr><td><code>System.in</code></td><td>InputStream</td><td>Keyboard</td><td>Read user input</td></tr>
+        <tr><td><code>System.err</code></td><td>PrintStream</td><td>Console (monitor)</td><td>Print error messages</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Stream Hierarchy</div>
+    <div class="hier">
+      <div class="hr-root">java.io — Complete Hierarchy</div>
+      <div class="hr-child">├── OutputStream (abstract — byte output)</div>
+      <div class="hr-leaf">├── FileOutputStream · ByteArrayOutputStream · FilterOutputStream</div>
+      <div class="hr-note">└── FilterOutputStream → BufferedOutputStream, DataOutputStream, PrintStream</div>
+      <div class="hr-child">├── InputStream (abstract — byte input)</div>
+      <div class="hr-leaf">├── FileInputStream · ByteArrayInputStream · FilterInputStream</div>
+      <div class="hr-child">├── Writer (abstract — char output)</div>
+      <div class="hr-leaf">├── FileWriter · CharArrayWriter · FilterWriter · StringWriter · PrintWriter</div>
+      <div class="hr-child">└── Reader (abstract — char input)</div>
+      <div class="hr-leaf">└── FileReader · CharArrayReader · FilterReader · BufferedReader · StringReader</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">OutputStream – Key Methods</div>
+    <ul class="mlist">
+      <li><code>write(int b)</code><span>Writes a single byte</span></li>
+      <li><code>write(byte[] b)</code><span>Writes an entire byte array</span></li>
+      <li><code>write(byte[] b, int off, int len)</code><span>Writes len bytes from offset off</span></li>
+      <li><code>flush()</code><span>Flushes buffered bytes to destination</span></li>
+      <li><code>close()</code><span>Closes stream and releases resources — always call this!</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">InputStream – Key Methods</div>
+    <ul class="mlist">
+      <li><code>read()</code><span>Reads one byte as int; returns -1 at End Of File</span></li>
+      <li><code>read(byte[] b)</code><span>Reads up to b.length bytes into array b</span></li>
+      <li><code>read(byte[] b, int off, int len)</code><span>Reads up to len bytes from offset off</span></li>
+      <li><code>available()</code><span>Returns number of bytes available without blocking</span></li>
+      <li><code>skip(long n)</code><span>Skips n bytes</span></li>
+      <li><code>mark(int limit)</code><span>Marks current position</span></li>
+      <li><code>reset()</code><span>Resets to marked position</span></li>
+      <li><code>close()</code><span>Closes the stream</span></li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════ SECTION 1.4 – FILE I/O CLASSES ════════ -->
+<section class="section s-amber" id="s-fileio">
+  <div class="sec-hdr">
+    <span class="sec-tag">1.4</span>
+    <div>
+      <div class="sec-title">File I/O Classes – Byte-Based</div>
+      <div class="sec-sub">FileOutputStream · FileInputStream · ByteArrayOutputStream · ByteArrayInputStream</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">FileOutputStream – Write bytes to file</div>
+    <p><code>public class FileOutputStream extends OutputStream</code></p>
+    <div class="tw"><table>
+      <thead><tr><th>Constructor</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>FileOutputStream(String name)</code></td><td>Open file for writing (overwrites)</td></tr>
+        <tr><td><code>FileOutputStream(String name, boolean append)</code></td><td>If append=true, adds to end of file</td></tr>
+        <tr><td><code>FileOutputStream(File file)</code></td><td>Open using File object</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Write byte to file</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.FileOutputStream;
+<span class="kw">public class</span> <span class="cl">FileOutputStreamExample</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            FileOutputStream fout = <span class="kw">new</span> <span class="cl">FileOutputStream</span>(<span class="st">"testout.txt"</span>);
+            fout.<span class="fn">write</span>(<span class="nm">65</span>); <span class="co">// 65 = ASCII 'A'</span>
+            fout.<span class="fn">close</span>();
+            System.out.<span class="fn">println</span>(<span class="st">"Success! File contains: A"</span>);
+        } <span class="kw">catch</span>(Exception e) { System.out.<span class="fn">println</span>(e); }
+    }
+}</pre>
+    </div>
+    <div class="output">Success! File contains: A</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">FileInputStream – Read bytes from file</div>
+    <p>Throws <strong>FileNotFoundException</strong> if file doesn't exist (subclass of IOException).</p>
+    <div class="two-col">
+      <div class="col-card col-blue">
+        <div class="col-head">READ SINGLE CHARACTER</div>
+        <div class="code-wrap" style="margin-top:8px">
+          <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> java.io.FileInputStream;
+<span class="kw">public class</span> <span class="cl">Demo</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(String[] a) {
+    <span class="kw">try</span> {
+      FileInputStream fin = <span class="kw">new</span>
+        <span class="cl">FileInputStream</span>(<span class="st">"testout.txt"</span>);
+      <span class="kw">int</span> i = fin.<span class="fn">read</span>();
+      System.out.<span class="fn">print</span>((<span class="kw">char</span>)i);
+      fin.<span class="fn">close</span>();
+    } <span class="kw">catch</span>(Exception e){}
+  }
+}</pre>
+        </div>
+        <div class="output">W</div>
+      </div>
+      <div class="col-card col-green">
+        <div class="col-head">READ ALL CHARACTERS (LOOP)</div>
+        <div class="code-wrap" style="margin-top:8px">
+          <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> java.io.FileInputStream;
+<span class="kw">public class</span> <span class="cl">Demo2</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(String[] a) {
+    <span class="kw">try</span> {
+      FileInputStream fin = <span class="kw">new</span>
+        <span class="cl">FileInputStream</span>(<span class="st">"testout.txt"</span>);
+      <span class="kw">int</span> i;
+      <span class="kw">while</span>((i=fin.<span class="fn">read</span>())!=-<span class="nm">1</span>)
+        System.out.<span class="fn">print</span>((<span class="kw">char</span>)i);
+      fin.<span class="fn">close</span>();
+    } <span class="kw">catch</span>(Exception e){}
+  }
+}</pre>
+        </div>
+        <div class="output">Welcome to javatpoint</div>
+      </div>
+    </div>
+    <div class="tip"><strong>Key Pattern:</strong> <code>while((i = stream.read()) != -1)</code> — reads until EOF. The <code>-1</code> is the End Of File signal.</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ByteArrayOutputStream – In-memory byte buffer</div>
+    <p>Writes bytes to an <strong>in-memory byte array</strong> instead of a file. Buffer auto-grows as needed.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">class</span> <span class="cl">ByteArrayOutputStreamDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> IOException {
+        ByteArrayOutputStream f = <span class="kw">new</span> <span class="cl">ByteArrayOutputStream</span>();
+        String s = <span class="st">"This should end up in the array"</span>;
+        <span class="kw">byte</span> buf[] = s.<span class="fn">getBytes</span>();
+        f.<span class="fn">write</span>(buf);
+
+        System.out.<span class="fn">println</span>(<span class="st">"As String: "</span> + f.<span class="fn">toString</span>());
+
+        <span class="kw">byte</span> b[] = f.<span class="fn">toByteArray</span>(); <span class="co">// get as raw byte array</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;b.length; i++) System.out.<span class="fn">print</span>((<span class="kw">char</span>)b[i]);
+
+        OutputStream f2 = <span class="kw">new</span> <span class="cl">FileOutputStream</span>(<span class="st">"test.txt"</span>);
+        f.<span class="fn">writeTo</span>(f2); <span class="co">// write memory buffer to a real file</span>
+        f2.<span class="fn">close</span>();
+
+        f.<span class="fn">reset</span>();    <span class="co">// clear the buffer</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;<span class="nm">3</span>; i++) f.<span class="fn">write</span>(<span class="st">'X'</span>);
+        System.out.<span class="fn">println</span>(<span class="st">"\nAfter reset: "</span> + f.<span class="fn">toString</span>());
+    }
+}</pre>
+    </div>
+    <div class="output">As String: This should end up in the array
+This should end up in the array
+After reset: XXX</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ByteArrayInputStream – Read from memory byte array</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">class</span> <span class="cl">ByteArrayInputStreamDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> IOException {
+        String tmp = <span class="st">"abcdefghijklmnopqrstuvwxyz"</span>;
+        <span class="kw">byte</span> b[] = tmp.<span class="fn">getBytes</span>();
+        ByteArrayInputStream input1 = <span class="kw">new</span> <span class="cl">ByteArrayInputStream</span>(b);        <span class="co">// full alphabet</span>
+        ByteArrayInputStream input2 = <span class="kw">new</span> <span class="cl">ByteArrayInputStream</span>(b, <span class="nm">0</span>, <span class="nm">13</span>); <span class="co">// first 13 letters</span>
+        <span class="kw">int</span> c;
+        <span class="kw">while</span>((c = input1.<span class="fn">read</span>()) != -<span class="nm">1</span>) System.out.<span class="fn">print</span>((<span class="kw">char</span>)c);
+        System.out.<span class="fn">println</span>(<span class="st">"\nSecond:"</span>);
+        <span class="kw">while</span>((c = input2.<span class="fn">read</span>()) != -<span class="nm">1</span>) System.out.<span class="fn">print</span>((<span class="kw">char</span>)c);
+    }
+}</pre>
+    </div>
+    <div class="output">abcdefghijklmnopqrstuvwxyz
+Second:
+abcdefghijklm</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════ SECTION 1.5 – CHARACTER STREAMS ════════ -->
+<section class="section s-teal" id="s-char-streams">
+  <div class="sec-hdr">
+    <span class="sec-tag">1.5</span>
+    <div>
+      <div class="sec-title">Character Streams – FileWriter, FileReader, CharArray, Filter, Piped</div>
+      <div class="sec-sub">Text-based I/O · Unicode · In-memory char buffers · Filtered streams · Piped I/O</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">FileWriter – Write text to file</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">class</span> <span class="cl">FileWriterDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> IOException {
+        String source = <span class="st">"Now is the time for all good men"</span>;
+        <span class="kw">char</span> buffer[] = <span class="kw">new char</span>[source.<span class="fn">length</span>()];
+        source.<span class="fn">getChars</span>(<span class="nm">0</span>, source.<span class="fn">length</span>(), buffer, <span class="nm">0</span>); <span class="co">// String→char[]</span>
+
+        FileWriter f1 = <span class="kw">new</span> <span class="cl">FileWriter</span>(<span class="st">"file.txt"</span>);        <span class="co">// overwrite</span>
+        f1.<span class="fn">write</span>(buffer);
+        f1.<span class="fn">close</span>();
+
+        FileWriter f2 = <span class="kw">new</span> <span class="cl">FileWriter</span>(<span class="st">"file.txt"</span>, <span class="kw">true</span>); <span class="co">// append</span>
+        f2.<span class="fn">write</span>(<span class="st">" to come to the aid of their country"</span>);
+        f2.<span class="fn">close</span>();
+        System.out.<span class="fn">println</span>(<span class="st">"Written!"</span>);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">FileReader – Read text from file</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">class</span> <span class="cl">FileReaderDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> IOException {
+        FileReader fr = <span class="kw">new</span> <span class="cl">FileReader</span>(<span class="st">"file.txt"</span>);
+        BufferedReader br = <span class="kw">new</span> <span class="cl">BufferedReader</span>(fr); <span class="co">// for readLine()</span>
+        String s;
+        <span class="kw">while</span>((s = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>)
+            System.out.<span class="fn">println</span>(s);
+        br.<span class="fn">close</span>(); fr.<span class="fn">close</span>();
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">CharArrayWriter &amp; CharArrayReader – In-memory char buffers</div>
+    <p>Like ByteArray streams but for characters. <strong>CharArrayWriter</strong> writes to memory; <strong>CharArrayReader</strong> reads from a char array.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – CharArrayReader example</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">public class</span> <span class="cl">CharArrayReaderDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> IOException {
+        String tmp = <span class="st">"abcdefghijklmnopqrstuvwxyz"</span>;
+        <span class="kw">char</span> c[] = <span class="kw">new char</span>[tmp.<span class="fn">length</span>()];
+        tmp.<span class="fn">getChars</span>(<span class="nm">0</span>, tmp.<span class="fn">length</span>(), c, <span class="nm">0</span>);
+
+        CharArrayReader input1 = <span class="kw">new</span> <span class="cl">CharArrayReader</span>(c);        <span class="co">// full</span>
+        CharArrayReader input2 = <span class="kw">new</span> <span class="cl">CharArrayReader</span>(c, <span class="nm">0</span>, <span class="nm">5</span>); <span class="co">// first 5</span>
+
+        <span class="kw">int</span> i;
+        <span class="kw">while</span>((i=input1.<span class="fn">read</span>())!=-<span class="nm">1</span>) System.out.<span class="fn">print</span>((<span class="kw">char</span>)i);
+        System.out.<span class="fn">println</span>();
+        <span class="kw">while</span>((i=input2.<span class="fn">read</span>())!=-<span class="nm">1</span>) System.out.<span class="fn">print</span>((<span class="kw">char</span>)i);
+    }
+}</pre>
+    </div>
+    <div class="output">abcdefghijklmnopqrstuvwxyz
+abcde</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">FilterWriter &amp; FilterReader – Wrapper streams (Abstract)</div>
+    <p>Both are <strong>abstract classes</strong> that wrap another Writer/Reader to process/filter characters. You must create a subclass (even anonymous) to use them.</p>
+    <div class="tip"><strong>FilterWriter</strong> extends Writer · <strong>FilterReader</strong> extends Reader · Both are abstract — must be subclassed.</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – FilterWriter example</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">class</span> <span class="cl">FilterWriterDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> Exception {
+        Writer wr = <span class="kw">new</span> <span class="cl">StringWriter</span>();
+        FilterWriter fr = <span class="kw">new</span> <span class="cl">FilterWriter</span>(wr) {}; <span class="co">// anonymous subclass</span>
+        <span class="kw">char</span> c[] = {<span class="st">'B'</span>,<span class="st">'h'</span>,<span class="st">'a'</span>,<span class="st">'v'</span>};
+        fr.<span class="fn">write</span>(<span class="st">"Bhavneet"</span>);
+        fr.<span class="fn">flush</span>();
+        fr.<span class="fn">write</span>(c);
+        fr.<span class="fn">write</span>(<span class="st">'s'</span>);
+        System.out.<span class="fn">print</span>(wr.<span class="fn">toString</span>());
+        fr.<span class="fn">close</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">BhavneetBhavs</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Piped I/O – Thread-to-Thread Communication</div>
+    <p>Pipes allow one thread (producer) to write data and another thread (consumer) to read it — they must run in <strong>different threads</strong> to avoid deadlock.</p>
+    <div class="analogy"><p>Like a <strong>walkie-talkie</strong>: Thread A speaks (writes), Thread B listens (reads). The pipe is the invisible channel between them.</p></div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Piped I/O (Producer-Consumer)</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">public class</span> <span class="cl">PipedDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> Exception {
+        <span class="kw">final</span> PipedReader read = <span class="kw">new</span> <span class="cl">PipedReader</span>();
+        <span class="kw">final</span> PipedWriter write = <span class="kw">new</span> <span class="cl">PipedWriter</span>(read); <span class="co">// connected</span>
+
+        Thread readerThread = <span class="kw">new</span> <span class="cl">Thread</span>(() -> {
+            <span class="kw">try</span> {
+                <span class="kw">int</span> data = read.<span class="fn">read</span>();
+                <span class="kw">while</span>(data != -<span class="nm">1</span>) {
+                    System.out.<span class="fn">print</span>((<span class="kw">char</span>)data);
+                    data = read.<span class="fn">read</span>();
+                }
+            } <span class="kw">catch</span>(Exception e){}
+        });
+
+        Thread writerThread = <span class="kw">new</span> <span class="cl">Thread</span>(() -> {
+            <span class="kw">try</span> {
+                write.<span class="fn">write</span>(<span class="st">"Hello from writer thread!\n"</span>.<span class="fn">toCharArray</span>());
+                write.<span class="fn">close</span>(); <span class="co">// signals -1 to reader</span>
+            } <span class="kw">catch</span>(Exception e){}
+        });
+
+        readerThread.<span class="fn">start</span>();
+        writerThread.<span class="fn">start</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Hello from writer thread!</div>
+    <div class="warn"><strong>PipedWriter</strong> is a subclass of <strong>Writer</strong>. Always use PipedWriter + PipedReader in DIFFERENT threads — same-thread use causes deadlock!</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════ SECTION 1.6 – SERIALIZATION ════════ -->
+<section class="section s-orange" id="s-serial">
+  <div class="sec-hdr">
+    <span class="sec-tag">1.6</span>
+    <div>
+      <div class="sec-title">Object Serialization &amp; Deserialization</div>
+      <div class="sec-sub">Serializable interface · ObjectOutputStream · ObjectInputStream · transient keyword</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">What is Serialization?</div>
+    <p><strong>Serialization</strong> = converting an object's state into a sequence of bytes (to save to file or send over network).<br><strong>Deserialization</strong> = rebuilding the object from those bytes.</p>
+    <div class="flow-box">
+      <div class="fb fb-p"><div class="fb-label">Java Object</div><div class="fb-desc">in memory</div></div>
+      <span class="fb-arr">→</span>
+      <div class="fb fb-q"><div class="fb-label">ObjectOutputStream</div><div class="fb-desc">SERIALIZE</div></div>
+      <span class="fb-arr">→</span>
+      <div class="fb fb-c"><div class="fb-label">File / Network</div><div class="fb-desc">bytes saved</div></div>
+      <span class="fb-arr">→</span>
+      <div class="fb fb-q"><div class="fb-label">ObjectInputStream</div><div class="fb-desc">DESERIALIZE</div></div>
+      <span class="fb-arr">→</span>
+      <div class="fb fb-p"><div class="fb-label">Java Object</div><div class="fb-desc">restored</div></div>
+    </div>
+    <ul>
+      <li>Class must <strong>implement <code>Serializable</code></strong> (marker interface — no methods!)</li>
+      <li>Serialization is <strong>JVM-independent</strong> — serialize on Windows, deserialize on Linux</li>
+      <li><code>static</code> fields are <strong>NOT</strong> serialized — they belong to the class, not the object</li>
+    </ul>
+    <div class="analogy"><p>Serialization is like <strong>packing a suitcase</strong>. You pack your stuff (object state) into a bag (byte stream). Transport the bag (file/network). At destination, unpack (deserialize) to get your stuff back.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Complete Serialization Example</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+
+<span class="kw">class</span> <span class="cl">MyClass</span> <span class="kw">implements</span> <span class="cl">Serializable</span> { <span class="co">// must implement Serializable</span>
+    String s;  <span class="kw">int</span> i;  <span class="kw">double</span> d;
+    <span class="kw">public</span> <span class="cl">MyClass</span>(String s, <span class="kw">int</span> i, <span class="kw">double</span> d) { <span class="kw">this</span>.s=s; <span class="kw">this</span>.i=i; <span class="kw">this</span>.d=d; }
+    <span class="kw">public</span> String <span class="fn">toString</span>() { <span class="kw">return</span> <span class="st">"s="</span>+s+<span class="st">"; i="</span>+i+<span class="st">"; d="</span>+d; }
+}
+
+<span class="kw">public class</span> <span class="cl">SerializationDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="co">// ── SERIALIZE (save to file) ──</span>
+        <span class="kw">try</span> {
+            MyClass obj1 = <span class="kw">new</span> <span class="cl">MyClass</span>(<span class="st">"Hello"</span>, -<span class="nm">7</span>, <span class="nm">2.7e10</span>);
+            System.out.<span class="fn">println</span>(<span class="st">"Saved: "</span> + obj1);
+            FileOutputStream fos = <span class="kw">new</span> <span class="cl">FileOutputStream</span>(<span class="st">"serial.dat"</span>);
+            ObjectOutputStream oos = <span class="kw">new</span> <span class="cl">ObjectOutputStream</span>(fos);
+            oos.<span class="fn">writeObject</span>(obj1);  <span class="co">// serialize!</span>
+            oos.<span class="fn">flush</span>(); oos.<span class="fn">close</span>();
+        } <span class="kw">catch</span>(Exception e) { System.out.<span class="fn">println</span>(e); }
+
+        <span class="co">// ── DESERIALIZE (restore from file) ──</span>
+        <span class="kw">try</span> {
+            FileInputStream fis = <span class="kw">new</span> <span class="cl">FileInputStream</span>(<span class="st">"serial.dat"</span>);
+            ObjectInputStream ois = <span class="kw">new</span> <span class="cl">ObjectInputStream</span>(fis);
+            MyClass obj2 = (MyClass) ois.<span class="fn">readObject</span>(); <span class="co">// deserialize!</span>
+            ois.<span class="fn">close</span>();
+            System.out.<span class="fn">println</span>(<span class="st">"Restored: "</span> + obj2);
+        } <span class="kw">catch</span>(Exception e) { System.out.<span class="fn">println</span>(e); }
+    }
+}</pre>
+    </div>
+    <div class="output">Saved: s=Hello; i=-7; d=2.7E10
+Restored: s=Hello; i=-7; d=2.7E10</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">The transient Keyword</div>
+    <p>Mark a field <code>transient</code> to <strong>exclude it from serialization</strong>. After deserialization, transient fields get default values (null, 0, false).</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">User</span> <span class="kw">implements</span> <span class="cl">Serializable</span> {
+    String username = <span class="st">"alice"</span>;
+    <span class="kw">transient</span> String password = <span class="st">"secret123"</span>; <span class="co">// NOT serialized!</span>
+    <span class="kw">int</span> age = <span class="nm">25</span>;
+}
+<span class="co">// After serialize → deserialize:</span>
+<span class="co">// username → "alice"  (saved ✓)</span>
+<span class="co">// password → null     (transient — skipped ✗)</span>
+<span class="co">// age      → 25       (saved ✓)</span></pre>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Field type</th><th>Serialized?</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td>Normal instance field</td><td>✅ Yes</td><td>Part of object state</td></tr>
+        <tr><td><code>transient</code> field</td><td>❌ No</td><td>Explicitly excluded</td></tr>
+        <tr><td><code>static</code> field</td><td>❌ No</td><td>Belongs to class, not object</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="quiz">
+    <div class="ctitle">Exam Questions – I/O &amp; Streams</div>
+    <div class="qi"><div class="qt">Q: Which package contains all I/O stream classes?</div><div class="qa">java.io</div></div>
+    <div class="qi"><div class="qt">Q: What is the EOF signal in Java streams?</div><div class="qa">-1 — when read() returns -1, it means end of file/stream</div></div>
+    <div class="qi"><div class="qt">Q: FileInputStream throws which exception?</div><div class="qa">FileNotFoundException (subclass of IOException) if file doesn't exist</div></div>
+    <div class="qi"><div class="qt">Q: What does transient do in Serialization?</div><div class="qa">Marks a field to be skipped during serialization; after deserialization it gets its default value (null/0/false)</div></div>
+    <div class="qi"><div class="qt">Q: What is a marker interface?</div><div class="qa">An interface with NO methods, used only to "mark" a class (e.g., Serializable). It just signals the JVM that the class can be serialized.</div></div>
+    <div class="qi"><div class="qt">Q: DataOutputStream extends which class?</div><div class="qa">FilterOutputStream</div></div>
+  </div>
+</section>
+
+</div><!-- end container -->
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 2 – EXCEPTION HANDLING
+══════════════════════════════════════════════ -->
+<div class="toc-bar" style="background:#faf5ff;border-color:#ddd6fe;">
+  <a href="#s-excintro" class="toc-link" style="border-color:#ddd6fe"><span class="toc-num" style="background:#7c3aed">2.1</span>Exception Intro</a>
+  <a href="#s-builtin" class="toc-link" style="border-color:#ddd6fe"><span class="toc-num" style="background:#6d28d9">2.2</span>Built-in Exceptions</a>
+  <a href="#s-trycatch" class="toc-link" style="border-color:#ddd6fe"><span class="toc-num" style="background:#7c3aed">2.3</span>try-catch-finally</a>
+  <a href="#s-throws" class="toc-link" style="border-color:#ddd6fe"><span class="toc-num" style="background:#5b21b6">2.4</span>throws Clause</a>
+  <a href="#s-userexc" class="toc-link" style="border-color:#ddd6fe"><span class="toc-num" style="background:#4c1d95">2.5</span>User-Defined Exceptions</a>
+  <a href="#s-multiexc" class="toc-link" style="border-color:#ddd6fe"><span class="toc-num" style="background:#7c3aed">2.6</span>Multiple Exceptions</a>
+</div>
+
+<div class="ch-header" id="ch2">
+  <div class="ch-label l2">
+    <span class="ch-num">Chapter 2</span>
+    <div>
+      <div class="ch-info-title">Exception Handling</div>
+      <div class="ch-info-sub">Built-in exceptions · try-catch-finally · throws · User-defined exceptions · Multiple exceptions</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- SECTION 2.1 – INTRO TO EXCEPTIONS -->
+<section class="section s-purple" id="s-excintro">
+  <div class="sec-hdr">
+    <span class="sec-tag">2.1</span>
+    <div>
+      <div class="sec-title">Introduction to Exception Handling</div>
+      <div class="sec-sub">What is an exception · Error vs Exception · Exception hierarchy</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">What is an Exception?</div>
+    <p>An <strong>exception</strong> is an abnormal condition (unwanted event) that disrupts the normal flow of the program at runtime. Exception handling lets you deal with these errors gracefully — so your program doesn't just crash.</p>
+    <div class="analogy"><p>Imagine driving a car (your program). An exception is like hitting a pothole (unexpected error). Without exception handling, your car crashes. With exception handling, you have a spare tyre — you handle the problem and continue the journey.</p></div>
+
+    <h3>Exception vs Error:</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Exception</th><th>Error</th></tr></thead>
+      <tbody>
+        <tr><td>Recoverable — can be handled in code</td><td>Usually not recoverable — serious JVM problem</td></tr>
+        <tr><td>Examples: NullPointerException, IOException</td><td>Examples: OutOfMemoryError, StackOverflowError</td></tr>
+        <tr><td>Program can continue after handling</td><td>Program usually must terminate</td></tr>
+        <tr><td>Subclass of <code>Exception</code></td><td>Subclass of <code>Error</code></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Exception Hierarchy</div>
+    <div class="exc-tree">
+      <div class="et-root">Throwable (parent of all exceptions &amp; errors)</div>
+      <div class="et-l1">├── Error (JVM-level, not usually handled)</div>
+      <div class="et-l2">├── OutOfMemoryError</div>
+      <div class="et-l2">├── StackOverflowError</div>
+      <div class="et-l2">└── VirtualMachineError</div>
+      <div class="et-l1">└── Exception (recoverable — handled in code)</div>
+      <div class="et-l2">├── RuntimeException (UNCHECKED — compiler doesn't force handling)</div>
+      <div class="et-l3">├── NullPointerException · ArrayIndexOutOfBoundsException</div>
+      <div class="et-l3">├── ArithmeticException · ClassCastException</div>
+      <div class="et-l3">└── NumberFormatException · IllegalArgumentException</div>
+      <div class="et-l2">└── Checked Exceptions (compiler FORCES you to handle these)</div>
+      <div class="et-l3">├── IOException → FileNotFoundException</div>
+      <div class="et-l3">├── SQLException · ClassNotFoundException</div>
+      <div class="et-l3">└── InterruptedException · ParseException</div>
+    </div>
+    <div class="two-col">
+      <div class="col-card col-rose">
+        <div class="col-head">CHECKED EXCEPTIONS</div>
+        <p>Compiler <strong>forces</strong> you to handle them. Must use try-catch OR throws clause. Examples: IOException, SQLException, InterruptedException.</p>
+      </div>
+      <div class="col-card col-amber">
+        <div class="col-head">UNCHECKED EXCEPTIONS</div>
+        <p>Compiler does <strong>NOT</strong> force handling. Subclasses of RuntimeException. Examples: NullPointerException, ArithmeticException.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2.2 – BUILT-IN EXCEPTIONS -->
+<section class="section s-rose" id="s-builtin">
+  <div class="sec-hdr">
+    <span class="sec-tag">2.2</span>
+    <div>
+      <div class="sec-title">Java's Built-in Exceptions</div>
+      <div class="sec-sub">Most common exceptions with causes and examples</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Common Built-in Exceptions</div>
+    <div class="tw"><table>
+      <thead><tr><th>Exception</th><th>Cause</th><th>Example that triggers it</th></tr></thead>
+      <tbody>
+        <tr><td><code>ArithmeticException</code></td><td>Math error (e.g., divide by zero)</td><td><code>int x = 10 / 0;</code></td></tr>
+        <tr><td><code>NullPointerException</code></td><td>Using a null object reference</td><td><code>String s = null; s.length();</code></td></tr>
+        <tr><td><code>ArrayIndexOutOfBoundsException</code></td><td>Accessing invalid array index</td><td><code>int[] a = {1,2}; a[5];</code></td></tr>
+        <tr><td><code>ClassCastException</code></td><td>Invalid type cast</td><td><code>(String) new Integer(5)</code></td></tr>
+        <tr><td><code>NumberFormatException</code></td><td>Converting invalid string to number</td><td><code>Integer.parseInt("abc")</code></td></tr>
+        <tr><td><code>StringIndexOutOfBoundsException</code></td><td>Invalid string index</td><td><code>"Hi".charAt(10)</code></td></tr>
+        <tr><td><code>StackOverflowError</code></td><td>Infinite recursion</td><td>Method calling itself forever</td></tr>
+        <tr><td><code>FileNotFoundException</code></td><td>File doesn't exist</td><td><code>new FileInputStream("ghost.txt")</code></td></tr>
+        <tr><td><code>IOException</code></td><td>I/O operation failed</td><td>File read/write errors</td></tr>
+        <tr><td><code>InterruptedException</code></td><td>Thread interrupted during sleep/wait</td><td><code>Thread.sleep(1000)</code></td></tr>
+        <tr><td><code>OutOfMemoryError</code></td><td>JVM ran out of memory</td><td>Creating too many objects</td></tr>
+        <tr><td><code>IllegalArgumentException</code></td><td>Wrong argument passed to method</td><td><code>t.setPriority(50)</code></td></tr>
+        <tr><td><code>IllegalStateException</code></td><td>Method called at wrong time</td><td>Calling next() without hasNext()</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- SECTION 2.3 – TRY-CATCH-FINALLY -->
+<section class="section s-purple" id="s-trycatch">
+  <div class="sec-hdr">
+    <span class="sec-tag">2.3</span>
+    <div>
+      <div class="sec-title">try, catch, finally – Exception Handling Blocks</div>
+      <div class="sec-sub">Basic syntax · Multiple catch · finally clause</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Basic try-catch Syntax</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Structure</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">try</span> {
+    <span class="co">// Code that might throw an exception</span>
+    <span class="co">// If exception occurs here, jumps to matching catch</span>
+} <span class="kw">catch</span> (ExceptionType1 e) {
+    <span class="co">// Handle ExceptionType1</span>
+    System.out.<span class="fn">println</span>(<span class="st">"Error: "</span> + e.<span class="fn">getMessage</span>());
+} <span class="kw">catch</span> (ExceptionType2 e) {
+    <span class="co">// Handle ExceptionType2</span>
+} <span class="kw">finally</span> {
+    <span class="co">// ALWAYS executes — whether exception occurred or not</span>
+    <span class="co">// Used to close files, connections, etc.</span>
+}</pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Simple Example</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">ExceptionDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            <span class="kw">int</span> result = <span class="nm">10</span> / <span class="nm">0</span>;  <span class="co">// throws ArithmeticException!</span>
+            System.out.<span class="fn">println</span>(<span class="st">"Result: "</span> + result); <span class="co">// never reached</span>
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"Caught: "</span> + e.<span class="fn">getMessage</span>());
+        }
+        System.out.<span class="fn">println</span>(<span class="st">"Program continues normally!"</span>);
+    }
+}</pre>
+    </div>
+    <div class="output">Caught: / by zero
+Program continues normally!</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">The finally Clause</div>
+    <p>The <code>finally</code> block <strong>always executes</strong> — whether an exception occurred or not, whether it was caught or not. It's used for cleanup code (closing files, database connections, etc.).</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – finally example</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">FinallyDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            System.out.<span class="fn">println</span>(<span class="st">"In try block"</span>);
+            <span class="kw">int</span> x = <span class="nm">10</span> / <span class="nm">0</span>; <span class="co">// exception thrown</span>
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"In catch: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">finally</span> {
+            System.out.<span class="fn">println</span>(<span class="st">"In finally — ALWAYS runs!"</span>);
+            <span class="co">// Close resources here</span>
+        }
+    }
+}</pre>
+    </div>
+    <div class="output">In try block
+In catch: / by zero
+In finally — ALWAYS runs!</div>
+    <div class="tw"><table>
+      <thead><tr><th>Scenario</th><th>try runs?</th><th>catch runs?</th><th>finally runs?</th></tr></thead>
+      <tbody>
+        <tr><td>No exception</td><td>✅</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Exception, caught</td><td>✅ (partially)</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Exception, not caught</td><td>✅ (partially)</td><td>❌</td><td>✅</td></tr>
+        <tr><td>System.exit() in try</td><td>✅ (partially)</td><td>depends</td><td>❌ (only exception!)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tip"><strong>finally ALWAYS runs</strong> — the only exception is if <code>System.exit()</code> is called inside try or catch, which abruptly terminates the JVM.</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Useful Exception Methods</div>
+    <ul class="mlist">
+      <li><code>getMessage()</code><span>Returns the error message string (e.g., "/ by zero")</span></li>
+      <li><code>toString()</code><span>Returns class name + message (e.g., "ArithmeticException: / by zero")</span></li>
+      <li><code>printStackTrace()</code><span>Prints the full stack trace showing where the exception occurred</span></li>
+      <li><code>getClass().getName()</code><span>Returns the exception class name</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 2.4 – THROWS CLAUSE -->
+<section class="section s-rose" id="s-throws">
+  <div class="sec-hdr">
+    <span class="sec-tag">2.4</span>
+    <div>
+      <div class="sec-title">The throws Clause &amp; throw keyword</div>
+      <div class="sec-sub">Declaring exceptions · Propagating exceptions · throw vs throws</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">throws – Declaring exceptions a method may throw</div>
+    <p>If a method does NOT handle an exception itself, it can declare it using <code>throws</code> — passing the responsibility to the caller.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – throws syntax</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cl">ThrowsDemo</span> {
+    <span class="co">// This method DECLARES it may throw IOException</span>
+    <span class="co">// The CALLER is responsible for handling it</span>
+    <span class="kw">static void</span> <span class="fn">readFile</span>(String name) <span class="kw">throws</span> IOException {
+        FileInputStream f = <span class="kw">new</span> <span class="cl">FileInputStream</span>(name);
+        System.out.<span class="fn">println</span>(<span class="st">"File opened!"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            <span class="fn">readFile</span>(<span class="st">"test.txt"</span>); <span class="co">// caller handles the exception</span>
+        } <span class="kw">catch</span> (IOException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"File not found: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">throw – Manually throwing an exception</div>
+    <p>Use <code>throw</code> to explicitly throw an exception object inside your code.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – throw keyword</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">ThrowDemo</span> {
+    <span class="kw">static void</span> <span class="fn">validate</span>(<span class="kw">int</span> age) {
+        <span class="kw">if</span> (age < <span class="nm">18</span>) {
+            <span class="kw">throw new</span> <span class="cl">ArithmeticException</span>(<span class="st">"Not eligible — must be 18+"</span>);
+        }
+        System.out.<span class="fn">println</span>(<span class="st">"Eligible to vote!"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            <span class="fn">validate</span>(<span class="nm">15</span>);
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"Caught: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</pre>
+    </div>
+    <div class="output">Caught: Not eligible — must be 18+</div>
+    <div class="tw"><table>
+      <thead><tr><th>Feature</th><th>throw</th><th>throws</th></tr></thead>
+      <tbody>
+        <tr><td>Purpose</td><td>Actually throws an exception</td><td>Declares that method MIGHT throw</td></tr>
+        <tr><td>Used in</td><td>Inside method body</td><td>In method signature</td></tr>
+        <tr><td>Followed by</td><td>An exception object (instance)</td><td>Exception class names</td></tr>
+        <tr><td>Example</td><td><code>throw new IOException("error");</code></td><td><code>void read() throws IOException</code></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- SECTION 2.5 – USER-DEFINED EXCEPTIONS -->
+<section class="section s-purple" id="s-userexc">
+  <div class="sec-hdr">
+    <span class="sec-tag">2.5</span>
+    <div>
+      <div class="sec-title">User-Defined Exceptions</div>
+      <div class="sec-sub">Creating custom exception classes</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Creating Your Own Exception Class</div>
+    <p>Create a custom exception by <strong>extending Exception</strong> (checked) or <strong>extending RuntimeException</strong> (unchecked).</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Custom Exception</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="co">// Step 1: Define the custom exception class</span>
+<span class="kw">class</span> <span class="cl">InsufficientFundsException</span> <span class="kw">extends</span> <span class="cl">Exception</span> {
+    <span class="kw">double</span> amount;  <span class="co">// extra field — shortage amount</span>
+
+    <span class="cl">InsufficientFundsException</span>(<span class="kw">double</span> amount) {
+        <span class="kw">super</span>(<span class="st">"Insufficient funds! Short by: ₹"</span> + amount);
+        <span class="kw">this</span>.amount = amount;
+    }
+}
+
+<span class="co">// Step 2: Use the custom exception</span>
+<span class="kw">class</span> <span class="cl">BankAccount</span> {
+    <span class="kw">double</span> balance = <span class="nm">1000.0</span>;
+
+    <span class="kw">void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> amount) <span class="kw">throws</span> <span class="cl">InsufficientFundsException</span> {
+        <span class="kw">if</span> (amount > balance) {
+            <span class="kw">throw new</span> <span class="cl">InsufficientFundsException</span>(amount - balance);
+        }
+        balance -= amount;
+        System.out.<span class="fn">println</span>(<span class="st">"Withdrawn ₹"</span> + amount + <span class="st">". Balance: ₹"</span> + balance);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">UserExceptionDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        BankAccount acc = <span class="kw">new</span> <span class="cl">BankAccount</span>();
+        <span class="kw">try</span> {
+            acc.<span class="fn">withdraw</span>(<span class="nm">500</span>);   <span class="co">// OK</span>
+            acc.<span class="fn">withdraw</span>(<span class="nm">800</span>);   <span class="co">// throws InsufficientFundsException!</span>
+        } <span class="kw">catch</span> (InsufficientFundsException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"Caught: "</span> + e.<span class="fn">getMessage</span>());
+            System.out.<span class="fn">println</span>(<span class="st">"Short by: ₹"</span> + e.amount);
+        }
+    }
+}</pre>
+    </div>
+    <div class="output">Withdrawn ₹500.0. Balance: ₹500.0
+Caught: Insufficient funds! Short by: ₹300.0
+Short by: ₹300.0</div>
+    <div class="tip"><strong>Rule:</strong> Extend <code>Exception</code> for checked exceptions (caller must handle). Extend <code>RuntimeException</code> for unchecked exceptions (caller may or may not handle).</div>
+  </div>
+</section>
+
+<!-- SECTION 2.6 – MULTIPLE EXCEPTIONS -->
+<section class="section s-rose" id="s-multiexc">
+  <div class="sec-hdr">
+    <span class="sec-tag">2.6</span>
+    <div>
+      <div class="sec-title">Handling Multiple Exceptions</div>
+      <div class="sec-sub">Multiple catch blocks · Multi-catch (Java 7+) · Exception chaining</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Multiple catch Blocks</div>
+    <p>You can have <strong>multiple catch blocks</strong> for one try block — each handling a different exception type. Java matches the first compatible catch block.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Multiple catch blocks</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">MultipleCatch</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            <span class="kw">int</span>[] arr = <span class="kw">new int</span>[<span class="nm">5</span>];
+            arr[<span class="nm">10</span>] = <span class="nm">30</span>;             <span class="co">// ArrayIndexOutOfBoundsException</span>
+            <span class="kw">int</span> result = <span class="nm">10</span> / <span class="nm">0</span>;      <span class="co">// ArithmeticException</span>
+            String s = <span class="kw">null</span>;
+            s.<span class="fn">length</span>();              <span class="co">// NullPointerException</span>
+        } <span class="kw">catch</span> (ArrayIndexOutOfBoundsException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"Array error: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"Math error: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">catch</span> (NullPointerException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"Null pointer: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">catch</span> (Exception e) { <span class="co">// catch-all — MUST be last!</span>
+            System.out.<span class="fn">println</span>(<span class="st">"Some error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</pre>
+    </div>
+    <div class="output">Array error: Index 10 out of bounds for length 5</div>
+    <div class="warn"><strong>Order matters!</strong> Always put specific exception types FIRST and broader types (like <code>Exception</code>) LAST. If you put <code>Exception</code> first, it will catch everything and the specific catch blocks will never execute — compiler error!</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Multi-catch (Java 7+ feature)</div>
+    <p>Catch multiple exception types in a <strong>single catch block</strong> using the pipe <code>|</code> operator.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Multi-catch</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">try</span> {
+    <span class="co">// code</span>
+} <span class="kw">catch</span> (ArithmeticException | NullPointerException | IOException e) {
+    <span class="co">// handles all three exception types the same way</span>
+    System.out.<span class="fn">println</span>(<span class="st">"Error occurred: "</span> + e.<span class="fn">getMessage</span>());
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Complete Exception Handling Example</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Full Example</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> java.io.*;
+<span class="kw">public class</span> <span class="cl">CompleteExceptionDemo</span> {
+
+    <span class="co">// Custom exception</span>
+    <span class="kw">static class</span> <span class="cl">AgeException</span> <span class="kw">extends</span> <span class="cl">Exception</span> {
+        <span class="cl">AgeException</span>(String msg) { <span class="kw">super</span>(msg); }
+    }
+
+    <span class="co">// Method using throws</span>
+    <span class="kw">static void</span> <span class="fn">checkAge</span>(<span class="kw">int</span> age) <span class="kw">throws</span> <span class="cl">AgeException</span> {
+        <span class="kw">if</span> (age &lt; <span class="nm">0</span> || age &gt; <span class="nm">150</span>)
+            <span class="kw">throw new</span> <span class="cl">AgeException</span>(<span class="st">"Invalid age: "</span> + age);
+        System.out.<span class="fn">println</span>(<span class="st">"Valid age: "</span> + age);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="co">// 1. Arithmetic exception</span>
+        <span class="kw">try</span> {
+            System.out.<span class="fn">println</span>(<span class="nm">10</span>/<span class="nm">0</span>);
+        } <span class="kw">catch</span>(ArithmeticException e) {
+            System.out.<span class="fn">println</span>(<span class="st">"Caught ArithmeticException: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">finally</span> {
+            System.out.<span class="fn">println</span>(<span class="st">"finally 1 runs"</span>);
+        }
+
+        <span class="co">// 2. Custom exception</span>
+        <span class="kw">try</span> {
+            <span class="fn">checkAge</span>(-<span class="nm">5</span>);
+            <span class="fn">checkAge</span>(<span class="nm">25</span>);
+        } <span class="kw">catch</span> (<span class="cl">AgeException</span> e) {
+            System.out.<span class="fn">println</span>(<span class="st">"AgeException: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">finally</span> {
+            System.out.<span class="fn">println</span>(<span class="st">"finally 2 runs"</span>);
+        }
+    }
+}</pre>
+    </div>
+    <div class="output">Caught ArithmeticException: / by zero
+finally 1 runs
+AgeException: Invalid age: -5
+finally 2 runs</div>
+  </div>
+
+  <div class="quiz">
+    <div class="ctitle">Exam Questions – Exception Handling</div>
+    <div class="qi"><div class="qt">Q: What is the parent class of all exceptions?</div><div class="qa">Throwable — which has two subclasses: Exception and Error</div></div>
+    <div class="qi"><div class="qt">Q: Difference between checked and unchecked exceptions?</div><div class="qa">Checked: compiler FORCES handling (extends Exception). Unchecked: compiler doesn't force handling (extends RuntimeException).</div></div>
+    <div class="qi"><div class="qt">Q: Does finally always execute?</div><div class="qa">Yes — always, EXCEPT when System.exit() is called inside try/catch</div></div>
+    <div class="qi"><div class="qt">Q: Difference between throw and throws?</div><div class="qa">throw: actually throws an exception object inside a method. throws: declares in method signature that the method may throw an exception.</div></div>
+    <div class="qi"><div class="qt">Q: How to create a user-defined exception?</div><div class="qa">Extend the Exception class (checked) or RuntimeException class (unchecked) and provide a constructor calling super(message)</div></div>
+    <div class="qi"><div class="qt">Q: What happens if multiple catch blocks exist and first one is Exception?</div><div class="qa">Compiler error — broader exception (Exception) must always come AFTER specific exceptions</div></div>
+  </div>
+</section>
+
+</div><!-- end container -->
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 3 – MULTITHREADING
+══════════════════════════════════════════════ -->
+<div class="toc-bar" style="background:#f0fdf4;border-color:#bbf7d0;">
+  <a href="#s-thread-intro" class="toc-link"><span class="toc-num" style="background:#059669">3.1</span>Thread Intro</a>
+  <a href="#s-lifecycle" class="toc-link"><span class="toc-num" style="background:#047857">3.2</span>Life Cycle</a>
+  <a href="#s-create-thread" class="toc-link"><span class="toc-num" style="background:#059669">3.3</span>Creating Threads</a>
+  <a href="#s-priority" class="toc-link"><span class="toc-num" style="background:#065f46">3.4</span>Priorities</a>
+  <a href="#s-sync" class="toc-link"><span class="toc-num" style="background:#059669">3.5</span>Synchronization</a>
+  <a href="#s-interthread" class="toc-link"><span class="toc-num" style="background:#047857">3.6</span>Inter-Thread Comm</a>
+  <a href="#s-suspend" class="toc-link"><span class="toc-num" style="background:#065f46">3.7</span>Suspend/Resume/Stop</a>
+</div>
+
+<div class="ch-header" id="ch3">
+  <div class="ch-label l3">
+    <span class="ch-num">Chapter 3</span>
+    <div>
+      <div class="ch-info-title">Multithreading</div>
+      <div class="ch-info-sub">Thread lifecycle · Creating threads · Priorities · Synchronization · Inter-thread communication · Daemon threads</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- SECTION 3.1 – THREAD INTRO -->
+<section class="section s-green" id="s-thread-intro">
+  <div class="sec-hdr">
+    <span class="sec-tag">3.1</span>
+    <div>
+      <div class="sec-title">Introduction to Multithreading</div>
+      <div class="sec-sub">Process vs Thread · Multitasking vs Multithreading · Advantages &amp; Disadvantages</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">What is Multithreading?</div>
+    <p>Multithreading enables <strong>two or more parts of the same process to run concurrently</strong>. Each part is a <strong>thread</strong> — a lightweight sub-process that shares the same memory space as the parent process.</p>
+    <div class="analogy"><p>Your browser is one <strong>process</strong>. Inside it — one thread downloads a file, another plays YouTube, another loads the webpage. They all share browser memory but run concurrently. That's multithreading.</p></div>
+    <div class="two-col">
+      <div class="col-card col-blue">
+        <div class="col-head">MULTITASKING</div>
+        <p>Multiple <strong>processes</strong> run simultaneously. Each has its OWN memory. Example: Running Word + Chrome + Music player at the same time. Heavy — expensive context switching.</p>
+      </div>
+      <div class="col-card col-green">
+        <div class="col-head">MULTITHREADING ✅</div>
+        <p>Multiple <strong>threads within one process</strong> run simultaneously. They <strong>share</strong> memory. Lighter and faster. Example: Chrome downloading + streaming simultaneously.</p>
+      </div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Advantages</th><th>Disadvantages</th></tr></thead>
+      <tbody>
+        <tr><td>✅ Improved CPU utilization</td><td>❌ Difficult to write and debug</td></tr>
+        <tr><td>✅ Better performance</td><td>❌ Race conditions possible</td></tr>
+        <tr><td>✅ Simultaneous access to multiple apps</td><td>❌ Difficult to manage concurrency</td></tr>
+        <tr><td>✅ Reduced number of required servers</td><td>❌ Testing is non-deterministic</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- SECTION 3.2 – LIFE CYCLE -->
+<section class="section s-teal" id="s-lifecycle">
+  <div class="sec-hdr">
+    <span class="sec-tag">3.2</span>
+    <div>
+      <div class="sec-title">Life Cycle of a Thread</div>
+      <div class="sec-sub">5 states · Transitions · What triggers each state</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Thread States – Visual Diagram</div>
+    <div class="states">
+      <div class="st-box"><div class="st-pill s-new">NEW</div><div class="st-trig">Thread created</div></div>
+      <span class="arr">→</span>
+      <div class="st-box"><div class="st-pill s-runable">RUNNABLE</div><div class="st-trig">start() called</div></div>
+      <span class="arr">→</span>
+      <div class="st-box"><div class="st-pill s-running">RUNNING</div><div class="st-trig">CPU picks it</div></div>
+      <span class="arr">→</span>
+      <div class="st-box"><div class="st-pill s-waiting">WAITING / TIMED_WAITING</div><div class="st-trig">wait() / sleep()</div></div>
+      <span class="arr">→</span>
+      <div class="st-box"><div class="st-pill s-dead">TERMINATED</div><div class="st-trig">run() ends</div></div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>State</th><th>Triggered by</th><th>Description</th><th>Real-life analogy</th></tr></thead>
+      <tbody>
+        <tr><td><strong>NEW</strong></td><td>Thread object created</td><td>Thread exists but start() not called</td><td>Patient registers at hospital</td></tr>
+        <tr><td><strong>RUNNABLE</strong></td><td>start() called</td><td>Ready to run, waiting for CPU</td><td>Patient in waiting room</td></tr>
+        <tr><td><strong>RUNNING</strong></td><td>Scheduler picks it</td><td>run() is executing on CPU</td><td>Doctor currently treating patient</td></tr>
+        <tr><td><strong>WAITING</strong></td><td>wait(), join()</td><td>Waiting indefinitely for signal</td><td>Patient sent for tests (no time limit)</td></tr>
+        <tr><td><strong>TIMED_WAITING</strong></td><td>sleep(ms), join(ms)</td><td>Waiting for a specific duration</td><td>"Wait 30 minutes for report"</td></tr>
+        <tr><td><strong>TERMINATED</strong></td><td>run() completes or exception</td><td>Thread is dead, cannot restart</td><td>Patient discharged</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- SECTION 3.3 – CREATING THREADS -->
+<section class="section s-green" id="s-create-thread">
+  <div class="sec-hdr">
+    <span class="sec-tag">3.3</span>
+    <div>
+      <div class="sec-title">Creating a Thread and Multiple Threads</div>
+      <div class="sec-sub">extend Thread · implement Runnable · start() vs run() · Thread methods</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Method 1 – Extending Thread Class</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">MyThread</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    <span class="kw">public void</span> <span class="fn">run</span>() { <span class="co">// override run() with the task</span>
+        System.out.<span class="fn">println</span>(<span class="st">"Thread running: "</span> + Thread.<span class="fn">currentThread</span>().<span class="fn">getName</span>());
+    }
+}
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        MyThread t1 = <span class="kw">new</span> <span class="cl">MyThread</span>(); <span class="co">// NEW state</span>
+        t1.<span class="fn">start</span>();                   <span class="co">// RUNNABLE → JVM calls run()</span>
+    }
+}</pre>
+    </div>
+    <div class="output">Thread running: Thread-0</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Method 2 – Implementing Runnable Interface (Preferred ✅)</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">MyRunnable</span> <span class="kw">implements</span> <span class="cl">Runnable</span> {
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        System.out.<span class="fn">println</span>(<span class="st">"Runnable thread: "</span> + Thread.<span class="fn">currentThread</span>().<span class="fn">getName</span>());
+    }
+}
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        MyRunnable r = <span class="kw">new</span> <span class="cl">MyRunnable</span>();
+        Thread t1 = <span class="kw">new</span> <span class="cl">Thread</span>(r, <span class="st">"Worker-1"</span>); <span class="co">// name the thread</span>
+        t1.<span class="fn">start</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Runnable thread: Worker-1</div>
+    <div class="tip"><strong>Why Runnable is preferred:</strong> Java has no multiple inheritance. If your class extends Animal, it CAN'T also extend Thread. But it CAN implement Runnable. More flexible!</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Creating Multiple Threads</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Multiple Threads</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">PrintNumbers</span> <span class="kw">implements</span> <span class="cl">Runnable</span> {
+    String name;
+    <span class="cl">PrintNumbers</span>(String name) { <span class="kw">this</span>.name = name; }
+
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">3</span>; i++) {
+            System.out.<span class="fn">println</span>(name + <span class="st">" → "</span> + i);
+            <span class="kw">try</span> { Thread.<span class="fn">sleep</span>(<span class="nm">200</span>); } <span class="kw">catch</span>(InterruptedException e){}
+        }
+    }
+}
+<span class="kw">public class</span> <span class="cl">MultipleThreads</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Thread t1 = <span class="kw">new</span> <span class="cl">Thread</span>(<span class="kw">new</span> <span class="cl">PrintNumbers</span>(<span class="st">"Thread-A"</span>));
+        Thread t2 = <span class="kw">new</span> <span class="cl">Thread</span>(<span class="kw">new</span> <span class="cl">PrintNumbers</span>(<span class="st">"Thread-B"</span>));
+        Thread t3 = <span class="kw">new</span> <span class="cl">Thread</span>(<span class="kw">new</span> <span class="cl">PrintNumbers</span>(<span class="st">"Thread-C"</span>));
+        t1.<span class="fn">start</span>(); t2.<span class="fn">start</span>(); t3.<span class="fn">start</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Thread-A → 1
+Thread-B → 1
+Thread-C → 1
+Thread-A → 2
+Thread-B → 2
+... (order may vary each run — concurrent!)</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">⚠️ start() vs run() — Biggest Exam Trap!</div>
+    <div class="warn"><strong>NEVER call run() directly</strong> for multithreading! Calling <code>t.run()</code> just runs the method on the current (main) thread — no new thread is created!</div>
+    <div class="tw"><table>
+      <thead><tr><th>start()</th><th>run()</th></tr></thead>
+      <tbody>
+        <tr><td>Creates a NEW thread and new call stack</td><td>Runs on the CURRENT thread (no new thread!)</td></tr>
+        <tr><td>Thread moves NEW → RUNNABLE state</td><td>Just a regular method call</td></tr>
+        <tr><td>JVM calls run() automatically</td><td>You're calling run() directly</td></tr>
+        <tr><td>Achieves multithreading ✅</td><td>NOT multithreading ❌</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">All Thread Class Methods</div>
+    <ul class="mlist">
+      <li><code>start()</code><span>Starts thread — JVM calls run()</span></li>
+      <li><code>run()</code><span>Contains the task — override this</span></li>
+      <li><code>sleep(long ms)</code><span>Pause thread for ms milliseconds; throws InterruptedException</span></li>
+      <li><code>join()</code><span>Wait for this thread to finish before continuing</span></li>
+      <li><code>join(long ms)</code><span>Wait for this thread, maximum ms milliseconds</span></li>
+      <li><code>getName()</code><span>Returns thread name</span></li>
+      <li><code>setName(String name)</code><span>Sets thread name</span></li>
+      <li><code>getId()</code><span>Returns thread ID number</span></li>
+      <li><code>getState()</code><span>Returns current state (NEW, RUNNABLE, TERMINATED, etc.)</span></li>
+      <li><code>getPriority()</code><span>Returns priority (1–10)</span></li>
+      <li><code>setPriority(int p)</code><span>Sets priority</span></li>
+      <li><code>currentThread()</code><span>Static — returns reference to CURRENTLY running thread</span></li>
+      <li><code>isAlive()</code><span>Returns true if thread has started and not yet terminated</span></li>
+      <li><code>yield()</code><span>Hint to scheduler to pause this thread; let others run</span></li>
+      <li><code>interrupt()</code><span>Interrupts a sleeping or waiting thread</span></li>
+      <li><code>isInterrupted()</code><span>Checks if thread has been interrupted</span></li>
+      <li><code>isDaemon()</code><span>Returns true if daemon thread</span></li>
+      <li><code>setDaemon(boolean b)</code><span>Mark as daemon or user thread</span></li>
+      <li><code>suspend()</code><span>⚠️ DEPRECATED — suspends the thread</span></li>
+      <li><code>resume()</code><span>⚠️ DEPRECATED — resumes suspended thread</span></li>
+      <li><code>stop()</code><span>⚠️ DEPRECATED — stops thread immediately</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 3.4 – PRIORITIES -->
+<section class="section s-amber" id="s-priority">
+  <div class="sec-hdr">
+    <span class="sec-tag">3.4</span>
+    <div>
+      <div class="sec-title">Thread Priorities</div>
+      <div class="sec-sub">Priority range · MIN/MAX/NORM constants · setPriority() · yield()</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Thread Priority Concept</div>
+    <p>Thread priority tells the scheduler which thread should get CPU time first. <strong>Higher priority = more CPU time</strong> (but NOT guaranteed — depends on OS).</p>
+    <div class="tw"><table>
+      <thead><tr><th>Constant</th><th>Value</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>Thread.MIN_PRIORITY</code></td><td>1</td><td>Lowest priority</td></tr>
+        <tr><td><code>Thread.NORM_PRIORITY</code></td><td>5</td><td>Default priority (every thread starts here)</td></tr>
+        <tr><td><code>Thread.MAX_PRIORITY</code></td><td>10</td><td>Highest priority</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Thread Priority Example</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">PriorityDemo</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        System.out.<span class="fn">println</span>(
+            <span class="fn">getName</span>() + <span class="st">" | Priority: "</span> + <span class="fn">getPriority</span>()
+        );
+    }
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        PriorityDemo t1 = <span class="kw">new</span> <span class="cl">PriorityDemo</span>();
+        PriorityDemo t2 = <span class="kw">new</span> <span class="cl">PriorityDemo</span>();
+        PriorityDemo t3 = <span class="kw">new</span> <span class="cl">PriorityDemo</span>();
+
+        t1.<span class="fn">setPriority</span>(Thread.MIN_PRIORITY);  <span class="co">// 1</span>
+        t2.<span class="fn">setPriority</span>(Thread.NORM_PRIORITY); <span class="co">// 5 (default)</span>
+        t3.<span class="fn">setPriority</span>(Thread.MAX_PRIORITY);  <span class="co">// 10</span>
+
+        t1.<span class="fn">start</span>(); t2.<span class="fn">start</span>(); t3.<span class="fn">start</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Thread-2 | Priority: 10
+Thread-1 | Priority: 5
+Thread-0 | Priority: 1</div>
+    <div class="tip"><strong>yield()</strong> — Causes the currently executing thread to pause and allow other threads of the SAME priority to run. It's just a hint to the scheduler; the scheduler may ignore it.</div>
+    <div class="tip"><strong>join()</strong> — Causes the current thread to wait until the thread on which join() is called finishes. Useful when one thread depends on results from another.</div>
+  </div>
+</section>
+
+<!-- SECTION 3.5 – SYNCHRONIZATION -->
+<section class="section s-purple" id="s-sync">
+  <div class="sec-hdr">
+    <span class="sec-tag">3.5</span>
+    <div>
+      <div class="sec-title">Synchronization</div>
+      <div class="sec-sub">Race condition · Monitor/lock · Synchronized method · Synchronized block · Static synchronization</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Why Synchronization?</div>
+    <div class="analogy"><p><strong>Bank account problem:</strong> Two threads access the same account. Balance = ₹5000. Both read ₹5000. Both subtract ₹3000. Both write ₹2000. Final balance = ₹2000, but it should be ₹-1000! This is a <strong>Race Condition</strong> — data corruption from concurrent access.</p></div>
+    <p>Synchronization ensures <strong>only one thread accesses shared data at a time</strong> using a <strong>lock (monitor)</strong>. Every Java object has one built-in lock.</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">1. Synchronized Method</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">Table</span> {
+    <span class="kw">synchronized void</span> <span class="fn">printTable</span>(<span class="kw">int</span> n) { <span class="co">// lock on 'this' object</span>
+        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=<span class="nm">5</span>; i++) {
+            System.out.<span class="fn">println</span>(n * i);
+            <span class="kw">try</span>{ Thread.<span class="fn">sleep</span>(<span class="nm">400</span>); } <span class="kw">catch</span>(Exception e){}
+        }
+    } <span class="co">// lock released when method exits</span>
+}
+<span class="kw">class</span> <span class="cl">T1</span> <span class="kw">extends</span> <span class="cl">Thread</span> { Table t; <span class="cl">T1</span>(Table t){<span class="kw">this</span>.t=t;} <span class="kw">public void</span> <span class="fn">run</span>(){t.<span class="fn">printTable</span>(<span class="nm">5</span>);} }
+<span class="kw">class</span> <span class="cl">T2</span> <span class="kw">extends</span> <span class="cl">Thread</span> { Table t; <span class="cl">T2</span>(Table t){<span class="kw">this</span>.t=t;} <span class="kw">public void</span> <span class="fn">run</span>(){t.<span class="fn">printTable</span>(<span class="nm">100</span>);} }
+<span class="kw">public class</span> <span class="cl">SyncDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] a) {
+        Table obj = <span class="kw">new</span> <span class="cl">Table</span>();
+        <span class="kw">new</span> <span class="cl">T1</span>(obj).<span class="fn">start</span>(); <span class="kw">new</span> <span class="cl">T2</span>(obj).<span class="fn">start</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">5   10   15   20   25   100   200   300   400   500  (clean — no mixing!)</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">2. Synchronized Block</div>
+    <p>More efficient — lock only the critical section, not the entire method.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">void</span> <span class="fn">printTable</span>(<span class="kw">int</span> n) {
+    <span class="co">// non-critical code here (not locked)</span>
+    <span class="kw">synchronized</span>(<span class="kw">this</span>) { <span class="co">// only THIS block is locked</span>
+        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=<span class="nm">5</span>; i++) {
+            System.out.<span class="fn">println</span>(n * i);
+            <span class="kw">try</span>{ Thread.<span class="fn">sleep</span>(<span class="nm">400</span>); } <span class="kw">catch</span>(Exception e){}
+        }
+    }
+    <span class="co">// more non-critical code (not locked)</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">3. Static Synchronization</div>
+    <p>Lock is on the <strong>Class object</strong> (e.g., <code>Display.class</code>) — not on any instance. Ensures mutual exclusion even across different instances of the same class.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">Display</span> {
+    <span class="kw">public static synchronized void</span> <span class="fn">displayMessage</span>(String msg) {
+        <span class="co">// Lock is on Display.class — shared by ALL instances</span>
+        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;<span class="nm">5</span>; i++) {
+            System.out.<span class="fn">println</span>(msg);
+            <span class="kw">try</span>{ Thread.<span class="fn">sleep</span>(<span class="nm">500</span>); }<span class="kw">catch</span>(InterruptedException e){}
+        }
+    }
+}</pre>
+    </div>
+    <div class="sync3">
+      <div class="sy-card"><h4>🔒 Synchronized Method</h4><p>Locks entire method. Lock on <code>this</code> (instance). Simpler but less efficient.</p><span class="lock-tag">Lock: this (instance)</span></div>
+      <div class="sy-card"><h4>🎯 Synchronized Block</h4><p>Locks only a block. Lock on any specified object. More efficient.</p><span class="lock-tag">Lock: specified object</span></div>
+      <div class="sy-card"><h4>🏛️ Static Synchronized</h4><p>Locks at class level. All instances share ONE lock. Protects static data.</p><span class="lock-tag">Lock: ClassName.class</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3.6 – INTER-THREAD COMMUNICATION -->
+<section class="section s-teal" id="s-interthread">
+  <div class="sec-hdr">
+    <span class="sec-tag">3.6</span>
+    <div>
+      <div class="sec-title">Inter-Thread Communication</div>
+      <div class="sec-sub">wait() · notify() · notifyAll() · Producer-Consumer pattern</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">What is Inter-Thread Communication?</div>
+    <p>Threads can communicate with each other using <strong>wait(), notify(), and notifyAll()</strong> — methods defined in the <code>Object</code> class. They enable a <strong>cooperative approach</strong> where threads take turns.</p>
+    <div class="analogy"><p><strong>Chef and Waiter analogy:</strong> Chef (Producer) cooks food and puts it on the counter. Waiter (Consumer) picks it up. If the counter is empty, Waiter <em>waits</em>. Chef <em>notifies</em> the Waiter when food is ready. If counter is full, Chef waits. Waiter notifies Chef when space is free.</p></div>
+    <div class="flow-box">
+      <div class="fb fb-p"><div class="fb-label">Producer Thread</div><div class="fb-desc">produces data</div></div>
+      <span class="fb-arr">→ notify() →</span>
+      <div class="fb fb-q"><div class="fb-label">Shared Buffer</div><div class="fb-desc">synchronized</div></div>
+      <span class="fb-arr">→ notify() →</span>
+      <div class="fb fb-c"><div class="fb-label">Consumer Thread</div><div class="fb-desc">consumes data</div></div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Method</th><th>Class</th><th>What it does</th><th>Must be in synchronized?</th></tr></thead>
+      <tbody>
+        <tr><td><code>wait()</code></td><td>Object</td><td>Releases lock and waits until notify() is called</td><td>✅ Yes</td></tr>
+        <tr><td><code>notify()</code></td><td>Object</td><td>Wakes up ONE waiting thread on this object</td><td>✅ Yes</td></tr>
+        <tr><td><code>notifyAll()</code></td><td>Object</td><td>Wakes up ALL waiting threads on this object</td><td>✅ Yes</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tip"><strong>Important:</strong> wait(), notify(), notifyAll() can ONLY be called from synchronized context (synchronized method or block). Otherwise you get <code>IllegalMonitorStateException</code>.</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Producer-Consumer Complete Example</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Inter-Thread Communication</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">SharedResource</span> {
+    <span class="kw">int</span> data;
+    <span class="kw">boolean</span> produced = <span class="kw">false</span>;
+
+    <span class="co">// Producer: produce data and notify consumer</span>
+    <span class="kw">synchronized void</span> <span class="fn">produce</span>(<span class="kw">int</span> val) {
+        <span class="kw">while</span>(produced) { <span class="co">// if data already produced, wait</span>
+            <span class="kw">try</span> { <span class="fn">wait</span>(); } <span class="kw">catch</span>(InterruptedException e) {}
+        }
+        data = val;
+        produced = <span class="kw">true</span>;
+        System.out.<span class="fn">println</span>(<span class="st">"Produced: "</span> + val);
+        <span class="fn">notify</span>(); <span class="co">// wake up consumer</span>
+    }
+
+    <span class="co">// Consumer: consume data and notify producer</span>
+    <span class="kw">synchronized void</span> <span class="fn">consume</span>() {
+        <span class="kw">while</span>(!produced) { <span class="co">// if no data, wait</span>
+            <span class="kw">try</span> { <span class="fn">wait</span>(); } <span class="kw">catch</span>(InterruptedException e) {}
+        }
+        System.out.<span class="fn">println</span>(<span class="st">"Consumed: "</span> + data);
+        produced = <span class="kw">false</span>;
+        <span class="fn">notify</span>(); <span class="co">// wake up producer</span>
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">ProducerConsumerDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        SharedResource res = <span class="kw">new</span> <span class="cl">SharedResource</span>();
+
+        Thread producer = <span class="kw">new</span> <span class="cl">Thread</span>(() -> {
+            <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=<span class="nm">3</span>; i++) res.<span class="fn">produce</span>(i);
+        });
+        Thread consumer = <span class="kw">new</span> <span class="cl">Thread</span>(() -> {
+            <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=<span class="nm">3</span>; i++) res.<span class="fn">consume</span>();
+        });
+        producer.<span class="fn">start</span>(); consumer.<span class="fn">start</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Produced: 1
+Consumed: 1
+Produced: 2
+Consumed: 2
+Produced: 3
+Consumed: 3</div>
+  </div>
+</section>
+
+<!-- SECTION 3.7 – SUSPEND/RESUME/STOP -->
+<section class="section s-rose" id="s-suspend">
+  <div class="sec-hdr">
+    <span class="sec-tag">3.7</span>
+    <div>
+      <div class="sec-title">Suspending, Resuming, and Stopping Threads</div>
+      <div class="sec-sub">Deprecated methods · Safe alternatives · Daemon threads</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Deprecated Thread Control Methods</div>
+    <p>Java originally provided <code>suspend()</code>, <code>resume()</code>, and <code>stop()</code> for controlling threads. These are now <strong>deprecated</strong> because they are unsafe:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Method</th><th>Problem</th><th>Safe Alternative</th></tr></thead>
+      <tbody>
+        <tr><td><code>suspend()</code></td><td>Can cause deadlock — thread holds lock and stays suspended</td><td>Use a <code>volatile boolean</code> flag</td></tr>
+        <tr><td><code>resume()</code></td><td>Unsafe with deprecated suspend()</td><td>Use <code>notify()</code></td></tr>
+        <tr><td><code>stop()</code></td><td>Abruptly kills thread, can corrupt shared data</td><td>Use a flag to request graceful stop</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Safe Way to Suspend &amp; Stop Threads (Using Flag)</div>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Safe Thread Control</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">SafeThread</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    <span class="kw">private volatile boolean</span> suspended = <span class="kw">false</span>; <span class="co">// volatile = visible to all threads</span>
+    <span class="kw">private volatile boolean</span> stopped   = <span class="kw">false</span>;
+
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">int</span> i = <span class="nm">0</span>;
+        <span class="kw">while</span>(!stopped) {
+            <span class="kw">if</span>(!suspended) {
+                System.out.<span class="fn">println</span>(<span class="st">"Running: "</span> + i++);
+                <span class="kw">try</span> { Thread.<span class="fn">sleep</span>(<span class="nm">300</span>); } <span class="kw">catch</span>(InterruptedException e){}
+            }
+        }
+        System.out.<span class="fn">println</span>(<span class="st">"Thread stopped gracefully."</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">suspendThread</span>()  { suspended = <span class="kw">true</span>;  System.out.<span class="fn">println</span>(<span class="st">"Suspended"</span>); }
+    <span class="kw">public void</span> <span class="fn">resumeThread</span>()   { suspended = <span class="kw">false</span>; System.out.<span class="fn">println</span>(<span class="st">"Resumed"</span>); }
+    <span class="kw">public void</span> <span class="fn">stopThread</span>()    { stopped   = <span class="kw">true</span>;  System.out.<span class="fn">println</span>(<span class="st">"Stopping"</span>); }
+}
+
+<span class="kw">public class</span> <span class="cl">SafeThreadDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> Exception {
+        SafeThread t = <span class="kw">new</span> <span class="cl">SafeThread</span>();
+        t.<span class="fn">start</span>();
+        Thread.<span class="fn">sleep</span>(<span class="nm">1000</span>); t.<span class="fn">suspendThread</span>();
+        Thread.<span class="fn">sleep</span>(<span class="nm">1000</span>); t.<span class="fn">resumeThread</span>();
+        Thread.<span class="fn">sleep</span>(<span class="nm">1000</span>); t.<span class="fn">stopThread</span>();
+    }
+}</pre>
+    </div>
+    <div class="output">Running: 0
+Running: 1
+Running: 2
+Suspended
+Resumed
+Running: 3
+Running: 4
+Running: 5
+Stopping
+Thread stopped gracefully.</div>
+    <div class="tip"><strong>volatile keyword:</strong> Ensures the variable is read from main memory (not thread cache). Without volatile, one thread's change might not be visible to another thread.</div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Daemon Threads</div>
+    <p>A <strong>daemon thread</strong> is a background service thread that runs as long as there are non-daemon (user) threads running. When all user threads finish, the JVM terminates — killing all daemon threads too.</p>
+    <ul>
+      <li>Examples of daemon threads: <strong>Garbage Collector, JIT compiler</strong></li>
+      <li>Use <code>setDaemon(true)</code> BEFORE calling <code>start()</code></li>
+      <li>Use <code>isDaemon()</code> to check if a thread is daemon</li>
+    </ul>
+    <div class="code-wrap">
+      <div class="code-hdr"><span class="code-lang">Java – Daemon Thread</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">DaemonThread</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">while</span>(<span class="kw">true</span>) {
+            System.out.<span class="fn">println</span>(<span class="st">"Daemon running..."</span>);
+            <span class="kw">try</span>{ Thread.<span class="fn">sleep</span>(<span class="nm">200</span>); } <span class="kw">catch</span>(Exception e){}
+        }
+    }
+}
+<span class="kw">public class</span> <span class="cl">DaemonDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> Exception {
+        DaemonThread dt = <span class="kw">new</span> <span class="cl">DaemonThread</span>();
+        dt.<span class="fn">setDaemon</span>(<span class="kw">true</span>); <span class="co">// mark as daemon BEFORE start()</span>
+        dt.<span class="fn">start</span>();
+        Thread.<span class="fn">sleep</span>(<span class="nm">500</span>);  <span class="co">// main thread runs for 500ms</span>
+        System.out.<span class="fn">println</span>(<span class="st">"Main thread ending. JVM will terminate daemon."</span>);
+        <span class="co">// When main ends, JVM terminates → daemon thread dies automatically</span>
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="ctitle">Exam Questions – Multithreading</div>
+    <div class="qi"><div class="qt">Q: What are the 5 states of a thread?</div><div class="qa">NEW, RUNNABLE, RUNNING, WAITING/TIMED_WAITING, TERMINATED</div></div>
+    <div class="qi"><div class="qt">Q: Two ways to create a thread in Java?</div><div class="qa">1) Extend Thread class and override run(). 2) Implement Runnable interface and override run().</div></div>
+    <div class="qi"><div class="qt">Q: Difference between start() and run()?</div><div class="qa">start() creates a new thread and calls run() in it. Calling run() directly just runs it on the current thread — no new thread created.</div></div>
+    <div class="qi"><div class="qt">Q: Thread priority range in Java?</div><div class="qa">1 (MIN_PRIORITY) to 10 (MAX_PRIORITY). Default is 5 (NORM_PRIORITY).</div></div>
+    <div class="qi"><div class="qt">Q: What is synchronization?</div><div class="qa">A mechanism to control access to shared resources so only one thread accesses them at a time, preventing race conditions.</div></div>
+    <div class="qi"><div class="qt">Q: Methods for inter-thread communication?</div><div class="qa">wait() — makes thread wait. notify() — wakes one waiting thread. notifyAll() — wakes all waiting threads. All defined in Object class.</div></div>
+    <div class="qi"><div class="qt">Q: Why are suspend()/resume()/stop() deprecated?</div><div class="qa">suspend() can cause deadlock (holds lock while paused). stop() can corrupt shared data by abruptly killing thread.</div></div>
+    <div class="qi"><div class="qt">Q: What is a daemon thread?</div><div class="qa">A background service thread (like GC). JVM terminates when all non-daemon threads finish, killing daemon threads too.</div></div>
+    <div class="qi"><div class="qt">Q: Can synchronized variable exist in Java?</div><div class="qa">NO — only methods and blocks can be synchronized, not variables.</div></div>
+    <div class="qi"><div class="qt">Q: Difference between synchronized method and static synchronized?</div><div class="qa">Instance synchronized: lock on object instance (this). Static synchronized: lock on Class object (ClassName.class) — shared across all instances.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MASTER SUMMARY -->
+<div class="summary">
+  <h2>🏆 Master Summary – Complete Exam Guide</h2>
+  <div class="tricks">
+    <div class="trick"><em>🔷</em><strong>Abstract Class</strong><span>Cannot instantiate. Has abstract + concrete methods. Subclass MUST implement all abstract methods. Can have constructor. abstract+final = ❌ abstract+static method = ❌</span></div>
+    <div class="trick"><em>📦</em><strong>Ch1: Packages</strong><span>java.lang is auto-imported. package keyword = first statement. import java.util.* imports all classes. Sub-packages use dots: com.uni.cse</span></div>
+    <div class="trick"><em>🌊</em><strong>Ch1: I/O Streams</strong><span>java.io package. Byte streams end in Stream; char streams end in Reader/Writer. System.in/out/err are predefined streams.</span></div>
+    <div class="trick"><em>📖</em><strong>Ch1: File I/O</strong><span>FileInputStream/OutputStream = byte files. FileReader/Writer = text files. read() returns -1 at EOF. Always close streams!</span></div>
+    <div class="trick"><em>🗜️</em><strong>Ch1: Serialization</strong><span>implements Serializable (marker interface). ObjectOutputStream saves, ObjectInputStream restores. transient = skip this field. static fields not serialized.</span></div>
+    <div class="trick"><em>💥</em><strong>Ch2: Exceptions</strong><span>Throwable → Exception + Error. Checked = compiler forces handling. Unchecked = RuntimeException subclasses. try-catch-finally.</span></div>
+    <div class="trick"><em>🎯</em><strong>Ch2: throw vs throws</strong><span>throw actually throws an exception object. throws declares method may throw. Custom exception: extend Exception or RuntimeException.</span></div>
+    <div class="trick"><em>⚡</em><strong>Ch2: finally</strong><span>ALWAYS runs — exception or not, caught or not. Only skipped if System.exit() is called. Use for cleanup (close files/connections).</span></div>
+    <div class="trick"><em>🔄</em><strong>Ch3: Thread States</strong><span>NEW→RUNNABLE→RUNNING→WAITING→TERMINATED. Like hospital: register→waiting room→doctor→tests→discharged.</span></div>
+    <div class="trick"><em>🧵</em><strong>Ch3: Thread Creation</strong><span>CALL start(), OVERRIDE run(). Runnable preferred over extending Thread. start() creates new thread; run() directly does NOT.</span></div>
+    <div class="trick"><em>🔑</em><strong>Ch3: Synchronization</strong><span>synchronized keyword. Method = locks whole method. Block = locks part. Static = locks on Class.class. No synchronized variable!</span></div>
+    <div class="trick"><em>📡</em><strong>Ch3: Inter-Thread</strong><span>wait() releases lock and waits. notify() wakes one thread. notifyAll() wakes all. All must be in synchronized context!</span></div>
+    <div class="trick"><em>👻</em><strong>Ch3: Daemon Threads</strong><span>setDaemon(true) before start(). JVM kills daemons when user threads finish. GC is a daemon thread. volatile for flag-based suspend/stop.</span></div>
+  </div>
+
+  <h3 style="color:#fff;margin:28px 0 16px;">📋 25 Top Exam Questions</h3>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Question</th><th>Answer</th></tr></thead>
+    <tbody>
+      <tr><td>0a</td><td>Can you create object of abstract class?</td><td>NO — only concrete subclasses can be instantiated</td></tr>
+      <tr><td>0b</td><td>Abstract class vs Interface?</td><td>Abstract: concrete methods + constructor + single inheritance. Interface: only abstract + no constructor + multiple implement</td></tr>
+      <tr><td>1</td><td>Which package is auto-imported in Java?</td><td>java.lang</td></tr>
+      <tr><td>2</td><td>What does java.sql contain?</td><td>Database connectivity classes (JDBC) — Connection, Statement, ResultSet</td></tr>
+      <tr><td>3</td><td>3 predefined streams in Java?</td><td>System.in, System.out, System.err</td></tr>
+      <tr><td>4</td><td>read() returns what at EOF?</td><td>-1</td></tr>
+      <tr><td>5</td><td>FileInputStream throws which exception?</td><td>FileNotFoundException (subclass of IOException)</td></tr>
+      <tr><td>6</td><td>What is Serializable?</td><td>Marker interface (no methods) enabling object serialization</td></tr>
+      <tr><td>7</td><td>What does transient do?</td><td>Skips field during serialization; gets default value on deserialization</td></tr>
+      <tr><td>8</td><td>PipedWriter is subclass of?</td><td>Writer</td></tr>
+      <tr><td>9</td><td>Parent of all exceptions?</td><td>Throwable</td></tr>
+      <tr><td>10</td><td>Checked vs Unchecked exceptions?</td><td>Checked: compiler forces handling (extends Exception). Unchecked: no forced handling (extends RuntimeException)</td></tr>
+      <tr><td>11</td><td>Does finally always run?</td><td>Yes, except when System.exit() is called</td></tr>
+      <tr><td>12</td><td>throw vs throws?</td><td>throw: actually throws exception object. throws: declares method may throw.</td></tr>
+      <tr><td>13</td><td>How to create custom exception?</td><td>Extend Exception (checked) or RuntimeException (unchecked)</td></tr>
+      <tr><td>14</td><td>5 thread states?</td><td>NEW, RUNNABLE, RUNNING, WAITING/TIMED_WAITING, TERMINATED</td></tr>
+      <tr><td>15</td><td>Two ways to create thread?</td><td>Extend Thread class OR Implement Runnable interface</td></tr>
+      <tr><td>16</td><td>start() vs run()?</td><td>start() creates new thread; run() directly = no new thread</td></tr>
+      <tr><td>17</td><td>Thread priority range?</td><td>1 (MIN) to 10 (MAX), default 5 (NORM)</td></tr>
+      <tr><td>18</td><td>Which keyword acquires lock?</td><td>synchronized</td></tr>
+      <tr><td>19</td><td>Synchronized method vs block?</td><td>Method: locks whole method. Block: locks only a section (more efficient)</td></tr>
+      <tr><td>20</td><td>Static synchronized locks on?</td><td>The Class object (ClassName.class)</td></tr>
+      <tr><td>21</td><td>wait(), notify(), notifyAll() defined in?</td><td>Object class</td></tr>
+      <tr><td>22</td><td>Can you synchronize a variable?</td><td>NO — only methods and blocks</td></tr>
+      <tr><td>23</td><td>What is a daemon thread?</td><td>Background thread; JVM kills it when all user threads finish</td></tr>
+      <tr><td>24</td><td>Why is stop() deprecated?</td><td>Abruptly kills thread, can corrupt shared data</td></tr>
+      <tr><td>25</td><td>What is volatile?</td><td>Ensures variable is read from main memory, visible to all threads</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+</div><!-- end container -->
+
+<footer>
+  23CSH-207 · Object-Oriented Programming using Java · Chandigarh University 2025–26<br>
+  Chapter 1: Packages &amp; I/O Streams &nbsp;·&nbsp; Chapter 2: Exception Handling &nbsp;·&nbsp; Chapter 3: Multithreading<br>
+  Complete study guide covering all PPT lectures + full syllabus
+</footer>
+
+<script>
+  // Active chapter nav on scroll
+  const btns = document.querySelectorAll('.ch-btn');
+  const ch1 = document.getElementById('ch1');
+  const ch2 = document.getElementById('ch2');
+  const ch3 = document.getElementById('ch3');
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY + 200;
+    btns.forEach(b => { b.classList.remove('a1','a2','a3'); });
+    if (ch3 && y >= ch3.offsetTop) {
+      btns[2].classList.add('a3');
+    } else if (ch2 && y >= ch2.offsetTop) {
+      btns[1].classList.add('a2');
+    } else {
+      btns[0].classList.add('a1');
+    }
+  });
+</script>
+</body>
+</html>
