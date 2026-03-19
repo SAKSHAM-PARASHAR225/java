@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DAA Unit 2 – Animated Visual Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f1eb;--bg2:#fffef9;--bg3:#eee9de;
+  --card:#ffffff;--card2:#faf8f4;
+  --border:#e0d9cc;--border2:#c8bfaf;
+  --text:#1a1510;--text2:#5a5248;--text3:#8a8278;
+  --blue:#2563eb;--blue-l:#eff6ff;--blue-b:#bfdbfe;
+  --green:#16a34a;--green-l:#f0fdf4;--green-b:#bbf7d0;
+  --orange:#ea580c;--orange-l:#fff7ed;--orange-b:#fed7aa;
+  --purple:#7c3aed;--purple-l:#f5f3ff;--purple-b:#ddd6fe;
+  --red:#dc2626;--red-l:#fef2f2;--red-b:#fecaca;
+  --teal:#0d9488;--teal-l:#f0fdfa;--teal-b:#99f6e4;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.04);
+  --shadow-lg:0 4px 24px rgba(0,0,0,.1),0 1px 4px rgba(0,0,0,.06);
+  --radius:12px;--radius-sm:8px;--radius-lg:16px;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.7}
+/* ---- NAV ---- */
+.topnav{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;display:flex;align-items:center;gap:0;overflow-x:auto;padding:0 8px}
+.logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);padding:14px 16px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;letter-spacing:-0.3px}
+.navbtn{border:none;background:none;font-family:'DM Sans',sans-serif;color:var(--text2);font-size:13px;font-weight:500;padding:14px 14px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.navbtn:hover{color:var(--text);background:var(--bg3)}
+.navbtn.on{color:var(--blue);border-bottom:2px solid var(--blue)}
+/* ---- LAYOUT ---- */
+.page{display:none;max-width:960px;margin:0 auto;padding:32px 20px 60px}
+.page.on{display:block}
+/* ---- HERO ---- */
+.hero{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:40px 36px;margin-bottom:28px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-60px;top:-60px;width:260px;height:260px;background:radial-gradient(circle,#dbeafe88 0%,transparent 70%);pointer-events:none}
+.hero h1{font-family:'Playfair Display',serif;font-size:34px;color:var(--text);letter-spacing:-1px;line-height:1.2;margin-bottom:8px}
+.hero p{color:var(--text2);font-size:15px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{border:1px solid var(--border);background:var(--card);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--text2)}
+.chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-l)}
+/* ---- CARDS ---- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:24px;overflow:hidden}
+.card-head{padding:20px 24px 0;display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.card-body{padding:20px 24px 24px}
+.sect-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);letter-spacing:-0.5px;margin-bottom:4px}
+.sect-sub{font-size:13px;color:var(--text3)}
+/* ---- THEORY BLOCK ---- */
+.theory{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;margin:14px 0}
+.theory p{color:var(--text2);font-size:14px;margin-bottom:6px}
+.theory p:last-child{margin-bottom:0}
+/* ---- ALGO STEPS ---- */
+.steps-wrap{counter-reset:stp;margin:16px 0}
+.step{display:flex;gap:14px;margin-bottom:14px;counter-increment:stp;align-items:flex-start}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-txt{flex:1;font-size:14px;color:var(--text2);padding-top:3px}
+.step-txt strong{color:var(--text)}
+/* ---- CODE ---- */
+.code-wrap{background:#1e1e2e;border-radius:var(--radius-sm);overflow:hidden;margin:14px 0}
+.code-head{background:#13131f;padding:10px 16px;font-size:12px;font-weight:600;color:#7c8aab;font-family:'DM Mono',monospace;letter-spacing:0.5px;border-bottom:1px solid #2a2a3e;display:flex;align-items:center;justify-content:space-between}
+.code-body{padding:16px;overflow-x:auto}
+.code-body code{font-family:'DM Mono',monospace;font-size:13px;line-height:1.7;color:#cdd6f4;display:block;white-space:pre}
+.kw{color:#89dceb}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#585b70}.num{color:#fab387}.op{color:#cba6f7}.var{color:#cdd6f4}
+/* ---- COMPLEXITY TABLE ---- */
+.ctbl{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0}
+.ctbl th{background:var(--bg3);color:var(--text2);padding:9px 14px;text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border)}
+.ctbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+.ctbl tr:last-child td{border-bottom:none}
+.ctbl tr:hover td{background:var(--bg3)}
+.good{color:var(--green);font-weight:600}
+.mid{color:var(--orange);font-weight:600}
+.bad{color:var(--red);font-weight:600}
+/* ---- BADGES ---- */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.b-blue{background:var(--blue-l);color:var(--blue);border:1px solid var(--blue-b)}
+.b-green{background:var(--green-l);color:var(--green);border:1px solid var(--green-b)}
+.b-orange{background:var(--orange-l);color:var(--orange);border:1px solid var(--orange-b)}
+.b-purple{background:var(--purple-l);color:var(--purple);border:1px solid var(--purple-b)}
+.b-red{background:var(--red-l);color:var(--red);border:1px solid var(--red-b)}
+.b-teal{background:var(--teal-l);color:var(--teal);border:1px solid var(--teal-b)}
+/* ---- NOTE/TIP ---- */
+.note{background:var(--orange-l);border-left:3px solid var(--orange);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 16px;margin:12px 0;font-size:13px;color:#9a3412}
+.tip{background:var(--blue-l);border-left:3px solid var(--blue);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 16px;margin:12px 0;font-size:13px;color:#1e40af}
+.good-box{background:var(--green-l);border-left:3px solid var(--green);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 16px;margin:12px 0;font-size:13px;color:#14532d}
+/* ---- REAL LIFE ---- */
+.rl{background:var(--purple-l);border:1px solid var(--purple-b);border-radius:var(--radius-sm);padding:14px 16px;margin:12px 0;font-size:13px}
+.rl-title{font-weight:600;color:var(--purple);margin-bottom:4px;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+/* ---- DIVIDER ---- */
+hr{border:none;border-top:1px solid var(--border);margin:22px 0}
+/* ---- SECTION HEADER ---- */
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.sh-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sh h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--text);letter-spacing:-0.5px}
+/* ===== SORTING VISUALIZER ===== */
+#sort-canvas{width:100%;height:220px;display:block;background:var(--bg2);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.sort-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+.sort-controls label{font-size:13px;color:var(--text2);white-space:nowrap}
+select,input[type=range]{border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--card);color:var(--text);cursor:pointer}
+input[type=range]{padding:4px 0;accent-color:var(--blue)}
+.btn{border:none;border-radius:8px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-pri{background:var(--blue);color:#fff}
+.btn-pri:hover{background:#1d4ed8}
+.btn-sec{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+.btn-sec:hover{background:var(--border)}
+.btn-grn{background:var(--green);color:#fff}
+.btn-grn:hover{background:#15803d}
+.btn-orn{background:var(--orange);color:#fff}
+.btn-orn:hover{background:#c2410c}
+.sort-status{font-size:13px;color:var(--text2);padding:10px 14px;background:var(--bg3);border-radius:var(--radius-sm);min-height:40px;font-family:'DM Mono',monospace}
+.sort-step-detail{font-size:13px;color:var(--text2);padding:10px 14px;background:var(--blue-l);border:1px solid var(--blue-b);border-radius:var(--radius-sm);margin-top:8px;min-height:38px;display:none}
+/* ===== BINARY SEARCH ===== */
+.bs-row{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;padding:6px 0;margin:12px 0}
+.bs-cell{min-width:46px;height:52px;border:2px solid var(--border);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:600;font-size:14px;background:var(--card);color:var(--text);transition:all .35s;position:relative}
+.bs-cell .idx{font-size:9px;font-weight:400;color:var(--text3);position:absolute;bottom:4px}
+.bs-active{background:var(--blue-l)!important;border-color:var(--blue)!important;color:var(--blue)!important;transform:scale(1.08)}
+.bs-mid{background:#fef3c7!important;border-color:#f59e0b!important;color:#92400e!important;transform:scale(1.12)}
+.bs-found{background:var(--green-l)!important;border-color:var(--green)!important;color:var(--green)!important;transform:scale(1.15)}
+.bs-elim{background:#f9fafb!important;border-color:#e5e7eb!important;color:#d1d5db!important;opacity:.45}
+.bs-log{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text2);min-height:60px;white-space:pre-wrap;margin-top:10px}
+/* ===== DP TABLE ===== */
+.dp-table-wrap{overflow-x:auto;margin:12px 0}
+.dp-table{border-collapse:collapse;font-size:13px}
+.dp-table th{background:var(--bg3);color:var(--text2);padding:8px 14px;text-align:center;font-weight:600;border:1px solid var(--border);font-size:12px}
+.dp-table td{padding:8px 14px;text-align:center;border:1px solid var(--border);color:var(--text2);min-width:44px;transition:all .3s;background:var(--card);font-family:'DM Mono',monospace;font-size:13px}
+.dp-table td.dp-active{background:#fef9c3;border-color:#fbbf24;color:#92400e;font-weight:700}
+.dp-table td.dp-done{background:var(--green-l);color:var(--green);font-weight:600}
+.dp-table td.dp-highlight{background:var(--blue-l);color:var(--blue);font-weight:600}
+/* ===== HUFFMAN TREE SVG ===== */
+.huff-svg-wrap{overflow-x:auto;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin:12px 0}
+/* ===== N-QUEENS ===== */
+.queens-board{display:inline-grid;border:2px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin:12px 0}
+.qcell{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;transition:all .3s}
+.qcell.light{background:#f0e9d6}
+.qcell.dark{background:#c8b99a}
+.qcell.queen{font-size:28px}
+.qcell.attacked{background:#fca5a5!important;opacity:.7}
+.qcell.safe-queen{background:#bbf7d0!important}
+/* ===== MST CANVAS ===== */
+#mst-canvas{width:100%;height:300px;background:var(--bg2);border-radius:var(--radius-sm);border:1px solid var(--border)}
+/* ===== TSP CANVAS ===== */
+#tsp-canvas{width:100%;height:320px;background:var(--bg2);border-radius:var(--radius-sm);border:1px solid var(--border)}
+/* ==== KNAPSACK VISUAL ==== */
+.items-visual{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.item-box{border:2px solid var(--border);border-radius:10px;padding:12px 16px;background:var(--card);text-align:center;transition:all .3s;min-width:80px}
+.item-box.selected{border-color:var(--green);background:var(--green-l)}
+.item-box.partial{border-color:var(--orange);background:var(--orange-l)}
+.item-box .iname{font-weight:700;font-size:14px;color:var(--text);margin-bottom:4px}
+.item-box .iinfo{font-size:12px;color:var(--text3)}
+.item-box .iratio{font-size:11px;font-weight:600;margin-top:4px}
+/* ==== COMPARISON TABLE ==== */
+.cmp{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0}
+.cmp th{background:var(--text);color:#fff;padding:10px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+.cmp td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+.cmp tr:hover td{background:var(--bg3)}
+/* ==== QUIZ ==== */
+.qz-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.qz-q{font-weight:600;font-size:15px;color:var(--text);margin-bottom:14px}
+.qz-opts{display:grid;gap:8px}
+.qz-opt{border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;font-size:13px;color:var(--text2);background:var(--card);transition:all .2s;display:flex;align-items:center;gap:10px}
+.qz-opt:hover{border-color:var(--blue);background:var(--blue-l);color:var(--blue)}
+.qz-opt.qcorrect{border-color:var(--green);background:var(--green-l);color:#14532d}
+.qz-opt.qwrong{border-color:var(--red);background:var(--red-l);color:#991b1b}
+.qz-exp{font-size:13px;color:var(--text2);background:var(--bg3);border-radius:var(--radius-sm);padding:10px 14px;margin-top:10px;display:none;line-height:1.6}
+.qz-exp.show{display:block}
+.qz-lbl{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;background:var(--bg3);color:var(--text2)}
+/* SCORE */
+.score-bar{background:var(--bg3);border-radius:20px;height:8px;margin:8px 0;overflow:hidden}
+.score-fill{height:8px;background:linear-gradient(90deg,var(--green),var(--teal));border-radius:20px;transition:width .5s}
+/* ANIM */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.anim-in{animation:fadeIn .35s ease forwards}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg3)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.g2{grid-template-columns:1fr}.bs-cell{min-width:38px;height:44px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="topnav">
+  <div class="logo">DAA · Unit 2</div>
+  <button class="navbtn on" onclick="go('home')">🏠 Overview</button>
+  <button class="navbtn" onclick="go('dc')">⚡ Divide &amp; Conquer</button>
+  <button class="navbtn" onclick="go('sort')">📊 Sorting</button>
+  <button class="navbtn" onclick="go('greedy')">💰 Greedy</button>
+  <button class="navbtn" onclick="go('dp')">🔁 Dynamic Prog</button>
+  <button class="navbtn" onclick="go('bt')">🔙 Backtracking</button>
+  <button class="navbtn" onclick="go('bb')">🌿 Branch &amp; Bound</button>
+  <button class="navbtn" onclick="go('cmp')">⚖️ Compare</button>
+  <button class="navbtn" onclick="go('quiz')">🧠 Quiz</button>
+</nav>
+
+<!-- ============================= HOME ============================= -->
+<div id="home" class="page on">
+  <div class="hero anim-in">
+    <h1>Design &amp; Analysis<br>of Algorithms</h1>
+    <p style="margin-top:8px;font-size:16px;color:var(--text2)">Unit 2 — Complete Visual &amp; Animated Study Guide · CSE 4th Semester</p>
+    <p style="font-size:13px;color:var(--text3);margin-top:4px">All PPT slides analysed · Theory + Code + Animations + Real-life examples</p>
+    <div class="chip-row">
+      <div class="chip" onclick="go('dc')">⚡ Divide &amp; Conquer</div>
+      <div class="chip" onclick="go('sort')">📊 Sorting Algorithms</div>
+      <div class="chip" onclick="go('greedy')">💰 Greedy Methods</div>
+      <div class="chip" onclick="go('dp')">🔁 Dynamic Programming</div>
+      <div class="chip" onclick="go('bt')">🔙 Backtracking</div>
+      <div class="chip" onclick="go('bb')">🌿 Branch &amp; Bound</div>
+      <div class="chip" onclick="go('quiz')">🧠 Practice Quiz</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-body">
+        <div style="font-size:28px;margin-bottom:8px">📚</div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:6px">What is Algorithm Design?</div>
+        <p style="font-size:13px;color:var(--text2)">Algorithm design is about finding the <strong>smartest strategy</strong> to solve a computational problem — not just any solution, but the <strong>fastest and most efficient</strong> one. This unit covers 4 major paradigms.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div style="font-size:28px;margin-bottom:8px">🎯</div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:6px">4 Design Paradigms</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div><span class="badge b-blue">Divide &amp; Conquer</span> <span style="font-size:12px;color:var(--text3)">Split → Solve → Combine</span></div>
+          <div><span class="badge b-green">Greedy</span> <span style="font-size:12px;color:var(--text3)">Local best → Hope global best</span></div>
+          <div><span class="badge b-purple">Dynamic Prog.</span> <span style="font-size:12px;color:var(--text3)">Memo → Never recompute</span></div>
+          <div><span class="badge b-orange">Backtracking</span> <span style="font-size:12px;color:var(--text3)">Try → Fail → Backtrack</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div style="font-weight:700;font-size:15px;margin-bottom:12px">⚡ Complexity Quick Reference</div>
+      <table class="ctbl">
+        <tr><th>Algorithm</th><th>Type</th><th>Best</th><th>Avg</th><th>Worst</th><th>Space</th></tr>
+        <tr><td>Binary Search</td><td><span class="badge b-blue">D&C</span></td><td class="good">O(1)</td><td class="good">O(log n)</td><td class="good">O(log n)</td><td class="good">O(1)</td></tr>
+        <tr><td>Merge Sort</td><td><span class="badge b-blue">D&C</span></td><td class="good">Θ(n log n)</td><td class="good">Θ(n log n)</td><td class="good">Θ(n log n)</td><td class="mid">O(n)</td></tr>
+        <tr><td>Quick Sort</td><td><span class="badge b-blue">D&C</span></td><td class="good">O(n log n)</td><td class="good">O(n log n)</td><td class="bad">O(n²)</td><td class="good">O(log n)</td></tr>
+        <tr><td>Selection Sort</td><td><span class="badge b-blue">D&C</span></td><td class="bad">O(n²)</td><td class="bad">O(n²)</td><td class="bad">O(n²)</td><td class="good">O(1)</td></tr>
+        <tr><td>Strassen's</td><td><span class="badge b-blue">D&C</span></td><td class="good">O(N^2.807)</td><td class="good">O(N^2.807)</td><td class="good">O(N^2.807)</td><td class="mid">O(n²)</td></tr>
+        <tr><td>Frac. Knapsack</td><td><span class="badge b-green">Greedy</span></td><td class="good">O(n log n)</td><td class="good">O(n log n)</td><td class="good">O(n log n)</td><td class="good">O(1)</td></tr>
+        <tr><td>Prim's / Kruskal's</td><td><span class="badge b-green">Greedy</span></td><td class="good">O(E log V)</td><td class="good">O(E log V)</td><td class="good">O(E log V)</td><td class="good">O(V)</td></tr>
+        <tr><td>0/1 Knapsack</td><td><span class="badge b-purple">DP</span></td><td class="mid">O(nW)</td><td class="mid">O(nW)</td><td class="mid">O(nW)</td><td class="mid">O(nW)</td></tr>
+        <tr><td>LCS</td><td><span class="badge b-purple">DP</span></td><td class="mid">O(mn)</td><td class="mid">O(mn)</td><td class="mid">O(mn)</td><td class="mid">O(mn)</td></tr>
+        <tr><td>Matrix Chain</td><td><span class="badge b-purple">DP</span></td><td class="mid">O(n³)</td><td class="mid">O(n³)</td><td class="mid">O(n³)</td><td class="mid">O(n²)</td></tr>
+        <tr><td>TSP (DP)</td><td><span class="badge b-purple">DP</span></td><td class="bad">O(n²·2ⁿ)</td><td class="bad">O(n²·2ⁿ)</td><td class="bad">O(n²·2ⁿ)</td><td class="bad">O(n·2ⁿ)</td></tr>
+        <tr><td>N-Queens</td><td><span class="badge b-orange">Backtrack</span></td><td colspan="3" class="bad" style="text-align:center">Exponential</td><td class="good">O(n)</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= DIVIDE & CONQUER ============================= -->
+<div id="dc" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:var(--blue-l)">⚡</div><div><h2>Divide &amp; Conquer</h2><p style="font-size:13px;color:var(--text3)">Lecture 16–18 · Binary Search, Max-Min, Strassen's</p></div></div>
+
+  <div class="card">
+    <div class="card-head"><span class="badge b-blue">THEORY</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> Bada problem lo → chhote independent subproblems mein todo → solve karo → combine karo.</p>
+        <p><strong>Dictionary analogy:</strong> "Janissary" word dhundna hai? Beech se kholo — agar "Kiwi" dikhe to peeche jao, agar "Hypotenuse" dikhe to aage jao. Har step mein half possibilities eliminate ho jaati hain.</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><strong>Divide:</strong> Problem ko same-type ke smaller subproblems mein split karo</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><strong>Conquer:</strong> Subproblems ko recursively solve karo. Base case pe directly solve karo</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><strong>Combine:</strong> Subproblems ke solutions ko merge karke final solution banao</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BINARY SEARCH -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-blue">BINARY SEARCH</span><span style="font-size:12px;color:var(--text3);margin-left:8px">O(log n)</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Sorted array mein element x dhundho. Return karo uska index.</p>
+        <p><strong>Condition:</strong> Array must be <em>sorted</em> — otherwise binary search WILL NOT work!</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><strong>Check base case:</strong> Agar l = r, element wahan hai ya nahi — return l</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><strong>Find mid:</strong> m = floor((l + r) / 2)</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><strong>Compare:</strong> x ≤ arr[m] → search left half (l to m), else search right half (m+1 to r)</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><strong>Repeat</strong> recursively until found</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">ALGORITHM · Binary Search <span>O(log n)</span></div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">binary_search</span>(arr, x, l, r):
+    <span class="cm"># Base case: only one element left</span>
+    <span class="kw">if</span> l == r:
+        <span class="kw">return</span> l  <span class="cm"># Return index</span>
+    
+    m = (l + r) <span class="op">//</span> <span class="num">2</span>  <span class="cm"># Find midpoint</span>
+    
+    <span class="kw">if</span> x &lt;= arr[m]:
+        <span class="kw">return</span> <span class="fn">binary_search</span>(arr, x, l, m)    <span class="cm"># Search left</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="fn">binary_search</span>(arr, x, m+<span class="num">1</span>, r)  <span class="cm"># Search right</span>
+
+<span class="cm"># Recurrence: T(n) = T(n/2) + 1  →  O(log n)</span>
+<span class="cm"># n=100: only 7 comparisons vs Linear's 100!</span></code></div>
+      </div>
+      <!-- INTERACTIVE -->
+      <div style="font-weight:600;font-size:14px;margin:18px 0 8px;color:var(--text)">🎮 Interactive Demo — Try it!</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+        <label style="font-size:13px;color:var(--text2)">Search for:</label>
+        <input type="number" id="bs-val" value="63" min="1" max="99" style="width:72px">
+        <button class="btn btn-pri" onclick="startBS()">▶ Search</button>
+        <button class="btn btn-sec" onclick="resetBS()">↺ Reset</button>
+        <span id="bs-steps" style="font-size:12px;color:var(--text3)"></span>
+      </div>
+      <div class="bs-row" id="bs-row"></div>
+      <div class="bs-log" id="bs-log">Click ▶ Search to watch binary search in action...</div>
+      <div class="tip" style="margin-top:12px">📌 <strong>Why O(log n)?</strong> Each step eliminates HALF the array. log₂(100) ≈ 7, so only 7 steps for 100 elements. log₂(1000) ≈ 10. That's insane efficiency!</div>
+    </div>
+  </div>
+
+  <!-- MAX MIN -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-blue">MAX-MIN PROBLEM</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Array mein maximum AND minimum dono simultaneously dhundho.</p>
+      </div>
+      <div class="g2">
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:8px;color:var(--red)">❌ Naive Method</div>
+          <div class="steps-wrap">
+            <div class="step"><div class="step-num" style="background:var(--red)">1</div><div class="step-txt">Max dhundho: n-1 comparisons</div></div>
+            <div class="step"><div class="step-num" style="background:var(--red)">2</div><div class="step-txt">Min dhundho: n-1 comparisons</div></div>
+          </div>
+          <div class="note"><strong>Total: 2n - 2 comparisons</strong> — wasteful!</div>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:8px;color:var(--green)">✅ D&amp;C Method</div>
+          <div class="steps-wrap">
+            <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-txt">Array ko 2 halves mein divide karo</div></div>
+            <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-txt">Har half mein max &amp; min nikalo</div></div>
+            <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-txt">max(max1, max2) aur min(min1, min2)</div></div>
+          </div>
+          <div class="good-box"><strong>Total: ~1.5n - 2 comparisons</strong> — 25% better!</div>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">D&C Max-Min Code</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">max_min_dc</span>(arr, low, high):
+    <span class="cm"># Base: single element</span>
+    <span class="kw">if</span> low == high:
+        <span class="kw">return</span> arr[low], arr[low]
+    
+    <span class="cm"># Base: two elements — 1 comparison</span>
+    <span class="kw">if</span> high == low + <span class="num">1</span>:
+        <span class="kw">if</span> arr[low] &lt; arr[high]:
+            <span class="kw">return</span> arr[high], arr[low]  <span class="cm"># max, min</span>
+        <span class="kw">return</span> arr[low], arr[high]
+    
+    mid = (low + high) <span class="op">//</span> <span class="num">2</span>
+    max1, min1 = <span class="fn">max_min_dc</span>(arr, low, mid)
+    max2, min2 = <span class="fn">max_min_dc</span>(arr, mid+<span class="num">1</span>, high)
+    
+    <span class="kw">return</span> max(max1, max2), min(min1, min2)
+
+<span class="cm"># Time: O(n) | Space: O(log n) call stack</span></code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRASSEN -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-blue">STRASSEN'S MATRIX MULTIPLICATION</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Two n×n matrices A and B ko multiply karo, but faster than O(N³).</p>
+        <p><strong>Key Insight:</strong> Standard D&C uses 8 recursive multiplications → O(N³). Strassen uses only <strong>7 multiplications</strong> using clever algebra → O(N^2.807).</p>
+      </div>
+
+      <!-- Visual comparison -->
+      <div class="g2" style="margin:16px 0">
+        <div style="background:var(--red-l);border:1px solid var(--red-b);border-radius:var(--radius-sm);padding:16px;text-align:center">
+          <div style="font-size:24px;font-weight:700;color:var(--red)">8</div>
+          <div style="font-size:13px;color:#991b1b;font-weight:600">Multiplications</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">Naive / Simple D&C</div>
+          <div style="font-size:20px;font-weight:700;color:var(--red);margin-top:8px">O(N³)</div>
+        </div>
+        <div style="background:var(--green-l);border:1px solid var(--green-b);border-radius:var(--radius-sm);padding:16px;text-align:center">
+          <div style="font-size:24px;font-weight:700;color:var(--green)">7</div>
+          <div style="font-size:13px;color:#14532d;font-weight:600">Multiplications</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">Strassen's Method</div>
+          <div style="font-size:20px;font-weight:700;color:var(--green);margin-top:8px">O(N^2.807)</div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-head">Strassen's 7 Magic Formulae (2×2 case)</div>
+        <div class="code-body"><code><span class="cm"># A = [[a,b],[c,d]]  B = [[e,f],[g,h]]</span>
+<span class="cm"># Standard needs 8 multiplications. Strassen uses 7:</span>
+
+M1 = a <span class="op">*</span> (f <span class="op">-</span> h)        <span class="cm"># M1 = a(f-h)</span>
+M2 = (a <span class="op">+</span> b) <span class="op">*</span> h       <span class="cm"># M2 = (a+b)h</span>
+M3 = (c <span class="op">+</span> d) <span class="op">*</span> e       <span class="cm"># M3 = (c+d)e</span>
+M4 = d <span class="op">*</span> (g <span class="op">-</span> e)        <span class="cm"># M4 = d(g-e)</span>
+M5 = (a <span class="op">+</span> d) <span class="op">*</span> (e <span class="op">+</span> h)  <span class="cm"># M5 = (a+d)(e+h)</span>
+M6 = (b <span class="op">-</span> d) <span class="op">*</span> (g <span class="op">+</span> h)  <span class="cm"># M6 = (b-d)(g+h)</span>
+M7 = (a <span class="op">-</span> c) <span class="op">*</span> (e <span class="op">+</span> f)  <span class="cm"># M7 = (a-c)(e+f)</span>
+
+<span class="cm"># Result C = A×B:</span>
+C[<span class="num">0</span>][<span class="num">0</span>] = M5 <span class="op">+</span> M4 <span class="op">-</span> M2 <span class="op">+</span> M6   <span class="cm"># ae+bg</span>
+C[<span class="num">0</span>][<span class="num">1</span>] = M1 <span class="op">+</span> M2             <span class="cm"># af+bh</span>
+C[<span class="num">1</span>][<span class="num">0</span>] = M3 <span class="op">+</span> M4             <span class="cm"># ce+dg</span>
+C[<span class="num">1</span>][<span class="num">1</span>] = M5 <span class="op">+</span> M1 <span class="op">-</span> M3 <span class="op">-</span> M7   <span class="cm"># cf+dh</span>
+
+<span class="cm"># Recurrence: T(N) = 7T(N/2) + O(N²) → O(N^log₂7) ≈ O(N^2.807)</span></code></div>
+      </div>
+      <div class="note"><strong>Practical Note:</strong> Strassen is mostly THEORETICAL. In practice, Naive method is faster for small N due to high constant factors and numerical precision issues. Not used on sparse matrices.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= SORTING ============================= -->
+<div id="sort" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:var(--teal-l)">📊</div><div><h2>Sorting Algorithms</h2><p style="font-size:13px;color:var(--text3)">Merge Sort · Quick Sort · Selection Sort · Animated!</p></div></div>
+
+  <div class="card">
+    <div class="card-body">
+      <div style="font-weight:600;font-size:15px;margin-bottom:14px">🎮 Animated Sorting Visualizer</div>
+      <div class="sort-controls">
+        <label>Algorithm:</label>
+        <select id="sort-algo">
+          <option value="merge">Merge Sort</option>
+          <option value="quick">Quick Sort</option>
+          <option value="selection">Selection Sort</option>
+        </select>
+        <label>Speed:</label>
+        <input type="range" id="sort-speed" min="50" max="900" value="500" style="width:90px">
+        <label>Size:</label>
+        <input type="range" id="sort-size" min="8" max="40" value="20" style="width:90px">
+        <button class="btn btn-pri" id="btn-start" onclick="startSort()">▶ Sort</button>
+        <button class="btn btn-sec" onclick="randomizeSort()">🔀 Shuffle</button>
+        <button class="btn btn-sec" onclick="resetSort()">↺ Reset</button>
+      </div>
+      <canvas id="sort-canvas"></canvas>
+      <div class="sort-status" id="sort-status">Press ▶ Sort to animate. Try different algorithms!</div>
+      <div class="sort-step-detail" id="sort-detail"></div>
+    </div>
+  </div>
+
+  <!-- Merge Sort Theory -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-teal">MERGE SORT</span><span style="margin-left:8px;font-size:12px;color:var(--text3)">Stable · Θ(n log n) always</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> Array ko aadha-aadha karte jao jab tak 1-element arrays na ban jayein. Phir in sorted pieces ko merge karo.</p>
+        <p><strong>Real Life:</strong> Jab do taraf se sorted playing cards ko merge karo — pehle dono ke top cards compare karo, chhota uthao. Repeat!</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><strong>Divide:</strong> mid = (low + high) / 2. Array ko [low..mid] aur [mid+1..high] mein split karo</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><strong>Conquer:</strong> mergeSort(arr, low, mid) aur mergeSort(arr, mid+1, high) — recursive calls</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><strong>Combine:</strong> merge(arr, low, mid, high) — do sorted halves ko ek sorted array mein milao</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><strong>Base Case:</strong> low &lt; high check karo. Agar only 1 element, already sorted!</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">MERGE SORT · Complete Code</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">merge_sort</span>(arr, low, high):
+    <span class="kw">if</span> low &lt; high:             <span class="cm"># More than 1 element?</span>
+        mid = (low <span class="op">+</span> high) <span class="op">//</span> <span class="num">2</span>
+        <span class="fn">merge_sort</span>(arr, low, mid)       <span class="cm"># Sort left half</span>
+        <span class="fn">merge_sort</span>(arr, mid<span class="op">+</span><span class="num">1</span>, high)    <span class="cm"># Sort right half</span>
+        <span class="fn">merge</span>(arr, low, mid, high)      <span class="cm"># Merge both halves</span>
+
+<span class="kw">def</span> <span class="fn">merge</span>(arr, low, mid, high):
+    left  = arr[low:mid<span class="op">+</span><span class="num">1</span>]  <span class="cm"># Copy left half</span>
+    right = arr[mid<span class="op">+</span><span class="num">1</span>:high<span class="op">+</span><span class="num">1</span>]<span class="cm"># Copy right half</span>
+    i = j = <span class="num">0</span>; k = low
+    
+    <span class="kw">while</span> i &lt; len(left) <span class="op">and</span> j &lt; len(right):
+        <span class="kw">if</span> left[i] &lt;= right[j]:   <span class="cm"># Compare top of both</span>
+            arr[k] = left[i];  i <span class="op">+=</span> <span class="num">1</span>
+        <span class="kw">else</span>:
+            arr[k] = right[j]; j <span class="op">+=</span> <span class="num">1</span>
+        k <span class="op">+=</span> <span class="num">1</span>
+    
+    <span class="kw">while</span> i &lt; len(left):   <span class="cm"># Remaining left elements</span>
+        arr[k] = left[i]; i <span class="op">+=</span> <span class="num">1</span>; k <span class="op">+=</span> <span class="num">1</span>
+    <span class="kw">while</span> j &lt; len(right):  <span class="cm"># Remaining right elements</span>
+        arr[k] = right[j]; j <span class="op">+=</span> <span class="num">1</span>; k <span class="op">+=</span> <span class="num">1</span>
+
+<span class="cm"># Time: Θ(n log n) ALL cases — Best advantage of Merge Sort!</span>
+<span class="cm"># Space: O(n) extra — needs temp arrays</span>
+<span class="cm"># Stable: YES — equal elements keep original order</span></code></div>
+      </div>
+
+      <!-- Visual trace -->
+      <div style="font-weight:600;font-size:14px;margin:16px 0 10px">📐 Visual Trace: [38, 27, 43, 3, 9, 82, 10]</div>
+      <svg viewBox="0 0 700 260" style="width:100%;background:var(--bg2);border-radius:8px;border:1px solid var(--border);padding:8px">
+        <!-- Level 0 -->
+        <rect x="200" y="10" width="300" height="32" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+        <text x="350" y="31" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#1e40af">38  27  43  3  9  82  10</text>
+        <!-- Level 1 -->
+        <rect x="80" y="62" width="190" height="30" rx="6" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5"/>
+        <text x="175" y="82" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#3730a3">38  27  43  3</text>
+        <rect x="430" y="62" width="190" height="30" rx="6" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5"/>
+        <text x="525" y="82" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#3730a3">9  82  10</text>
+        <!-- Level 2 -->
+        <rect x="30" y="114" width="110" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="85" y="132" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#5b21b6">38  27</text>
+        <rect x="160" y="114" width="110" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="215" y="132" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#5b21b6">43  3</text>
+        <rect x="390" y="114" width="75" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="427" y="132" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#5b21b6">9</text>
+        <rect x="480" y="114" width="130" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="545" y="132" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#5b21b6">82  10</text>
+        <!-- Sorted -->
+        <rect x="30" y="165" width="110" height="28" rx="5" fill="#dcfce7" stroke="#86efac" stroke-width="1.5"/>
+        <text x="85" y="183" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#15803d">27  38</text>
+        <rect x="160" y="165" width="110" height="28" rx="5" fill="#dcfce7" stroke="#86efac" stroke-width="1.5"/>
+        <text x="215" y="183" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#15803d">3  43</text>
+        <rect x="390" y="165" width="75" height="28" rx="5" fill="#dcfce7" stroke="#86efac" stroke-width="1.5"/>
+        <text x="427" y="183" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#15803d">9</text>
+        <rect x="480" y="165" width="130" height="28" rx="5" fill="#dcfce7" stroke="#86efac" stroke-width="1.5"/>
+        <text x="545" y="183" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#15803d">10  82</text>
+        <!-- Final -->
+        <rect x="80" y="215" width="190" height="30" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+        <text x="175" y="235" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#065f46">3  27  38  43</text>
+        <rect x="430" y="215" width="190" height="30" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+        <text x="525" y="235" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#065f46">9  10  82</text>
+        <!-- Arrows (simplified) -->
+        <line x1="350" y1="42" x2="175" y2="62" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="350" y1="42" x2="525" y2="62" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="175" y1="92" x2="85" y2="114" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="175" y1="92" x2="215" y2="114" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="525" y1="92" x2="427" y2="114" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="525" y1="92" x2="545" y2="114" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Labels -->
+        <text x="12" y="32" font-size="10" fill="#94a3b8" font-family="DM Sans,sans-serif">DIVIDE</text>
+        <text x="12" y="180" font-size="10" fill="#94a3b8" font-family="DM Sans,sans-serif">SORT</text>
+        <text x="12" y="232" font-size="10" fill="#94a3b8" font-family="DM Sans,sans-serif">MERGE</text>
+      </svg>
+      <div class="rl"><div class="rl-title">🌍 Real World Uses</div>Merge sort organizes large datasets — social media user records, e-commerce product lists by price, library catalogs. It's preferred when <strong>stability</strong> matters (equal elements keep their order).</div>
+    </div>
+  </div>
+
+  <!-- Quick Sort Theory -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-orange">QUICK SORT</span><span style="margin-left:8px;font-size:12px;color:var(--text3)">In-place · O(n log n) avg · O(n²) worst</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> Ek pivot element choose karo → usse apni sahi jagah pe place karo → left side mein chhote, right side mein bade rakh do → recursively repeat.</p>
+        <p><strong>Real Life:</strong> Jaise teacher ek student ko bolta hai "Aap left mein, baaki aap ke age ke neeche left mein aur upar right mein." — Partition karna!</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><strong>Choose Pivot:</strong> Usually last element (ya random, ya median-of-3)</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><strong>Partition:</strong> Pivot ko uski correct position pe place karo. Left mein pivot se chhhote, right mein bade elements</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><strong>Recurse:</strong> quickSort(arr, low, pivot-1) aur quickSort(arr, pivot+1, high)</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><strong>Base Case:</strong> low &lt; high — agar sirf 1 element, already sorted!</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">QUICK SORT · Complete Code</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">quick_sort</span>(arr, low, high):
+    <span class="kw">if</span> low &lt; high:
+        pi = <span class="fn">partition</span>(arr, low, high)  <span class="cm"># Find pivot position</span>
+        <span class="fn">quick_sort</span>(arr, low, pi <span class="op">-</span> <span class="num">1</span>)    <span class="cm"># Sort left of pivot</span>
+        <span class="fn">quick_sort</span>(arr, pi <span class="op">+</span> <span class="num">1</span>, high)  <span class="cm"># Sort right of pivot</span>
+
+<span class="kw">def</span> <span class="fn">partition</span>(arr, low, high):
+    pivot = arr[high]   <span class="cm"># Choose last as pivot</span>
+    i = low <span class="op">-</span> <span class="num">1</span>         <span class="cm"># Index of smaller element</span>
+    
+    <span class="kw">for</span> j <span class="kw">in</span> range(low, high):
+        <span class="kw">if</span> arr[j] &lt;= pivot:   <span class="cm"># If current &lt;= pivot</span>
+            i <span class="op">+=</span> <span class="num">1</span>
+            arr[i], arr[j] = arr[j], arr[i]  <span class="cm"># Swap</span>
+    
+    <span class="cm"># Place pivot at correct position</span>
+    arr[i<span class="op">+</span><span class="num">1</span>], arr[high] = arr[high], arr[i<span class="op">+</span><span class="num">1</span>]
+    <span class="kw">return</span> i <span class="op">+</span> <span class="num">1</span>  <span class="cm"># Pivot's final index</span>
+
+<span class="cm"># Worst Case: Already sorted + last pivot → O(n²)</span>
+<span class="cm"># Fix: Random pivot or median-of-3 pivot</span>
+<span class="cm"># Space: O(log n) — only recursion stack, in-place!</span></code></div>
+      </div>
+      <div class="note"><strong>Worst Case trick:</strong> [1,2,3,4,5] with last element as pivot → pivot=5 each time, only 1 partition. O(n²). Solution: Use random pivot or shuffle first!</div>
+      <div class="rl"><div class="rl-title">🌍 Real World Uses</div>C++ std::sort(), Java's Arrays.sort() for primitives — both use Quicksort-based algorithms. Database query sorting, bank transaction logs, game leaderboards.</div>
+    </div>
+  </div>
+
+  <!-- Selection Sort -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-red">SELECTION SORT</span><span style="margin-left:8px;font-size:12px;color:var(--text3)">Simple · O(n²) always · In-place</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> Unsorted portion mein se minimum dhundho aur usse sorted portion ke end mein place karo.</p>
+        <p><strong>Simple Rule:</strong> Pass 1 mein global min dhundho, Pass 2 mein baaki ka min, etc.</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><strong>Set MIN</strong> to position 0 (first unsorted position)</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><strong>Scan</strong> remaining unsorted array, find actual minimum element's index</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><strong>Swap</strong> minimum element with element at position MIN</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><strong>Increment</strong> MIN by 1 (sorted portion grows), repeat until sorted</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">SELECTION SORT</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">selection_sort</span>(arr):
+    n = len(arr)
+    <span class="kw">for</span> i <span class="kw">in</span> range(n):
+        min_idx = i   <span class="cm"># Assume first unsorted is minimum</span>
+        
+        <span class="cm"># Find actual minimum in unsorted portion</span>
+        <span class="kw">for</span> j <span class="kw">in</span> range(i<span class="op">+</span><span class="num">1</span>, n):
+            <span class="kw">if</span> arr[j] &lt; arr[min_idx]:
+                min_idx = j
+        
+        <span class="cm"># Swap minimum to front of unsorted portion</span>
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    
+    <span class="kw">return</span> arr
+
+<span class="cm"># Example: [64, 25, 12, 22, 11]</span>
+<span class="cm"># Pass1: min=11 → [11, 25, 12, 22, 64]</span>
+<span class="cm"># Pass2: min=12 → [11, 12, 25, 22, 64]</span>
+<span class="cm"># Pass3: min=22 → [11, 12, 22, 25, 64]</span>
+<span class="cm"># Pass4: done  → [11, 12, 22, 25, 64] ✓</span>
+<span class="cm"># Always O(n²) — NOT suitable for large data</span></code></div>
+      </div>
+      <table class="ctbl">
+        <tr><th>Algorithm</th><th>Stable?</th><th>In-Place?</th><th>Best</th><th>Average</th><th>Worst</th></tr>
+        <tr><td><strong>Merge Sort</strong></td><td class="good">✅ Yes</td><td class="bad">❌ No (O(n))</td><td class="good">Θ(n log n)</td><td class="good">Θ(n log n)</td><td class="good">Θ(n log n)</td></tr>
+        <tr><td><strong>Quick Sort</strong></td><td class="bad">❌ No</td><td class="good">✅ Yes</td><td class="good">O(n log n)</td><td class="good">O(n log n)</td><td class="bad">O(n²)</td></tr>
+        <tr><td><strong>Selection Sort</strong></td><td class="bad">❌ No</td><td class="good">✅ Yes</td><td class="bad">O(n²)</td><td class="bad">O(n²)</td><td class="bad">O(n²)</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= GREEDY ============================= -->
+<div id="greedy" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:var(--green-l)">💰</div><div><h2>Greedy Algorithms</h2><p style="font-size:13px;color:var(--text3)">Lecture 19–21 · Knapsack · MST · Huffman</p></div></div>
+
+  <div class="card">
+    <div class="card-head"><span class="badge b-green">THEORY</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> "Jo abhi best lagta hai, wahi karo." Har step mein local optimal choice karo. Past decisions ko dobara nahi sochna.</p>
+        <p><strong>Works perfectly for:</strong> Fractional Knapsack, MST (Prim/Kruskal), Huffman, Activity Selection, Dijkstra's</p>
+        <p><strong>Fails for:</strong> 0/1 Knapsack, TSP, Coin Change (arbitrary denominations)</p>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">Generic Greedy Structure</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">greedy_template</span>(candidates):
+    result = []
+    
+    <span class="kw">while</span> candidates:
+        item = <span class="fn">select_best</span>(candidates)  <span class="cm"># Greedy choice</span>
+        
+        <span class="kw">if</span> <span class="fn">is_feasible</span>(item, result):  <span class="cm"># Can we add it?</span>
+            result.append(item)
+    
+    <span class="kw">return</span> result
+
+<span class="cm"># 5 Components:</span>
+<span class="cm"># 1. Candidate Set   — items to choose from</span>
+<span class="cm"># 2. Selection Fn    — pick the best candidate</span>
+<span class="cm"># 3. Feasibility Fn  — can it be added?</span>
+<span class="cm"># 4. Objective Fn    — value of current solution</span>
+<span class="cm"># 5. Solution Fn     — is solution complete?</span></code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fractional Knapsack -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-green">FRACTIONAL KNAPSACK</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Thief ke paas W kg capacity ka bag. N items hain, har item ka weight w[i] aur value v[i] hai. Items ka FRACTION le sakta hai. Maximum value chahiye.</p>
+        <p><strong>Greedy Strategy:</strong> Value-per-kg ratio sabse zyada wala item pehle lo. Agar poora nahi aata to fraction lo.</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><strong>Calculate ratio</strong> = value[i] / weight[i] for every item</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><strong>Sort items</strong> by ratio in DESCENDING order</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><strong>Greedily pick</strong> items: agar poora item fit hota hai to pura lo; warna remaining capacity ke liye fraction lo</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><strong>Stop</strong> when knapsack is full (capacity = 0)</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">FRACTIONAL KNAPSACK · O(n log n)</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">fractional_knapsack</span>(values, weights, W):
+    n = len(values)
+    
+    <span class="cm"># Step 1: Calculate value/weight ratios</span>
+    items = [(values[i], weights[i], values[i]/weights[i])
+             <span class="kw">for</span> i <span class="kw">in</span> range(n)]
+    
+    <span class="cm"># Step 2: Sort by ratio DESCENDING (greedy choice)</span>
+    items.sort(key=<span class="kw">lambda</span> x: x[<span class="num">2</span>], reverse=<span class="num">True</span>)
+    
+    total_profit = <span class="num">0</span>
+    remaining = W
+    
+    <span class="cm"># Step 3: Greedily fill knapsack</span>
+    <span class="kw">for</span> v, w, ratio <span class="kw">in</span> items:
+        <span class="kw">if</span> remaining == <span class="num">0</span>: <span class="kw">break</span>
+        
+        <span class="kw">if</span> w &lt;= remaining:       <span class="cm"># Take full item</span>
+            total_profit <span class="op">+=</span> v
+            remaining <span class="op">-=</span> w
+        <span class="kw">else</span>:                     <span class="cm"># Take fraction!</span>
+            total_profit <span class="op">+=</span> ratio <span class="op">*</span> remaining
+            remaining = <span class="num">0</span>
+    
+    <span class="kw">return</span> total_profit</code></div>
+      </div>
+
+      <!-- Interactive Knapsack -->
+      <div style="font-weight:600;font-size:14px;margin:18px 0 10px">🎮 Interactive Demo — Fractional Knapsack</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+        <span style="font-size:13px;color:var(--text2)">Capacity W =</span>
+        <input type="number" id="kn-cap" value="50" min="10" max="200" style="width:72px">
+        <button class="btn btn-grn" onclick="solveKnapsack()">▶ Solve</button>
+        <button class="btn btn-sec" onclick="resetKnapsack()">↺ Reset</button>
+      </div>
+      <div class="items-visual" id="kn-items"></div>
+      <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--text2);margin-top:8px;min-height:44px" id="kn-log">Items loaded. Set capacity and click Solve!</div>
+      <div style="margin-top:10px;display:none;background:var(--green-l);border:1px solid var(--green-b);border-radius:var(--radius-sm);padding:12px;font-weight:600;font-size:15px;color:var(--green)" id="kn-result"></div>
+      <div class="note" style="margin-top:12px">📌 <strong>Exam Tip:</strong> values=[60,100,120], weights=[10,20,30], W=50 → Answer is <strong>240</strong>. (60 + 100 + 80) where 80 = 4×20kg of item3</div>
+    </div>
+  </div>
+
+  <!-- MST -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-green">MINIMUM SPANNING TREE</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Connected, undirected, weighted graph G(V,E). Find a tree connecting ALL vertices with MINIMUM total edge weight, no cycles.</p>
+        <p><strong>Real Life:</strong> Cities ko minimum cable length mein connect karo — electricity grids, internet backbone, water pipelines!</p>
+      </div>
+      <div class="g2">
+        <div>
+          <div style="font-weight:600;color:var(--blue);margin-bottom:10px;font-size:14px">🔵 Kruskal's Algorithm</div>
+          <div class="steps-wrap">
+            <div class="step"><div class="step-num" style="background:var(--blue)">1</div><div class="step-txt">Saari edges ko weight ke basis pe sort karo (low→high)</div></div>
+            <div class="step"><div class="step-num" style="background:var(--blue)">2</div><div class="step-txt">Ek-ek edge lo. Agar cycle nahi banta to MST mein add karo</div></div>
+            <div class="step"><div class="step-num" style="background:var(--blue)">3</div><div class="step-txt">Cycle detect karne ke liye <strong>Union-Find</strong> use karo</div></div>
+            <div class="step"><div class="step-num" style="background:var(--blue)">4</div><div class="step-txt">Jab V-1 edges ho jayein, MST complete!</div></div>
+          </div>
+          <div class="tip">Best for <strong>sparse graphs</strong> (few edges). Uses edge sorting.</div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--orange);margin-bottom:10px;font-size:14px">🟠 Prim's Algorithm</div>
+          <div class="steps-wrap">
+            <div class="step"><div class="step-num" style="background:var(--orange)">1</div><div class="step-txt">Kisi bhi ek vertex se shuru karo (source)</div></div>
+            <div class="step"><div class="step-num" style="background:var(--orange)">2</div><div class="step-txt">Current tree se nearest/cheapest vertex dhundho</div></div>
+            <div class="step"><div class="step-num" style="background:var(--orange)">3</div><div class="step-txt">Us vertex ko MST tree mein add karo</div></div>
+            <div class="step"><div class="step-num" style="background:var(--orange)">4</div><div class="step-txt">Sab vertices tree mein aajayein tab tak repeat</div></div>
+          </div>
+          <div class="note" style="background:var(--orange-l);border-color:var(--orange)">Best for <strong>dense graphs</strong>. Grows from one source vertex.</div>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">KRUSKAL'S ALGORITHM · O(E log E)</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">kruskal</span>(n, edges):
+    <span class="cm"># Sort all edges by weight</span>
+    edges.sort(key=<span class="kw">lambda</span> x: x[<span class="num">2</span>])
+    
+    parent = list(range(n))  <span class="cm"># Union-Find</span>
+    rank   = [<span class="num">0</span>] <span class="op">*</span> n
+    
+    <span class="kw">def</span> <span class="fn">find</span>(x):        <span class="cm"># Which component?</span>
+        <span class="kw">if</span> parent[x] != x:
+            parent[x] = <span class="fn">find</span>(parent[x])  <span class="cm"># Path compress</span>
+        <span class="kw">return</span> parent[x]
+    
+    <span class="kw">def</span> <span class="fn">union</span>(x, y):    <span class="cm"># Merge components</span>
+        px, py = <span class="fn">find</span>(x), <span class="fn">find</span>(y)
+        <span class="kw">if</span> rank[px] &lt; rank[py]: px, py = py, px
+        parent[py] = px
+        <span class="kw">if</span> rank[px] == rank[py]: rank[px] <span class="op">+=</span> <span class="num">1</span>
+    
+    mst = []; total = <span class="num">0</span>
+    <span class="kw">for</span> u, v, w <span class="kw">in</span> edges:
+        <span class="kw">if</span> <span class="fn">find</span>(u) != <span class="fn">find</span>(v):  <span class="cm"># No cycle!</span>
+            <span class="fn">union</span>(u, v)
+            mst.append((u, v, w))
+            total <span class="op">+=</span> w
+    <span class="kw">return</span> mst, total</code></div>
+      </div>
+
+      <!-- MST Animated Canvas -->
+      <div style="font-weight:600;font-size:14px;margin:16px 0 10px">🎮 Watch Kruskal's Algorithm Build MST</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button class="btn btn-grn" onclick="startMST()">▶ Run Kruskal's</button>
+        <button class="btn btn-sec" onclick="resetMST()">↺ Reset</button>
+      </div>
+      <canvas id="mst-canvas"></canvas>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text2);background:var(--bg3);padding:10px;border-radius:var(--radius-sm);margin-top:8px;min-height:36px" id="mst-log">Press ▶ to watch Kruskal's algorithm build the MST step by step.</div>
+    </div>
+  </div>
+
+  <!-- Huffman -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-green">HUFFMAN CODING</span><span style="margin-left:8px;font-size:12px;color:var(--text3)">Data Compression · O(n log n)</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Characters ko binary codes assign karo jisse total encoded message length minimum ho.</p>
+        <p><strong>Key Rule (Prefix Code):</strong> Kisi character ka code kisi doosre character ke code ka prefix nahi hona chahiye. Isse decoding ambiguous nahi hoti.</p>
+        <p><strong>Greedy Strategy:</strong> Least frequent characters ko longest codes do (deep in tree). Most frequent = shortest codes (near root).</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><strong>Leaf nodes banao:</strong> Har character ke liye ek node banao jisme frequency stored ho</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><strong>Min-Heap banao:</strong> Sab nodes ko priority queue (min-heap) mein daalo — lowest frequency = highest priority</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><strong>Merge:</strong> Heap se 2 minimum frequency nodes nikalo → unka sum banao → new internal node banao → wapas heap mein daalo</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><strong>Repeat</strong> until only 1 node remains — that's the root!</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-txt"><strong>Assign codes:</strong> Left edge = 0, Right edge = 1. Root se leaf tak ka path = character's code</div></div>
+      </div>
+
+      <!-- Huffman Tree SVG -->
+      <div style="font-weight:600;font-size:14px;margin:16px 0 10px">📊 Huffman Tree — A:45, B:13, C:12, D:16, E:9, F:5</div>
+      <div class="huff-svg-wrap">
+        <svg viewBox="0 0 680 310" style="width:100%;min-width:500px">
+          <!-- Root 100 -->
+          <circle cx="340" cy="30" r="22" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+          <text x="340" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#1e40af">100</text>
+          <!-- Level 1: 55, 45 -->
+          <line x1="340" y1="52" x2="180" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="340" y1="52" x2="500" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="258" y="82" font-size="11" fill="#16a34a" font-weight="600">0</text>
+          <text x="418" y="82" font-size="11" fill="#dc2626" font-weight="600">1</text>
+          <circle cx="180" cy="118" r="22" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+          <text x="180" y="123" text-anchor="middle" font-size="13" font-weight="600" fill="#3730a3">55</text>
+          <!-- A:45 leaf -->
+          <circle cx="500" cy="118" r="22" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="500" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">A</text>
+          <text x="500" y="127" text-anchor="middle" font-size="10" fill="#15803d">:45</text>
+          <!-- Level 2 from 55: 25, 30 -->
+          <line x1="180" y1="140" x2="90" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="180" y1="140" x2="270" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="133" y="172" font-size="11" fill="#16a34a" font-weight="600">0</text>
+          <text x="222" y="172" font-size="11" fill="#dc2626" font-weight="600">1</text>
+          <circle cx="90" cy="208" r="22" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+          <text x="90" y="213" text-anchor="middle" font-size="13" font-weight="600" fill="#92400e">25</text>
+          <circle cx="270" cy="208" r="22" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+          <text x="270" y="213" text-anchor="middle" font-size="13" font-weight="600" fill="#92400e">30</text>
+          <!-- From 25: C:12, B:13 -->
+          <line x1="90" y1="230" x2="40" y2="275" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="90" y1="230" x2="140" y2="275" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="62" y="260" font-size="11" fill="#16a34a" font-weight="600">0</text>
+          <text x="113" y="260" font-size="11" fill="#dc2626" font-weight="600">1</text>
+          <circle cx="40" cy="290" r="18" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="40" y="288" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">C</text>
+          <text x="40" y="299" text-anchor="middle" font-size="10" fill="#15803d">:12</text>
+          <circle cx="140" cy="290" r="18" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="140" y="288" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">B</text>
+          <text x="140" y="299" text-anchor="middle" font-size="10" fill="#15803d">:13</text>
+          <!-- From 30: D:16, 14 -->
+          <line x1="270" y1="230" x2="215" y2="275" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="270" y1="230" x2="330" y2="275" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="238" y="260" font-size="11" fill="#16a34a" font-weight="600">0</text>
+          <text x="298" y="260" font-size="11" fill="#dc2626" font-weight="600">1</text>
+          <circle cx="215" cy="290" r="18" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+          <text x="215" y="288" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">D</text>
+          <text x="215" y="299" text-anchor="middle" font-size="10" fill="#15803d">:16</text>
+          <circle cx="330" cy="290" r="18" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+          <text x="330" y="293" text-anchor="middle" font-size="10" font-weight="600" fill="#9d174d">14</text>
+          <!-- From 14: E:9, F:5 (shown at 30 subtree right) -->
+          <!-- Code Legend -->
+          <rect x="420" y="165" width="240" height="132" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+          <text x="430" y="185" font-size="12" font-weight="600" fill="#475569">Huffman Codes:</text>
+          <text x="430" y="203" font-size="12" font-family="DM Mono,monospace" fill="#15803d">A = 1       (1 bit)</text>
+          <text x="430" y="220" font-size="12" font-family="DM Mono,monospace" fill="#15803d">C = 000     (3 bits)</text>
+          <text x="430" y="237" font-size="12" font-family="DM Mono,monospace" fill="#15803d">B = 001     (3 bits)</text>
+          <text x="430" y="254" font-size="12" font-family="DM Mono,monospace" fill="#15803d">D = 010     (3 bits)</text>
+          <text x="430" y="271" font-size="12" font-family="DM Mono,monospace" fill="#15803d">E = 0110    (4 bits)</text>
+          <text x="430" y="288" font-size="12" font-family="DM Mono,monospace" fill="#15803d">F = 0111    (4 bits)</text>
+        </svg>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">HUFFMAN CODING · Python</div>
+        <div class="code-body"><code><span class="kw">import</span> heapq
+
+<span class="kw">def</span> <span class="fn">huffman</span>(chars, freqs):
+    <span class="cm"># Build min-heap of [frequency, char/node]</span>
+    heap = [[f, [c, <span class="str">""</span>]] <span class="kw">for</span> c, f <span class="kw">in</span> zip(chars, freqs)]
+    heapq.heapify(heap)
+    
+    <span class="kw">while</span> len(heap) > <span class="num">1</span>:
+        lo = heapq.heappop(heap)   <span class="cm"># Smallest freq</span>
+        hi = heapq.heappop(heap)   <span class="cm"># 2nd smallest</span>
+        
+        <span class="kw">for</span> pair <span class="kw">in</span> lo[<span class="num">1</span>:]: pair[<span class="num">1</span>] = <span class="str">'0'</span> <span class="op">+</span> pair[<span class="num">1</span>]  <span class="cm"># Left=0</span>
+        <span class="kw">for</span> pair <span class="kw">in</span> hi[<span class="num">1</span>:]: pair[<span class="num">1</span>] = <span class="str">'1'</span> <span class="op">+</span> pair[<span class="num">1</span>]  <span class="cm"># Right=1</span>
+        
+        <span class="cm"># Merge and push back</span>
+        heapq.heappush(heap, [lo[<span class="num">0</span>]<span class="op">+</span>hi[<span class="num">0</span>]] <span class="op">+</span> lo[<span class="num">1</span>:] <span class="op">+</span> hi[<span class="num">1</span>:])
+    
+    codes = <span class="fn">dict</span>(heapq.heappop(heap)[<span class="num">1</span>:])
+
+    <span class="cm"># Calculate average code length</span>
+    total_freq = <span class="fn">sum</span>(freqs)
+    avg_len = <span class="fn">sum</span>(f <span class="op">*</span> <span class="fn">len</span>(codes[c]) 
+                   <span class="kw">for</span> c, f <span class="kw">in</span> zip(chars, freqs)) <span class="op">/</span> total_freq
+    
+    <span class="kw">return</span> codes, avg_len
+
+<span class="cm"># Example: A:45,B:13,C:12,D:16,E:9,F:5</span>
+<span class="cm"># Quiz: First pair merged = E(9) + F(5) = 14!</span>
+<span class="cm"># Avg code length = 2.24 bits per character</span></code></div>
+      </div>
+      <div class="rl"><div class="rl-title">🌍 Real World Uses</div>ZIP/GZIP files, JPEG image encoding, MP3 audio compression, HTTP data compression — all use Huffman coding!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= DYNAMIC PROGRAMMING ============================= -->
+<div id="dp" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:var(--purple-l)">🔁</div><div><h2>Dynamic Programming</h2><p style="font-size:13px;color:var(--text3)">Lecture 22–26 · Knapsack · LCS · Matrix Chain · TSP</p></div></div>
+
+  <div class="card">
+    <div class="card-head"><span class="badge b-purple">THEORY</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> "Subproblems ek baar solve karo, table mein store karo, dobara kabhhi mat solve karna!"</p>
+        <p><strong>Fibonacci without DP:</strong> fib(5) calls fib(3) twice, fib(2) thrice — exponential time. <strong>With DP:</strong> Each value computed once → O(n)!</p>
+      </div>
+      <div class="g2">
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:8px">2 Required Properties</div>
+          <div style="background:var(--purple-l);border:1px solid var(--purple-b);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px">
+            <div style="font-weight:600;font-size:13px;color:var(--purple)">1. Overlapping Subproblems</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:4px">Same subproblems baar baar aate hain. Memoization se O(exponential)→O(polynomial)</div>
+          </div>
+          <div style="background:var(--purple-l);border:1px solid var(--purple-b);border-radius:var(--radius-sm);padding:12px 14px">
+            <div style="font-weight:600;font-size:13px;color:var(--purple)">2. Optimal Substructure</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:4px">Global optimal solution, subproblems ke optimal solutions se bana hoga</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:8px">4 Steps of DP</div>
+          <div class="steps-wrap">
+            <div class="step"><div class="step-num" style="background:var(--purple)">1</div><div class="step-txt"><strong>Characterize</strong> optimal solution ka structure</div></div>
+            <div class="step"><div class="step-num" style="background:var(--purple)">2</div><div class="step-txt"><strong>Recurrence</strong> define karo recursively</div></div>
+            <div class="step"><div class="step-num" style="background:var(--purple)">3</div><div class="step-txt"><strong>Compute</strong> bottom-up (table fill)</div></div>
+            <div class="step"><div class="step-num" style="background:var(--purple)">4</div><div class="step-txt"><strong>Construct</strong> actual solution from table</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 0/1 Knapsack DP -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-purple">0/1 KNAPSACK</span><span style="margin-left:8px;font-size:12px;color:var(--text3)">O(nW) time &amp; space</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Difference from Fractional:</strong> Item ka fraction nahi le sakte. Ya poora lo (1) ya chhodo (0). Greedy FAIL karta hai yahan!</p>
+        <p><strong>Why Greedy Fails:</strong> items=[(3kg,4$),(4kg,5$),(5kg,6$)], W=8. Greedy picks by ratio: picks 4$ item, then 5$ item (over capacity). Misses optimal: pick 5$+6$=11$ with 9kg... DP finds the true optimum.</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num" style="background:var(--purple)">1</div><div class="step-txt"><strong>Create table dp[n+1][W+1]</strong> where dp[i][w] = max value using items 1..i with capacity w</div></div>
+        <div class="step"><div class="step-num" style="background:var(--purple)">2</div><div class="step-txt"><strong>Base case:</strong> dp[0][w] = 0 (no items) and dp[i][0] = 0 (no capacity)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--purple)">3</div><div class="step-txt"><strong>Fill table:</strong> For each item i and capacity w: if item fits → max(exclude, include); else → exclude</div></div>
+        <div class="step"><div class="step-num" style="background:var(--purple)">4</div><div class="step-txt"><strong>Answer</strong> is dp[n][W]. Trace back to find which items were selected</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">RECURRENCE FORMULA</div>
+        <div class="code-body"><code><span class="cm"># dp[i][w] = max value using items 1..i, capacity w</span>
+<span class="cm">#</span>
+<span class="cm"># Case 1: Item i is too heavy (w_i > w)</span>
+<span class="cm">#   dp[i][w] = dp[i-1][w]          — can't include</span>
+<span class="cm">#</span>
+<span class="cm"># Case 2: Item i can fit (w_i ≤ w)</span>
+<span class="cm">#   dp[i][w] = max(</span>
+<span class="cm">#       dp[i-1][w],                  — EXCLUDE item i</span>
+<span class="cm">#       v_i + dp[i-1][w - w_i]       — INCLUDE item i</span>
+<span class="cm">#   )</span></code></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">0/1 KNAPSACK · Python Code</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">knapsack_01</span>(values, weights, W):
+    n = len(values)
+    <span class="cm"># Create (n+1) × (W+1) table, init to 0</span>
+    dp = [[<span class="num">0</span>] <span class="op">*</span> (W<span class="op">+</span><span class="num">1</span>) <span class="kw">for</span> _ <span class="kw">in</span> range(n<span class="op">+</span><span class="num">1</span>)]
+    
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">1</span>, n<span class="op">+</span><span class="num">1</span>):
+        <span class="kw">for</span> w <span class="kw">in</span> range(W<span class="op">+</span><span class="num">1</span>):
+            <span class="cm"># Option 1: Don't include item i</span>
+            dp[i][w] = dp[i<span class="op">-</span><span class="num">1</span>][w]
+            
+            <span class="cm"># Option 2: Include item i (if it fits)</span>
+            <span class="kw">if</span> weights[i<span class="op">-</span><span class="num">1</span>] &lt;= w:
+                include = values[i<span class="op">-</span><span class="num">1</span>] <span class="op">+</span> dp[i<span class="op">-</span><span class="num">1</span>][w <span class="op">-</span> weights[i<span class="op">-</span><span class="num">1</span>]]
+                dp[i][w] = max(dp[i][w], include)
+    
+    <span class="kw">return</span> dp[n][W]  <span class="cm"># ← The answer!</span>
+
+<span class="cm"># Time: O(n×W)  |  Space: O(n×W)</span></code></div>
+      </div>
+
+      <!-- DP Table Animation -->
+      <div style="font-weight:600;font-size:14px;margin:16px 0 10px">🎮 Watch DP Table Being Filled!</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px">Items: (v=6,w=2), (v=10,w=3), (v=12,w=5), (v=14,w=4) | Capacity W=6</p>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button class="btn btn-pri" onclick="startKnapsackAnim()">▶ Animate Table</button>
+        <button class="btn btn-sec" onclick="resetKnapsackAnim()">↺ Reset</button>
+      </div>
+      <div class="dp-table-wrap" id="dp-kn-wrap"></div>
+      <div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text2);background:var(--bg3);padding:10px;border-radius:var(--radius-sm);margin-top:8px;min-height:40px" id="dp-kn-log">Press ▶ to animate the DP table filling process...</div>
+    </div>
+  </div>
+
+  <!-- LCS -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-purple">LCS — LONGEST COMMON SUBSEQUENCE</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Two strings X and Y given. Find length of their longest common subsequence. Subsequence = elements in same ORDER but not necessarily CONTIGUOUS.</p>
+        <p><strong>Example:</strong> X="ABCBDAB", Y="BDCABA" → LCS = "BCBA" (length 4)</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num" style="background:var(--purple)">1</div><div class="step-txt"><strong>Create dp[m+1][n+1]</strong> where dp[i][j] = LCS length of X[0..i-1] and Y[0..j-1]</div></div>
+        <div class="step"><div class="step-num" style="background:var(--purple)">2</div><div class="step-txt"><strong>Base case:</strong> dp[0][j] = dp[i][0] = 0 (empty string ka LCS = 0)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--purple)">3</div><div class="step-txt"><strong>If X[i] == Y[j]:</strong> dp[i][j] = dp[i-1][j-1] + 1 (match! extend LCS)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--purple)">4</div><div class="step-txt"><strong>If X[i] ≠ Y[j]:</strong> dp[i][j] = max(dp[i-1][j], dp[i][j-1]) (best without current char)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--purple)">5</div><div class="step-txt"><strong>Answer:</strong> dp[m][n]. Traceback through table to find actual LCS string</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">LCS · Python Code · O(mn)</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">lcs</span>(X, Y):
+    m, n = len(X), len(Y)
+    dp = [[<span class="num">0</span>]<span class="op">*</span>(n<span class="op">+</span><span class="num">1</span>) <span class="kw">for</span> _ <span class="kw">in</span> range(m<span class="op">+</span><span class="num">1</span>)]
+    
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">1</span>, m<span class="op">+</span><span class="num">1</span>):
+        <span class="kw">for</span> j <span class="kw">in</span> range(<span class="num">1</span>, n<span class="op">+</span><span class="num">1</span>):
+            <span class="kw">if</span> X[i<span class="op">-</span><span class="num">1</span>] == Y[j<span class="op">-</span><span class="num">1</span>]:    <span class="cm"># Characters match!</span>
+                dp[i][j] = dp[i<span class="op">-</span><span class="num">1</span>][j<span class="op">-</span><span class="num">1</span>] <span class="op">+</span> <span class="num">1</span>
+            <span class="kw">else</span>:
+                dp[i][j] = max(dp[i<span class="op">-</span><span class="num">1</span>][j], dp[i][j<span class="op">-</span><span class="num">1</span>])
+    
+    <span class="kw">return</span> dp[m][n]  <span class="cm"># Length of LCS</span>
+
+<span class="cm"># "AGGTAB" vs "GXTXAYB" → LCS = 4 (GTAB)</span>
+<span class="cm"># "ABCBDAB" vs "BDCABA" → LCS = 4 (BCBA)</span></code></div>
+      </div>
+      <!-- LCS table visual -->
+      <div style="font-weight:600;font-size:14px;margin:14px 0 8px">📊 LCS Table: X="ABCB", Y="BCB"</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button class="btn btn-pri" onclick="startLCSAnim()">▶ Animate LCS</button>
+        <button class="btn btn-sec" onclick="resetLCSAnim()">↺ Reset</button>
+      </div>
+      <div class="dp-table-wrap" id="lcs-table-wrap"></div>
+      <div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text2);background:var(--bg3);padding:10px;border-radius:var(--radius-sm);margin-top:8px;min-height:36px" id="lcs-log">Press ▶ to animate LCS table filling...</div>
+      <div class="rl"><div class="rl-title">🌍 Real World</div>Git diff/merge, DNA sequence alignment in bioinformatics, plagiarism detection, spell checkers!</div>
+    </div>
+  </div>
+
+  <!-- Matrix Chain -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-purple">MATRIX CHAIN MULTIPLICATION</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> N matrices ki chain hai — unhe multiply karne ka OPTIMAL ORDER kya hai (minimum scalar multiplications)?</p>
+        <p><strong>Key Insight:</strong> Matrix multiplication associative hai (A×B)×C = A×(B×C) but cost different ho sakti hai!</p>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">WHY ORDER MATTERS — Example</div>
+        <div class="code-body"><code><span class="cm"># A1(10×100), A2(100×5), A3(5×50)</span>
+
+<span class="cm"># Option A: (A1×A2)×A3</span>
+cost_A1_A2 = <span class="num">10</span><span class="op">×</span><span class="num">100</span><span class="op">×</span><span class="num">5</span>  = <span class="num">5000</span>   <span class="cm"># result: 10×5</span>
+cost_res_A3 = <span class="num">10</span><span class="op">×</span><span class="num">5</span><span class="op">×</span><span class="num">50</span>   = <span class="num">2500</span>   <span class="cm"># result: 10×50</span>
+total_A = <span class="num">7500</span>  <span class="cm"># ✅ OPTIMAL!</span>
+
+<span class="cm"># Option B: A1×(A2×A3)</span>
+cost_A2_A3 = <span class="num">100</span><span class="op">×</span><span class="num">5</span><span class="op">×</span><span class="num">50</span>  = <span class="num">25000</span>  <span class="cm"># result: 100×50</span>
+cost_A1_res = <span class="num">10</span><span class="op">×</span><span class="num">100</span><span class="op">×</span><span class="num">50</span> = <span class="num">50000</span>  <span class="cm"># result: 10×50</span>
+total_B = <span class="num">75000</span>  <span class="cm"># ❌ 10x worse!</span>
+
+<span class="cm"># Same result, 10x different cost!</span></code></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">MATRIX CHAIN DP · O(n³)</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">matrix_chain</span>(dims):
+    n = len(dims) <span class="op">-</span> <span class="num">1</span>  <span class="cm"># number of matrices</span>
+    <span class="cm"># m[i][j] = min cost to multiply A_i ... A_j</span>
+    m = [[<span class="num">0</span>]<span class="op">*</span>n <span class="kw">for</span> _ <span class="kw">in</span> range(n)]
+    
+    <span class="cm"># l = chain length (2 to n)</span>
+    <span class="kw">for</span> l <span class="kw">in</span> range(<span class="num">2</span>, n<span class="op">+</span><span class="num">1</span>):
+        <span class="kw">for</span> i <span class="kw">in</span> range(n <span class="op">-</span> l <span class="op">+</span> <span class="num">1</span>):
+            j = i <span class="op">+</span> l <span class="op">-</span> <span class="num">1</span>
+            m[i][j] = float(<span class="str">'inf'</span>)
+            
+            <span class="kw">for</span> k <span class="kw">in</span> range(i, j):  <span class="cm"># Try all split points</span>
+                cost = (m[i][k] <span class="op">+</span> m[k<span class="op">+</span><span class="num">1</span>][j] <span class="op">+</span>
+                        dims[i] <span class="op">*</span> dims[k<span class="op">+</span><span class="num">1</span>] <span class="op">*</span> dims[j<span class="op">+</span><span class="num">1</span>])
+                m[i][j] = min(m[i][j], cost)
+    
+    <span class="kw">return</span> m[<span class="num">0</span>][n<span class="op">-</span><span class="num">1</span>]  <span class="cm"># Minimum cost</span>
+
+<span class="cm"># dims=[10,100,5,50] → 7500 ✓</span></code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TSP DP -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-purple">TRAVELLING SALESMAN PROBLEM (TSP)</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> N cities hain. Salesperson ko EVERY city exactly ONCE visit karna hai aur starting city wapas aana hai. Find the MINIMUM cost tour.</p>
+      </div>
+      <div class="g2">
+        <div style="background:var(--red-l);border:1px solid var(--red-b);border-radius:var(--radius-sm);padding:14px;text-align:center">
+          <div style="font-weight:700;font-size:18px;color:var(--red)">O(n!)</div>
+          <div style="font-size:12px;color:#991b1b;margin-top:4px">Naive — Try all (n-1)! permutations</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px">n=10: 362,880 tours</div>
+          <div style="font-size:11px;color:var(--text3)">n=20: 2.4 × 10¹⁸ tours 🤯</div>
+        </div>
+        <div style="background:var(--green-l);border:1px solid var(--green-b);border-radius:var(--radius-sm);padding:14px;text-align:center">
+          <div style="font-weight:700;font-size:18px;color:var(--green)">O(n²·2ⁿ)</div>
+          <div style="font-size:12px;color:#14532d;margin-top:4px">Held-Karp DP Algorithm</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px">n=10: ~100,000</div>
+          <div style="font-size:11px;color:var(--text3)">n=20: ~4 × 10⁸ (feasible!)</div>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">TSP DP (Bitmask / Held-Karp) · O(n²·2ⁿ)</div>
+        <div class="code-body"><code><span class="cm"># State: dp[S][i] = min cost to visit cities in set S,</span>
+<span class="cm">#        ending at city i, starting from city 0</span>
+<span class="cm"># S is encoded as a bitmask (e.g., S=0b0101 = cities {0,2})</span>
+
+<span class="kw">def</span> <span class="fn">tsp_dp</span>(dist):
+    n = len(dist)
+    INF = float(<span class="str">'inf'</span>)
+    dp = [[INF] <span class="op">*</span> n <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="num">1</span> <span class="op">&lt;&lt;</span> n)]
+    dp[<span class="num">1</span>][<span class="num">0</span>] = <span class="num">0</span>  <span class="cm"># Start at city 0 (bit 0 set)</span>
+    
+    <span class="kw">for</span> S <span class="kw">in</span> range(<span class="num">1</span> <span class="op">&lt;&lt;</span> n):          <span class="cm"># All subsets</span>
+        <span class="kw">for</span> u <span class="kw">in</span> range(n):
+            <span class="kw">if</span> dp[S][u] == INF: <span class="kw">continue</span>
+            <span class="kw">if</span> <span class="kw">not</span> (S <span class="op">&gt;&gt;</span> u <span class="op">&amp;</span> <span class="num">1</span>): <span class="kw">continue</span>  <span class="cm"># u not in S</span>
+            
+            <span class="kw">for</span> v <span class="kw">in</span> range(n):  <span class="cm"># Try going to v</span>
+                <span class="kw">if</span> S <span class="op">&gt;&gt;</span> v <span class="op">&amp;</span> <span class="num">1</span>: <span class="kw">continue</span>  <span class="cm"># v already visited</span>
+                newS = S <span class="op">|</span> (<span class="num">1</span> <span class="op">&lt;&lt;</span> v)
+                new_cost = dp[S][u] <span class="op">+</span> dist[u][v]
+                dp[newS][v] = min(dp[newS][v], new_cost)
+    
+    full = (<span class="num">1</span> <span class="op">&lt;&lt;</span> n) <span class="op">-</span> <span class="num">1</span>  <span class="cm"># All cities visited</span>
+    <span class="kw">return</span> min(dp[full][i] <span class="op">+</span> dist[i][<span class="num">0</span>] <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">1</span>, n))
+
+<span class="cm"># Recurrence: C(S,i) = min{ C(S-{i},j) + dist(j,i) }</span>
+<span class="cm"># Base: C({0,i}, i) = dist(0, i)</span></code></div>
+      </div>
+      <div style="font-weight:600;font-size:14px;margin:16px 0 10px">🎮 TSP Interactive — Watch paths being explored</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+        <button class="btn btn-pri" onclick="startTSP()">▶ Find Tour</button>
+        <button class="btn btn-sec" onclick="resetTSP()">↺ New Cities</button>
+        <span id="tsp-cost-badge" style="font-size:13px;color:var(--text2);padding:8px 14px;background:var(--bg3);border-radius:8px"></span>
+      </div>
+      <canvas id="tsp-canvas"></canvas>
+      <div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text2);background:var(--bg3);padding:10px;border-radius:var(--radius-sm);margin-top:8px;min-height:36px" id="tsp-log">Press ▶ to find the optimal tour using nearest-neighbor heuristic!</div>
+      <div class="rl"><div class="rl-title">🌍 Real World</div>Amazon/FedEx delivery truck routing, PCB drill path optimization, DNA genome assembly, warehouse order picking!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= BACKTRACKING ============================= -->
+<div id="bt" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:var(--orange-l)">🔙</div><div><h2>Backtracking</h2><p style="font-size:13px;color:var(--text3)">Lecture 27–28 · N-Queens · Subset Sum · Hamiltonian</p></div></div>
+
+  <div class="card">
+    <div class="card-head"><span class="badge b-orange">THEORY</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> "Systematically try all possibilities, but PRUNE branches that cannot lead to a solution."</p>
+        <p><strong>Real Life:</strong> Maze mein rasta dhundhna — ek rasta lo, agar band gali mili to <em>wapas aao</em> (backtrack) aur doosra rasta try karo!</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num" style="background:var(--orange)">1</div><div class="step-txt"><strong>Start</strong> with an empty/partial solution</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">2</div><div class="step-txt"><strong>Check:</strong> Kya ye partial solution valid hai? Kya isse solution mil sakta hai?</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">3</div><div class="step-txt"><strong>If valid:</strong> Extend karo (next choice try karo)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">4</div><div class="step-txt"><strong>If invalid:</strong> Backtrack — last choice UNDO karo, try different choice</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">5</div><div class="step-txt"><strong>Stop</strong> when solution found OR all possibilities exhausted</div></div>
+      </div>
+      <div class="tip">Backtracking explores a <strong>state space tree</strong>. "Dead ends" are pruned early — we never generate ALL combinations!</div>
+    </div>
+  </div>
+
+  <!-- N Queens -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-orange">N-QUEENS PROBLEM</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> N queens ko N×N chess board pe place karo jaise koi queen kisi doosri queen ko attack na kare (same row, column, diagonal — all forbidden).</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num" style="background:var(--orange)">1</div><div class="step-txt"><strong>Row by row</strong> solve karo — ek row mein sirf ek queen</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">2</div><div class="step-txt"><strong>Each column</strong> try karo current row mein</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">3</div><div class="step-txt"><strong>is_safe() check:</strong> Same column? Same diagonal? Agar haan → skip</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">4</div><div class="step-txt"><strong>If safe:</strong> Queen place karo, move to next row</div></div>
+        <div class="step"><div class="step-num" style="background:var(--orange)">5</div><div class="step-txt"><strong>If no column works:</strong> Backtrack to previous row, try next column there</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">N-QUEENS BACKTRACKING · Python</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">solve_n_queens</span>(n):
+    board = [<span class="op">-</span><span class="num">1</span>] <span class="op">*</span> n   <span class="cm"># board[row] = column of queen</span>
+    solutions = []
+    
+    <span class="kw">def</span> <span class="fn">is_safe</span>(row, col):
+        <span class="kw">for</span> r <span class="kw">in</span> range(row):
+            c = board[r]
+            <span class="kw">if</span> c == col: <span class="kw">return</span> <span class="kw">False</span>   <span class="cm"># Same column</span>
+            <span class="kw">if</span> abs(c<span class="op">-</span>col) == abs(r<span class="op">-</span>row):  <span class="cm"># Same diagonal</span>
+                <span class="kw">return</span> <span class="kw">False</span>
+        <span class="kw">return</span> <span class="kw">True</span>
+    
+    <span class="kw">def</span> <span class="fn">backtrack</span>(row):
+        <span class="kw">if</span> row == n:                  <span class="cm"># All queens placed!</span>
+            solutions.append(board[:])
+            <span class="kw">return</span>
+        
+        <span class="kw">for</span> col <span class="kw">in</span> range(n):          <span class="cm"># Try each column</span>
+            <span class="kw">if</span> <span class="fn">is_safe</span>(row, col):     <span class="cm"># Safe to place?</span>
+                board[row] = col
+                <span class="fn">backtrack</span>(row <span class="op">+</span> <span class="num">1</span>)    <span class="cm"># Next row</span>
+                board[row] = <span class="op">-</span><span class="num">1</span>        <span class="cm"># ← BACKTRACK!</span>
+    
+    <span class="fn">backtrack</span>(<span class="num">0</span>)
+    <span class="kw">return</span> solutions
+
+<span class="cm"># 4-Queens: 2 solutions</span>
+<span class="cm"># 8-Queens: 92 solutions</span></code></div>
+      </div>
+      <!-- N-Queens Interactive -->
+      <div style="font-weight:600;font-size:14px;margin:16px 0 10px">🎮 Interactive N-Queens Solver</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+        <label style="font-size:13px;color:var(--text2)">N =</label>
+        <select id="nq-n" style="width:70px">
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+        </select>
+        <button class="btn btn-orn" onclick="startQueens()">▶ Solve</button>
+        <button class="btn btn-sec" onclick="prevQSol()">◀ Prev</button>
+        <button class="btn btn-sec" onclick="nextQSol()">▶ Next</button>
+        <span id="nq-info" style="font-size:13px;color:var(--text2)"></span>
+      </div>
+      <div id="queens-board" style="overflow-x:auto"></div>
+      <div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text2);background:var(--bg3);padding:10px;border-radius:var(--radius-sm);margin-top:8px;min-height:36px" id="nq-log">Select N and press Solve to find all solutions!</div>
+    </div>
+  </div>
+
+  <!-- Sum of Subsets -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-orange">SUM OF SUBSETS</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Set S = {S1, S2, ..., Sn} given. Find all subsets whose sum = target X.</p>
+        <p><strong>Approach:</strong> Binary tree — left child = include element, right child = exclude element.</p>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">SUM OF SUBSETS · Backtracking with Pruning</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">sum_of_subsets</span>(arr, target):
+    arr.sort()  <span class="cm"># Sort helps with pruning!</span>
+    solutions = []
+    
+    <span class="kw">def</span> <span class="fn">backtrack</span>(start, curr_sum, subset):
+        <span class="kw">if</span> curr_sum == target:
+            solutions.append(subset[:])  <span class="cm"># Found!</span>
+            <span class="kw">return</span>
+        
+        <span class="kw">for</span> i <span class="kw">in</span> range(start, len(arr)):
+            <span class="cm"># PRUNING: sorted, so if too large — stop!</span>
+            <span class="kw">if</span> curr_sum <span class="op">+</span> arr[i] > target:
+                <span class="kw">break</span>  <span class="cm"># All future elements also too large</span>
+            
+            subset.append(arr[i])
+            <span class="fn">backtrack</span>(i<span class="op">+</span><span class="num">1</span>, curr_sum <span class="op">+</span> arr[i], subset)
+            subset.pop()  <span class="cm"># ← BACKTRACK!</span>
+    
+    <span class="fn">backtrack</span>(<span class="num">0</span>, <span class="num">0</span>, [])
+    <span class="kw">return</span> solutions
+
+<span class="cm"># Example: arr=[3,2,7,1], target=6</span>
+<span class="cm"># Solutions: [1,2,3], [6 if present], etc.</span>
+<span class="cm"># arr=[1,2,3,4], target=5 → [1,4], [2,3]</span></code></div>
+      </div>
+      <div class="tip"><strong>Pruning Trick:</strong> Array sort karo. Agar current_sum + arr[i] > target → BREAK. Baaki sab elements bhi zyada honge (sorted array). Ye prunes many branches!</div>
+    </div>
+  </div>
+
+  <!-- Hamiltonian -->
+  <div class="card">
+    <div class="card-head"><span class="badge b-orange">HAMILTONIAN CIRCUIT</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Problem:</strong> Graph G=(V,E) mein ek cycle dhundho jo EVERY vertex exactly ONCE visit kare aur starting vertex pe return kare.</p>
+        <p><strong>Note:</strong> TSP = Hamiltonian Circuit + Minimum Cost. Hamiltonian just says "visit all" — TSP additionally minimizes cost.</p>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">HAMILTONIAN CIRCUIT · Backtracking</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">hamiltonian</span>(adj, n):
+    path = [<span class="num">0</span>]  <span class="cm"># Start from vertex 0</span>
+    
+    <span class="kw">def</span> <span class="fn">is_safe</span>(v, pos):
+        <span class="kw">if</span> adj[path[pos<span class="op">-</span><span class="num">1</span>]][v] == <span class="num">0</span>:  <span class="cm"># No edge</span>
+            <span class="kw">return</span> <span class="kw">False</span>
+        <span class="kw">if</span> v <span class="kw">in</span> path:               <span class="cm"># Already visited</span>
+            <span class="kw">return</span> <span class="kw">False</span>
+        <span class="kw">return</span> <span class="kw">True</span>
+    
+    <span class="kw">def</span> <span class="fn">backtrack</span>(pos):
+        <span class="kw">if</span> pos == n:  <span class="cm"># All vertices included!</span>
+            <span class="cm"># Check if last connects back to start</span>
+            <span class="kw">return</span> adj[path[pos<span class="op">-</span><span class="num">1</span>]][path[<span class="num">0</span>]] == <span class="num">1</span>
+        
+        <span class="kw">for</span> v <span class="kw">in</span> range(<span class="num">1</span>, n):
+            <span class="kw">if</span> <span class="fn">is_safe</span>(v, pos):
+                path.append(v)
+                <span class="kw">if</span> <span class="fn">backtrack</span>(pos<span class="op">+</span><span class="num">1</span>): <span class="kw">return</span> <span class="kw">True</span>
+                path.pop()  <span class="cm"># ← BACKTRACK!</span>
+        
+        <span class="kw">return</span> <span class="kw">False</span>  <span class="cm"># No circuit found</span>
+    
+    <span class="kw">if</span> <span class="fn">backtrack</span>(<span class="num">1</span>):
+        <span class="kw">return</span> path <span class="op">+</span> [path[<span class="num">0</span>]]  <span class="cm"># Complete circuit</span>
+    <span class="kw">return</span> <span class="str">"No Hamiltonian Circuit exists"</span></code></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= BRANCH & BOUND ============================= -->
+<div id="bb" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:var(--teal-l)">🌿</div><div><h2>Branch &amp; Bound</h2><p style="font-size:13px;color:var(--text3)">Lecture 29–30 · 0/1 Knapsack · TSP</p></div></div>
+
+  <div class="card">
+    <div class="card-head"><span class="badge b-teal">THEORY</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Core Idea:</strong> Backtracking + Bounds. Optimization problems ke liye. Tree explore karo, but agar ek branch se current best beat nahi ho sakta (based on upper/lower bound) → PRUNE!</p>
+        <p><strong>Proposed by:</strong> A.H. Land and A.G. Doig (1960) for linear programming.</p>
+      </div>
+      <div class="g2">
+        <div style="background:var(--teal-l);border:1px solid var(--teal-b);border-radius:var(--radius-sm);padding:14px">
+          <div style="font-weight:600;color:var(--teal);margin-bottom:8px">🌿 BRANCHING</div>
+          <p style="font-size:13px;color:var(--text2)">Problem ko subproblems mein split karo. Each split = a decision (include/exclude item, go to city X/Y).</p>
+        </div>
+        <div style="background:var(--purple-l);border:1px solid var(--purple-b);border-radius:var(--radius-sm);padding:14px">
+          <div style="font-weight:600;color:var(--purple);margin-bottom:8px">🔢 BOUNDING</div>
+          <p style="font-size:13px;color:var(--text2)">Har node ke liye best possible solution calculate karo. Agar bound ≤ current best → prune entire subtree!</p>
+        </div>
+      </div>
+      <div class="note">KEY DIFFERENCE from Backtracking: B&B uses <strong>objective function bounds</strong> to prune. Backtracking only uses <strong>feasibility</strong> (constraint violated?). B&B is smarter!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="badge b-teal">0/1 KNAPSACK — BRANCH &amp; BOUND</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Key Idea:</strong> Fractional Knapsack greedy se upper bound calculate karo. Agar ye bound bhi current best profit se zyada nahi → prune!</p>
+      </div>
+      <div class="steps-wrap">
+        <div class="step"><div class="step-num" style="background:var(--teal)">1</div><div class="step-txt"><strong>Sort items</strong> by value/weight ratio (descending) — for efficient bounding</div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal)">2</div><div class="step-txt"><strong>Upper bound:</strong> Current profit + greedy fractional fill of remaining capacity</div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal)">3</div><div class="step-txt"><strong>If bound ≤ max_profit_so_far:</strong> Prune this node (can't improve)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal)">4</div><div class="step-txt"><strong>Else:</strong> Branch — try both include item and exclude item</div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal)">5</div><div class="step-txt"><strong>Use Best-First search</strong> (priority queue by bound) for better pruning</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">B&B KNAPSACK · Upper Bound Calculation</div>
+        <div class="code-body"><code><span class="kw">def</span> <span class="fn">upper_bound</span>(profit, weight, idx, items, W):
+    <span class="cm"># Greedy fractional estimate from current state</span>
+    bound = profit
+    w = weight
+    
+    <span class="kw">for</span> i <span class="kw">in</span> range(idx, len(items)):
+        v, wt = items[i]
+        <span class="kw">if</span> w <span class="op">+</span> wt &lt;= W:
+            bound <span class="op">+=</span> v     <span class="cm"># Take full item</span>
+            w <span class="op">+=</span> wt
+        <span class="kw">else</span>:
+            bound <span class="op">+=</span> (W<span class="op">-</span>w) <span class="op">*</span> v<span class="op">/</span>wt  <span class="cm"># Take fraction</span>
+            <span class="kw">break</span>
+    <span class="kw">return</span> bound
+
+<span class="cm"># If upper_bound(node) &lt;= current_best → PRUNE!</span>
+<span class="cm"># This is the key pruning condition.</span>
+
+<span class="cm"># Example: items sorted by ratio</span>
+<span class="cm"># Current: profit=60, weight=10, idx=1 (item A taken)</span>
+<span class="cm"># Remaining capacity: W-10</span>
+<span class="cm"># Fractionally fill remaining → upper bound</span>
+<span class="cm"># If bound &lt;= best found → skip this branch!</span></code></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="badge b-teal">TSP — BRANCH &amp; BOUND</span></div>
+    <div class="card-body">
+      <div class="theory">
+        <p><strong>Key Technique:</strong> Cost matrix reduction. Subtract minimum from each row and column. Total subtracted = lower bound for any tour through this state!</p>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head">TSP B&B — Matrix Reduction Steps</div>
+        <div class="code-body"><code><span class="cm">Step 1: Create cost matrix C[n×n]</span>
+<span class="cm">  cij = edge cost from i to j</span>
+<span class="cm">  cij = INF if no edge exists</span>
+
+<span class="cm">Step 2: Row Reduction</span>
+<span class="cm">  For each row, subtract its minimum value</span>
+<span class="cm">  row_reduction = sum of all minimums subtracted</span>
+
+<span class="cm">Step 3: Column Reduction</span>
+<span class="cm">  For each column, subtract its minimum value</span>
+<span class="cm">  col_reduction = sum of all minimums subtracted</span>
+
+<span class="cm">Step 4: Lower bound of root</span>
+<span class="cm">  lb(root) = row_reduction + col_reduction</span>
+
+<span class="cm">Step 5: For edge (i→j) selected:</span>
+<span class="cm">  a) Set entire row i = INF</span>
+<span class="cm">  b) Set entire col j = INF</span>
+<span class="cm">  c) Set C[j][start] = INF  (prevent early return)</span>
+<span class="cm">  d) Reduce resulting matrix again</span>
+<span class="cm">  lb(child) = lb(parent) + C[i][j] + new_reduction</span>
+
+<span class="cm">Step 6: Prune if lb(node) &gt;= current_best_tour_cost</span></code></div>
+      </div>
+      <div class="rl"><div class="rl-title">🌍 Real World</div>FedEx/Amazon route optimization, PCB component placement, Job scheduling on machines, supply chain optimization!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= COMPARISONS ============================= -->
+<div id="cmp" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:#f1f5f9">⚖️</div><div><h2>Comparisons</h2><p style="font-size:13px;color:var(--text3)">Exam mein zarur poochha jata hai!</p></div></div>
+
+  <div class="card">
+    <div class="card-body">
+      <div style="font-weight:700;font-size:16px;margin-bottom:14px">D&amp;C vs Dynamic Programming</div>
+      <table class="cmp">
+        <tr><th>Feature</th><th>Divide &amp; Conquer</th><th>Dynamic Programming</th></tr>
+        <tr><td><strong>Subproblems</strong></td><td>Independent (overlap nahi)</td><td>Overlapping (dobara aate hain)</td></tr>
+        <tr><td><strong>Approach</strong></td><td>Top-down recursive</td><td>Bottom-up table filling</td></tr>
+        <tr><td><strong>Memoization</strong></td><td>Usually No</td><td>Yes — core idea!</td></tr>
+        <tr><td><strong>Recomputation</strong></td><td>Subproblems repeat (wasteful)</td><td>Each subproblem solved once</td></tr>
+        <tr><td><strong>Examples</strong></td><td>Merge Sort, Binary Search, Quicksort</td><td>0/1 Knapsack, LCS, Matrix Chain</td></tr>
+        <tr><td><strong>Memory</strong></td><td>Call stack only (O(log n))</td><td>Memo table O(n²) or O(nW)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div style="font-weight:700;font-size:16px;margin-bottom:14px">Dynamic Programming vs Greedy</div>
+      <table class="cmp">
+        <tr><th>Feature</th><th>Dynamic Programming</th><th>Greedy Method</th></tr>
+        <tr><td><strong>Decision</strong></td><td>Subproblem solutions dekh ke decide karo</td><td>Current moment ka best — never look back</td></tr>
+        <tr><td><strong>Optimal?</strong></td><td>✅ Always optimal</td><td>⚠️ Not always (only with greedy choice property)</td></tr>
+        <tr><td><strong>Speed</strong></td><td>Slower (fills table)</td><td>Faster (O(n log n) usually)</td></tr>
+        <tr><td><strong>Knapsack</strong></td><td>0/1 Knapsack ✅</td><td>Fractional Knapsack ✅ | 0/1 Knapsack ❌</td></tr>
+        <tr><td><strong>Memory</strong></td><td>O(n²) or O(nW) table</td><td>O(1) or O(n) usually</td></tr>
+        <tr><td><strong>Examples</strong></td><td>0/1 Knapsack, LCS, TSP, OBST</td><td>Frac. Knapsack, Prim's, Kruskal's, Huffman</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div style="font-weight:700;font-size:16px;margin-bottom:14px">Backtracking vs Branch &amp; Bound</div>
+      <table class="cmp">
+        <tr><th>Feature</th><th>Backtracking</th><th>Branch &amp; Bound</th></tr>
+        <tr><td><strong>Purpose</strong></td><td>Decision / Constraint Satisfaction</td><td>Optimization (find BEST solution)</td></tr>
+        <tr><td><strong>Goal</strong></td><td>Any valid solution</td><td>Optimal (best) solution</td></tr>
+        <tr><td><strong>Pruning</strong></td><td>Feasibility only (violated constraint?)</td><td>Bounding (can we beat current best?)</td></tr>
+        <tr><td><strong>Search</strong></td><td>Always DFS</td><td>DFS, BFS, Best-First (flexible)</td></tr>
+        <tr><td><strong>Bounding</strong></td><td>❌ No bounds used</td><td>✅ Upper/lower bounds computed</td></tr>
+        <tr><td><strong>Performance</strong></td><td>Can be slow (only feasibility)</td><td>Better pruning → faster in practice</td></tr>
+        <tr><td><strong>Examples</strong></td><td>N-Queens, Sudoku, Hamiltonian</td><td>TSP, 0/1 Knapsack, Job Scheduling</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div style="font-weight:700;font-size:16px;margin-bottom:14px">All 4 Paradigms — The Complete Picture</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px">
+        <div style="background:var(--blue-l);border:1px solid var(--blue-b);border-radius:var(--radius-sm);padding:16px">
+          <div style="font-weight:700;color:var(--blue);margin-bottom:6px">⚡ Divide &amp; Conquer</div>
+          <div style="font-size:12px;color:#1e40af"><strong>When:</strong> Independent subproblems</div>
+          <div style="font-size:12px;color:#1e40af;margin-top:4px"><strong>How:</strong> Recursively split + combine</div>
+          <div style="font-size:12px;color:#1e40af;margin-top:4px"><strong>Examples:</strong> Merge Sort, Binary Search, Strassen's</div>
+        </div>
+        <div style="background:var(--green-l);border:1px solid var(--green-b);border-radius:var(--radius-sm);padding:16px">
+          <div style="font-weight:700;color:var(--green);margin-bottom:6px">💰 Greedy</div>
+          <div style="font-size:12px;color:#14532d"><strong>When:</strong> Greedy choice property holds</div>
+          <div style="font-size:12px;color:#14532d;margin-top:4px"><strong>How:</strong> Local best → hope global best</div>
+          <div style="font-size:12px;color:#14532d;margin-top:4px"><strong>Examples:</strong> Huffman, Prim's, Fractional Knapsack</div>
+        </div>
+        <div style="background:var(--purple-l);border:1px solid var(--purple-b);border-radius:var(--radius-sm);padding:16px">
+          <div style="font-weight:700;color:var(--purple);margin-bottom:6px">🔁 Dynamic Prog.</div>
+          <div style="font-size:12px;color:#5b21b6"><strong>When:</strong> Overlapping + Optimal substructure</div>
+          <div style="font-size:12px;color:#5b21b6;margin-top:4px"><strong>How:</strong> Memoize, never recompute</div>
+          <div style="font-size:12px;color:#5b21b6;margin-top:4px"><strong>Examples:</strong> 0/1 Knapsack, LCS, TSP</div>
+        </div>
+        <div style="background:var(--orange-l);border:1px solid var(--orange-b);border-radius:var(--radius-sm);padding:16px">
+          <div style="font-weight:700;color:var(--orange);margin-bottom:6px">🔙 Backtracking</div>
+          <div style="font-size:12px;color:#9a3412"><strong>When:</strong> Constraint satisfaction</div>
+          <div style="font-size:12px;color:#9a3412;margin-top:4px"><strong>How:</strong> Try → fail → backtrack</div>
+          <div style="font-size:12px;color:#9a3412;margin-top:4px"><strong>Examples:</strong> N-Queens, Hamiltonian, Sum of Subsets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================= QUIZ ============================= -->
+<div id="quiz" class="page">
+  <div class="sh anim-in"><div class="sh-icon" style="background:#fef9c3">🧠</div><div><h2>Practice Quiz</h2><p style="font-size:13px;color:var(--text3)">Professor ke actual questions · Explanations with every answer</p></div></div>
+
+  <div class="card" id="score-card" style="display:none">
+    <div class="card-body" style="text-align:center">
+      <div style="font-size:36px;font-weight:700;color:var(--blue)" id="score-display">0 / 0</div>
+      <div style="font-size:14px;color:var(--text2);margin:6px 0">Questions Answered</div>
+      <div class="score-bar" style="max-width:400px;margin:10px auto"><div class="score-fill" id="score-fill" style="width:0%"></div></div>
+      <div style="font-size:13px;color:var(--text3)" id="score-pct">Keep going! 🎯</div>
+    </div>
+  </div>
+
+  <div id="quiz-container"></div>
+</div>
+
+</div><!-- end app -->
+
+<script>
+// ====================================================
+// NAVIGATION
+// ====================================================
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.navbtn').forEach(b => b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.navbtn').forEach(b => {
+    if(b.getAttribute('onclick') === `go('${id}')`) b.classList.add('on');
+  });
+  window.scrollTo(0, 0);
+}
+
+// ====================================================
+// BINARY SEARCH
+// ====================================================
+const BSA = [13,17,23,29,37,43,51,63,71,79];
+let bsTimer = null;
+
+function buildBSRow() {
+  const row = document.getElementById('bs-row');
+  row.innerHTML = BSA.map((v,i) =>
+    `<div class="bs-cell" id="bsc${i}">${v}<span class="idx">[${i}]</span></div>`
+  ).join('');
+}
+
+function resetBS() {
+  if(bsTimer) clearTimeout(bsTimer);
+  buildBSRow();
+  document.getElementById('bs-log').textContent = 'Click ▶ Search to watch binary search in action...';
+  document.getElementById('bs-steps').textContent = '';
+}
+
+function startBS() {
+  resetBS();
+  const target = parseInt(document.getElementById('bs-val').value);
+  const log = document.getElementById('bs-log');
+  let steps = 0, msgs = [];
+
+  function search(l, r, delay) {
+    if(l > r) {
+      msgs.push(`❌ ${target} not found in array!`);
+      log.textContent = msgs.join('\n');
+      document.getElementById('bs-steps').textContent = `${steps} steps`;
+      return;
+    }
+    steps++;
+    const m = Math.floor((l+r)/2);
+    msgs.push(`Step ${steps}: l=${l}, r=${r} → mid=${m}, arr[${m}]=${BSA[m]}`);
+    log.textContent = msgs.join('\n');
+
+    bsTimer = setTimeout(() => {
+      BSA.forEach((_,i) => {
+        const c = document.getElementById('bsc'+i);
+        if(c) {
+          c.className = 'bs-cell';
+          if(i < l || i > r) c.classList.add('bs-elim');
+        }
+      });
+      document.getElementById('bsc'+m)?.classList.add('bs-mid');
+
+      if(BSA[m] === target) {
+        document.getElementById('bsc'+m).className = 'bs-cell bs-found';
+        msgs.push(`✅ Found ${target} at index [${m}]! Total steps: ${steps}`);
+        log.textContent = msgs.join('\n');
+        document.getElementById('bs-steps').textContent = `${steps} step${steps>1?'s':''}`;
+      } else if(target <= BSA[m]) {
+        msgs.push(`   ${target} ≤ ${BSA[m]}, search LEFT half`);
+        log.textContent = msgs.join('\n');
+        bsTimer = setTimeout(() => search(l, m-1, delay), delay);
+      } else {
+        msgs.push(`   ${target} > ${BSA[m]}, search RIGHT half`);
+        log.textContent = msgs.join('\n');
+        bsTimer = setTimeout(() => search(m+1, r, delay), delay);
+      }
+    }, delay);
+  }
+  search(0, BSA.length-1, 900);
+}
+buildBSRow();
+
+// ====================================================
+// SORTING VISUALIZER
+// ====================================================
+let sortArr = [], sortAnimating = false, sortDelay = 500;
+const SORT_COLORS = {
+  default:'#bfdbfe', comparing:'#fbbf24', sorted:'#86efac', pivot:'#f472b6', swapping:'#fca5a5'
+};
+
+function randomizeSort() {
+  const n = parseInt(document.getElementById('sort-size').value);
+  sortArr = Array.from({length:n}, () => Math.floor(Math.random()*90)+10);
+  drawSort(sortArr, [], [], []);
+  document.getElementById('sort-status').textContent = 'Array shuffled! Press ▶ Sort to animate.';
+  document.getElementById('sort-detail').style.display='none';
+  sortAnimating = false;
+  document.getElementById('btn-start').textContent = '▶ Sort';
+}
+
+function resetSort() { randomizeSort(); }
+
+function drawSort(arr, comparing=[], sorted=[], pivot=[], swapping=[]) {
+  const canvas = document.getElementById('sort-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 220 * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 210;
+  ctx.clearRect(0,0,W,H);
+  const bw = Math.max(2, W/arr.length - 2);
+  const gap = (W - arr.length*bw) / (arr.length+1);
+  arr.forEach((v, i) => {
+    let color = SORT_COLORS.default;
+    if(pivot.includes(i)) color = SORT_COLORS.pivot;
+    else if(swapping.includes(i)) color = SORT_COLORS.swapping;
+    else if(comparing.includes(i)) color = SORT_COLORS.comparing;
+    else if(sorted.includes(i)) color = SORT_COLORS.sorted;
+    const h = Math.max(4, (v/100)*(H-40));
+    const x = gap + i*(bw+gap);
+    const y = H - h;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(x, y, bw, h, 3) : ctx.rect(x, y, bw, h);
+    ctx.fill();
+    if(arr.length <= 20) {
+      ctx.fillStyle = '#374151';
+      ctx.font = `${Math.max(8,Math.min(11,bw-2))}px DM Sans,sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(v, x+bw/2, H+12);
+    }
+  });
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function startSort() {
+  if(sortAnimating) return;
+  if(!sortArr.length) randomizeSort();
+  sortAnimating = true;
+  document.getElementById('btn-start').textContent = '⏳';
+  const algo = document.getElementById('sort-algo').value;
+  const spd = parseInt(document.getElementById('sort-speed').value);
+  sortDelay = 1000 - spd;
+  const arr = [...sortArr];
+  const sorted = [];
+  const status = document.getElementById('sort-status');
+  const detail = document.getElementById('sort-detail');
+  detail.style.display = 'block';
+
+  const update = (cmp=[], srt=[], pvt=[], swp=[], msg='', det='') => {
+    drawSort(arr, cmp, srt, pvt, swp);
+    if(msg) status.textContent = msg;
+    if(det) { detail.style.display='block'; detail.textContent=det; }
+  };
+
+  if(algo === 'selection') {
+    for(let i=0; i<arr.length; i++) {
+      let minIdx=i;
+      for(let j=i+1; j<arr.length; j++) {
+        update([j,minIdx],sorted,[i],[],'Scanning for minimum...',`Comparing arr[${j}]=${arr[j]} with current min arr[${minIdx}]=${arr[minIdx]}`);
+        await sleep(sortDelay);
+        if(arr[j]<arr[minIdx]) minIdx=j;
+      }
+      if(minIdx!==i) {
+        update([i,minIdx],sorted,[],[],'Swapping!',`Swapping ${arr[i]} ↔ ${arr[minIdx]}`);
+        [arr[i],arr[minIdx]]=[arr[minIdx],arr[i]];
+        await sleep(sortDelay);
+      }
+      sorted.push(i);
+      update([],sorted,[],'',`Sorted position ${i}!`,'');
+    }
+  } else if(algo === 'merge') {
+    let ops = 0;
+    async function mergeSort(l, r) {
+      if(l>=r) return;
+      const m=Math.floor((l+r)/2);
+      await mergeSort(l,m);
+      await mergeSort(m+1,r);
+      const left=arr.slice(l,m+1), right=arr.slice(m+1,r+1);
+      let i=0,j=0,k=l;
+      while(i<left.length&&j<right.length) {
+        ops++;
+        update([k],[],[],'',`Merging [${l}..${r}]: ${left[i]} vs ${right[j]}`,`Placing smaller element (${Math.min(left[i],right[j])}) at position ${k}`);
+        await sleep(sortDelay);
+        if(left[i]<=right[j]) arr[k++]=left[i++];
+        else arr[k++]=right[j++];
+      }
+      while(i<left.length){arr[k++]=left[i++];}
+      while(j<right.length){arr[k++]=right[j++];}
+      for(let x=l;x<=r;x++) if(!sorted.includes(x)) sorted.push(x);
+      drawSort(arr,[],sorted,[],'');
+    }
+    await mergeSort(0,arr.length-1);
+  } else if(algo === 'quick') {
+    async function partition(l,r) {
+      const pivot=arr[r]; let i=l-1;
+      update([],[],[r],[],'Quick Sort: Partitioning...',`Pivot = ${pivot} (last element)`);
+      await sleep(sortDelay);
+      for(let j=l;j<r;j++) {
+        update([j],[],[r],[],`Comparing ${arr[j]} ≤ ${pivot}?`,`arr[${j}]=${arr[j]} vs pivot=${pivot}`);
+        await sleep(sortDelay);
+        if(arr[j]<=pivot){
+          i++;
+          update([i,j],[],[r],[],'Swapping!',`${arr[i]} ↔ ${arr[j]}`);
+          [arr[i],arr[j]]=[arr[j],arr[i]];
+          await sleep(sortDelay);
+        }
+      }
+      [arr[i+1],arr[r]]=[arr[r],arr[i+1]];
+      sorted.push(i+1);
+      update([],[...sorted],[],[],'Pivot placed!',`Pivot ${pivot} at final position [${i+1}]`);
+      await sleep(sortDelay);
+      return i+1;
+    }
+    async function quickSort(l,r) {
+      if(l<r){ const pi=await partition(l,r); await quickSort(l,pi-1); await quickSort(pi+1,r); }
+    }
+    await quickSort(0,arr.length-1);
+    for(let x=0;x<arr.length;x++) if(!sorted.includes(x)) sorted.push(x);
+    drawSort(arr,[],sorted,[]);
+  }
+
+  status.textContent = `✅ Sorted! Algorithm: ${algo}`;
+  detail.textContent = 'Array is fully sorted!';
+  sortAnimating = false;
+  document.getElementById('btn-start').textContent = '▶ Sort';
+}
+
+randomizeSort();
+window.addEventListener('resize', () => { if(sortArr.length) drawSort(sortArr,[],[],[]); });
+
+// ====================================================
+// FRACTIONAL KNAPSACK INTERACTIVE
+// ====================================================
+const KN_ITEMS = [
+  {name:'Gold',value:60,weight:10},
+  {name:'Silver',value:100,weight:20},
+  {name:'Diamond',value:120,weight:30},
+  {name:'Platinum',value:80,weight:15},
+];
+
+function buildKnapsackUI() {
+  const container = document.getElementById('kn-items');
+  container.innerHTML = KN_ITEMS.map((item,i) => {
+    const r = (item.value/item.weight).toFixed(1);
+    return `<div class="item-box" id="kn-item${i}">
+      <div class="iname">${item.name}</div>
+      <div class="iinfo">Value: $${item.value}</div>
+      <div class="iinfo">Weight: ${item.weight}kg</div>
+      <div class="iratio" style="color:var(--blue)">Ratio: ${r}</div>
+    </div>`;
+  }).join('');
+}
+
+function resetKnapsack() {
+  buildKnapsackUI();
+  document.getElementById('kn-log').textContent = 'Items loaded. Set capacity and click Solve!';
+  document.getElementById('kn-result').style.display = 'none';
+}
+
+function solveKnapsack() {
+  buildKnapsackUI();
+  const W = parseInt(document.getElementById('kn-cap').value);
+  const items = KN_ITEMS.map((it,i) => ({...it, idx:i, ratio:it.value/it.weight}));
+  items.sort((a,b) => b.ratio - a.ratio);
+  let remaining = W, profit = 0, log = [`Capacity: ${W}kg | Sorted by ratio:\n`];
+  items.forEach(it => log.push(`  ${it.name}: v=${it.value}, w=${it.weight}, ratio=${it.ratio.toFixed(2)}`));
+  log.push('');
+
+  items.forEach((it, step) => {
+    if(remaining <= 0) return;
+    setTimeout(() => {
+      const box = document.getElementById('kn-item'+it.idx);
+      if(it.weight <= remaining) {
+        profit += it.value; remaining -= it.weight;
+        box.classList.add('selected');
+        log.push(`✅ Take ALL ${it.name} (${it.weight}kg) → profit +${it.value}`);
+      } else if(remaining > 0) {
+        const frac = remaining/it.weight;
+        const fp = (it.value * frac).toFixed(1);
+        profit += parseFloat(fp); 
+        box.classList.add('partial');
+        box.querySelector('.iinfo').textContent = `Fraction: ${(frac*100).toFixed(0)}%`;
+        log.push(`⚠️ Take ${(frac*100).toFixed(0)}% of ${it.name} (${remaining}kg) → profit +${fp}`);
+        remaining = 0;
+      }
+      document.getElementById('kn-log').textContent = log.join('\n');
+    }, step * 700);
+  });
+
+  setTimeout(() => {
+    const res = document.getElementById('kn-result');
+    res.style.display = 'block';
+    res.textContent = `💰 Maximum Profit = $${profit.toFixed(1)}`;
+  }, items.length * 700 + 300);
+}
+buildKnapsackUI();
+
+// ====================================================
+// MST KRUSKAL'S ANIMATION
+// ====================================================
+const MST_NODES = [{x:120,y:80},{x:280,y:60},{x:440,y:100},{x:100,y:200},{x:280,y:220},{x:450,y:230}];
+const MST_EDGES = [[0,1,4],[0,3,6],[1,2,8],[1,4,5],[2,4,3],[2,5,7],[3,4,9],[4,5,2]];
+let mstStep = 0, mstTimer = null, mstChosen = [], mstParent = [];
+
+function resetMST() {
+  if(mstTimer) clearInterval(mstTimer);
+  mstStep = 0; mstChosen = [];
+  mstParent = MST_NODES.map((_,i) => i);
+  drawMST([], []);
+  document.getElementById('mst-log').textContent = 'Press ▶ to watch Kruskal\'s algorithm build the MST step by step.';
+}
+
+function mstFind(p, x) { if(p[x]!==x) p[x]=mstFind(p,p[x]); return p[x]; }
+function mstUnion(p, x, y) { p[mstFind(p,x)] = mstFind(p,y); }
+
+function drawMST(chosen, highlight) {
+  const canvas = document.getElementById('mst-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 300 * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth;
+  const scale = W / 560;
+  const sx = n => MST_NODES[n].x * scale;
+  const sy = n => MST_NODES[n].y;
+
+  ctx.clearRect(0,0,W,300);
+  // Draw all edges
+  MST_EDGES.forEach(([u,v,w],i) => {
+    ctx.strokeStyle = highlight===i ? '#f59e0b' : (chosen.includes(i) ? '#22c55e' : '#d1d5db');
+    ctx.lineWidth = chosen.includes(i) ? 3 : 1.5;
+    ctx.setLineDash(chosen.includes(i) ? [] : [4,3]);
+    ctx.beginPath();
+    ctx.moveTo(sx(u), sy(u)); ctx.lineTo(sx(v), sy(v));
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // Weight label
+    const mx=(sx(u)+sx(v))/2, my=(sy(u)+sy(v))/2;
+    ctx.fillStyle = chosen.includes(i)?'#16a34a':(highlight===i?'#d97706':'#6b7280');
+    ctx.font = `${Math.round(11*scale)+2}px DM Sans,sans-serif`;
+    ctx.textAlign='center';
+    ctx.fillText(w, mx, my-5);
+  });
+  // Draw nodes
+  MST_NODES.forEach((n,i) => {
+    ctx.beginPath();
+    ctx.arc(sx(i), sy(i), 16, 0, Math.PI*2);
+    ctx.fillStyle = '#fff';
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 2;
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#1e40af'; ctx.font=`600 ${Math.round(11*scale)+2}px DM Sans`;
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(String.fromCharCode(65+i), sx(i), sy(i));
+    ctx.textBaseline='alphabetic';
+  });
+}
+
+function startMST() {
+  resetMST();
+  const sorted = [...MST_EDGES].map((e,i) => [i,...e]).sort((a,b)=>a[3]-b[3]);
+  let parent = MST_NODES.map((_,i)=>i);
+  let si=0, chosen=[];
+  const log = document.getElementById('mst-log');
+
+  mstTimer = setInterval(() => {
+    if(si >= sorted.length) { clearInterval(mstTimer); return; }
+    const [oi,u,v,w] = sorted[si++];
+    drawMST(chosen, oi);
+    if(mstFind(parent,u) !== mstFind(parent,v)) {
+      mstUnion(parent,u,v);
+      chosen.push(oi);
+      log.textContent = `✅ Add edge ${String.fromCharCode(65+u)}→${String.fromCharCode(65+v)} (weight ${w}) — No cycle! MST edges: ${chosen.length}`;
+      drawMST(chosen, oi);
+    } else {
+      log.textContent = `❌ Skip edge ${String.fromCharCode(65+u)}→${String.fromCharCode(65+v)} (weight ${w}) — Would create CYCLE!`;
+    }
+    if(chosen.length === MST_NODES.length-1) {
+      clearInterval(mstTimer);
+      const totalW = chosen.reduce((s,i) => s+MST_EDGES[i][2], 0);
+      log.textContent = `🎉 MST Complete! ${chosen.length} edges, Total weight = ${totalW}`;
+      drawMST(chosen, -1);
+    }
+  }, 1200);
+}
+resetMST();
+
+// ====================================================
+// 0/1 KNAPSACK DP TABLE
+// ====================================================
+const KN_VALUES = [6,10,12,14], KN_WEIGHTS = [2,3,5,4], KN_W = 6;
+const KN_NAMES = ['Item1(v=6,w=2)','Item2(v=10,w=3)','Item3(v=12,w=5)','Item4(v=14,w=4)'];
+let knAnimTimer = null;
+
+function buildKnapsackTable() {
+  const n = KN_VALUES.length;
+  let h = '<table class="dp-table"><thead><tr><th>Item</th>';
+  for(let w=0;w<=KN_W;w++) h+=`<th>w=${w}</th>`;
+  h+='</tr></thead><tbody>';
+  for(let i=0;i<=n;i++) {
+    h+=`<tr><td style="font-weight:600;font-size:12px;color:var(--text2);white-space:nowrap">${i===0?'—(no items)':KN_NAMES[i-1]}</td>`;
+    for(let w=0;w<=KN_W;w++) h+=`<td id="kn-dp-${i}-${w}">—</td>`;
+    h+='</tr>';
+  }
+  h+='</tbody></table>';
+  document.getElementById('dp-kn-wrap').innerHTML = h;
+}
+
+function resetKnapsackAnim() {
+  if(knAnimTimer) clearTimeout(knAnimTimer);
+  buildKnapsackTable();
+  document.getElementById('dp-kn-log').textContent = 'Press ▶ to animate the DP table filling process...';
+}
+
+function startKnapsackAnim() {
+  resetKnapsackAnim();
+  const n=KN_VALUES.length, delay=320;
+  const dp=Array.from({length:n+1},()=>Array(KN_W+1).fill(0));
+  const log = document.getElementById('dp-kn-log');
+  let queue=[];
+  
+  // Base row
+  for(let w=0;w<=KN_W;w++) queue.push({i:0,w,v:0,msg:`Base case: dp[0][${w}] = 0 (no items)`});
+  
+  for(let i=1;i<=n;i++) {
+    for(let w=0;w<=KN_W;w++) {
+      if(KN_WEIGHTS[i-1]>w) {
+        dp[i][w]=dp[i-1][w];
+        queue.push({i,w,v:dp[i][w],msg:`Item ${i}: w[${i}]=${KN_WEIGHTS[i-1]} > capacity ${w} → EXCLUDE → dp[${i}][${w}]=${dp[i][w]}`});
+      } else {
+        const incl = KN_VALUES[i-1]+dp[i-1][w-KN_WEIGHTS[i-1]];
+        const excl = dp[i-1][w];
+        dp[i][w]=Math.max(excl,incl);
+        queue.push({i,w,v:dp[i][w],msg:`Item ${i}: exclude=${excl}, include=${incl} → max=${dp[i][w]} → dp[${i}][${w}]=${dp[i][w]}`});
+      }
+    }
+  }
+
+  function tick(idx) {
+    if(idx>=queue.length){
+      const cell=document.getElementById(`kn-dp-${n}-${KN_W}`);
+      if(cell){cell.style.background='#fef9c3';cell.style.border='2px solid #f59e0b';}
+      log.textContent=`🎉 Answer: dp[${n}][${KN_W}] = ${dp[n][KN_W]} — Maximum profit = $${dp[n][KN_W]}!`;
+      return;
+    }
+    const {i,w,v,msg}=queue[idx];
+    // Clear previous highlight
+    if(idx>0){const prev=queue[idx-1];const pc=document.getElementById(`kn-dp-${prev.i}-${prev.w}`);if(pc){pc.className='';pc.classList.add('dp-done');}}
+    const cell=document.getElementById(`kn-dp-${i}-${w}`);
+    if(cell){cell.textContent=v;cell.classList.add('dp-active');}
+    log.textContent=msg;
+    knAnimTimer=setTimeout(()=>tick(idx+1),delay);
+  }
+  tick(0);
+}
+buildKnapsackTable();
+
+// ====================================================
+// LCS TABLE ANIMATION
+// ====================================================
+const LCS_X = ['A','B','C','B'], LCS_Y = ['B','C','B'];
+let lcsTimer = null;
+
+function buildLCSTable() {
+  const m=LCS_X.length, n=LCS_Y.length;
+  let h='<table class="dp-table"><thead><tr><th></th><th>""</th>';
+  LCS_Y.forEach(c=>h+=`<th>${c}</th>`);
+  h+='</tr></thead><tbody>';
+  for(let i=0;i<=m;i++){
+    h+=`<tr><th style="background:var(--bg3)">${i===0?'""':LCS_X[i-1]}</th>`;
+    for(let j=0;j<=n;j++) h+=`<td id="lcs-${i}-${j}">—</td>`;
+    h+='</tr>';
+  }
+  h+='</tbody></table>';
+  document.getElementById('lcs-table-wrap').innerHTML=h;
+}
+
+function resetLCSAnim(){if(lcsTimer)clearTimeout(lcsTimer);buildLCSTable();document.getElementById('lcs-log').textContent='Press ▶ to animate LCS table filling...';}
+
+function startLCSAnim(){
+  resetLCSAnim();
+  const m=LCS_X.length,n=LCS_Y.length,delay=400;
+  const dp=Array.from({length:m+1},()=>Array(n+1).fill(0));
+  const log=document.getElementById('lcs-log');
+  let queue=[];
+  for(let i=0;i<=m;i++) for(let j=0;j<=n;j++){
+    let msg,v;
+    if(i===0||j===0){v=0;msg=`Base case: dp[${i}][${j}]=0`;}
+    else if(LCS_X[i-1]===LCS_Y[j-1]){dp[i][j]=dp[i-1][j-1]+1;v=dp[i][j];msg=`X[${i-1}]=${LCS_X[i-1]} == Y[${j-1}]=${LCS_Y[j-1]} → MATCH! dp=${dp[i-1][j-1]}+1=${v}`;}
+    else{dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);v=dp[i][j];msg=`X[${i-1}]=${LCS_X[i-1]} ≠ Y[${j-1}]=${LCS_Y[j-1]} → max(${dp[i-1][j]},${dp[i][j-1]})=${v}`;}
+    queue.push({i,j,v,msg});
+  }
+  let prev=null;
+  function tick(idx){
+    if(idx>=queue.length){log.textContent=`🎉 LCS Length = ${dp[m][n]}  (LCS = "BCB")`;return;}
+    if(prev){const pc=document.getElementById(`lcs-${prev.i}-${prev.j}`);if(pc){pc.className='';pc.classList.add('dp-done');}}
+    const {i,j,v,msg}=queue[idx];
+    const cell=document.getElementById(`lcs-${i}-${j}`);
+    if(cell){cell.textContent=v;cell.classList.add('dp-active');}
+    log.textContent=msg;
+    prev={i,j};
+    lcsTimer=setTimeout(()=>tick(idx+1),delay);
+  }
+  tick(0);
+}
+buildLCSTable();
+
+// ====================================================
+// TSP VISUALIZATION
+// ====================================================
+let tspCities=[], tspTourPath=[], tspAnimating=false;
+
+function resetTSP(){
+  tspCities=[];
+  const canvas=document.getElementById('tsp-canvas');
+  const W=canvas.offsetWidth,H=320;
+  const n=6;
+  for(let i=0;i<n;i++){
+    tspCities.push({x:40+Math.random()*(W-80),y:40+Math.random()*(H-80),name:String.fromCharCode(65+i)});
+  }
+  tspTourPath=[];
+  drawTSP([]);
+  document.getElementById('tsp-log').textContent='Press ▶ to find the optimal tour using nearest-neighbor heuristic!';
+  document.getElementById('tsp-cost-badge').textContent='';
+}
+
+function drawTSP(tour){
+  const canvas=document.getElementById('tsp-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=canvas.offsetWidth*dpr; canvas.height=320*dpr;
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,canvas.offsetWidth,320);
+  // Draw edges
+  if(tour.length>1){
+    ctx.strokeStyle='#3b82f6'; ctx.lineWidth=2; ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(tspCities[tour[0]].x,tspCities[tour[0]].y);
+    for(let i=1;i<tour.length;i++) ctx.lineTo(tspCities[tour[i]].x,tspCities[tour[i]].y);
+    ctx.stroke();
+  }
+  // Draw cities
+  tspCities.forEach((c,i)=>{
+    const inTour=tour.includes(i);
+    ctx.beginPath(); ctx.arc(c.x,c.y,18,0,Math.PI*2);
+    ctx.fillStyle=inTour?'#dbeafe':'#f9fafb';
+    ctx.strokeStyle=inTour?'#2563eb':'#d1d5db';
+    ctx.lineWidth=inTour?2.5:1.5;
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle=inTour?'#1e40af':'#374151';
+    ctx.font='bold 13px DM Sans,sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(c.name,c.x,c.y);
+    ctx.textBaseline='alphabetic';
+  });
+}
+
+function dist(a,b){return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2);}
+
+async function startTSP(){
+  if(!tspCities.length) resetTSP();
+  const n=tspCities.length;
+  const visited=[0]; let cur=0;
+  const log=document.getElementById('tsp-log');
+  const badge=document.getElementById('tsp-cost-badge');
+  log.textContent='Starting nearest-neighbor tour from city A...';
+  
+  while(visited.length<n){
+    let best=-1,bestD=Infinity;
+    for(let i=0;i<n;i++){
+      if(!visited.includes(i)&&dist(tspCities[cur],tspCities[i])<bestD){
+        best=i; bestD=dist(tspCities[cur],tspCities[i]);
+      }
+    }
+    visited.push(best);
+    cur=best;
+    drawTSP([...visited]);
+    log.textContent=`→ Nearest unvisited: City ${tspCities[best].name} (distance: ${Math.round(bestD)}px)`;
+    await sleep(700);
+  }
+  visited.push(0);
+  drawTSP(visited);
+  // Compute total cost
+  let total=0;
+  for(let i=0;i<visited.length-1;i++) total+=dist(tspCities[visited[i]],tspCities[visited[i+1]]);
+  log.textContent=`🎉 Tour: ${visited.map(i=>tspCities[i].name).join('→')} | Total distance: ${Math.round(total)}px`;
+  badge.textContent=`Tour cost: ${Math.round(total)}`;
+}
+resetTSP();
+
+// ====================================================
+// N-QUEENS
+// ====================================================
+let qSols=[], qIdx=0;
+
+function solveNQ(n){
+  const board=[-1]*n,sols=[];
+  function safe(r,c){
+    for(let i=0;i<r;i++){const b=board[i];if(b===c||Math.abs(b-c)===Math.abs(i-r))return false;}
+    return true;
+  }
+  function bt(r){
+    if(r===n){sols.push([...board]);return;}
+    for(let c=0;c<n;c++){if(safe(r,c)){board[r]=c;bt(r+1);board[r]=-1;}}
+  }
+  bt(0); return sols;
+}
+
+function renderBoard(sol,n){
+  const wrap=document.getElementById('queens-board');
+  wrap.innerHTML='';
+  const g=document.createElement('div');
+  g.className='queens-board';
+  g.style.gridTemplateColumns=`repeat(${n},44px)`;
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++){
+    const cell=document.createElement('div');
+    cell.className='qcell '+((r+c)%2===0?'light':'dark');
+    if(sol && sol[r]===c) { cell.textContent='♛'; cell.classList.add('queen','safe-queen'); }
+    g.appendChild(cell);
+  }
+  wrap.appendChild(g);
+}
+
+function startQueens(){
+  const n=parseInt(document.getElementById('nq-n').value);
+  qSols=solveNQ(n); qIdx=0;
+  document.getElementById('nq-log').textContent=`Found ${qSols.length} solutions for ${n}-Queens! Use ◀ ▶ to navigate.`;
+  document.getElementById('nq-info').textContent=`Solution 1 of ${qSols.length}`;
+  if(qSols.length>0) renderBoard(qSols[0],n);
+  else document.getElementById('queens-board').innerHTML='<div style="padding:16px;color:var(--text3)">No solution found</div>';
+}
+
+function nextQSol(){
+  const n=parseInt(document.getElementById('nq-n').value);
+  if(!qSols.length) return;
+  qIdx=(qIdx+1)%qSols.length;
+  document.getElementById('nq-info').textContent=`Solution ${qIdx+1} of ${qSols.length}`;
+  renderBoard(qSols[qIdx],n);
+}
+function prevQSol(){
+  const n=parseInt(document.getElementById('nq-n').value);
+  if(!qSols.length) return;
+  qIdx=(qIdx-1+qSols.length)%qSols.length;
+  document.getElementById('nq-info').textContent=`Solution ${qIdx+1} of ${qSols.length}`;
+  renderBoard(qSols[qIdx],n);
+}
+
+// ====================================================
+// QUIZ
+// ====================================================
+const QUIZ = [
+  {q:"Which step distinguishes D&C from simple recursion?",opts:["Storing subproblem results","Splitting into INDEPENDENT subproblems, solving, then combining","Using recursion until base case","Enumerating all possibilities"],ans:1,exp:"D&C = Divide (independent subproblems) + Conquer (solve recursively) + Combine. The INDEPENDENCE of subproblems and explicit COMBINE step are key!"},
+  {q:"Merge Sort has Θ(n log n) complexity in which cases?",opts:["Only best case","Only worst case","Only average case","ALL cases — best, average, worst"],ans:3,exp:"Merge Sort ALWAYS divides into 2 halves (log n levels) and merges in O(n). So it's Θ(n log n) in ALL cases — its greatest advantage!"},
+  {q:"Strassen's algorithm reduces matrix multiplications from 8 to __?",opts:["4","5","6","7"],ans:3,exp:"Strassen uses 7 recursive multiplications (instead of 8) + more additions → T(N) = 7T(N/2) + O(N²) → O(N^2.807)"},
+  {q:"Quick Sort worst case is O(n²) when __?",opts:["Array is random","Pivot is always median","Array is already sorted + last element as pivot","Array has all duplicates"],ans:2,exp:"Already sorted array + last element as pivot = pivot is always largest/smallest → only 1 element in one partition → n levels of recursion → O(n²)"},
+  {q:"In Fractional Knapsack, greedy criterion is highest __?",opts:["Value","Weight","Value/Weight ratio","1/Weight"],ans:2,exp:"Sort by value/weight ratio (highest first). Take full items then fraction of last. This is provably optimal for fractional case."},
+  {q:"values=[60,100,120], weights=[10,20,30], W=50. Fractional Knapsack answer?",opts:["220","240","260","280"],ans:1,exp:"Ratios: 6,5,4. Take Item1 fully (60), Item2 fully (100), 20/30 of Item3 = 80. Total = 240!"},
+  {q:"Both Kruskal's & Prim's on graph with distinct edge weights produce __?",opts:["Different MSTs","The same MST always","Only Prim's guarantees MST","Only Kruskal's guarantees MST"],ans:1,exp:"With all distinct edge weights, MST is UNIQUE. Both algorithms always find this same unique MST!"},
+  {q:"In Huffman coding, which pair is merged FIRST for A:45,B:13,C:12,D:16,E:9,F:5?",opts:["A and F","B and C","E and F","C and D"],ans:2,exp:"Min-heap always merges two SMALLEST frequencies. E(9) and F(5) are smallest → merged first into node of frequency 14."},
+  {q:"0/1 Knapsack DP with n items, capacity W has time complexity __?",opts:["O(2ⁿ)","O(nW)","O(n+W)","O(Wⁿ)"],ans:1,exp:"We fill an (n+1)×(W+1) table → O(nW). Note: this is pseudo-polynomial since W is a value, not number of bits!"},
+  {q:"LCS of 'AGGTAB' and 'GXTXAYB' has length __?",opts:["3","4","5","6"],ans:1,exp:"LCS = 'GTAB' → length 4. Build the DP table: AGGTAB vs GXTXAYB, dp[6][7] = 4."},
+  {q:"TSP (Held-Karp DP) time complexity is __?",opts:["O(n!)","O(n³)","O(2ⁿ)","O(n²·2ⁿ)"],ans:3,exp:"O(n²·2ⁿ) — for each of 2ⁿ subsets (bitmasks), we check n cities. Space: O(n·2ⁿ). Much better than O(n!) naive!"},
+  {q:"N-Queens backtracking: each recursion level represents __?",opts:["Choosing diagonal","Choosing a COLUMN for the queen in current ROW","Choosing which row","Choosing a pair to swap"],ans:1,exp:"Each recursive level = one row. We try all COLUMNS for placing the queen in that row. If no column is safe, we backtrack!"},
+  {q:"Branch & Bound vs Backtracking — B&B is used for __?",opts:["Constraint satisfaction problems","Finding any valid solution","OPTIMIZATION (finding the best solution)","Always faster than backtracking"],ans:2,exp:"B&B = Optimization. Backtracking = Constraint Satisfaction. B&B uses objective bounds to prune (not just feasibility check)."},
+  {q:"In 0/1 Knapsack B&B, upper bound is calculated using __?",opts:["0/1 Knapsack DP","Naive enumeration","Fractional Knapsack greedy estimate","Random sampling"],ans:2,exp:"Upper bound = current profit + greedy fractional fill of remaining capacity. If this bound ≤ current best → PRUNE that branch!"},
+  {q:"Which DP problem has recurrence: T(N) = 7T(N/2) + O(N²)?",opts:["Merge Sort","Matrix Chain Multiplication","Strassen's Matrix Multiplication","TSP Held-Karp"],ans:2,exp:"Strassen's! 7 recursive calls on N/2 submatrices + O(N²) additions/subtractions → by Master's Theorem: O(N^log₂7) ≈ O(N^2.807)"},
+];
+
+let qAnswered=0, qCorrect=0;
+
+function renderQuiz(){
+  const c=document.getElementById('quiz-container');
+  c.innerHTML=QUIZ.map((q,qi)=>`
+    <div class="qz-card" id="qz${qi}">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:600">Q${qi+1} of ${QUIZ.length}</div>
+      <div class="qz-q">${q.q}</div>
+      <div class="qz-opts">
+        ${q.opts.map((o,oi)=>`
+          <div class="qz-opt" id="qzopt-${qi}-${oi}" onclick="answerQ(${qi},${oi})">
+            <div class="qz-lbl">${['A','B','C','D'][oi]}</div>${o}
+          </div>`).join('')}
+      </div>
+      <div class="qz-exp" id="qzexp${qi}"></div>
+    </div>`).join('');
+}
+
+function answerQ(qi,oi){
+  const q=QUIZ[qi];
+  const already=document.getElementById(`qzopt-${qi}-0`).classList.contains('qcorrect')||
+                 document.getElementById(`qzopt-${qi}-0`).classList.contains('qwrong');
+  if(already) return;
+  qAnswered++;
+  if(oi===q.ans){qCorrect++;document.getElementById(`qzopt-${qi}-${oi}`).classList.add('qcorrect');}
+  else{document.getElementById(`qzopt-${qi}-${oi}`).classList.add('qwrong');document.getElementById(`qzopt-${qi}-${q.ans}`).classList.add('qcorrect');}
+  const exp=document.getElementById(`qzexp${qi}`);
+  exp.innerHTML=`<strong>${oi===q.ans?'✅ Correct!':'❌ Incorrect!'}</strong> ${q.exp}`;
+  exp.classList.add('show');
+  const sc=document.getElementById('score-card');
+  sc.style.display='block';
+  document.getElementById('score-display').textContent=`${qCorrect} / ${qAnswered}`;
+  const pct=Math.round(qCorrect/qAnswered*100);
+  document.getElementById('score-fill').style.width=pct+'%';
+  document.getElementById('score-pct').textContent=`${pct}% correct ${pct>=80?'🌟':pct>=60?'👍':'Keep practising! 💪'}`;
+}
+renderQuiz();
+</script>
+</body>
+</html>
