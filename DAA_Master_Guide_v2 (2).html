@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA Master Guide — Chapters 1, 2 & 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ef;
+  --surface: #ffffff;
+  --surface2: #f0ece4;
+  --border: #ddd8cf;
+  --accent1: #c2410c;   /* deep orange */
+  --accent2: #0369a1;   /* deep blue */
+  --accent3: #7c3aed;   /* violet */
+  --accent4: #047857;   /* green */
+  --accent5: #b45309;   /* amber-dark */
+  --text: #1c1917;
+  --text2: #44403c;
+  --text3: #78716c;
+  --shadow: 0 1px 4px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;line-height:1.6}
+
+/* ─── NAV ─── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,244,239,.97);backdrop-filter:blur(10px);border-bottom:2px solid var(--border);padding:0 1rem;height:54px;display:flex;align-items:center;gap:.4rem;overflow-x:auto}
+#nav button{flex-shrink:0;padding:.3rem .8rem;border-radius:5px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-size:.73rem;cursor:pointer;transition:all .18s;font-family:'JetBrains Mono',monospace;font-weight:600}
+#nav button.active,#nav button:hover{background:var(--accent1);border-color:var(--accent1);color:#fff}
+
+/* ─── PROGRESS ─── */
+#progress{position:fixed;top:54px;left:0;height:3px;background:linear-gradient(90deg,var(--accent1),var(--accent3));z-index:99;transition:width .1s}
+
+/* ─── SECTIONS ─── */
+.section{display:none;padding:70px 1rem 4rem;max-width:1100px;margin:0 auto}
+.section.active{display:block}
+
+/* ─── HERO ─── */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:90px 2rem 3rem;background:var(--bg)}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.5rem;padding:.4rem 1.2rem;border:2px solid var(--accent2);border-radius:999px;display:inline-block;font-weight:600}
+#hero h1{font-family:'Lora',serif;font-size:clamp(2.4rem,6vw,5rem);font-weight:700;line-height:1.08;margin-bottom:1.2rem;color:var(--text)}
+#hero h1 span{color:var(--accent1)}
+#hero p{font-size:1.05rem;color:var(--text2);max-width:580px;line-height:1.75}
+.chapter-pills{display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center}
+.pill{padding:.65rem 1.6rem;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .25s;border:2px solid;background:white}
+.pill1{border-color:var(--accent1);color:var(--accent1)}
+.pill1:hover{background:var(--accent1);color:#fff;box-shadow:0 4px 16px rgba(194,65,12,.25)}
+.pill2{border-color:var(--accent2);color:var(--accent2)}
+.pill2:hover{background:var(--accent2);color:#fff;box-shadow:0 4px 16px rgba(3,105,161,.25)}
+.pill3{border-color:var(--accent3);color:var(--accent3)}
+.pill3:hover{background:var(--accent3);color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.25)}
+
+/* ─── CHAPTER HEADER ─── */
+.ch-header{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--border)}
+.ch-num{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:1.5rem;font-weight:700;flex-shrink:0;color:white}
+.ch-num-1{background:var(--accent1)}
+.ch-num-2{background:var(--accent2)}
+.ch-num-3{background:var(--accent3)}
+.ch-title{font-family:'Lora',serif;font-size:1.9rem;font-weight:700}
+.ch-sub{color:var(--text3);font-size:.82rem;margin-top:.3rem;font-family:'JetBrains Mono',monospace}
+
+/* ─── CARDS ─── */
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1.6rem;margin-bottom:1.6rem;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.card-top-bar{height:4px;position:absolute;top:0;left:0;right:0;border-radius:14px 14px 0 0}
+.bar-red{background:linear-gradient(90deg,var(--accent1),#ea580c)}
+.bar-blue{background:linear-gradient(90deg,var(--accent2),#0284c7)}
+.bar-violet{background:linear-gradient(90deg,var(--accent3),#8b5cf6)}
+.bar-green{background:linear-gradient(90deg,var(--accent4),#059669)}
+.bar-amber{background:linear-gradient(90deg,var(--accent5),#d97706)}
+.card h2{font-family:'Lora',serif;font-size:1.25rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem;margin-top:.2rem;color:var(--text)}
+.card h3{font-size:.92rem;font-weight:700;color:var(--accent2);margin:1rem 0 .5rem;text-transform:uppercase;letter-spacing:.06em}
+
+/* ─── TWO COL LAYOUT for algo/pseudocode ─── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:.8rem 0}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+.algo-box,.pseudo-box{border-radius:10px;padding:1.1rem;min-height:180px}
+.algo-box{background:#f0f9ff;border:1.5px solid #bae6fd}
+.pseudo-box{background:#0d1117;border:1.5px solid #30363d}
+.algo-box-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent2);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+.pseudo-box-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#7ee787;margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+.step-list{list-style:none;padding:0}
+.step-list li{display:flex;gap:.7rem;margin-bottom:.6rem;align-items:flex-start;font-size:.87rem;color:var(--text2)}
+.step-list li::before{content:attr(data-n);flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--accent2);color:white;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+pre,code{font-family:'JetBrains Mono',monospace}
+pre{color:#e6edf3;font-size:.78rem;line-height:1.65;white-space:pre-wrap}
+code{font-size:.84em;color:var(--accent3);background:rgba(124,58,237,.08);padding:.1em .35em;border-radius:4px}
+
+/* ─── COMPLEXITY TABLE ─── */
+.ctable{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.84rem}
+.ctable th{background:var(--surface2);color:var(--accent2);padding:.55rem .8rem;text-align:left;border:1.5px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.76rem}
+.ctable td{padding:.5rem .8rem;border:1.5px solid var(--border);color:var(--text2)}
+.ctable tr:hover td{background:var(--surface2)}
+.best{color:var(--accent4);font-weight:600}
+.avg{color:var(--accent5);font-weight:600}
+.worst{color:var(--accent1);font-weight:600}
+
+/* ─── HINGLISH BOX ─── */
+.hinglish{background:linear-gradient(135deg,#fef3c7,#ede9fe);border:1.5px solid #ddd6fe;border-radius:10px;padding:1.1rem;margin:.8rem 0}
+.hinglish-label{font-size:.68rem;font-family:'JetBrains Mono',monospace;color:var(--accent3);text-transform:uppercase;letter-spacing:.15em;margin-bottom:.5rem;font-weight:700}
+.hinglish p{color:var(--text2);font-size:.88rem;line-height:1.7}
+
+/* ─── EXAM BOX ─── */
+.exam-box{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;padding:1.1rem;margin:.8rem 0}
+.exam-label{font-size:.68rem;font-family:'JetBrains Mono',monospace;color:var(--accent4);text-transform:uppercase;letter-spacing:.15em;margin-bottom:.7rem;font-weight:700}
+.qa-item{margin-bottom:.9rem;border-bottom:1px solid #bbf7d0;padding-bottom:.9rem}
+.qa-q{font-weight:700;color:var(--accent5);font-size:.88rem;margin-bottom:.4rem}
+.qa-a{color:var(--text2);font-size:.84rem;line-height:1.65}
+
+/* ─── DIAGRAM BOX ─── */
+.diagram-box{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.2rem;margin:.8rem 0;overflow:auto}
+.diagram-label{font-size:.68rem;font-family:'JetBrains Mono',monospace;color:var(--accent1);text-transform:uppercase;letter-spacing:.15em;margin-bottom:.8rem;font-weight:700}
+
+/* ─── ANIMATION BOX ─── */
+.anim-box{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1rem;margin:.8rem 0;box-shadow:var(--shadow)}
+.anim-title{font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--text2);margin-bottom:.7rem;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+
+/* INPUT CONTROLS */
+.input-row{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:.8rem;padding:.8rem;background:var(--surface2);border-radius:8px;border:1.5px solid var(--border)}
+.input-row label{font-size:.75rem;font-weight:600;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.input-row input[type=text]{font-family:'JetBrains Mono',monospace;font-size:.78rem;padding:.3rem .6rem;border:1.5px solid var(--border);border-radius:6px;background:white;color:var(--text);width:180px}
+.input-row input[type=number]{font-family:'JetBrains Mono',monospace;font-size:.78rem;padding:.3rem .6rem;border:1.5px solid var(--border);border-radius:6px;background:white;color:var(--text);width:80px}
+.input-row button{padding:.3rem .75rem;border-radius:6px;border:1.5px solid var(--accent2);background:var(--accent2);color:white;font-size:.74rem;cursor:pointer;font-family:'JetBrains Mono',monospace;font-weight:600}
+.input-row button:hover{opacity:.85}
+
+canvas{display:block;border-radius:8px;width:100%;height:auto}
+.anim-controls{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap;align-items:center}
+.anim-btn{padding:.3rem .8rem;border-radius:6px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text2);font-size:.73rem;cursor:pointer;transition:all .18s;font-family:'JetBrains Mono',monospace;font-weight:600}
+.anim-btn:hover,.anim-btn.playing{background:var(--accent1);border-color:var(--accent1);color:#fff}
+.spd-lbl{font-size:.72rem;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.anim-btn.active-btn{background:var(--accent4);border-color:var(--accent4);color:#fff}
+
+/* STEP INFO */
+.step-info{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--accent5);margin-top:.6rem;min-height:1.4em;padding:.4rem .8rem;background:#fffbeb;border-radius:6px;border-left:3px solid var(--accent5)}
+
+/* STEP HISTORY */
+.sort-viz-wrap{min-height:110px;padding:1rem .5rem;background:var(--surface2);border-radius:10px;border:1.5px solid var(--border);display:flex;flex-direction:column;gap:.7rem;align-items:center;margin:.4rem 0}
+.sort-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:flex-end}
+.sort-tile{display:inline-flex;flex-direction:column;align-items:center;gap:3px;transition:all .22s ease}
+.sort-tile .tv{width:44px;height:44px;border-radius:8px;border:2px solid;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:700;transition:all .22s ease}
+.sort-tile .ti{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text3)}
+.sort-tile.t-default .tv{background:#f1f5f9;border-color:#cbd5e1;color:#475569}
+.sort-tile.t-active .tv{background:#fff7ed;border-color:#f97316;color:#c2410c;box-shadow:0 0 0 3px #fed7aa55}
+.sort-tile.t-compare .tv{background:#fffbeb;border-color:#f59e0b;color:#92400e;box-shadow:0 0 0 3px #fde68a55}
+.sort-tile.t-pivot .tv{background:#fef2f2;border-color:#ef4444;color:#b91c1c;box-shadow:0 0 0 3px #fecaca55}
+.sort-tile.t-sorted .tv{background:#f0fdf4;border-color:#22c55e;color:#166534}
+.sort-tile.t-range .tv{background:#eff6ff;border-color:#60a5fa;color:#1d4ed8}
+.sort-tile.t-min .tv{background:#fdf4ff;border-color:#c026d3;color:#86198f;box-shadow:0 0 0 3px #f0abfc55}
+.sort-row-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;align-self:flex-start;padding-left:.2rem}
+.sort-merge-bar{display:flex;gap:2px;flex-wrap:wrap;justify-content:center}
+.sort-merge-seg{display:flex;gap:3px;padding:4px 6px;border-radius:6px;border:1.5px dashed var(--border);background:rgba(255,255,255,.7)}
+
+.step-history-box .sh-title{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text3);padding:.4rem .7rem;border-bottom:1px solid var(--border);font-weight:700;text-transform:uppercase;letter-spacing:.08em;position:sticky;top:0;background:var(--surface2)}
+.sh-entry{font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:.3rem .7rem;border-bottom:1px solid rgba(0,0,0,.04);color:var(--text2);display:flex;gap:.5rem;align-items:flex-start}
+.sh-entry:last-child{border-bottom:none}
+.sh-n{color:var(--text3);min-width:28px;font-weight:600}
+.sh-entry.sh-good{background:#f0fdf4;color:var(--accent4)}
+.sh-entry.sh-bad{background:#fff1f2;color:var(--accent1)}
+.sh-entry.sh-pivot{background:#fffbeb;color:var(--accent5)}
+
+/* ─── TABS ─── */
+.subtabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.stab{padding:.38rem .85rem;border-radius:6px;border:1.5px solid var(--border);background:white;color:var(--text3);font-size:.76rem;cursor:pointer;font-family:'JetBrains Mono',monospace;font-weight:600;transition:all .18s}
+.stab.active,.stab:hover{background:var(--accent2);border-color:var(--accent2);color:white}
+.stcontent{display:none}.stcontent.active{display:block}
+
+/* ─── SUMMARY STRIP ─── */
+.summary-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem;margin:1.2rem 0}
+.scard{background:white;border:1.5px solid var(--border);border-radius:10px;padding:.9rem;text-align:center;box-shadow:var(--shadow)}
+.scard .val{font-family:'Lora',serif;font-size:1.6rem;font-weight:700;margin-bottom:.25rem}
+.scard .lbl{font-size:.7rem;color:var(--text3);font-family:'JetBrains Mono',monospace;font-weight:600}
+
+/* ─── COMPARE TABLE ─── */
+.cmp-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.cmp-table th{padding:.6rem .8rem;background:var(--surface2);color:var(--accent2);border:1.5px solid var(--border);text-align:center;font-family:'JetBrains Mono',monospace;font-size:.74rem}
+.cmp-table td{padding:.55rem .8rem;border:1.5px solid var(--border);color:var(--text2);text-align:center}
+.cmp-table tr:hover td{background:var(--surface2)}
+.yes{color:var(--accent4);font-weight:700}.no{color:var(--accent1);font-weight:700}.maybe{color:var(--accent5);font-weight:700}
+
+/* ─── SVG DIAGRAM ─── */
+.svg-wrap{overflow-x:auto;background:white;padding:.8rem;border-radius:10px;border:1.5px solid var(--border)}
+svg text{font-family:'DM Sans',sans-serif}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <button class="active" onclick="showSection('home',this)">🏠 Home</button>
+  <button onclick="showSection('ch1-intro',this)">Ch1: Overview</button>
+  <button onclick="showSection('ch1-dc',this)">D&amp;C</button>
+  <button onclick="showSection('ch1-sort',this)">Sorting</button>
+  <button onclick="showSection('ch1-greedy',this)">Greedy</button>
+  <button onclick="showSection('ch2-intro',this)">Ch2: Overview</button>
+  <button onclick="showSection('ch2-dp',this)">DP Problems</button>
+  <button onclick="showSection('ch3-intro',this)">Ch3: Overview</button>
+  <button onclick="showSection('ch3-bt',this)">Backtracking</button>
+  <button onclick="showSection('ch3-bb',this)">Branch &amp; Bound</button>
+  <button onclick="showSection('compare',this)">⚖️ Compare</button>
+  <button onclick="showSection('exam',this)">📝 Exam Q&amp;A</button>
+</nav>
+
+<!-- ═══════════════════ HOME ═══════════════════ -->
+<section id="home" class="section active" style="max-width:100%;padding:0">
+  <div id="hero">
+    <div class="hero-tag">Computer Science · B.Tech / MCA · Exam Ready</div>
+    <h1>Design &amp; Analysis<br><span>of Algorithms</span></h1>
+    <p>Animated, step-by-step, exam-oriented guide — Divide &amp; Conquer to Branch &amp; Bound. With custom inputs, full step logs, diagrams, Hinglish explanations &amp; Q&amp;A.</p>
+    <div class="chapter-pills">
+      <button class="pill pill1" onclick="showSection('ch1-intro',null)">📦 Chapter 1 — D&C &amp; Greedy</button>
+      <button class="pill pill2" onclick="showSection('ch2-intro',null)">🧠 Chapter 2 — Dynamic Programming</button>
+      <button class="pill pill3" onclick="showSection('ch3-intro',null)">🔀 Chapter 3 — Backtracking &amp; B&B</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CH1 OVERVIEW ═══════════════════ -->
+<section id="ch1-intro" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-1">I</div>
+    <div>
+      <div class="ch-title">Divide &amp; Conquer + Greedy</div>
+      <div class="ch-sub">Binary Search · Merge Sort · Quick Sort · Selection Sort · Strassen · Knapsack · Prim · Kruskal · Huffman</div>
+    </div>
+  </div>
+
+  <!-- D&C DIAGRAM -->
+  <div class="diagram-box">
+    <div class="diagram-label">📐 Divide &amp; Conquer — How It Works</div>
+    <div class="svg-wrap">
+    <svg viewBox="0 0 740 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:480px">
+      <!-- Step boxes -->
+      <rect x="10" y="60" width="140" height="60" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+      <text x="80" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">① DIVIDE</text>
+      <text x="80" y="106" text-anchor="middle" font-size="11" fill="#78716c">Break problem</text>
+      <text x="80" y="119" text-anchor="middle" font-size="11" fill="#78716c">into sub-problems</text>
+      <!-- arrow -->
+      <path d="M152 90 L185 90" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="188" y="60" width="140" height="60" rx="10" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/>
+      <text x="258" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">② CONQUER</text>
+      <text x="258" y="106" text-anchor="middle" font-size="11" fill="#78716c">Solve each sub</text>
+      <text x="258" y="119" text-anchor="middle" font-size="11" fill="#78716c">problem recursively</text>
+      <!-- arrow -->
+      <path d="M330 90 L363 90" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="366" y="60" width="140" height="60" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+      <text x="436" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#5b21b6">③ COMBINE</text>
+      <text x="436" y="106" text-anchor="middle" font-size="11" fill="#78716c">Merge results</text>
+      <text x="436" y="119" text-anchor="middle" font-size="11" fill="#78716c">for final answer</text>
+      <!-- arrow to result -->
+      <path d="M508 90 L540 90" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="543" y="60" width="140" height="60" rx="10" fill="#f0fdf4" stroke="#047857" stroke-width="1.5"/>
+      <text x="613" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">✅ RESULT</text>
+      <text x="613" y="106" text-anchor="middle" font-size="11" fill="#78716c">T(n) = aT(n/b)</text>
+      <text x="613" y="119" text-anchor="middle" font-size="11" fill="#78716c">+ f(n)</text>
+      <!-- recurse arrows -->
+      <path d="M258 120 C258 160 80 160 80 120" stroke="#0369a1" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#arr2)"/>
+      <text x="169" y="168" text-anchor="middle" font-size="10" fill="#0369a1">Recursion (base case stops it)</text>
+      <defs>
+        <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#94a3b8"/></marker>
+        <marker id="arr2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#0369a1"/></marker>
+      </defs>
+    </svg>
+    </div>
+  </div>
+
+  <div class="card"><div class="card-top-bar bar-red"></div>
+    <h2>📖 Divide &amp; Conquer — Definition</h2>
+    <p style="color:var(--text2);font-size:.9rem">A paradigm where a problem is broken into smaller subproblems of the same type, solved recursively, and their results combined. Captured by the recurrence <code>T(n) = aT(n/b) + f(n)</code> solved by the Master Theorem.</p>
+    <h3>Master Theorem Cases</h3>
+    <table class="ctable">
+      <tr><th>Case</th><th>Condition</th><th>Result</th></tr>
+      <tr><td>Case 1</td><td>f(n) = O(n^(log_b a − ε))</td><td class="best">T(n) = Θ(n^log_b a)</td></tr>
+      <tr><td>Case 2</td><td>f(n) = Θ(n^log_b a)</td><td class="avg">T(n) = Θ(n^log_b a · log n)</td></tr>
+      <tr><td>Case 3</td><td>f(n) = Ω(n^(log_b a + ε))</td><td class="worst">T(n) = Θ(f(n))</td></tr>
+    </table>
+  </div>
+
+  <div class="card"><div class="card-top-bar bar-blue"></div>
+    <h2>🤑 Greedy Algorithm — Definition</h2>
+    <div class="hinglish">
+      <div class="hinglish-label">🇮🇳 Hinglish</div>
+      <p>Greedy matlab <em>lalchi</em>! Har step pe sabse best local choice lo — future ki chinta mat karo. Jaise buffet mein sabse tasty dish pehle uthao 🍽️. Sirf do conditions pe kaam karta hai — Greedy Choice Property + Optimal Substructure.</p>
+    </div>
+  </div>
+
+  <div class="summary-strip">
+    <div class="scard"><div class="val" style="color:var(--accent1)">D&amp;C</div><div class="lbl">Paradigm</div></div>
+    <div class="scard"><div class="val" style="color:var(--accent2)">O(log n)</div><div class="lbl">Binary Search</div></div>
+    <div class="scard"><div class="val" style="color:var(--accent3)">O(n log n)</div><div class="lbl">Merge Sort</div></div>
+    <div class="scard"><div class="val" style="color:var(--accent4)">O(n²)</div><div class="lbl">Quick Sort Worst</div></div>
+    <div class="scard"><div class="val" style="color:var(--accent5)">Greedy</div><div class="lbl">Local → Global</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ D&C ALGORITHMS ═══════════════════ -->
+<section id="ch1-dc" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-2">🔍</div>
+    <div>
+      <div class="ch-title">Binary Search &amp; Max/Min</div>
+      <div class="ch-sub">Animated Demos · Pseudocode · Diagrams · Complexity</div>
+    </div>
+  </div>
+
+  <!-- BINARY SEARCH -->
+  <div class="card"><div class="card-top-bar bar-blue"></div>
+    <h2>🔍 Binary Search</h2>
+    <div class="hinglish">
+      <div class="hinglish-label">🇮🇳 Hinglish</div>
+      <p>Dictionary mein word dhundho — seedha beech page pe jaao. Agar word chhota hai toh left, bada hai toh right. Har baar aadha hissa cut! Isliye O(log n) time lagta hai 📖</p>
+    </div>
+
+    <!-- DIAGRAM -->
+    <div class="diagram-box">
+      <div class="diagram-label">📐 Binary Search — Array State Diagram</div>
+      <div class="svg-wrap">
+      <svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:400px">
+        <!-- Array boxes -->
+        <g id="bs-diag">
+          <!-- Step 1: full range -->
+          <text x="10" y="20" font-size="11" fill="#78716c" font-weight="600">Initial: search 47 in sorted array</text>
+          <!-- boxes -->
+          <g>
+            <rect x="10" y="30" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+            <text x="36" y="54" text-anchor="middle" font-size="13" fill="#64748b">12</text>
+            <rect x="64" y="30" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+            <text x="90" y="54" text-anchor="middle" font-size="13" fill="#64748b">23</text>
+            <rect x="118" y="30" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+            <text x="144" y="54" text-anchor="middle" font-size="13" fill="#64748b">31</text>
+            <rect x="172" y="30" width="52" height="36" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="198" y="54" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">38</text>
+            <text x="198" y="76" text-anchor="middle" font-size="10" fill="#3b82f6">mid</text>
+            <rect x="226" y="30" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+            <text x="252" y="54" text-anchor="middle" font-size="13" fill="#64748b">41</text>
+            <rect x="280" y="30" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+            <text x="306" y="54" text-anchor="middle" font-size="13" fill="#64748b">47</text>
+            <rect x="334" y="30" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+            <text x="360" y="54" text-anchor="middle" font-size="13" fill="#64748b">59</text>
+          </g>
+          <!-- Arrow: 47>38 go right -->
+          <text x="400" y="30" font-size="11" fill="#0369a1" font-weight="700">47 &gt; 38 (mid)</text>
+          <text x="400" y="46" font-size="11" fill="#0369a1">→ Search RIGHT half</text>
+          <!-- Step 2: right half -->
+          <text x="400" y="70" font-size="11" fill="#78716c" font-weight="600">New search range:</text>
+          <rect x="400" y="78" width="50" height="32" rx="5" fill="#fff7ed" stroke="#fb923c" stroke-width="1.5"/>
+          <text x="425" y="100" text-anchor="middle" font-size="12" fill="#9a3412">41</text>
+          <rect x="453" y="78" width="50" height="32" rx="5" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+          <text x="478" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#166534">47</text>
+          <text x="478" y="119" text-anchor="middle" font-size="10" fill="#166534">✅ Found!</text>
+          <rect x="506" y="78" width="50" height="32" rx="5" fill="#fff7ed" stroke="#fb923c" stroke-width="1.5"/>
+          <text x="531" y="100" text-anchor="middle" font-size="12" fill="#9a3412">59</text>
+          <!-- brackets low/high -->
+          <text x="10" y="25" font-size="10" fill="#ef4444">low=0</text>
+          <text x="360" y="25" font-size="10" fill="#ef4444">high=6</text>
+        </g>
+      </svg>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="algo-box">
+        <div class="algo-box-title">📋 Step-by-Step Algorithm (English)</div>
+        <ul class="step-list">
+          <li data-n="1">Set <strong>low = 0</strong> and <strong>high = n − 1</strong></li>
+          <li data-n="2">While low ≤ high, compute <strong>mid = (low + high) / 2</strong></li>
+          <li data-n="3">If <strong>arr[mid] == key</strong> → return mid (found!)</li>
+          <li data-n="4">If <strong>arr[mid] &lt; key</strong> → discard left half: set low = mid + 1</li>
+          <li data-n="5">If <strong>arr[mid] &gt; key</strong> → discard right half: set high = mid − 1</li>
+          <li data-n="6">If loop ends and not found → return <strong>−1</strong></li>
+        </ul>
+      </div>
+      <div class="pseudo-box">
+        <div class="pseudo-box-title">💻 Pseudocode</div>
+        <pre>BINARY_SEARCH(arr, n, key):
+  low ← 0
+  high ← n - 1
+  WHILE low ≤ high DO
+    mid ← (low + high) / 2
+    IF arr[mid] == key
+      RETURN mid
+    ELSE IF arr[mid] < key
+      low ← mid + 1
+    ELSE
+      high ← mid - 1
+  RETURN -1</pre>
+      </div>
+    </div>
+
+    <!-- ANIMATION WITH INPUT -->
+    <div class="anim-box">
+      <div class="anim-title"><span>🎬 Binary Search — Live Animation</span><span style="color:var(--text3)">Searching: <strong id="bs-key-disp" style="color:var(--accent5)">47</strong></span></div>
+      <div class="input-row">
+        <div style="display:flex;flex-direction:column;gap:.2rem">
+          <label>Array (sorted, comma separated):</label>
+          <input type="text" id="bs-input-arr" value="3,7,12,19,23,31,47,52,61,74,88,93" placeholder="sorted numbers"/>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.2rem">
+          <label>Search Key:</label>
+          <input type="number" id="bs-input-key" value="47"/>
+        </div>
+        <button onclick="bsSetInput()">Apply Input</button>
+      </div>
+      <canvas id="bsCanvas" height="100"></canvas>
+      <div class="step-info" id="bsInfo">Press Play to start animation</div>
+      <div class="step-history-box" id="bsHistory"><div class="sh-title">Step History (scroll to read all)</div></div>
+      <div class="anim-controls">
+        <button class="anim-btn" id="bsPlay" onclick="bsControl('play')">▶ Play</button>
+        <button class="anim-btn" onclick="bsControl('reset')">↺ Reset</button>
+        <button class="anim-btn" onclick="bsControl('step')">⏭ Step</button>
+        <label class="spd-lbl">Speed: <input type="range" id="bsSpeed" min="200" max="2000" value="900" step="100" style="accent-color:var(--accent1);width:80px"></label>
+      </div>
+    </div>
+
+    <table class="ctable">
+      <tr><th>Case</th><th>Time</th><th>Reason</th></tr>
+      <tr><td>Best</td><td class="best">O(1)</td><td>Key is at midpoint on first try</td></tr>
+      <tr><td>Average</td><td class="avg">O(log n)</td><td>Halving the search space each step</td></tr>
+      <tr><td>Worst</td><td class="worst">O(log n)</td><td>Key at boundary or not present</td></tr>
+      <tr><td>Space</td><td class="best">O(1)</td><td>Iterative — no extra memory</td></tr>
+    </table>
+  </div>
+
+  <!-- MAX & MIN -->
+  <div class="card"><div class="card-top-bar bar-violet"></div>
+    <h2>📊 Max &amp; Min — Divide &amp; Conquer</h2>
+    <div class="hinglish">
+      <div class="hinglish-label">🇮🇳 Hinglish</div>
+      <p>Array ko do halves mein baanto. Left ka max/min nikalo, right ka nikalo, phir compare karo. Total comparisons: <strong>3n/2 − 2</strong> — straight approach se kam! 🏆</p>
+    </div>
+    <div class="diagram-box">
+      <div class="diagram-label">📐 Max/Min D&C — Recursion Tree</div>
+      <div class="svg-wrap">
+      <svg viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:380px">
+        <!-- root -->
+        <rect x="220" y="10" width="180" height="40" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+        <text x="310" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">[3,1,4,1,5,9,2,6]</text>
+        <!-- lines -->
+        <line x1="250" y1="50" x2="130" y2="95" stroke="#d97706" stroke-width="1.5"/>
+        <line x1="370" y1="50" x2="490" y2="95" stroke="#d97706" stroke-width="1.5"/>
+        <!-- left child -->
+        <rect x="60" y="95" width="140" height="38" rx="8" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/>
+        <text x="130" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">[3,1,4,1]</text>
+        <!-- right child -->
+        <rect x="420" y="95" width="140" height="38" rx="8" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/>
+        <text x="490" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">[5,9,2,6]</text>
+        <!-- leaf lines left -->
+        <line x1="90" y1="133" x2="50" y2="168" stroke="#0369a1" stroke-width="1.2"/>
+        <line x1="170" y1="133" x2="210" y2="168" stroke="#0369a1" stroke-width="1.2"/>
+        <!-- leaf lines right -->
+        <line x1="450" y1="133" x2="410" y2="168" stroke="#0369a1" stroke-width="1.2"/>
+        <line x1="530" y1="133" x2="570" y2="168" stroke="#0369a1" stroke-width="1.2"/>
+        <!-- leaves -->
+        <rect x="10" y="168" width="80" height="28" rx="6" fill="#f0fdf4" stroke="#047857" stroke-width="1.2"/>
+        <text x="50" y="186" text-anchor="middle" font-size="11" fill="#065f46">max=4,min=1</text>
+        <rect x="170" y="168" width="80" height="28" rx="6" fill="#f0fdf4" stroke="#047857" stroke-width="1.2"/>
+        <text x="210" y="186" text-anchor="middle" font-size="11" fill="#065f46">max=4,min=1</text>
+        <rect x="370" y="168" width="80" height="28" rx="6" fill="#f0fdf4" stroke="#047857" stroke-width="1.2"/>
+        <text x="410" y="186" text-anchor="middle" font-size="11" fill="#065f46">max=9,min=2</text>
+        <rect x="530" y="168" width="80" height="28" rx="6" fill="#f0fdf4" stroke="#047857" stroke-width="1.2"/>
+        <text x="570" y="186" text-anchor="middle" font-size="11" fill="#065f46">max=9,min=2</text>
+        <!-- combine label -->
+        <text x="310" y="78" text-anchor="middle" font-size="10" fill="#7c3aed">→ combine: max=9, min=1</text>
+      </svg>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="algo-box">
+        <div class="algo-box-title">📋 Algorithm Steps</div>
+        <ul class="step-list">
+          <li data-n="1">If only one element → max = min = that element. Return.</li>
+          <li data-n="2">If two elements → compare once, return (larger, smaller)</li>
+          <li data-n="3">Compute mid = (low + high) / 2</li>
+          <li data-n="4">Recursively find (lMax, lMin) for left half</li>
+          <li data-n="5">Recursively find (rMax, rMin) for right half</li>
+          <li data-n="6">Return (max(lMax,rMax), min(lMin,rMin))</li>
+        </ul>
+      </div>
+      <div class="pseudo-box">
+        <div class="pseudo-box-title">💻 Pseudocode</div>
+        <pre>MAX_MIN(arr, low, high):
+  IF low == high THEN
+    RETURN (arr[low], arr[low])
+  IF high == low + 1 THEN
+    RETURN (MAX, MIN) of pair
+  mid ← (low + high) / 2
+  (lMax,lMin) ← MAX_MIN(arr,low,mid)
+  (rMax,rMin) ← MAX_MIN(arr,mid+1,high)
+  RETURN (max(lMax,rMax),
+          min(lMin,rMin))</pre>
+      </div>
+    </div>
+    <table class="ctable">
+      <tr><th>Method</th><th>Comparisons</th></tr>
+      <tr><td>Naive (linear scan)</td><td class="worst">2(n − 1)</td></tr>
+      <tr><td>D&amp;C approach</td><td class="best">3n/2 − 2 (optimal!)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ SORTING ═══════════════════ -->
+<section id="ch1-sort" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-1">⚡</div>
+    <div>
+      <div class="ch-title">Sorting Algorithms</div>
+      <div class="ch-sub">Merge Sort · Quick Sort · Selection Sort · Strassen's Matrix Multiplication</div>
+    </div>
+  </div>
+
+  <div class="subtabs">
+    <button class="stab active" onclick="showTab('sort','merge',this)">Merge Sort</button>
+    <button class="stab" onclick="showTab('sort','quick',this)">Quick Sort</button>
+    <button class="stab" onclick="showTab('sort','selection',this)">Selection Sort</button>
+    <button class="stab" onclick="showTab('sort','strassen',this)">Strassen's</button>
+  </div>
+
+  <!-- MERGE SORT -->
+  <div id="sort-merge" class="stcontent active">
+    <div class="card"><div class="card-top-bar bar-violet"></div>
+      <h2>🔀 Merge Sort</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Books ko sort karna chahte ho? Sab books do halves mein baanto, har half sort karo, phir dono sorted halves ko merge karo. Jaise do sorted taash ki decks ko ek sorted deck mein milana! 🃏</p>
+      </div>
+      <div class="diagram-box">
+        <div class="diagram-label">📐 Merge Sort — Divide &amp; Merge Diagram</div>
+        <div class="svg-wrap">
+        <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:420px">
+          <!-- Level 0 -->
+          <rect x="200" y="8" width="280" height="34" rx="7" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+          <text x="340" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">[38, 27, 43, 3, 9, 82, 10]</text>
+          <!-- divide lines -->
+          <line x1="280" y1="42" x2="160" y2="90" stroke="#d97706" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <line x1="400" y1="42" x2="520" y2="90" stroke="#d97706" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="340" y="70" text-anchor="middle" font-size="10" fill="#d97706" font-weight="700">DIVIDE ↙ ↘</text>
+          <!-- Level 1 -->
+          <rect x="60" y="90" width="200" height="32" rx="7" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/>
+          <text x="160" y="111" text-anchor="middle" font-size="12" fill="#1e40af">[38, 27, 43]</text>
+          <rect x="420" y="90" width="200" height="32" rx="7" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/>
+          <text x="520" y="111" text-anchor="middle" font-size="12" fill="#1e40af">[3, 9, 82, 10]</text>
+          <!-- Level 2 -->
+          <line x1="120" y1="122" x2="70" y2="158" stroke="#0369a1" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="200" y1="122" x2="250" y2="158" stroke="#0369a1" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <rect x="30" y="158" width="80" height="28" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"/>
+          <text x="70" y="177" text-anchor="middle" font-size="11" fill="#5b21b6">[38, 27]</text>
+          <rect x="210" y="158" width="80" height="28" rx="6" fill="#f0fdf4" stroke="#047857" stroke-width="1.2"/>
+          <text x="250" y="177" text-anchor="middle" font-size="11" fill="#065f46">[43]</text>
+          <!-- merge arrows going up -->
+          <path d="M160 195 C160 218 340 218 340 195" stroke="#047857" stroke-width="1.8" fill="none" marker-end="url(#ma)"/>
+          <text x="250" y="232" text-anchor="middle" font-size="10" fill="#047857" font-weight="700">MERGE ↑ (combine sorted halves)</text>
+          <!-- sorted result -->
+          <rect x="200" y="194" width="280" height="28" rx="7" fill="#f0fdf4" stroke="#047857" stroke-width="2"/>
+          <text x="340" y="213" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">[3, 9, 10, 27, 38, 43, 82] ✅</text>
+          <defs>
+            <marker id="ma" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#047857"/></marker>
+          </defs>
+        </svg>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">If left ≥ right → base case, array is size 1, return</li>
+            <li data-n="2">Find mid = (left + right) / 2</li>
+            <li data-n="3">Recursively call MergeSort on left half [left..mid]</li>
+            <li data-n="4">Recursively call MergeSort on right half [mid+1..right]</li>
+            <li data-n="5">Merge the two sorted halves: always pick the smaller element first</li>
+            <li data-n="6">Copy remaining elements of either half if any</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>MERGE_SORT(arr, left, right):
+  IF left < right THEN
+    mid ← (left + right) / 2
+    MERGE_SORT(arr, left, mid)
+    MERGE_SORT(arr, mid+1, right)
+    MERGE(arr, left, mid, right)
+
+MERGE(arr, left, mid, right):
+  Copy arr[left..mid] → L[]
+  Copy arr[mid+1..right] → R[]
+  i←0, j←0, k←left
+  WHILE i<|L| AND j<|R| DO
+    IF L[i] ≤ R[j]
+      arr[k++] ← L[i++]
+    ELSE
+      arr[k++] ← R[j++]
+  Copy remaining of L, R</pre>
+        </div>
+      </div>
+      <!-- ANIMATION -->
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Merge Sort — Animated</span><span id="ms-phase" style="color:var(--accent4)">Ready</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Array (comma separated, up to 10 numbers):</label>
+            <input type="text" id="ms-input" value="38,27,43,3,9,82,10" placeholder="e.g. 5,2,8,1,9"/>
+          </div>
+          <button onclick="msSetInput()">Apply Input</button>
+        </div>
+        <div id="msViz" class="sort-viz-wrap"></div>
+        <div class="step-info" id="msInfo">Press Play to start Merge Sort</div>
+        <div class="step-history-box" id="msHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" id="msPlay" onclick="msControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="msControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="msControl('step')">⏭ Step</button>
+          <label class="spd-lbl">Speed: <input type="range" id="msSpeed" min="300" max="2000" value="800" step="100" style="accent-color:var(--accent3);width:80px"></label>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>Case</th><th>Time</th><th>Space</th></tr>
+        <tr><td>Best</td><td class="best">O(n log n)</td><td rowspan="3" class="worst">O(n) ← not in-place!</td></tr>
+        <tr><td>Average</td><td class="avg">O(n log n)</td></tr>
+        <tr><td>Worst</td><td class="best">O(n log n)</td></tr>
+      </table>
+      <p style="color:var(--accent4);font-size:.85rem;margin-top:.5rem">✅ <strong>Stable sort</strong> — T(n) = 2T(n/2) + O(n) → Master Theorem Case 2 → O(n log n)</p>
+    </div>
+  </div>
+
+  <!-- QUICK SORT -->
+  <div id="sort-quick" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-amber"></div>
+      <h2>⚡ Quick Sort</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Ek pivot choose karo. Pivot se chhote sab left, bade sab right. Ab recursively sort karo. Pivot apni sahi jagah pe aa gaya! 🎯 Worst case: already sorted array with last element as pivot — O(n²).</p>
+      </div>
+      <div class="diagram-box">
+        <div class="diagram-label">📐 Partition Step — Quick Sort</div>
+        <div class="svg-wrap">
+        <svg viewBox="0 0 620 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:380px">
+          <!-- Original -->
+          <text x="10" y="18" font-size="11" fill="#78716c" font-weight="600">Before partition (pivot = last element = 25):</text>
+          <g>
+            <rect x="10" y="28" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/><text x="36" y="52" text-anchor="middle" font-size="13" fill="#1e40af">64</text>
+            <rect x="65" y="28" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/><text x="91" y="52" text-anchor="middle" font-size="13" fill="#1e40af">34</text>
+            <rect x="120" y="28" width="52" height="36" rx="5" fill="#fef9c3" stroke="#eab308" stroke-width="1.5"/><text x="146" y="52" text-anchor="middle" font-size="13" fill="#854d0e">25</text>
+            <rect x="175" y="28" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/><text x="201" y="52" text-anchor="middle" font-size="13" fill="#1e40af">12</text>
+            <rect x="230" y="28" width="52" height="36" rx="5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/><text x="256" y="52" text-anchor="middle" font-size="13" fill="#1e40af">22</text>
+            <rect x="285" y="28" width="52" height="36" rx="5" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/><text x="311" y="52" text-anchor="middle" font-size="13" fill="#b91c1c" font-weight="700">11</text>
+            <text x="311" y="75" text-anchor="middle" font-size="10" fill="#dc2626">pivot</text>
+          </g>
+          <!-- Arrow -->
+          <text x="360" y="50" font-size="18" fill="#d97706">→</text>
+          <!-- After partition -->
+          <text x="390" y="18" font-size="11" fill="#78716c" font-weight="600">After partition:</text>
+          <g>
+            <rect x="390" y="28" width="42" height="36" rx="5" fill="#f0fdf4" stroke="#22c55e" stroke-width="1.5"/><text x="411" y="52" text-anchor="middle" font-size="12" fill="#166534">≤11</text>
+            <rect x="435" y="28" width="42" height="36" rx="5" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/><text x="456" y="52" text-anchor="middle" font-size="12" fill="#b91c1c" font-weight="700">11</text>
+            <text x="456" y="75" text-anchor="middle" font-size="10" fill="#dc2626">pivot ✅</text>
+            <rect x="480" y="28" width="42" height="36" rx="5" fill="#fff1f2" stroke="#fb7185" stroke-width="1.5"/><text x="501" y="52" text-anchor="middle" font-size="12" fill="#9f1239">≥11</text>
+          </g>
+          <text x="250" y="108" text-anchor="middle" font-size="11" fill="#0369a1" font-weight="600">Pivot is now in its correct final position! Recurse on left &amp; right sub-arrays.</text>
+        </svg>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Choose last element as <strong>pivot</strong></li>
+            <li data-n="2">Partition: move all elements ≤ pivot to its left, all &gt; pivot to its right</li>
+            <li data-n="3">Pivot is now at its <strong>correct sorted position</strong></li>
+            <li data-n="4">Recursively apply QuickSort to left sub-array (before pivot)</li>
+            <li data-n="5">Recursively apply QuickSort to right sub-array (after pivot)</li>
+            <li data-n="6">Base case: if sub-array has 0 or 1 element → already sorted</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>QUICK_SORT(arr, low, high):
+  IF low < high THEN
+    pi ← PARTITION(arr,low,high)
+    QUICK_SORT(arr, low, pi-1)
+    QUICK_SORT(arr, pi+1, high)
+
+PARTITION(arr, low, high):
+  pivot ← arr[high]
+  i ← low - 1
+  FOR j ← low TO high-1 DO
+    IF arr[j] ≤ pivot THEN
+      i ← i + 1
+      SWAP(arr[i], arr[j])
+  SWAP(arr[i+1], arr[high])
+  RETURN i + 1</pre>
+        </div>
+      </div>
+      <!-- ANIMATION -->
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Quick Sort — Animated</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Array (comma separated, up to 10 numbers):</label>
+            <input type="text" id="qs-input" value="64,34,25,12,22,11,90" placeholder="e.g. 5,2,8,1,9"/>
+          </div>
+          <button onclick="qsSetInput()">Apply Input</button>
+        </div>
+        <div id="qsViz" class="sort-viz-wrap"></div>
+        <div class="step-info" id="qsInfo">Press Play to start Quick Sort</div>
+        <div class="step-history-box" id="qsHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" id="qsPlay" onclick="qsControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="qsControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="qsControl('step')">⏭ Step</button>
+          <label class="spd-lbl">Speed: <input type="range" id="qsSpeed" min="300" max="2000" value="800" step="100" style="accent-color:var(--accent5);width:80px"></label>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>Case</th><th>Time</th><th>When?</th></tr>
+        <tr><td>Best</td><td class="best">O(n log n)</td><td>Pivot always divides equally</td></tr>
+        <tr><td>Average</td><td class="avg">O(n log n)</td><td>Random data</td></tr>
+        <tr><td>Worst</td><td class="worst">O(n²)</td><td>Already sorted array with last element pivot</td></tr>
+        <tr><td>Space</td><td class="best">O(log n)</td><td>Recursion call stack</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SELECTION SORT -->
+  <div id="sort-selection" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-green"></div>
+      <h2>🎯 Selection Sort</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Unsorted part mein sabse chhota dhundho, use pehle position pe dalo. Phir baaki mein se chhota dhundho, second position pe. Simple but slow — O(n²). ✅ Min swaps property.</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Start i from 0 to n−2</li>
+            <li data-n="2">Find index of <strong>minimum element</strong> in unsorted portion [i..n-1]</li>
+            <li data-n="3">Swap minimum with element at position i</li>
+            <li data-n="4">Now elements at [0..i] are sorted</li>
+            <li data-n="5">Repeat until i = n−2</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>SELECTION_SORT(arr, n):
+  FOR i ← 0 TO n-2 DO
+    minIdx ← i
+    FOR j ← i+1 TO n-1 DO
+      IF arr[j] < arr[minIdx]
+        minIdx ← j
+    SWAP(arr[i], arr[minIdx])</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Selection Sort — Animated</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Array (comma separated, up to 10 numbers):</label>
+            <input type="text" id="ss-input" value="64,25,12,22,11,36" placeholder="e.g. 5,2,8,1,9"/>
+          </div>
+          <button onclick="ssSetInput()">Apply Input</button>
+        </div>
+        <div id="ssViz" class="sort-viz-wrap"></div>
+        <div class="step-info" id="ssInfo">Press Play to animate</div>
+        <div class="step-history-box" id="ssHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" id="ssPlay" onclick="ssControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="ssControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="ssControl('step')">⏭ Step</button>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>Property</th><th>Value</th></tr>
+        <tr><td>Time (all cases)</td><td class="worst">O(n²)</td></tr>
+        <tr><td>Swaps</td><td class="best">O(n) minimum — best property!</td></tr>
+        <tr><td>Stable?</td><td class="worst">No</td></tr>
+        <tr><td>Space</td><td class="best">O(1) in-place</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- STRASSEN -->
+  <div id="sort-strassen" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-red"></div>
+      <h2>🧮 Strassen's Matrix Multiplication</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Normal 2×2 matrix mein 8 multiplications lagte hain. Strassen ne 7 se kaam chalaya! O(n³) se O(n^2.807) kar diya. GPU computing mein bahut use hota hai! 🔥</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Key Idea</div>
+          <ul class="step-list">
+            <li data-n="1">Split each n×n matrix into four n/2 × n/2 sub-matrices</li>
+            <li data-n="2">Compute 7 products M1…M7 using those sub-matrices</li>
+            <li data-n="3">Each product uses additions/subtractions of sub-matrices</li>
+            <li data-n="4">Compute result C's four quadrants from M1…M7</li>
+            <li data-n="5">Saves 1 multiplication per level → better asymptotically</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 7 Products (2×2 case)</div>
+          <pre>A = [[a,b],[c,d]], B = [[e,f],[g,h]]
+
+M1 = (a+d)(e+h)
+M2 = (c+d)·e
+M3 = a·(f−h)
+M4 = d·(g−e)
+M5 = (a+b)·h
+M6 = (c−a)·(e+f)
+M7 = (b−d)·(g+h)
+
+C[0][0] = M1+M4−M5+M7
+C[0][1] = M3+M5
+C[1][0] = M2+M4
+C[1][1] = M1−M2+M3+M6</pre>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>Method</th><th>Multiplications</th><th>Time</th></tr>
+        <tr><td>Standard</td><td class="worst">8</td><td class="worst">O(n³)</td></tr>
+        <tr><td>Strassen</td><td class="best">7</td><td class="best">O(n^2.807)</td></tr>
+      </table>
+      <p style="font-size:.84rem;color:var(--text2)">Recurrence: <code>T(n) = 7T(n/2) + O(n²)</code> → Master Theorem Case 1 → <strong>T(n) = O(n^log₂7 ≈ n^2.807)</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ GREEDY ═══════════════════ -->
+<section id="ch1-greedy" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-3">💰</div>
+    <div>
+      <div class="ch-title">Greedy Algorithms</div>
+      <div class="ch-sub">Fractional Knapsack · Prim · Kruskal · Huffman · Optimal Merge</div>
+    </div>
+  </div>
+  <div class="subtabs">
+    <button class="stab active" onclick="showTab('greedy','knap',this)">Fractional Knapsack</button>
+    <button class="stab" onclick="showTab('greedy','prim',this)">Prim's MST</button>
+    <button class="stab" onclick="showTab('greedy','kruskal',this)">Kruskal's MST</button>
+    <button class="stab" onclick="showTab('greedy','huffman',this)">Huffman Coding</button>
+  </div>
+
+  <div id="greedy-knap" class="stcontent active">
+    <div class="card"><div class="card-top-bar bar-green"></div>
+      <h2>🎒 Fractional Knapsack</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Chor ki tarah socho — bag mein sona, chandi, heera. Value/weight ratio se sort karo. Sabse zyada ratio wala pehle le. Agar item pura nahi aata — fraction le lo! Greedy works here 💎</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Calculate <strong>value/weight ratio</strong> for each item</li>
+            <li data-n="2">Sort items in <strong>decreasing order</strong> of ratio</li>
+            <li data-n="3">Initialize remaining capacity = W, totalValue = 0</li>
+            <li data-n="4">For each item: if weight ≤ remaining → take <strong>full item</strong></li>
+            <li data-n="5">Else: take <strong>fraction</strong> = remaining/weight of item</li>
+            <li data-n="6">Return totalValue (guaranteed optimal)</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>FRAC_KNAPSACK(items, W):
+  Sort by (value/weight) DESC
+  totalValue ← 0
+  remaining ← W
+  FOR each item DO
+    IF item.weight ≤ remaining
+      totalValue += item.value
+      remaining -= item.weight
+    ELSE
+      f ← remaining / item.weight
+      totalValue += f × item.value
+      BREAK
+  RETURN totalValue</pre>
+        </div>
+      </div>
+      <!-- ANIMATION -->
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Fractional Knapsack — Animated</span><span id="kn-val" style="color:var(--accent4)">Value: 0</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Items (name:weight:value, comma sep):</label>
+            <input type="text" id="kn-input-items" value="Gold:10:60,Diamond:5:50,Silver:20:100,Bronze:15:45" style="width:280px"/>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Capacity W:</label>
+            <input type="number" id="kn-input-w" value="35" min="1"/>
+          </div>
+          <button onclick="knSetInput()">Apply</button>
+        </div>
+        <canvas id="knCanvas" height="190"></canvas>
+        <div class="step-info" id="knInfo">Press Play</div>
+        <div class="step-history-box" id="knHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="knControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="knControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="knControl('step')">⏭ Step</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="greedy-prim" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-violet"></div>
+      <h2>🌲 Prim's Algorithm (MST)</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>5 ghar hain — sab ko bijli deni hai. Ek ghar se shuru, sabse sasta wire kahan jaata hai? Woh ghar jodo. Dono ghar mein se sabse sasta wire — jodo. Aise karte karte pura village connect! ⚡</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Start from any vertex (e.g., vertex 0). Mark it as in MST.</li>
+            <li data-n="2">Find the <strong>minimum weight edge</strong> connecting MST to a non-MST vertex</li>
+            <li data-n="3">Add that edge and vertex to MST</li>
+            <li data-n="4">Repeat until all V vertices are in MST</li>
+            <li data-n="5">MST has exactly V−1 edges and minimum total weight</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>PRIM(G, start):
+  key[v] ← ∞ for all v
+  key[start] ← 0
+  parent[start] ← NULL
+  Q ← all vertices (min-PQ by key)
+  WHILE Q not empty DO
+    u ← EXTRACT_MIN(Q)
+    FOR each neighbor v of u DO
+      IF v ∈ Q AND w(u,v) < key[v]
+        parent[v] ← u
+        key[v] ← w(u,v)</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Prim's MST — Animated</span><span id="prim-cost" style="color:var(--accent4)">MST Cost: 0</span></div>
+        <canvas id="primCanvas" height="300"></canvas>
+        <div class="step-info" id="primInfo">Press Play to build MST</div>
+        <div class="step-history-box" id="primHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="primControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="primControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="primControl('step')">⏭ Step</button>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>Implementation</th><th>Time</th></tr>
+        <tr><td>Simple (adjacency matrix)</td><td class="worst">O(V²)</td></tr>
+        <tr><td>Binary Heap + Adj List</td><td class="avg">O(E log V)</td></tr>
+        <tr><td>Fibonacci Heap</td><td class="best">O(E + V log V)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="greedy-kruskal" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-blue"></div>
+      <h2>🔗 Kruskal's Algorithm (MST)</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Sabhi edges ko price ke hisaab se sort karo. Sabse sasta edge lo — agar cycle nahi banta → include. Cycle bane → skip. Union-Find se cycle detect karo. 🔄</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Sort <strong>all edges</strong> by weight in ascending order</li>
+            <li data-n="2">Initialize Union-Find (each vertex is its own component)</li>
+            <li data-n="3">For each edge (u, v, w) in sorted order:</li>
+            <li data-n="4">If FIND(u) ≠ FIND(v) → no cycle → add to MST, UNION(u,v)</li>
+            <li data-n="5">If FIND(u) == FIND(v) → would form cycle → skip</li>
+            <li data-n="6">Stop when MST has V−1 edges</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>KRUSKAL(G):
+  Sort all edges by weight ASC
+  MST ← empty set
+  Init Union-Find for all V
+  FOR each edge (u,v,w) DO
+    IF FIND(u) ≠ FIND(v)
+      MST ← MST ∪ {(u,v,w)}
+      UNION(u, v)
+      IF |MST| == V-1 THEN BREAK
+  RETURN MST</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Kruskal's MST — Animated</span><span id="kr-cost" style="color:var(--accent4)">MST Cost: 0</span></div>
+        <canvas id="krCanvas" height="300"></canvas>
+        <div class="step-info" id="krInfo">Press Play to build MST</div>
+        <div class="step-history-box" id="krHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="krControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="krControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="krControl('step')">⏭ Step</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="greedy-huffman" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-amber"></div>
+      <h2>📡 Huffman Coding</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Jo letter zyada aata hai usse chhota code do, jo kam aata hai usse bada code. Jaise Morse code mein 'E' sirf dot! Min-heap use karo, baar baar do lowest merge karo. 📡</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Create leaf nodes for each character with its frequency</li>
+            <li data-n="2">Build a <strong>min-heap</strong> (priority queue) with all nodes</li>
+            <li data-n="3">Extract two <strong>minimum frequency</strong> nodes (left, right)</li>
+            <li data-n="4">Create new internal node: freq = left.freq + right.freq</li>
+            <li data-n="5">Insert merged node back into heap</li>
+            <li data-n="6">Repeat until 1 node remains — that is the Huffman tree root</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>HUFFMAN(chars, freq):
+  Q ← min-heap of (freq,char)
+  WHILE Q.size > 1 DO
+    L ← EXTRACT_MIN(Q)
+    R ← EXTRACT_MIN(Q)
+    node ← new Node(
+      freq = L.freq + R.freq,
+      left = L, right = R)
+    INSERT(Q, node)
+  RETURN Q.top  // Huffman root</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Huffman Tree — Build Animation</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Characters (char:freq, comma sep):</label>
+            <input type="text" id="huff-input" value="A:5,B:2,C:1,D:3,E:4" style="width:240px" placeholder="A:5,B:2,C:1"/>
+          </div>
+          <button onclick="huffSetInput()">Apply</button>
+        </div>
+        <canvas id="huffCanvas" height="300"></canvas>
+        <div class="step-info" id="huffInfo">Press Play to build Huffman tree</div>
+        <div class="step-history-box" id="huffHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="huffControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="huffControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="huffControl('step')">⏭ Step</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CH2 OVERVIEW ═══════════════════ -->
+<section id="ch2-intro" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-2">II</div>
+    <div>
+      <div class="ch-title">Dynamic Programming</div>
+      <div class="ch-sub">0/1 Knapsack · Subset Sum · Coin Change · OBST · Matrix Chain · LCS · TSP</div>
+    </div>
+  </div>
+  <div class="hinglish">
+    <div class="hinglish-label">🇮🇳 Hinglish</div>
+    <p><strong>Dynamic Programming</strong> — Ek bada puzzle solve karna hai. Chhote puzzle ke answers yaad rakh lo — table mein store karo (memoization). Baar baar same calculation nahi karni! "Remember and reuse" — yahi DP ka mantra hai. 🧠</p>
+    <p style="margin-top:.6rem"><strong>Greedy vs DP:</strong> Greedy = "abhi ka best lo". DP = "sab options try karo, best choose karo." Greedy O(n log n), DP O(n²)/O(n³) — lekin DP guaranteed optimal hai jahan greedy fail kare! 💡</p>
+  </div>
+
+  <!-- DP DIAGRAM -->
+  <div class="diagram-box">
+    <div class="diagram-label">📐 DP — Overlapping Subproblems (Fibonacci Example)</div>
+    <div class="svg-wrap">
+    <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:400px">
+      <!-- Without DP: recomputation -->
+      <text x="10" y="18" font-size="11" fill="#78716c" font-weight="700">Without DP (brute force) → fib(5) recomputed many times:</text>
+      <rect x="270" y="28" width="80" height="28" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/><text x="310" y="47" text-anchor="middle" font-size="12" fill="#92400e">fib(5)</text>
+      <line x1="290" y1="56" x2="180" y2="82" stroke="#d97706" stroke-width="1.2"/><line x1="330" y1="56" x2="420" y2="82" stroke="#d97706" stroke-width="1.2"/>
+      <rect x="130" y="82" width="80" height="28" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/><text x="170" y="101" text-anchor="middle" font-size="12" fill="#92400e">fib(4)</text>
+      <rect x="380" y="82" width="80" height="28" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/><text x="420" y="101" text-anchor="middle" font-size="12" fill="#92400e">fib(3)</text>
+      <line x1="150" y1="110" x2="70" y2="138" stroke="#d97706" stroke-width="1.2"/><line x1="190" y1="110" x2="260" y2="138" stroke="#d97706" stroke-width="1.2"/>
+      <rect x="20" y="138" width="80" height="28" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/><text x="60" y="157" text-anchor="middle" font-size="12" fill="#b91c1c">fib(3)❌</text>
+      <rect x="220" y="138" width="80" height="28" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/><text x="260" y="157" text-anchor="middle" font-size="12" fill="#b91c1c">fib(2)❌</text>
+      <text x="60" y="180" text-anchor="middle" font-size="10" fill="#dc2626">Recomputed!</text>
+      <text x="260" y="180" text-anchor="middle" font-size="10" fill="#dc2626">Recomputed!</text>
+      <!-- With DP -->
+      <rect x="490" y="28" width="160" height="160" rx="10" fill="#f0fdf4" stroke="#047857" stroke-width="2"/>
+      <text x="570" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">With DP (Table):</text>
+      <text x="510" y="72" font-size="11" fill="#059669">dp[0] = 0</text>
+      <text x="510" y="90" font-size="11" fill="#059669">dp[1] = 1</text>
+      <text x="510" y="108" font-size="11" fill="#059669">dp[2] = 1</text>
+      <text x="510" y="126" font-size="11" fill="#059669">dp[3] = 2</text>
+      <text x="510" y="144" font-size="11" fill="#059669">dp[4] = 3</text>
+      <text x="510" y="162" font-size="11" fill="#059669">dp[5] = 5 ✅</text>
+      <text x="570" y="182" text-anchor="middle" font-size="10" fill="#047857" font-weight="700">Each computed ONCE!</text>
+    </svg>
+    </div>
+  </div>
+
+  <div class="card"><div class="card-top-bar bar-blue"></div>
+    <h2>🧠 Two Pillars of DP</h2>
+    <div class="two-col">
+      <div class="algo-box">
+        <div class="algo-box-title">✅ Optimal Substructure</div>
+        <ul class="step-list">
+          <li data-n="1">Optimal solution of the problem contains optimal solutions of its subproblems</li>
+          <li data-n="2">Example: shortest path A→C through B = shortest(A→B) + shortest(B→C)</li>
+        </ul>
+      </div>
+      <div class="algo-box" style="background:#fff1f2;border-color:#fecdd3">
+        <div class="algo-box-title" style="color:var(--accent1)">🔁 Overlapping Subproblems</div>
+        <ul class="step-list" style="--accent2:var(--accent1)">
+          <li data-n="1">Same subproblems are solved multiple times (unlike D&amp;C where they're distinct)</li>
+          <li data-n="2">Memoization/Tabulation avoids redundant recomputation</li>
+        </ul>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th>Feature</th><th>Divide &amp; Conquer</th><th>Dynamic Programming</th></tr>
+      <tr><td>Subproblems</td><td class="yes">Independent</td><td class="maybe">Overlapping</td></tr>
+      <tr><td>Recomputation</td><td class="no">Yes (wasteful)</td><td class="yes">No (memoized)</td></tr>
+      <tr><td>Examples</td><td>Merge Sort, Binary Search</td><td>Knapsack, LCS, Fibonacci</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ DP PROBLEMS ═══════════════════ -->
+<section id="ch2-dp" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-2">🧬</div>
+    <div>
+      <div class="ch-title">DP Problems</div>
+      <div class="ch-sub">0/1 Knapsack · LCS · Coin Change · Matrix Chain · TSP</div>
+    </div>
+  </div>
+  <div class="subtabs">
+    <button class="stab active" onclick="showTab('dp','knap',this)">0/1 Knapsack</button>
+    <button class="stab" onclick="showTab('dp','lcs',this)">LCS</button>
+    <button class="stab" onclick="showTab('dp','coin',this)">Coin Change</button>
+    <button class="stab" onclick="showTab('dp','matrix',this)">Matrix Chain</button>
+    <button class="stab" onclick="showTab('dp','tsp',this)">TSP (DP)</button>
+  </div>
+
+  <!-- 0/1 KNAPSACK -->
+  <div id="dp-knap" class="stcontent active">
+    <div class="card"><div class="card-top-bar bar-blue"></div>
+      <h2>🎒 0/1 Knapsack Problem (DP)</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Item ka fraction nahi le sakte! Ya pura lo (1) ya mat lo (0). Greedy fail hota hai. DP table banao: <code>dp[i][w]</code> = pehle i items mein se max value jab capacity w ho. Har cell mein do options compare karo!</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Create table dp[0..n][0..W], initialize all 0</li>
+            <li data-n="2">For each item i (1 to n), for each capacity w (0 to W):</li>
+            <li data-n="3">Option A (skip item i): dp[i][w] = dp[i−1][w]</li>
+            <li data-n="4">Option B (take item i, if wt[i] ≤ w): dp[i−1][w−wt[i]] + val[i]</li>
+            <li data-n="5">dp[i][w] = max(Option A, Option B)</li>
+            <li data-n="6">Answer is dp[n][W]</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>KNAPSACK_01(val, wt, n, W):
+  dp[0..n][0..W] ← 0
+  FOR i ← 1 TO n DO
+    FOR w ← 0 TO W DO
+      dp[i][w] ← dp[i-1][w]  // skip
+      IF wt[i] ≤ w THEN
+        dp[i][w] ← max(dp[i][w],
+          dp[i-1][w-wt[i]] + val[i])
+  RETURN dp[n][W]</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 0/1 Knapsack DP Table</span><span id="kn01-val" style="color:var(--accent4)">Max: 0</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Items (weight:value, comma sep):</label>
+            <input type="text" id="kn01-input-items" value="2:3,3:4,4:5" placeholder="w:v,w:v,..."/>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Capacity W:</label>
+            <input type="number" id="kn01-input-w" value="5" min="1"/>
+          </div>
+          <button onclick="kn01SetInput()">Apply</button>
+        </div>
+        <canvas id="kn01Canvas" height="220"></canvas>
+        <div class="step-info" id="kn01Info">Press Play to fill DP table</div>
+        <div class="step-history-box" id="kn01History"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="kn01Control('play')">▶ Play</button>
+          <button class="anim-btn" onclick="kn01Control('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="kn01Control('step')">⏭ Step</button>
+          <label class="spd-lbl">Speed: <input type="range" id="kn01Speed" min="100" max="1200" value="400" step="50" style="accent-color:var(--accent2);width:80px"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LCS -->
+  <div id="dp-lcs" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-green"></div>
+      <h2>📝 Longest Common Subsequence (LCS)</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>"ABCBDAB" aur "BDCABA" ka LCS = "BCBA" (length 4). Subsequence means consecutive nahi chahiye! 2D DP table banao. Characters match → diagonal+1. No match → max(left, up). 🧬</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Create dp[0..m][0..n], initialize row 0 and col 0 to 0</li>
+            <li data-n="2">For each i (1..m) and j (1..n):</li>
+            <li data-n="3">If X[i] == Y[j] → dp[i][j] = dp[i−1][j−1] + 1 (match!)</li>
+            <li data-n="4">Else → dp[i][j] = max(dp[i−1][j], dp[i][j−1])</li>
+            <li data-n="5">Answer is dp[m][n]. Trace back for actual subsequence.</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>LCS(X, Y, m, n):
+  dp[0..m][0..n] ← 0
+  FOR i ← 1 TO m DO
+    FOR j ← 1 TO n DO
+      IF X[i] == Y[j]
+        dp[i][j] ← dp[i-1][j-1]+1
+      ELSE
+        dp[i][j] ← max(dp[i-1][j],
+                        dp[i][j-1])
+  RETURN dp[m][n]</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 LCS DP Table</span><span id="lcs-val" style="color:var(--accent4)">LCS Length: 0</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>String X:</label>
+            <input type="text" id="lcs-input-x" value="ABCB" maxlength="8" style="width:100px"/>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>String Y:</label>
+            <input type="text" id="lcs-input-y" value="BDCAB" maxlength="8" style="width:100px"/>
+          </div>
+          <button onclick="lcsSetInput()">Apply</button>
+        </div>
+        <canvas id="lcsCanvas" height="240"></canvas>
+        <div class="step-info" id="lcsInfo">Press Play</div>
+        <div class="step-history-box" id="lcsHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="lcsControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="lcsControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="lcsControl('step')">⏭ Step</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COIN CHANGE -->
+  <div id="dp-coin" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-amber"></div>
+      <h2>🪙 Coin Change</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>coins={1,5,6,9}, amount=11. Min coins chahiye. Greedy se 9+1+1=3 coins. DP se: 6+5=2 coins ✅! Isliye DP use karo. dp[j] = j amount ke liye min coins. 💰</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Init dp[0..amount] = ∞, set dp[0] = 0</li>
+            <li data-n="2">For each amount j (1..amount):</li>
+            <li data-n="3">For each coin c: if c ≤ j and dp[j−c]+1 &lt; dp[j] → update dp[j]</li>
+            <li data-n="4">dp[j] = min coins to make amount j</li>
+            <li data-n="5">Answer = dp[amount] (or −1 if still ∞)</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>COIN_CHANGE(coins, amount):
+  dp[0..amount] ← ∞
+  dp[0] ← 0
+  FOR j ← 1 TO amount DO
+    FOR each coin c DO
+      IF c ≤ j AND dp[j-c]+1 < dp[j]
+        dp[j] ← dp[j-c] + 1
+  RETURN dp[amount]</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 Coin Change DP Array</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Coins (comma separated):</label>
+            <input type="text" id="coin-input-coins" value="1,4,6" style="width:120px"/>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Amount:</label>
+            <input type="number" id="coin-input-amt" value="9" min="1" max="30"/>
+          </div>
+          <button onclick="coinSetInput()">Apply</button>
+        </div>
+        <canvas id="coinCanvas" height="160"></canvas>
+        <div class="step-info" id="coinInfo">Press Play</div>
+        <div class="step-history-box" id="coinHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="coinControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="coinControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="coinControl('step')">⏭ Step</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATRIX CHAIN -->
+  <div id="dp-matrix" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-red"></div>
+      <h2>🔢 Matrix Chain Multiplication</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>3 matrices A(10×30), B(30×5), C(5×60). Order matter karta hai! (AB)C = 4500 operations. A(BC) = 27000. DP se optimal parenthesization nikalo. 🎲</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Input: dims[0..n] where matrix i has dimensions dims[i−1]×dims[i]</li>
+            <li data-n="2">dp[i][i] = 0 (single matrix, no cost)</li>
+            <li data-n="3">For increasing chain lengths l = 2 to n:</li>
+            <li data-n="4">For each starting index i, compute j = i + l − 1</li>
+            <li data-n="5">Try every split point k: cost = dp[i][k] + dp[k+1][j] + dims[i−1]×dims[k]×dims[j]</li>
+            <li data-n="6">dp[i][j] = minimum over all k. Answer = dp[1][n]</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>MATRIX_CHAIN(dims, n):
+  dp[i][i] ← 0 for all i
+  FOR len ← 2 TO n DO
+    FOR i ← 1 TO n-len+1 DO
+      j ← i + len - 1
+      dp[i][j] ← ∞
+      FOR k ← i TO j-1 DO
+        cost ← dp[i][k]+dp[k+1][j]
+          + dims[i-1]*dims[k]*dims[j]
+        IF cost < dp[i][j]
+          dp[i][j] ← cost
+  RETURN dp[1][n]</pre>
+        </div>
+      </div>
+      <div class="exam-box">
+        <div class="exam-label">📝 Example</div>
+        <p class="qa-q">Matrices: A=10×30, B=30×5, C=5×60. dims=[10,30,5,60]</p>
+        <p class="qa-a">(AB)C: 10×30×5 + 10×5×60 = 1500+3000 = <strong>4500</strong> ✅<br>A(BC): 30×5×60 + 10×30×60 = 9000+18000 = 27000 ❌<br>→ Optimal: (AB)C with cost 4500</p>
+      </div>
+      <table class="ctable">
+        <tr><th>Complexity</th><th>Value</th></tr>
+        <tr><td>Time</td><td class="worst">O(n³)</td></tr>
+        <tr><td>Space</td><td class="avg">O(n²)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- TSP DP -->
+  <div id="dp-tsp" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-violet"></div>
+      <h2>🗺️ Travelling Salesman Problem — DP (Bitmask)</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Salesman ko n cities visit karni hain — sab ek baar — aur wapas aana hai. Minimum distance? Brute force O(n!). DP bitmask: O(n²·2ⁿ). State: dp[S][i] = set S visit karke city i pe hone ka min cost. 🗺️</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">dp[S][i] = min cost to visit all cities in set S, ending at city i</li>
+            <li data-n="2">Base: dp[{start}][start] = 0</li>
+            <li data-n="3">For every subset S containing start city:</li>
+            <li data-n="4">For each city i in S: for each city j NOT in S: update dp[S∪{j}][j]</li>
+            <li data-n="5">Answer = min over all i ≠ start of (dp[all][i] + dist[i][start])</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode (Bitmask DP)</div>
+          <pre>TSP_DP(dist, n):
+  dp[S][i] ← ∞ for all S, i
+  dp[1][0] ← 0  // start at city 0
+  FOR S ← 1 TO 2^n-1 DO
+    IF S has bit 0 set THEN
+      FOR i in S (i≠0) DO
+        FOR j NOT in S DO
+          dp[S|(1<<j)][j] = min(
+            dp[S|(1<<j)][j],
+            dp[S][i]+dist[i][j])
+  RETURN min over i of
+    dp[(1<<n)-1][i]+dist[i][0]</pre>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>Method</th><th>Time</th></tr>
+        <tr><td>Brute Force</td><td class="worst">O(n!)</td></tr>
+        <tr><td>DP (Bitmask)</td><td class="avg">O(n²·2ⁿ)</td></tr>
+        <tr><td>Approximation (2-OPT)</td><td class="best">O(n²)</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CH3 OVERVIEW ═══════════════════ -->
+<section id="ch3-intro" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-3">III</div>
+    <div>
+      <div class="ch-title">Backtracking &amp; Branch and Bound</div>
+      <div class="ch-sub">N-Queens · Sum of Subsets · Hamiltonian Cycle · 0/1 Knapsack B&B · TSP B&B</div>
+    </div>
+  </div>
+  <div class="hinglish">
+    <div class="hinglish-label">🇮🇳 Hinglish</div>
+    <p><strong>Backtracking</strong> — Maze mein jaane jaisi baat. Ek rasta lo, dead end aaye toh wapas aao, doosra try karo. Sab solutions try karte ho, par galat raste pe zyada time waste nahi! 🚗</p>
+    <p style="margin-top:.6rem"><strong>Branch &amp; Bound</strong> — Backtracking ka smart version. Sirf "undo" nahi karte — pehle estimate lagate hain "kya is branch mein better solution aa sakta hai?" Agar estimate bhi best se bura hai → chhod do (prune). 🌿</p>
+  </div>
+  <div class="diagram-box">
+    <div class="diagram-label">📐 Backtracking — State Space Tree (N-Queens 4×4 partial)</div>
+    <div class="svg-wrap">
+    <svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:420px">
+      <!-- Root -->
+      <rect x="280" y="8" width="100" height="32" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+      <text x="330" y="29" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Start (Row 0)</text>
+      <!-- Level 1 branches -->
+      <line x1="280" y1="40" x2="90" y2="78" stroke="#d97706" stroke-width="1.2"/><text x="150" y="65" font-size="10" fill="#0369a1">col=0</text>
+      <line x1="300" y1="40" x2="230" y2="78" stroke="#d97706" stroke-width="1.2"/><text x="260" y="65" font-size="10" fill="#0369a1">col=1</text>
+      <line x1="360" y1="40" x2="430" y2="78" stroke="#d97706" stroke-width="1.2"/><text x="380" y="65" font-size="10" fill="#0369a1">col=2</text>
+      <line x1="380" y1="40" x2="570" y2="78" stroke="#d97706" stroke-width="1.2"/><text x="510" y="65" font-size="10" fill="#0369a1">col=3</text>
+      <!-- Level 1 nodes -->
+      <rect x="40" y="78" width="100" height="32" rx="7" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/><text x="90" y="99" text-anchor="middle" font-size="11" fill="#1e40af">Q at (0,0)</text>
+      <rect x="180" y="78" width="100" height="32" rx="7" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/><text x="230" y="99" text-anchor="middle" font-size="11" fill="#1e40af">Q at (0,1)</text>
+      <rect x="380" y="78" width="100" height="32" rx="7" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/><text x="430" y="99" text-anchor="middle" font-size="11" fill="#1e40af">Q at (0,2)</text>
+      <rect x="520" y="78" width="100" height="32" rx="7" fill="#dbeafe" stroke="#0369a1" stroke-width="1.5"/><text x="570" y="99" text-anchor="middle" font-size="11" fill="#1e40af">Q at (0,3)</text>
+      <!-- Level 2: from (0,0) - col 2 safe, col 3 safe -->
+      <line x1="70" y1="110" x2="50" y2="148" stroke="#0369a1" stroke-width="1.2"/>
+      <line x1="110" y1="110" x2="140" y2="148" stroke="#0369a1" stroke-width="1.2"/>
+      <rect x="10" y="148" width="80" height="28" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/><text x="50" y="167" text-anchor="middle" font-size="10" fill="#b91c1c">❌ Prune</text>
+      <rect x="100" y="148" width="80" height="28" rx="6" fill="#f0fdf4" stroke="#047857" stroke-width="1.5"/><text x="140" y="167" text-anchor="middle" font-size="10" fill="#065f46">✅ Continue</text>
+      <!-- legend -->
+      <rect x="270" y="155" width="380" height="48" rx="8" fill="#fafaf9" stroke="#e7e5e4" stroke-width="1.2"/>
+      <rect x="284" y="168" width="14" height="14" rx="3" fill="#fef2f2" stroke="#ef4444" stroke-width="1.2"/>
+      <text x="302" y="180" font-size="11" fill="#b91c1c">Pruned (constraint violated — queens attack each other)</text>
+      <rect x="284" y="186" width="14" height="14" rx="3" fill="#f0fdf4" stroke="#047857" stroke-width="1.2"/>
+      <text x="302" y="198" font-size="11" fill="#065f46">Continue recursion into next row</text>
+    </svg>
+    </div>
+  </div>
+  <div class="card"><div class="card-top-bar bar-amber"></div>
+    <h2>⚔️ Backtracking vs Branch &amp; Bound</h2>
+    <table class="cmp-table">
+      <tr><th>Feature</th><th>Backtracking</th><th>Branch &amp; Bound</th></tr>
+      <tr><td>Purpose</td><td>Find all / any solution</td><td>Find OPTIMAL solution</td></tr>
+      <tr><td>Pruning</td><td>Feasibility check only</td><td>Feasibility + Bound estimate</td></tr>
+      <tr><td>Search</td><td>DFS</td><td>BFS / Best-First</td></tr>
+      <tr><td>Bound function</td><td class="no">Not required</td><td class="yes">Essential</td></tr>
+      <tr><td>Applications</td><td>N-Queens, Sudoku, Sum of Subsets</td><td>0/1 Knapsack, TSP</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ BACKTRACKING ═══════════════════ -->
+<section id="ch3-bt" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-3">↩️</div>
+    <div>
+      <div class="ch-title">Backtracking</div>
+      <div class="ch-sub">N-Queens · Sum of Subsets · Hamiltonian Cycle</div>
+    </div>
+  </div>
+  <div class="subtabs">
+    <button class="stab active" onclick="showTab('bt','nq',this)">N-Queens</button>
+    <button class="stab" onclick="showTab('bt','sos',this)">Sum of Subsets</button>
+    <button class="stab" onclick="showTab('bt','ham',this)">Hamiltonian Cycle</button>
+  </div>
+
+  <div id="bt-nq" class="stcontent active">
+    <div class="card"><div class="card-top-bar bar-amber"></div>
+      <h2>👑 N-Queens Problem</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>N×N board pe N queens rakhni hain — koi bhi doosri ko attack na kare. Same row, column, diagonal pe koi queen nahi. Backtrack: queen rakho → unsafe? → remove → try next column! ♟️</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Start from row 0. Try placing queen in each column (0..n−1)</li>
+            <li data-n="2">Check <strong>IS_SAFE</strong>: no queen in same column or diagonal</li>
+            <li data-n="3">If safe → place queen at (row, col), recurse to row+1</li>
+            <li data-n="4">If all rows filled → solution found! Print it.</li>
+            <li data-n="5">If no column is safe in current row → <strong>backtrack</strong> to row−1</li>
+            <li data-n="6">Remove placed queen, try next column in previous row</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>N_QUEENS(board, row, n):
+  IF row == n
+    PRINT solution; RETURN
+  FOR col ← 0 TO n-1 DO
+    IF IS_SAFE(board, row, col, n)
+      board[row] ← col    // place
+      N_QUEENS(board, row+1, n)
+      board[row] ← -1    // backtrack
+
+IS_SAFE(board, row, col, n):
+  FOR i ← 0 TO row-1 DO
+    IF board[i]==col → false
+    IF |board[i]-col|==|i-row|
+      → false  // diagonal
+  RETURN true</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 N-Queens — Backtracking</span><span id="nq-sol" style="color:var(--accent4)">Solutions: 0</span></div>
+        <div class="input-row">
+          <div style="display:flex;flex-direction:column;gap:.2rem">
+            <label>Board size N (4–6):</label>
+            <input type="number" id="nq-input-n" value="4" min="4" max="6"/>
+          </div>
+          <button onclick="nqSetInput()">Apply</button>
+        </div>
+        <canvas id="nqCanvas" height="300"></canvas>
+        <div class="step-info" id="nqInfo">Press Play to animate N-Queens solving</div>
+        <div class="step-history-box" id="nqHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" id="nqPlay" onclick="nqControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="nqControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="nqControl('step')">⏭ Step</button>
+          <label class="spd-lbl">Speed: <input type="range" id="nqSpeed" min="100" max="1500" value="500" step="50" style="accent-color:var(--accent5);width:80px"></label>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>n</th><th>4</th><th>5</th><th>6</th><th>8</th></tr>
+        <tr><td>Solutions</td><td class="best">2</td><td class="best">10</td><td class="avg">4</td><td class="worst">92</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="bt-sos" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-violet"></div>
+      <h2>➕ Sum of Subsets</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Set {1,2,5,6,8}, target=9. Backtracking se sab subsets try karo jinka sum=9 ho. Include/exclude har element. Pruning: agar sum &gt; target ya baaki elements milake bhi target nahi → branch chhod do! 🌿</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Start with empty subset, currentSum = 0</li>
+            <li data-n="2">At each index, make two choices: Include or Exclude element</li>
+            <li data-n="3">If currentSum == target → found a valid subset! Print it.</li>
+            <li data-n="4">Prune 1: if currentSum &gt; target → backtrack immediately</li>
+            <li data-n="5">Prune 2: if remaining elements can't reach target → backtrack</li>
+            <li data-n="6">Continue until all elements processed</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>SUM_SUBSETS(set,idx,curSum,target):
+  IF curSum == target
+    PRINT subset; RETURN
+  IF idx==n OR curSum>target
+    RETURN
+  // Include set[idx]
+  subset.add(set[idx])
+  SUM_SUBSETS(set, idx+1,
+    curSum+set[idx], target)
+  subset.remove(set[idx])
+  // Exclude set[idx]
+  SUM_SUBSETS(set, idx+1,
+    curSum, target)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="bt-ham" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-green"></div>
+      <h2>🔄 Hamiltonian Cycle</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Graph mein ek path dhundho jo har vertex exactly ek baar visit kare aur wapas aaye. NP-complete! Backtrack: vertex add karo → connected? → last vertex start se connect? Solution! Nahi? → backtrack! 🔄</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Start at vertex 0. path = [0]</li>
+            <li data-n="2">At each position pos, try adding vertex v (1..n−1)</li>
+            <li data-n="3">IS_VALID: edge exists from path[pos−1] to v, AND v not already in path</li>
+            <li data-n="4">If valid → add v to path, recurse to pos+1</li>
+            <li data-n="5">If pos == n AND edge exists from path[n−1] to path[0] → Hamiltonian cycle found!</li>
+            <li data-n="6">Else → remove v from path (backtrack)</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>HAMILTONIAN(graph, path, pos, n):
+  IF pos == n
+    IF edge(path[n-1], path[0])
+      RETURN true  // cycle!
+    RETURN false
+  FOR v ← 1 TO n-1 DO
+    IF IS_VALID(v, graph, path, pos)
+      path[pos] ← v
+      IF HAMILTONIAN(graph,path,
+         pos+1, n) RETURN true
+      path[pos] ← -1  // backtrack
+  RETURN false</pre>
+        </div>
+      </div>
+      <div class="exam-box">
+        <div class="exam-label">📝 Key Distinction</div>
+        <p class="qa-q">Hamiltonian Cycle vs Euler Circuit?</p>
+        <p class="qa-a"><strong>Hamiltonian Cycle:</strong> Every VERTEX exactly once → NP-Complete<br><strong>Euler Circuit:</strong> Every EDGE exactly once → O(E+V) polynomial. Condition: all vertices have even degree.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BRANCH & BOUND ═══════════════════ -->
+<section id="ch3-bb" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-1">🌿</div>
+    <div>
+      <div class="ch-title">Branch and Bound</div>
+      <div class="ch-sub">0/1 Knapsack B&B · TSP B&B</div>
+    </div>
+  </div>
+  <div class="card"><div class="card-top-bar bar-green"></div>
+    <h2>🌿 Branch &amp; Bound — Core Concepts</h2>
+    <div class="two-col">
+      <div class="algo-box">
+        <div class="algo-box-title">📋 Key Terms</div>
+        <ul class="step-list">
+          <li data-n="1"><strong>Branch:</strong> Create child nodes (make a decision — include or exclude)</li>
+          <li data-n="2"><strong>Bound:</strong> Calculate optimistic upper/lower bound for node's subtree</li>
+          <li data-n="3"><strong>Prune:</strong> If bound ≤ best so far (max) → discard entire subtree</li>
+          <li data-n="4"><strong>Live Node:</strong> Generated but not yet explored (in priority queue)</li>
+          <li data-n="5"><strong>Dead Node:</strong> Fully explored or pruned — removed from queue</li>
+          <li data-n="6"><strong>E-Node:</strong> Currently expanding node (being branched from)</li>
+        </ul>
+      </div>
+      <div class="algo-box" style="background:#f0fdf4;border-color:#bbf7d0">
+        <div class="algo-box-title" style="color:var(--accent4)">✅ Bound Function for Knapsack</div>
+        <ul class="step-list" style="--accent2:var(--accent4)">
+          <li data-n="1">Take all remaining items that fit completely (greedy)</li>
+          <li data-n="2">Take fraction of next item if needed</li>
+          <li data-n="3">This is an optimistic (upper bound) on actual achievable value</li>
+          <li data-n="4">If upper bound ≤ current best → prune this branch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="subtabs">
+    <button class="stab active" onclick="showTab('bb','kn',this)">0/1 Knapsack B&B</button>
+    <button class="stab" onclick="showTab('bb','tsp',this)">TSP B&B</button>
+  </div>
+
+  <div id="bb-kn" class="stcontent active">
+    <div class="card"><div class="card-top-bar bar-amber"></div>
+      <h2>🎒 0/1 Knapsack — Branch &amp; Bound</h2>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Sort items by value/weight ratio (decreasing)</li>
+            <li data-n="2">Start at root node: value=0, weight=0</li>
+            <li data-n="3">For each node, compute upper bound using greedy fractional fill</li>
+            <li data-n="4">If bound ≤ bestValue → prune (dead node)</li>
+            <li data-n="5">Branch: create two children — include item i, exclude item i</li>
+            <li data-n="6">Use max-priority queue (best-first): explore highest-bound node first</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 COMPUTE_BOUND</div>
+          <pre>COMPUTE_BOUND(node, items, W):
+  j ← node.level + 1
+  totWt ← node.weight
+  bound ← node.value
+  WHILE j < n AND
+     totWt + items[j].w ≤ W DO
+    totWt += items[j].w
+    bound += items[j].v
+    j++
+  IF j < n THEN
+    bound += (W-totWt) *
+      (items[j].v / items[j].w)
+  RETURN bound</pre>
+        </div>
+      </div>
+      <div class="anim-box">
+        <div class="anim-title"><span>🎬 B&B Knapsack State Space Tree</span><span id="bb-best" style="color:var(--accent4)">Best: 0</span></div>
+        <canvas id="bbCanvas" height="320"></canvas>
+        <div class="step-info" id="bbInfo">Press Play</div>
+        <div class="step-history-box" id="bbHistory"><div class="sh-title">Step History</div></div>
+        <div class="anim-controls">
+          <button class="anim-btn" onclick="bbControl('play')">▶ Play</button>
+          <button class="anim-btn" onclick="bbControl('reset')">↺ Reset</button>
+          <button class="anim-btn" onclick="bbControl('step')">⏭ Step</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="bb-tsp" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-red"></div>
+      <h2>🗺️ TSP — Branch &amp; Bound</h2>
+      <div class="hinglish">
+        <div class="hinglish-label">🇮🇳 Hinglish</div>
+        <p>Lower bound: Reduced Cost Matrix method. Har row aur column se minimum subtract karo. Remaining minimum = lower bound. Lower bound ≥ best? → prune! 🗺️</p>
+      </div>
+      <div class="two-col">
+        <div class="algo-box">
+          <div class="algo-box-title">📋 Algorithm Steps</div>
+          <ul class="step-list">
+            <li data-n="1">Reduce cost matrix: subtract row min from each row, col min from each col</li>
+            <li data-n="2">Sum of all reductions = initial lower bound</li>
+            <li data-n="3">Use min-priority queue, explore node with lowest bound first</li>
+            <li data-n="4">For each unvisited city, create child node with updated bound</li>
+            <li data-n="5">If bound ≥ bestCost → prune that branch</li>
+            <li data-n="6">When all cities visited → check if total &lt; bestCost, update</li>
+          </ul>
+        </div>
+        <div class="pseudo-box">
+          <div class="pseudo-box-title">💻 Pseudocode</div>
+          <pre>TSP_BB(dist, n):
+  Reduce matrix → lb = sum of reductions
+  PQ ← min-heap by lower bound
+  ENQUEUE(PQ, root(path=[0], bound=lb))
+  bestCost ← ∞
+  WHILE PQ not empty DO
+    u ← DEQUEUE(PQ)
+    IF u.bound >= bestCost CONTINUE
+    IF len(u.path) == n
+      cost ← u.bound +
+              dist[u.path[-1]][0]
+      bestCost ← min(bestCost, cost)
+    ELSE
+      FOR v NOT in u.path DO
+        v.bound ← new bound
+        IF v.bound < bestCost
+          ENQUEUE(PQ, v)
+  RETURN bestCost</pre>
+        </div>
+      </div>
+      <table class="ctable">
+        <tr><th>Method</th><th>Time</th><th>Optimal?</th></tr>
+        <tr><td>Brute Force</td><td class="worst">O(n!)</td><td class="yes">Yes</td></tr>
+        <tr><td>DP Bitmask</td><td class="avg">O(n²·2ⁿ)</td><td class="yes">Yes</td></tr>
+        <tr><td>Branch &amp; Bound</td><td class="avg">Varies (pruning)</td><td class="yes">Yes</td></tr>
+        <tr><td>Greedy nearest</td><td class="best">O(n²)</td><td class="no">No (approx)</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ COMPARE ═══════════════════ -->
+<section id="compare" class="section">
+  <div class="ch-header">
+    <div class="ch-num" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white">⚖️</div>
+    <div><div class="ch-title">Complete Technique Comparison</div></div>
+  </div>
+  <div class="card"><div class="card-top-bar bar-violet"></div>
+    <h2>⚖️ All 5 Paradigms Compared</h2>
+    <table class="cmp-table" style="font-size:.77rem">
+      <tr><th>Feature</th><th>D&amp;C</th><th>Greedy</th><th>Dynamic Prog.</th><th>Backtracking</th><th>Branch &amp; Bound</th></tr>
+      <tr><td><strong>Approach</strong></td><td>Divide→Solve→Combine</td><td>Local optimal choice</td><td>Store &amp; reuse subproblems</td><td>Try all, undo bad choices</td><td>Try with bound, prune</td></tr>
+      <tr><td><strong>Subproblems</strong></td><td class="yes">Independent</td><td>Sequential</td><td class="maybe">Overlapping</td><td>Nested (tree)</td><td>Nested + bounded</td></tr>
+      <tr><td><strong>Optimal?</strong></td><td class="yes">Yes (sort)</td><td class="maybe">Sometimes only</td><td class="yes">Yes</td><td class="yes">All solutions</td><td class="yes">Yes (optimal)</td></tr>
+      <tr><td><strong>Time</strong></td><td class="best">O(n log n)</td><td class="best">O(n log n)</td><td class="avg">O(n²–n³)</td><td class="worst">O(2ⁿ–n!)</td><td class="avg">Better than BT</td></tr>
+      <tr><td><strong>Examples</strong></td><td>Merge Sort, Binary Search, Strassen</td><td>Frac Knapsack, Huffman, Prim, Kruskal</td><td>0/1 Knapsack, LCS, MCM, TSP</td><td>N-Queens, Hamiltonian</td><td>0/1 Knapsack, TSP</td></tr>
+    </table>
+  </div>
+  <div class="card"><div class="card-top-bar bar-blue"></div>
+    <h2>🎯 Problem → Algorithm Selector</h2>
+    <table class="cmp-table">
+      <tr><th>Problem</th><th>Best Technique</th><th>Why</th></tr>
+      <tr><td>Fractional Knapsack</td><td class="yes">Greedy</td><td>Fraction allowed → v/w sort works optimally</td></tr>
+      <tr><td>0/1 Knapsack</td><td class="maybe">DP or B&amp;B</td><td>Greedy fails; overlapping subproblems</td></tr>
+      <tr><td>MST (dense graph)</td><td class="yes">Prim's O(V²)</td><td>Adjacency matrix → O(V²) efficient</td></tr>
+      <tr><td>MST (sparse graph)</td><td class="yes">Kruskal's O(E log E)</td><td>Fewer edges → faster sorting</td></tr>
+      <tr><td>Stable sort, large data</td><td class="yes">Merge Sort</td><td>Guaranteed O(n log n), stable</td></tr>
+      <tr><td>Average case sort</td><td class="yes">Quick Sort</td><td>Better cache performance, in-place</td></tr>
+      <tr><td>LCS, Edit Distance</td><td class="yes">DP</td><td>Overlapping subproblems, optimal substructure</td></tr>
+      <tr><td>N-Queens, Sudoku</td><td class="yes">Backtracking</td><td>Constraint satisfaction, need all solutions</td></tr>
+      <tr><td>TSP (exact, small n)</td><td class="maybe">B&amp;B or DP</td><td>B&amp;B prunes well; DP for n≤20</td></tr>
+      <tr><td>Text Compression</td><td class="yes">Huffman Coding</td><td>Optimal prefix-free codes via greedy</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ EXAM Q&A ═══════════════════ -->
+<section id="exam" class="section">
+  <div class="ch-header">
+    <div class="ch-num ch-num-2">📝</div>
+    <div><div class="ch-title">Exam Q&amp;A + Tips</div></div>
+  </div>
+  <div class="subtabs">
+    <button class="stab active" onclick="showTab('exam','ch1q',this)">Ch1 Questions</button>
+    <button class="stab" onclick="showTab('exam','ch2q',this)">Ch2 Questions</button>
+    <button class="stab" onclick="showTab('exam','ch3q',this)">Ch3 Questions</button>
+    <button class="stab" onclick="showTab('exam','tips',this)">Exam Tips &amp; Formulas</button>
+  </div>
+  <div id="exam-ch1q" class="stcontent active">
+    <div class="exam-box">
+      <div class="exam-label">📝 Chapter 1 — D&amp;C &amp; Greedy</div>
+      <div class="qa-item"><div class="qa-q">Q1. What is the recurrence of Merge Sort? Solve using Master Theorem.</div><div class="qa-a">T(n) = 2T(n/2) + O(n). Here a=2, b=2, f(n)=O(n). n^(log₂2) = n^1. f(n) = Θ(n^log_b a) → <strong>Case 2: T(n) = Θ(n log n)</strong>.</div></div>
+      <div class="qa-item"><div class="qa-q">Q2. Why does Quick Sort have O(n²) worst case?</div><div class="qa-a">When pivot is always smallest/largest (sorted array, last element pivot). T(n) = T(n-1) + O(n) → O(n²). Fix: random pivot or median-of-three.</div></div>
+      <div class="qa-item"><div class="qa-q">Q3. Why does Greedy fail for 0/1 Knapsack but work for Fractional?</div><div class="qa-a">In Fractional: taking a fraction is allowed, so highest v/w ratio first = always optimal. In 0/1: must take or leave entire item — greedy choice may skip a combination that gives higher total value. <br>Example: W=10, items=(6kg,₹30),(5kg,₹25),(5kg,₹25). Greedy picks (6kg,₹30)=₹30. Optimal: last two = ₹50.</div></div>
+      <div class="qa-item"><div class="qa-q">Q4. Compare Kruskal's vs Prim's for MST.</div><div class="qa-a">Kruskal: sort edges, use Union-Find, O(E log E) — better for sparse graphs. Prim: grow from vertex using min-key, O(V²) or O(E log V) — better for dense graphs. Both give optimal MST.</div></div>
+      <div class="qa-item"><div class="qa-q">Q5. Max-Min D&C: how many comparisons? Why optimal?</div><div class="qa-a">3n/2 − 2 comparisons. Compare elements in pairs (1 comp each), then find max of winners and min of losers. Adversary argument proves this is the minimum possible number of comparisons.</div></div>
+      <div class="qa-item"><div class="qa-q">Q6. What is Strassen's significance and time complexity?</div><div class="qa-a">Strassen (1969) uses 7 multiplications (not 8) for 2×2 blocks. Recurrence T(n)=7T(n/2)+O(n²). Master Theorem Case 1: T(n) = O(n^log₂7) ≈ O(n^2.807). First algorithm to break O(n³) for matrix multiplication.</div></div>
+    </div>
+  </div>
+  <div id="exam-ch2q" class="stcontent">
+    <div class="exam-box">
+      <div class="exam-label">📝 Chapter 2 — Dynamic Programming</div>
+      <div class="qa-item"><div class="qa-q">Q1. Two essential properties for DP?</div><div class="qa-a">1. <strong>Optimal Substructure</strong>: Optimal solution contains optimal solutions of subproblems. 2. <strong>Overlapping Subproblems</strong>: Same subproblems recur repeatedly (unlike D&C).</div></div>
+      <div class="qa-item"><div class="qa-q">Q2. Solve 0/1 Knapsack: items={(2,3),(3,4),(4,5)}, W=5.</div><div class="qa-a">dp table: dp[1][2..5]=3, dp[2][3]=4, dp[2][5]=max(3, dp[1][2]+4)=max(3,7)=7, dp[3][4]=5, dp[3][5]=max(7,5)=7. <strong>Answer: 7</strong></div></div>
+      <div class="qa-item"><div class="qa-q">Q3. Find LCS of "AGGTAB" and "GXTXAYB".</div><div class="qa-a">Build 2D DP table. LCS = "GTAB", length = <strong>4</strong>.</div></div>
+      <div class="qa-item"><div class="qa-q">Q4. Memoization vs Tabulation?</div><div class="qa-a"><strong>Memoization (Top-Down)</strong>: Recursive + cache. Only computes needed subproblems. O(n) stack space. More natural to code. <strong>Tabulation (Bottom-Up)</strong>: Iterative, fill table. All subproblems computed. No recursion overhead. Often faster in practice.</div></div>
+      <div class="qa-item"><div class="qa-q">Q5. Why is TSP NP-hard? What is DP complexity?</div><div class="qa-a">No known polynomial-time exact algorithm. DP (Held-Karp): O(n²·2ⁿ). For n=20: O(400M) vs brute force O(20!) ≈ 2.4×10¹⁸. Still exponential but much better.</div></div>
+    </div>
+  </div>
+  <div id="exam-ch3q" class="stcontent">
+    <div class="exam-box">
+      <div class="exam-label">📝 Chapter 3 — Backtracking &amp; B&amp;B</div>
+      <div class="qa-item"><div class="qa-q">Q1. How is backtracking different from brute force?</div><div class="qa-a">Brute force tries ALL combinations exhaustively. Backtracking abandons a candidate as soon as it determines it cannot lead to a valid solution (pruning infeasible branches), saving significant computation.</div></div>
+      <div class="qa-item"><div class="qa-q">Q2. How many solutions does 4-Queens have? List them.</div><div class="qa-a">2 solutions: [1,3,0,2] (col positions per row) and [2,0,3,1].</div></div>
+      <div class="qa-item"><div class="qa-q">Q3. Difference between Backtracking and Branch &amp; Bound?</div><div class="qa-a"><strong>Backtracking</strong>: Feasibility check only. DFS. Finds any/all solutions. No bound. <strong>B&B</strong>: Feasibility + optimality bound. BFS/best-first. Finds OPTIMAL solution. Bound function essential for pruning unpromising subtrees.</div></div>
+      <div class="qa-item"><div class="qa-q">Q4. What is the bounding function in B&B Knapsack?</div><div class="qa-a">Upper bound = value already accumulated + greedy fractional fill of remaining capacity using items sorted by v/w ratio. This is always ≥ any actual achievable value. If upper bound ≤ bestValue → prune.</div></div>
+      <div class="qa-item"><div class="qa-q">Q5. E-node, Live node, Dead node in B&B?</div><div class="qa-a"><strong>E-node</strong>: Currently expanding (generating children). <strong>Live node</strong>: Generated, in priority queue, not yet explored. <strong>Dead node</strong>: Either fully expanded or pruned (bound ≤ best).</div></div>
+    </div>
+  </div>
+  <div id="exam-tips" class="stcontent">
+    <div class="card"><div class="card-top-bar bar-red"></div>
+      <h2>⚠️ Common Mistakes</h2>
+      <ul style="padding-left:1.4rem;color:var(--text2);font-size:.88rem;line-height:2">
+        <li>Using Greedy for 0/1 Knapsack — <strong>always use DP!</strong></li>
+        <li>Confusing LCS (subsequence = not necessarily contiguous) with LCS (substring = contiguous)</li>
+        <li>Forgetting Merge Sort needs O(n) extra space — it's NOT in-place!</li>
+        <li>Quick Sort worst case is on sorted arrays with last/first element as pivot</li>
+        <li>MST is unique only when all edge weights are distinct</li>
+        <li>Hamiltonian Cycle ≠ Euler Circuit (vertices vs edges)</li>
+        <li>In B&B: upper bound for maximization, lower bound for minimization</li>
+        <li>DP does NOT always give polynomial time — TSP DP is O(n²·2ⁿ), still exponential!</li>
+      </ul>
+    </div>
+    <div class="card"><div class="card-top-bar bar-blue"></div>
+      <h2>💡 Key Formulas</h2>
+      <table class="ctable">
+        <tr><th>Algorithm</th><th>Recurrence</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th></tr>
+        <tr><td>Binary Search</td><td>T(n)=T(n/2)+O(1)</td><td class="best">O(1)</td><td class="avg">O(log n)</td><td class="worst">O(log n)</td><td class="best">O(1)</td></tr>
+        <tr><td>Merge Sort</td><td>T(n)=2T(n/2)+O(n)</td><td class="best">O(n log n)</td><td class="avg">O(n log n)</td><td class="best">O(n log n)</td><td class="worst">O(n)</td></tr>
+        <tr><td>Quick Sort</td><td>T(n)=2T(n/2)+O(n)</td><td class="best">O(n log n)</td><td class="avg">O(n log n)</td><td class="worst">O(n²)</td><td class="best">O(log n)</td></tr>
+        <tr><td>Selection Sort</td><td>—</td><td class="worst">O(n²)</td><td class="worst">O(n²)</td><td class="worst">O(n²)</td><td class="best">O(1)</td></tr>
+        <tr><td>Strassen</td><td>T(n)=7T(n/2)+O(n²)</td><td colspan="3" class="best">O(n^2.807)</td><td>—</td></tr>
+        <tr><td>0/1 Knapsack</td><td>dp[i][w]=max(skip,take)</td><td colspan="3" class="avg">O(nW)</td><td class="avg">O(nW)</td></tr>
+        <tr><td>LCS</td><td>match→diag+1</td><td colspan="3" class="avg">O(mn)</td><td class="avg">O(mn)</td></tr>
+        <tr><td>Matrix Chain</td><td>min over k</td><td colspan="3" class="worst">O(n³)</td><td class="avg">O(n²)</td></tr>
+        <tr><td>TSP (DP)</td><td>bitmask DP</td><td colspan="3" class="worst">O(n²·2ⁿ)</td><td class="worst">O(n·2ⁿ)</td></tr>
+        <tr><td>N-Queens</td><td>—</td><td colspan="3" class="worst">O(n!)</td><td class="best">O(n)</td></tr>
+        <tr><td>Max-Min (D&C)</td><td>—</td><td colspan="3" class="best">3n/2 − 2 comparisons</td><td class="best">O(1)</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+// ─── COLORS for light theme ───────────────────────────────
+const C={
+  bg:'#f7f4ef', surface:'#ffffff', surface2:'#f0ece4', border:'#ddd8cf',
+  red:'#c2410c', blue:'#0369a1', violet:'#7c3aed', green:'#047857', amber:'#b45309',
+  text:'#1c1917', text2:'#44403c', text3:'#78716c',
+  sorted:'#047857', comparing:'#b45309', pivot:'#c2410c',
+  found:'#047857', inactive:'#d6d3d1'
+};
+
+// ─── NAV ─────────────────────────────────────────────────
+function showSection(id, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('active'));
+  const s=document.getElementById(id);
+  if(s){s.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+  if(btn)btn.classList.add('active');
+}
+function showTab(group,id,btn){
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(t=>t.classList.remove('active'));
+  const t=document.getElementById(`${group}-${id}`);if(t)t.classList.add('active');
+  if(btn){btn.closest('.section').querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+}
+
+// ─── SCROLL PROGRESS ─────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight);
+  document.getElementById('progress').style.width=(p*100)+'%';
+});
+
+// ─── CANVAS SETUP ────────────────────────────────────────
+function setupCanvas(canvas){
+  const r=window.devicePixelRatio||1;
+  const h=parseInt(canvas.getAttribute('height'))||180;
+  // Use the canvas's actual displayed width (driven by CSS width:100%)
+  // so we never set style.width and cause a layout-feedback loop
+  canvas.style.height=h+'px';
+  const w=Math.max(canvas.offsetWidth||canvas.parentElement.clientWidth-32,300);
+  const pw=w*r, ph=h*r;
+  // Only resize the backing store when dimensions actually changed
+  if(canvas.width!==pw||canvas.height!==ph){canvas.width=pw;canvas.height=ph;}
+  const ctx=canvas.getContext('2d');
+  // setTransform is absolute (not cumulative), so calling it every frame is safe
+  ctx.setTransform(r,0,0,r,0,0);
+  return{ctx,w,h};
+}
+function rr(ctx,x,y,w,h,r,fill,stroke,lw=1.5){
+  ctx.beginPath();ctx.roundRect(x,y,w,h,r);
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke();}
+}
+function lbl(ctx,text,x,y,color,size=12,bold=false){
+  ctx.fillStyle=color;
+  ctx.font=`${bold?'700 ':'400 '}${size}px 'JetBrains Mono',monospace`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(text,x,y);
+}
+function addHistory(boxId,step,msg,cls=''){
+  const box=document.getElementById(boxId);if(!box)return;
+  const div=document.createElement('div');
+  div.className='sh-entry'+(cls?' '+cls:'');
+  div.innerHTML=`<span class="sh-n">${step}</span><span>${msg}</span>`;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+}
+function clearHistory(boxId){
+  const box=document.getElementById(boxId);if(!box)return;
+  const title=box.querySelector('.sh-title');
+  box.innerHTML='';if(title)box.appendChild(title);
+}
+
+// ════════════════════════════════════════════════════════════
+// BINARY SEARCH
+// ════════════════════════════════════════════════════════════
+let bsArr=[3,7,12,19,23,31,47,52,61,74,88,93],bsKey=47;
+let bsSteps=[],bsCur=0,bsTimer=null,bsRunning=false;
+function bsSetInput(){
+  const raw=document.getElementById('bs-input-arr').value;
+  const k=parseInt(document.getElementById('bs-input-key').value);
+  const arr=raw.split(',').map(x=>parseInt(x.trim())).filter(x=>!isNaN(x));
+  arr.sort((a,b)=>a-b);
+  bsArr=arr;bsKey=k;
+  document.getElementById('bs-key-disp').textContent=k;
+  bsControl('reset');
+}
+function bsBuild(){
+  bsSteps=[];let lo=0,hi=bsArr.length-1;
+  while(lo<=hi){
+    const mid=Math.floor((lo+hi)/2);
+    const found=bsArr[mid]===bsKey;
+    bsSteps.push({lo,hi,mid,found});
+    if(found)break;
+    else if(bsArr[mid]<bsKey)lo=mid+1;
+    else hi=mid-1;
+  }
+  if(bsSteps.length&&!bsSteps[bsSteps.length-1].found)bsSteps.push({lo:-1,hi:-1,mid:-1,found:false,notFound:true});
+}
+function bsDraw(step){
+  const canvas=document.getElementById('bsCanvas');
+  const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);
+  const n=bsArr.length,bw=Math.min(56,(w-20)/n),bh=44,sx=(w-n*bw)/2,y=(h-bh)/2;
+  for(let i=0;i<n;i++){
+    let fill=C.surface2,stroke=C.border,tc=C.text3;
+    if(step){
+      if(step.notFound){fill='#fef2f2';stroke=C.red;tc=C.red;}
+      else if(i===step.mid){fill=step.found?'#f0fdf4':C.bg;stroke=step.found?C.green:C.amber;tc=step.found?C.green:C.amber;}
+      else if(i>=step.lo&&i<=step.hi){fill=C.surface;stroke=C.blue+'88';tc=C.text2;}
+      else{fill='#f5f5f4';stroke='#e7e5e4';tc='#a8a29e';}
+    }
+    rr(ctx,sx+i*bw+1,y,bw-2,bh,6,fill,stroke);
+    lbl(ctx,bsArr[i],sx+i*bw+bw/2,y+bh/2,tc,12,step&&i===step.mid);
+    lbl(ctx,i,sx+i*bw+bw/2,y+bh+13,C.text3,9);
+  }
+  if(step&&step.mid>=0){
+    const mx=sx+step.mid*bw+bw/2;
+    ctx.beginPath();ctx.moveTo(mx,y-6);ctx.lineTo(mx-5,y-16);ctx.lineTo(mx+5,y-16);ctx.closePath();
+    ctx.fillStyle=step.found?C.green:C.amber;ctx.fill();
+    lbl(ctx,'mid',mx,y-24,step.found?C.green:C.amber,9,true);
+  }
+}
+function bsControl(cmd){
+  if(!bsSteps.length)bsBuild();
+  if(cmd==='reset'){
+    clearInterval(bsTimer);bsRunning=false;bsCur=0;bsDraw(null);
+    document.getElementById('bsInfo').textContent='Press Play to start animation';
+    document.getElementById('bsPlay').textContent='▶ Play';
+    clearHistory('bsHistory');return;
+  }
+  if(cmd==='step'){
+    if(bsCur<bsSteps.length){
+      const s=bsSteps[bsCur];bsDraw(s);
+      const msg=s.notFound?`❌ Key ${bsKey} not found!`:s.found?`✅ Found ${bsKey} at index ${s.mid}`:
+        bsArr[s.mid]<bsKey?`arr[${s.mid}]=${bsArr[s.mid]} < ${bsKey} → search right [${s.mid+1}..${s.hi}]`:
+        `arr[${s.mid}]=${bsArr[s.mid]} > ${bsKey} → search left [${s.lo}..${s.mid-1}]`;
+      document.getElementById('bsInfo').textContent=`Step ${bsCur+1}: lo=${s.lo}, hi=${s.hi}, mid=${s.mid>=0?s.mid:'—'} → ${msg}`;
+      addHistory('bsHistory',bsCur+1,msg,s.found?'sh-good':s.notFound?'sh-bad':'');
+      bsCur++;
+    }return;
+  }
+  if(cmd==='play'){
+    if(bsRunning){clearInterval(bsTimer);bsRunning=false;document.getElementById('bsPlay').textContent='▶ Play';return;}
+    if(bsCur>=bsSteps.length){bsCur=0;clearHistory('bsHistory');}
+    bsRunning=true;document.getElementById('bsPlay').textContent='⏸ Pause';
+    bsTimer=setInterval(()=>{
+      if(bsCur<bsSteps.length)bsControl('step');
+      else{clearInterval(bsTimer);bsRunning=false;document.getElementById('bsPlay').textContent='▶ Play';}
+    },parseInt(document.getElementById('bsSpeed').value)||900);
+  }
+}
+bsBuild();setTimeout(()=>bsDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// MERGE SORT
+// ════════════════════════════════════════════════════════════
+let msArr=[38,27,43,3,9,82,10],msSteps=[],msCur=0,msTimer=null,msRunning=false;
+function msSetInput(){
+  const raw=document.getElementById('ms-input').value;
+  const arr=raw.split(',').map(x=>parseInt(x.trim())).filter(x=>!isNaN(x)).slice(0,10);
+  msArr=arr;msControl('reset');
+}
+function msBuild(){
+  msSteps=[];
+  function merge(arr,l,m,r){
+    const L=arr.slice(l,m+1),R=arr.slice(m+1,r+1);
+    let i=0,j=0,k=l,tmp=[...arr];
+    while(i<L.length&&j<R.length){
+      msSteps.push({arr:[...tmp],comparing:[l+i,m+1+j],range:[l,r],phase:'compare',msg:`Compare ${L[i]} vs ${R[j]}, take ${L[i]<=R[j]?L[i]:R[j]}`});
+      if(L[i]<=R[j])tmp[k++]=L[i++];else tmp[k++]=R[j++];
+    }
+    while(i<L.length)tmp[k++]=L[i++];
+    while(j<R.length)tmp[k++]=R[j++];
+    for(let x=l;x<=r;x++)arr[x]=tmp[x];
+    msSteps.push({arr:[...arr],comparing:[],range:[l,r],phase:'merged',msg:`Merged range [${l}..${r}]`});
+  }
+  function ms(arr,l,r){
+    if(l>=r)return;
+    const m=Math.floor((l+r)/2);
+    msSteps.push({arr:[...arr],comparing:[],range:[l,r],phase:'divide',msg:`Divide [${l}..${r}] at mid=${m}`});
+    ms(arr,l,m);ms(arr,m+1,r);
+    merge(arr,l,m,r);
+  }
+  const a=[...msArr];ms(a,0,a.length-1);
+  msSteps.push({arr:a,comparing:[],range:[0,a.length-1],phase:'done',msg:'✅ Array fully sorted!'});
+}
+function sortTile(val,idx,cls,label){
+  return `<div class="sort-tile ${cls}"><div class="tv">${val}</div><div class="ti">${label!==undefined?label:idx}</div></div>`;
+}
+function msDraw(step){
+  const viz=document.getElementById('msViz');
+  const arr=step?step.arr:msArr;
+  const n=arr.length;
+  let html='';
+  // Main row
+  html+='<div class="sort-row-label">Array</div><div class="sort-row">';
+  for(let i=0;i<n;i++){
+    let cls='t-default';
+    if(step){
+      if(step.phase==='done') cls='t-sorted';
+      else if(step.comparing&&step.comparing.includes(i)) cls='t-compare';
+      else if(step.range&&i>=step.range[0]&&i<=step.range[1]) cls='t-range';
+    }
+    html+=sortTile(arr[i],i,cls);
+  }
+  html+='</div>';
+  // Merge segments hint
+  if(step&&step.phase==='merged'&&step.range){
+    html+='<div class="sort-row-label">Merged segment ['+step.range[0]+'..'+step.range[1]+']</div>';
+    html+='<div class="sort-row">';
+    for(let i=step.range[0];i<=step.range[1];i++) html+=sortTile(arr[i],i,'t-sorted');
+    html+='</div>';
+  }
+  viz.innerHTML=html;
+  if(step)document.getElementById('msInfo').textContent=`Step ${msCur}: [${step.phase}] ${step.msg}`;
+}
+function msControl(cmd){
+  if(!msSteps.length)msBuild();
+  if(cmd==='reset'){clearInterval(msTimer);msRunning=false;msCur=0;msBuild();msDraw(null);document.getElementById('msPlay').textContent='▶ Play';clearHistory('msHistory');return;}
+  if(cmd==='step'){if(msCur<msSteps.length){const s=msSteps[msCur];msDraw(s);addHistory('msHistory',msCur+1,s.msg,s.phase==='done'?'sh-good':s.phase==='merged'?'sh-good':'');msCur++;}return;}
+  if(cmd==='play'){
+    if(msRunning){clearInterval(msTimer);msRunning=false;document.getElementById('msPlay').textContent='▶ Play';return;}
+    if(msCur>=msSteps.length){msCur=0;clearHistory('msHistory');}
+    msRunning=true;document.getElementById('msPlay').textContent='⏸ Pause';
+    msTimer=setInterval(()=>{if(msCur<msSteps.length)msControl('step');else{clearInterval(msTimer);msRunning=false;document.getElementById('msPlay').textContent='▶ Play';}},parseInt(document.getElementById('msSpeed').value)||800);
+  }
+}
+msBuild();setTimeout(()=>msDraw(null),120);
+
+// ════════════════════════════════════════════════════════════
+// QUICK SORT
+// ════════════════════════════════════════════════════════════
+let qsArr=[64,34,25,12,22,11,90],qsSteps=[],qsCur=0,qsTimer=null,qsRunning=false;
+function qsSetInput(){const raw=document.getElementById('qs-input').value;qsArr=raw.split(',').map(x=>parseInt(x.trim())).filter(x=>!isNaN(x)).slice(0,10);qsControl('reset');}
+function qsBuild(){
+  qsSteps=[];
+  function partition(arr,lo,hi){
+    const pv=arr[hi];let i=lo-1;
+    for(let j=lo;j<hi;j++){
+      qsSteps.push({arr:[...arr],pivotIdx:hi,comparing:[i+1,j],lo,hi,phase:'compare',msg:`Compare arr[${j}]=${arr[j]} with pivot=${pv}`});
+      if(arr[j]<=pv){i++;[arr[i],arr[j]]=[arr[j],arr[i]];qsSteps.push({arr:[...arr],pivotIdx:hi,comparing:[i,j],lo,hi,phase:'swap',msg:`Swap arr[${i}]=${arr[i]} and arr[${j}]=${arr[j]}`});}
+    }
+    [arr[i+1],arr[hi]]=[arr[hi],arr[i+1]];
+    qsSteps.push({arr:[...arr],pivotIdx:i+1,comparing:[],lo,hi,phase:'placed',msg:`Pivot ${arr[i+1]} placed at correct position ${i+1}`});
+    return i+1;
+  }
+  function qs(arr,lo,hi){
+    if(lo<hi){
+      qsSteps.push({arr:[...arr],pivotIdx:hi,comparing:[],lo,hi,phase:'start',msg:`QuickSort on [${lo}..${hi}], pivot=${arr[hi]}`});
+      const p=partition(arr,lo,hi);qs(arr,lo,p-1);qs(arr,p+1,hi);
+    }
+  }
+  const a=[...qsArr];qs(a,0,a.length-1);
+  qsSteps.push({arr:a,pivotIdx:-1,comparing:[],lo:0,hi:a.length-1,phase:'done',msg:'✅ Array fully sorted!'});
+}
+function qsDraw(step){
+  const viz=document.getElementById('qsViz');
+  const arr=step?step.arr:qsArr;
+  const n=arr.length;
+  let html='<div class="sort-row-label">Array</div><div class="sort-row">';
+  for(let i=0;i<n;i++){
+    let cls='t-default';
+    if(step){
+      if(step.phase==='done') cls='t-sorted';
+      else if(step.phase==='placed'&&i===step.pivotIdx) cls='t-sorted';
+      else if(i===step.pivotIdx) cls='t-pivot';
+      else if(step.comparing&&step.comparing.includes(i)) cls='t-compare';
+      else if(step.lo<=i&&i<=step.hi) cls='t-range';
+    }
+    const lbl2=step&&i===step.pivotIdx?'pivot':'';
+    html+=sortTile(arr[i],i,cls,lbl2||i);
+  }
+  html+='</div>';
+  // Active window indicator
+  if(step&&step.phase!=='done'){
+    html+=`<div class="sort-row-label">Active window: [${step.lo}..${step.hi}]</div>`;
+    html+='<div class="sort-row">';
+    for(let i=step.lo;i<=step.hi;i++){
+      let cls=i===step.pivotIdx?'t-pivot':step.comparing&&step.comparing.includes(i)?'t-compare':'t-range';
+      html+=sortTile(arr[i],i,cls,i===step.pivotIdx?'pivot':i);
+    }
+    html+='</div>';
+  }
+  viz.innerHTML=html;
+  if(step)document.getElementById('qsInfo').textContent=`Step ${qsCur}: [${step.phase}] ${step.msg}`;
+}
+function qsControl(cmd){
+  if(!qsSteps.length)qsBuild();
+  if(cmd==='reset'){clearInterval(qsTimer);qsRunning=false;qsCur=0;qsBuild();qsDraw(null);document.getElementById('qsPlay').textContent='▶ Play';clearHistory('qsHistory');return;}
+  if(cmd==='step'){if(qsCur<qsSteps.length){const s=qsSteps[qsCur];qsDraw(s);addHistory('qsHistory',qsCur+1,s.msg,s.phase==='done'||s.phase==='placed'?'sh-good':s.phase==='swap'?'sh-pivot':'');qsCur++;}return;}
+  if(cmd==='play'){
+    if(qsRunning){clearInterval(qsTimer);qsRunning=false;document.getElementById('qsPlay').textContent='▶ Play';return;}
+    if(qsCur>=qsSteps.length){qsCur=0;clearHistory('qsHistory');}
+    qsRunning=true;document.getElementById('qsPlay').textContent='⏸ Pause';
+    qsTimer=setInterval(()=>{if(qsCur<qsSteps.length)qsControl('step');else{clearInterval(qsTimer);qsRunning=false;document.getElementById('qsPlay').textContent='▶ Play';}},parseInt(document.getElementById('qsSpeed').value)||800);
+  }
+}
+qsBuild();setTimeout(()=>qsDraw(null),140);
+
+// ════════════════════════════════════════════════════════════
+// SELECTION SORT
+// ════════════════════════════════════════════════════════════
+let ssArr=[64,25,12,22,11,36],ssSteps=[],ssCur=0,ssTimer=null,ssRunning=false;
+function ssSetInput(){const raw=document.getElementById('ss-input').value;ssArr=raw.split(',').map(x=>parseInt(x.trim())).filter(x=>!isNaN(x)).slice(0,10);ssControl('reset');}
+function ssBuild(){
+  ssSteps=[];const a=[...ssArr];
+  for(let i=0;i<a.length-1;i++){
+    let minIdx=i;
+    for(let j=i+1;j<a.length;j++){
+      ssSteps.push({arr:[...a],sorted:i,comparing:[minIdx,j],minIdx,phase:'compare',msg:`Compare arr[${j}]=${a[j]} with current min arr[${minIdx}]=${a[minIdx]}`});
+      if(a[j]<a[minIdx])minIdx=j;
+    }
+    if(minIdx!==i){[a[i],a[minIdx]]=[a[minIdx],a[i]];ssSteps.push({arr:[...a],sorted:i+1,comparing:[i,minIdx],minIdx:i,phase:'swap',msg:`Swap: ${a[i]} placed at position ${i}`});}
+    else ssSteps.push({arr:[...a],sorted:i+1,comparing:[],minIdx:i,phase:'noswap',msg:`No swap: ${a[i]} already min`});
+  }
+  ssSteps.push({arr:a,sorted:a.length,comparing:[],minIdx:-1,phase:'done',msg:'✅ Array sorted!'});
+}
+function ssDraw(step){
+  const viz=document.getElementById('ssViz');
+  const arr=step?step.arr:ssArr;
+  const n=arr.length;
+  let html='<div class="sort-row-label">Array</div><div class="sort-row">';
+  for(let i=0;i<n;i++){
+    let cls='t-default';
+    if(step){
+      if(step.phase==='done'||i<step.sorted) cls='t-sorted';
+      else if(i===step.minIdx) cls='t-min';
+      else if(step.comparing&&step.comparing.includes(i)) cls='t-compare';
+    }
+    const tag=step&&i===step.minIdx?'min':step&&i<(step.sorted||0)?'✓':i;
+    html+=sortTile(arr[i],i,cls,tag);
+  }
+  html+='</div>';
+  // Legend
+  html+='<div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:.65rem;color:var(--text3);margin-top:.2rem">';
+  html+='<span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#f0fdf4;border:1.5px solid #22c55e;margin-right:3px"></span>Sorted</span>';
+  html+='<span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#fdf4ff;border:1.5px solid #c026d3;margin-right:3px"></span>Min</span>';
+  html+='<span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#fffbeb;border:1.5px solid #f59e0b;margin-right:3px"></span>Comparing</span>';
+  html+='</div>';
+  viz.innerHTML=html;
+  if(step)document.getElementById('ssInfo').textContent=`Step ${ssCur}: [${step.phase}] ${step.msg}`;
+}
+function ssControl(cmd){
+  if(!ssSteps.length)ssBuild();
+  if(cmd==='reset'){clearInterval(ssTimer);ssRunning=false;ssCur=0;ssBuild();ssDraw(null);document.getElementById('ssPlay').textContent='▶ Play';clearHistory('ssHistory');return;}
+  if(cmd==='step'){if(ssCur<ssSteps.length){const s=ssSteps[ssCur];ssDraw(s);addHistory('ssHistory',ssCur+1,s.msg,s.phase==='done'||s.phase==='swap'?'sh-good':'');ssCur++;}return;}
+  if(cmd==='play'){
+    if(ssRunning){clearInterval(ssTimer);ssRunning=false;document.getElementById('ssPlay').textContent='▶ Play';return;}
+    if(ssCur>=ssSteps.length){ssCur=0;clearHistory('ssHistory');}
+    ssRunning=true;document.getElementById('ssPlay').textContent='⏸ Pause';
+    ssTimer=setInterval(()=>{if(ssCur<ssSteps.length)ssControl('step');else{clearInterval(ssTimer);ssRunning=false;document.getElementById('ssPlay').textContent='▶ Play';}},700);
+  }
+}
+ssBuild();setTimeout(()=>ssDraw(null),160);
+
+// ════════════════════════════════════════════════════════════
+// FRACTIONAL KNAPSACK
+// ════════════════════════════════════════════════════════════
+let knItems=[{n:'Gold',w:10,v:60},{n:'Diamond',w:5,v:50},{n:'Silver',w:20,v:100},{n:'Bronze',w:15,v:45}],knW=35;
+let knSteps=[],knCur=0,knTimer=null;
+function knSetInput(){
+  const raw=document.getElementById('kn-input-items').value;
+  knW=parseInt(document.getElementById('kn-input-w').value)||35;
+  knItems=raw.split(',').map(s=>{const p=s.trim().split(':');return{n:p[0]||'?',w:parseFloat(p[1])||1,v:parseFloat(p[2])||1};}).filter(x=>x.w>0);
+  knControl('reset');
+}
+function knBuild(){
+  knSteps=[];const sorted=[...knItems].map(x=>({...x,r:x.v/x.w})).sort((a,b)=>b.r-a.r);
+  let rem=knW,tv=0;const taken=[];
+  knSteps.push({items:sorted,taken:[],tv:0,rem,msg:'Items sorted by value/weight ratio (desc)'});
+  for(let i=0;i<sorted.length;i++){
+    const it=sorted[i];if(rem<=0)break;
+    if(it.w<=rem){tv+=it.v;rem-=it.w;taken.push({...it,frac:1});knSteps.push({items:sorted,taken:[...taken],tv,rem,msg:`Take ALL of ${it.n} (+${it.v}). Remaining: ${rem.toFixed(1)}kg`});}
+    else{const frac=rem/it.w,fv=frac*it.v;tv+=fv;rem=0;taken.push({...it,frac});knSteps.push({items:sorted,taken:[...taken],tv,rem,msg:`Take ${(frac*100).toFixed(0)}% of ${it.n} (+${fv.toFixed(1)}). Bag full!`});break;}
+  }
+  knSteps.push({...knSteps[knSteps.length-1],phase:'done',msg:`✅ Optimal Value: ₹${tv.toFixed(1)}`});
+}
+function knDraw(step){
+  const canvas=document.getElementById('knCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);
+  if(!step){lbl(ctx,'Press Play to start',w/2,h/2,C.text3,13);return;}
+  const items=step.items,n=items.length;
+  const iw=Math.min(120,(w-140)/n),ih=80,sy=10;
+  for(let i=0;i<n;i++){
+    const it=items[i];
+    const tk=step.taken.find(t=>t.n===it.n);
+    let fill=C.surface2,stroke=C.border;
+    if(tk){fill=tk.frac===1?'#f0fdf4':'#fffbeb';stroke=tk.frac===1?C.green:C.amber;}
+    rr(ctx,12+i*iw,sy,iw-8,ih,8,fill,stroke);
+    lbl(ctx,it.n,12+i*iw+(iw-8)/2,sy+16,tk?C.text:C.text2,11,true);
+    lbl(ctx,`w:${it.w}`,12+i*iw+(iw-8)/2,sy+32,C.text2,10);
+    lbl(ctx,`v:${it.v}₹`,12+i*iw+(iw-8)/2,sy+46,C.amber,10);
+    lbl(ctx,`r:${it.r.toFixed(1)}`,12+i*iw+(iw-8)/2,sy+60,C.blue,10);
+    if(tk)lbl(ctx,tk.frac===1?'✅ Full':`${(tk.frac*100).toFixed(0)}% ⚡`,12+i*iw+(iw-8)/2,sy+74,tk.frac===1?C.green:C.amber,9,true);
+  }
+  const bagX=w-130,bagY=sy,bagW=112,bagH=ih;
+  const fillR=1-(step.rem/knW);
+  rr(ctx,bagX,bagY,bagW,bagH,8,C.surface,C.border);
+  if(fillR>0)rr(ctx,bagX,bagY+bagH*(1-fillR),bagW,bagH*fillR,8,C.violet+'33',C.violet);
+  lbl(ctx,'👜 Bag',bagX+bagW/2,bagY+14,C.text2,10);
+  lbl(ctx,`${(knW-step.rem).toFixed(0)}/${knW}kg`,bagX+bagW/2,bagY+bagH/2,C.text,11,true);
+  lbl(ctx,`₹${step.tv.toFixed(1)}`,bagX+bagW/2,bagY+bagH-12,C.green,11,true);
+  document.getElementById('knInfo').textContent=step.msg;
+  document.getElementById('kn-val').textContent=`Value: ₹${step.tv.toFixed(1)}`;
+}
+function knControl(cmd){
+  if(!knSteps.length)knBuild();
+  if(cmd==='reset'){clearInterval(knTimer);knCur=0;knBuild();knDraw(null);clearHistory('knHistory');return;}
+  if(cmd==='step'){if(knCur<knSteps.length){const s=knSteps[knCur];knDraw(s);addHistory('knHistory',knCur+1,s.msg,s.phase==='done'?'sh-good':'');knCur++;}return;}
+  if(cmd==='play'){if(knCur>=knSteps.length){knCur=0;clearHistory('knHistory');}knTimer=setInterval(()=>{if(knCur<knSteps.length)knControl('step');else clearInterval(knTimer);},900);}
+}
+knBuild();setTimeout(()=>knDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// PRIM'S MST (light theme)
+// ════════════════════════════════════════════════════════════
+const primNodesD=[{x:.27,y:.2,lbl:'A'},{x:.55,y:.12,lbl:'B'},{x:.83,y:.22,lbl:'C'},{x:.2,y:.65,lbl:'D'},{x:.5,y:.7,lbl:'E'},{x:.8,y:.65,lbl:'F'}];
+const primEdgesD=[[0,1,4],[0,3,2],[1,2,6],[1,4,3],[2,5,8],[3,4,5],[4,5,7],[1,3,9]];
+let primSteps=[],primCur=0,primTimer=null;
+function primBuild(){
+  primSteps=[];const n=primNodesD.length,key=new Array(n).fill(Infinity),inMST=new Array(n).fill(false),parent=new Array(n).fill(-1),mstEdges=[];
+  key[0]=0;
+  for(let it=0;it<n;it++){
+    let u=-1;for(let v=0;v<n;v++)if(!inMST[v]&&(u===-1||key[v]<key[u]))u=v;
+    inMST[u]=true;if(parent[u]!==-1)mstEdges.push([parent[u],u,key[u]]);
+    primSteps.push({inMST:[...inMST],mstEdges:[...mstEdges],current:u,msg:`Add ${primNodesD[u].lbl} to MST (edge weight=${key[u]})`});
+    for(const[a,b,wt] of primEdgesD){const v=a===u?b:b===u?a:-1;if(v>=0&&!inMST[v]&&wt<key[v]){key[v]=wt;parent[v]=u;}}
+  }
+}
+function primDraw(step){
+  const canvas=document.getElementById('primCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  const nx=primNodesD.map(n=>({...n,px:n.x*w,py:n.y*h}));
+  for(const[a,b,wt] of primEdgesD){
+    const inMst=step&&step.mstEdges.some(([x,y])=>(x===a&&y===b)||(x===b&&y===a));
+    ctx.beginPath();ctx.moveTo(nx[a].px,nx[a].py);ctx.lineTo(nx[b].px,nx[b].py);
+    ctx.strokeStyle=inMst?C.green:C.border;ctx.lineWidth=inMst?3:1.5;ctx.stroke();
+    const mx=(nx[a].px+nx[b].px)/2,my=(nx[a].py+nx[b].py)/2;
+    rr(ctx,mx-11,my-9,22,16,4,C.surface,C.border);
+    lbl(ctx,wt,mx,my,inMst?C.green:C.text3,10,inMst);
+  }
+  for(let i=0;i<nx.length;i++){
+    const nd=nx[i],inMST=step&&step.inMST[i],isCur=step&&step.current===i;
+    ctx.beginPath();ctx.arc(nd.px,nd.py,18,0,Math.PI*2);
+    ctx.fillStyle=isCur?C.amber:inMST?C.green:C.surface2;ctx.fill();
+    ctx.strokeStyle=isCur?C.amber:inMST?C.green:C.border;ctx.lineWidth=2;ctx.stroke();
+    lbl(ctx,nd.lbl,nd.px,nd.py,isCur||inMST?'white':C.text,13,true);
+  }
+  if(step){
+    const cost=step.mstEdges.reduce((s,[,,w])=>s+w,0);
+    document.getElementById('primInfo').textContent=`Step ${primCur}: ${step.msg}`;
+    document.getElementById('prim-cost').textContent=`MST Cost: ${cost}`;
+  }
+}
+function primControl(cmd){
+  if(!primSteps.length)primBuild();
+  if(cmd==='reset'){clearInterval(primTimer);primCur=0;primDraw(null);clearHistory('primHistory');return;}
+  if(cmd==='step'){if(primCur<primSteps.length){const s=primSteps[primCur];primDraw(s);addHistory('primHistory',primCur+1,s.msg,'sh-good');primCur++;}return;}
+  if(cmd==='play'){if(primCur>=primSteps.length){primCur=0;clearHistory('primHistory');}primTimer=setInterval(()=>{if(primCur<primSteps.length)primControl('step');else clearInterval(primTimer);},1000);}
+}
+primBuild();setTimeout(()=>primDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// KRUSKAL'S MST
+// ════════════════════════════════════════════════════════════
+const krNodesD=primNodesD,krEdgesD=[...primEdgesD].sort((a,b)=>a[2]-b[2]);
+let krSteps=[],krCur=0,krTimer=null;
+function krFind(parent,i){return parent[i]===i?i:krFind(parent,parent[i]);}
+function krBuild(){
+  krSteps=[];const parent=Array.from({length:krNodesD.length},(_,i)=>i),mstE=[];
+  for(const[a,b,w] of krEdgesD){
+    const ra=krFind(parent,a),rb=krFind(parent,b),cycle=ra===rb;
+    const nm=cycle?[...mstE]:[...mstE,[a,b,w]];
+    if(!cycle){parent[ra]=rb;mstE.push([a,b,w]);}
+    krSteps.push({mstEdges:[...nm],checking:[a,b],cycle,msg:cycle?`Skip (${krNodesD[a].lbl}-${krNodesD[b].lbl}, w=${w}): cycle!`:`Add (${krNodesD[a].lbl}-${krNodesD[b].lbl}, w=${w}) to MST`});
+    if(nm.length===krNodesD.length-1){krSteps.push({mstEdges:[...nm],checking:[],cycle:false,msg:'✅ MST Complete!'});break;}
+  }
+}
+function krDraw(step){
+  const canvas=document.getElementById('krCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  const nx=krNodesD.map(n=>({...n,px:n.x*w,py:n.y*h}));
+  for(const[a,b,wt] of krEdgesD){
+    const inMst=step&&step.mstEdges.some(([x,y])=>(x===a&&y===b)||(x===b&&y===a));
+    const isChk=step&&step.checking[0]===a&&step.checking[1]===b;
+    ctx.beginPath();ctx.moveTo(nx[a].px,nx[a].py);ctx.lineTo(nx[b].px,nx[b].py);
+    ctx.strokeStyle=inMst?C.green:isChk?(step.cycle?C.red:C.amber):C.border;ctx.lineWidth=inMst?3:isChk?2:1.5;ctx.stroke();
+    const mx=(nx[a].px+nx[b].px)/2,my=(nx[a].py+nx[b].py)/2;
+    rr(ctx,mx-11,my-9,22,16,4,C.surface,C.border);lbl(ctx,wt,mx,my,inMst?C.green:isChk?(step.cycle?C.red:C.amber):C.text3,10,inMst||isChk);
+  }
+  for(let i=0;i<nx.length;i++){
+    const nd=nx[i],conn=step&&step.mstEdges.some(([a,b])=>a===i||b===i);
+    ctx.beginPath();ctx.arc(nd.px,nd.py,18,0,Math.PI*2);ctx.fillStyle=conn?C.green:C.surface2;ctx.fill();ctx.strokeStyle=conn?C.green:C.border;ctx.lineWidth=2;ctx.stroke();
+    lbl(ctx,nd.lbl,nd.px,nd.py,conn?'white':C.text,13,true);
+  }
+  if(step){const cost=step.mstEdges.reduce((s,[,,w])=>s+w,0);document.getElementById('krInfo').textContent=`Step ${krCur}: ${step.msg}`;document.getElementById('kr-cost').textContent=`MST Cost: ${cost}`;}
+}
+function krControl(cmd){
+  if(!krSteps.length)krBuild();
+  if(cmd==='reset'){clearInterval(krTimer);krCur=0;krDraw(null);clearHistory('krHistory');return;}
+  if(cmd==='step'){if(krCur<krSteps.length){const s=krSteps[krCur];krDraw(s);addHistory('krHistory',krCur+1,s.msg,s.cycle?'sh-bad':'sh-good');krCur++;}return;}
+  if(cmd==='play'){if(krCur>=krSteps.length){krCur=0;clearHistory('krHistory');}krTimer=setInterval(()=>{if(krCur<krSteps.length)krControl('step');else clearInterval(krTimer);},900);}
+}
+krBuild();setTimeout(()=>krDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// HUFFMAN
+// ════════════════════════════════════════════════════════════
+let huffInput=[{ch:'A',f:5},{ch:'B',f:2},{ch:'C',f:1},{ch:'D',f:3},{ch:'E',f:4}];
+let huffSteps=[],huffCur=0,huffTimer=null;
+function huffSetInput(){
+  const raw=document.getElementById('huff-input').value;
+  huffInput=raw.split(',').map(s=>{const p=s.trim().split(':');return{ch:p[0]||'?',f:parseInt(p[1])||1};}).filter(x=>x.f>0);
+  huffControl('reset');
+}
+function huffBuild(){
+  huffSteps=[];let nodes=[...huffInput].sort((a,b)=>a.f-b.f);
+  huffSteps.push({nodes:JSON.parse(JSON.stringify(nodes)),msg:'Initial: sorted by frequency (ascending)'});
+  let id=0;
+  while(nodes.length>1){
+    const l=nodes.shift(),r=nodes.shift();
+    const m={ch:`(${l.ch}+${r.ch})`,f:l.f+r.f,left:l,right:r,id:'M'+(id++)};
+    const ins=nodes.findIndex(x=>x.f>=m.f);
+    ins===-1?nodes.push(m):nodes.splice(ins,0,m);
+    huffSteps.push({nodes:JSON.parse(JSON.stringify(nodes)),merge:{l:l.ch,r:r.ch,f:m.f},msg:`Merge ${l.ch}(${l.f}) + ${r.ch}(${r.f}) → (${m.ch})=${m.f}`});
+  }
+  huffSteps.push({nodes:[],done:true,msg:'✅ Huffman Tree Complete!'});
+}
+function huffDraw(step){
+  const canvas=document.getElementById('huffCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  if(!step){lbl(ctx,'Press Play to build Huffman tree',w/2,h/2,C.text3,13);return;}
+  if(step.done){
+    lbl(ctx,'🌳 Huffman Tree Built! Optimal Codes:',w/2,30,C.green,14,true);
+    const sorted=[...huffInput].sort((a,b)=>b.f-a.f);
+    const bw=Math.min(100,w/sorted.length);
+    sorted.forEach((it,i)=>{
+      rr(ctx,i*bw+8,52,bw-12,100,8,C.surface2,C.violet);
+      lbl(ctx,it.ch,i*bw+8+(bw-12)/2,75,C.amber,20,true);
+      lbl(ctx,'freq:'+it.f,i*bw+8+(bw-12)/2,98,C.text2,10);
+      lbl(ctx,'(short code)',i*bw+8+(bw-12)/2,115,C.green,9);
+    });
+    lbl(ctx,'Higher frequency = shorter code = fewer total bits = compressed!',w/2,175,C.blue,11);
+    document.getElementById('huffInfo').textContent=step.msg;return;
+  }
+  lbl(ctx,'Min-Heap Queue (sorted by freq):',20,16,C.text3,11);
+  ctx.textAlign='left';
+  const nodes=step.nodes,bw=Math.min(110,w/(nodes.length+1));
+  nodes.forEach((nd,i)=>{
+    const x=10+i*(bw+8),y=30,isNew=step.merge&&nd.ch===`(${step.merge.l}+${step.merge.r})`;
+    rr(ctx,x,y,bw,80,8,isNew?'#ede9fe':C.surface2,isNew?C.violet:C.border);
+    lbl(ctx,nd.ch,x+bw/2,y+22,isNew?C.violet:C.text,12,true);
+    lbl(ctx,'freq:'+nd.f,x+bw/2,y+42,isNew?C.amber:C.text2,11,isNew);
+    if(nd.left&&nd.right)lbl(ctx,`${nd.left.ch}+${nd.right.ch}`,x+bw/2,y+60,C.blue,9);
+    lbl(ctx,nd.f,x+bw/2,y+76,C.text3,9);
+  });
+  if(step.merge)lbl(ctx,`⬆ Merged ${step.merge.l} + ${step.merge.r} = ${step.merge.f}`,w/2,h-16,C.amber,11,true);
+  document.getElementById('huffInfo').textContent=step.msg;
+}
+function huffControl(cmd){
+  if(!huffSteps.length)huffBuild();
+  if(cmd==='reset'){clearInterval(huffTimer);huffCur=0;huffBuild();huffDraw(null);clearHistory('huffHistory');return;}
+  if(cmd==='step'){if(huffCur<huffSteps.length){const s=huffSteps[huffCur];huffDraw(s);addHistory('huffHistory',huffCur+1,s.msg,s.done?'sh-good':'');huffCur++;}return;}
+  if(cmd==='play'){if(huffCur>=huffSteps.length){huffCur=0;clearHistory('huffHistory');}huffTimer=setInterval(()=>{if(huffCur<huffSteps.length)huffControl('step');else clearInterval(huffTimer);},1000);}
+}
+huffBuild();setTimeout(()=>huffDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// 0/1 KNAPSACK DP TABLE
+// ════════════════════════════════════════════════════════════
+let kn01Items=[{w:2,v:3},{w:3,v:4},{w:4,v:5}],kn01W=5;
+let kn01Steps=[],kn01Cur=0,kn01Timer=null;
+function kn01SetInput(){
+  const raw=document.getElementById('kn01-input-items').value;
+  kn01W=parseInt(document.getElementById('kn01-input-w').value)||5;
+  kn01Items=raw.split(',').map(s=>{const p=s.trim().split(':');return{w:parseInt(p[0]),v:parseInt(p[1])};}).filter(x=>x.w>0&&x.v>0);
+  kn01Control('reset');
+}
+function kn01Build(){
+  kn01Steps=[];const n=kn01Items.length,W=kn01W;
+  const dp=Array.from({length:n+1},()=>new Array(W+1).fill(0));
+  for(let i=1;i<=n;i++){
+    const{w,v}=kn01Items[i-1];
+    for(let j=0;j<=W;j++){
+      const skip=dp[i-1][j],take=j>=w?dp[i-1][j-w]+v:null;
+      dp[i][j]=take!==null?Math.max(skip,take):skip;
+      kn01Steps.push({dp:dp.map(r=>[...r]),i,j,skip,take,msg:`dp[${i}][${j}]: skip=${skip}, take=${take!==null?take:'N/A'} → ${dp[i][j]}`,chose:dp[i][j]});
+    }
+  }
+  kn01Steps.push({dp:dp.map(r=>[...r]),i:n,j:W,done:true,msg:`✅ Optimal Value = dp[${n}][${W}] = ${dp[n][W]}`});
+}
+function kn01Draw(step){
+  const canvas=document.getElementById('kn01Canvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  const n=kn01Items.length,W=kn01W;
+  const cw=Math.min(52,(w-110)/(W+1)),rh=30,sx=108,sy=34;
+  // Header
+  for(let j=0;j<=W;j++){
+    rr(ctx,sx+j*cw,sy-rh,cw-1,rh-1,3,C.surface2,C.border);lbl(ctx,'w='+j,sx+j*cw+cw/2,sy-rh/2,C.blue,9,true);
+  }
+  for(let i=0;i<=n;i++){
+    rr(ctx,sx-106,sy+i*rh,106,rh-1,3,C.surface2,C.border);
+    lbl(ctx,i===0?'i=0':'i='+i+' (w'+kn01Items[i-1].w+',v'+kn01Items[i-1].v+')',sx-53,sy+i*rh+rh/2,C.amber,9);
+  }
+  if(!step){
+    for(let i=0;i<=n;i++)for(let j=0;j<=W;j++){rr(ctx,sx+j*cw,sy+i*rh,cw-1,rh-1,3,C.surface,C.border);lbl(ctx,'0',sx+j*cw+cw/2,sy+i*rh+rh/2,C.text3,11);}
+    return;
+  }
+  for(let i=0;i<=n;i++)for(let j=0;j<=W;j++){
+    const val=step.dp[i][j];
+    const isCurr=!step.done&&i===step.i&&j===step.j;
+    const isDone=step.done&&i===n&&j===W;
+    let fill=C.surface,stroke=C.border,tc=C.text3;
+    if(isDone){fill='#f0fdf4';stroke=C.green;tc=C.green;}
+    else if(isCurr){fill='#ede9fe';stroke=C.violet;tc=C.violet;}
+    else if(val>0){fill=C.surface;stroke=C.border;tc=C.text2;}
+    rr(ctx,sx+j*cw,sy+i*rh,cw-1,rh-1,3,fill,stroke);
+    lbl(ctx,val,sx+j*cw+cw/2,sy+i*rh+rh/2,tc,11,isCurr||isDone);
+  }
+  document.getElementById('kn01Info').textContent=`Step ${kn01Cur}: ${step.msg}`;
+  document.getElementById('kn01-val').textContent=`Max: ${step.dp[kn01Items.length][kn01W]}`;
+}
+function kn01Control(cmd){
+  if(!kn01Steps.length)kn01Build();
+  if(cmd==='reset'){clearInterval(kn01Timer);kn01Cur=0;kn01Build();kn01Draw(null);clearHistory('kn01History');return;}
+  if(cmd==='step'){if(kn01Cur<kn01Steps.length){const s=kn01Steps[kn01Cur];kn01Draw(s);addHistory('kn01History',kn01Cur+1,s.msg,s.done?'sh-good':'');kn01Cur++;}return;}
+  if(cmd==='play'){if(kn01Cur>=kn01Steps.length){kn01Cur=0;clearHistory('kn01History');}kn01Timer=setInterval(()=>{if(kn01Cur<kn01Steps.length)kn01Control('step');else clearInterval(kn01Timer);},parseInt(document.getElementById('kn01Speed').value)||400);}
+}
+kn01Build();setTimeout(()=>kn01Draw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// LCS
+// ════════════════════════════════════════════════════════════
+let lcsX='ABCB',lcsY='BDCAB';
+let lcsSteps=[],lcsCur=0,lcsTimer=null;
+function lcsSetInput(){lcsX=document.getElementById('lcs-input-x').value.toUpperCase().slice(0,8);lcsY=document.getElementById('lcs-input-y').value.toUpperCase().slice(0,8);lcsControl('reset');}
+function lcsBuild(){
+  lcsSteps=[];const m=lcsX.length,n=lcsY.length;
+  const dp=Array.from({length:m+1},()=>new Array(n+1).fill(0));
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){
+    const match=lcsX[i-1]===lcsY[j-1];
+    if(match)dp[i][j]=dp[i-1][j-1]+1;else dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+    lcsSteps.push({dp:dp.map(r=>[...r]),i,j,match,val:dp[i][j],msg:match?`Match! X[${i-1}]=${lcsX[i-1]}=Y[${j-1}] → dp[${i}][${j}]=${dp[i][j]}`:
+      `No match. max(dp[${i-1}][${j}]=${dp[i-1][j]}, dp[${i}][${j-1}]=${dp[i][j-1]}) = ${dp[i][j]}`});
+  }
+  lcsSteps.push({dp:dp.map(r=>[...r]),i:m,j:n,done:true,msg:`✅ LCS Length = ${dp[m][n]}`});
+}
+function lcsDraw(step){
+  const canvas=document.getElementById('lcsCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  const m=lcsX.length,n=lcsY.length;
+  const cw=Math.min(44,(w-70)/(n+1)),rh=28,sx=50,sy=50;
+  for(let j=0;j<=n;j++){rr(ctx,sx+j*cw,sy-rh,cw-1,rh-1,3,C.surface2,C.border);lbl(ctx,j===0?'':lcsY[j-1],sx+j*cw+cw/2,sy-rh/2,C.amber,12,true);}
+  for(let i=0;i<=m;i++){rr(ctx,sx-48,sy+i*rh,48,rh-1,3,C.surface2,C.border);lbl(ctx,i===0?'':lcsX[i-1],sx-24,sy+i*rh+rh/2,C.blue,12,true);}
+  if(!step){for(let i=0;i<=m;i++)for(let j=0;j<=n;j++){rr(ctx,sx+j*cw,sy+i*rh,cw-1,rh-1,3,C.surface,C.border);lbl(ctx,'0',sx+j*cw+cw/2,sy+i*rh+rh/2,C.text3,11);}return;}
+  for(let i=0;i<=m;i++)for(let j=0;j<=n;j++){
+    const val=step.dp[i][j],isCurr=!step.done&&i===step.i&&j===step.j,isMatch=isCurr&&step.match;
+    let fill=C.surface,stroke=C.border,tc=C.text3;
+    if(isMatch){fill='#f0fdf4';stroke=C.green;tc=C.green;}
+    else if(isCurr){fill='#ede9fe';stroke=C.violet;tc=C.violet;}
+    else if(val>0){tc=C.text2;}
+    if(step.done&&val===step.dp[m][n]&&val>0){fill='#fffbeb';stroke=C.amber;}
+    rr(ctx,sx+j*cw,sy+i*rh,cw-1,rh-1,3,fill,stroke);
+    lbl(ctx,val,sx+j*cw+cw/2,sy+i*rh+rh/2,tc,11,isCurr);
+  }
+  document.getElementById('lcsInfo').textContent=`Step ${lcsCur}: ${step.msg}`;
+  document.getElementById('lcs-val').textContent=`LCS Length: ${step.dp[m][n]}`;
+}
+function lcsControl(cmd){
+  if(!lcsSteps.length)lcsBuild();
+  if(cmd==='reset'){clearInterval(lcsTimer);lcsCur=0;lcsBuild();lcsDraw(null);clearHistory('lcsHistory');return;}
+  if(cmd==='step'){if(lcsCur<lcsSteps.length){const s=lcsSteps[lcsCur];lcsDraw(s);addHistory('lcsHistory',lcsCur+1,s.msg,s.done?'sh-good':s.match?'sh-good':'');lcsCur++;}return;}
+  if(cmd==='play'){if(lcsCur>=lcsSteps.length){lcsCur=0;clearHistory('lcsHistory');}lcsTimer=setInterval(()=>{if(lcsCur<lcsSteps.length)lcsControl('step');else clearInterval(lcsTimer);},350);}
+}
+lcsBuild();setTimeout(()=>lcsDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// COIN CHANGE
+// ════════════════════════════════════════════════════════════
+let coinCoins=[1,4,6],coinAmt=9;
+let coinSteps=[],coinCur=0,coinTimer=null;
+function coinSetInput(){coinCoins=document.getElementById('coin-input-coins').value.split(',').map(x=>parseInt(x.trim())).filter(x=>x>0);coinAmt=parseInt(document.getElementById('coin-input-amt').value)||9;coinControl('reset');}
+function coinBuild(){
+  coinSteps=[];const dp=new Array(coinAmt+1).fill(Infinity);dp[0]=0;
+  for(let j=1;j<=coinAmt;j++){
+    let best=Infinity;for(const c of coinCoins)if(c<=j&&dp[j-c]+1<best)best=dp[j-c]+1;
+    dp[j]=best;
+    coinSteps.push({dp:[...dp],j,msg:`dp[${j}] = ${dp[j]===Infinity?'∞':dp[j]} coins`});
+  }
+  coinSteps.push({dp:[...dp],j:coinAmt,done:true,msg:`✅ Min coins for ${coinAmt} = ${dp[coinAmt]===Infinity?'impossible':dp[coinAmt]}`});
+}
+function coinDraw(step){
+  const canvas=document.getElementById('coinCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  const n=coinAmt+1,bw=Math.min(60,(w-20)/n),bh=46,sx=(w-n*bw)/2,y=24;
+  lbl(ctx,`Coins: [${coinCoins.join(', ')}]  Amount: ${coinAmt}`,w/2,12,C.text2,11);
+  const arr=step?step.dp:new Array(coinAmt+1).fill(Infinity);arr[0]=0;
+  for(let j=0;j<=coinAmt;j++){
+    const val=arr[j],isCurr=step&&!step.done&&j===step.j,isDone=step&&step.done&&j===coinAmt;
+    let fill=C.surface2,stroke=C.border,tc=C.text3;
+    if(isDone){fill='#f0fdf4';stroke=C.green;tc=C.green;}
+    else if(isCurr){fill='#ede9fe';stroke=C.violet;tc=C.violet;}
+    else if(val<Infinity){fill=C.surface;tc=C.text2;}
+    rr(ctx,sx+j*bw+1,y,bw-2,bh,5,fill,stroke);
+    lbl(ctx,val===Infinity?'∞':val,sx+j*bw+bw/2,y+bh/2,tc,13,isCurr||isDone);
+    lbl(ctx,'j='+j,sx+j*bw+bw/2,y+bh+12,C.text3,9);
+  }
+  if(step)document.getElementById('coinInfo').textContent=`Step ${coinCur}: ${step.msg}`;
+}
+function coinControl(cmd){
+  if(!coinSteps.length)coinBuild();
+  if(cmd==='reset'){clearInterval(coinTimer);coinCur=0;coinBuild();coinDraw(null);clearHistory('coinHistory');return;}
+  if(cmd==='step'){if(coinCur<coinSteps.length){const s=coinSteps[coinCur];coinDraw(s);addHistory('coinHistory',coinCur+1,s.msg,s.done?'sh-good':'');coinCur++;}return;}
+  if(cmd==='play'){if(coinCur>=coinSteps.length){coinCur=0;clearHistory('coinHistory');}coinTimer=setInterval(()=>{if(coinCur<coinSteps.length)coinControl('step');else clearInterval(coinTimer);},500);}
+}
+coinBuild();setTimeout(()=>coinDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// N-QUEENS
+// ════════════════════════════════════════════════════════════
+let nqN=4,nqSteps=[],nqCur=0,nqTimer=null,nqRunning=false;
+function nqSetInput(){nqN=Math.min(6,Math.max(4,parseInt(document.getElementById('nq-input-n').value)||4));nqControl('reset');}
+function nqBuild(){
+  nqSteps=[];let sols=0;const board=new Array(nqN).fill(-1);
+  function safe(r,c){for(let i=0;i<r;i++){if(board[i]===c||Math.abs(board[i]-c)===Math.abs(i-r))return false;}return true;}
+  function solve(row){
+    if(row===nqN){sols++;nqSteps.push({board:[...board],row,sols,phase:'solution',msg:`✅ Solution ${sols} found! ${JSON.stringify([...board])}`});return;}
+    for(let col=0;col<nqN;col++){
+      nqSteps.push({board:[...board],row,col,sols,phase:'try',msg:`Try row${row},col${col}`});
+      if(safe(row,col)){board[row]=col;nqSteps.push({board:[...board],row,col,sols,phase:'place',msg:`✅ Safe! Place at row${row},col${col}`});solve(row+1);board[row]=-1;nqSteps.push({board:[...board],row,col,sols,phase:'backtrack',msg:`↩ Backtrack from row${row},col${col}`});}
+      else nqSteps.push({board:[...board],row,col,sols,phase:'unsafe',msg:`❌ Unsafe at row${row},col${col}`});
+    }
+  }
+  solve(0);
+}
+function nqDraw(step){
+  const canvas=document.getElementById('nqCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  const N=nqN,cell=Math.min(55,(Math.min(w*0.65,h)-30)/N);
+  const sx=Math.min(60,(w-N*cell*1.4)/2),sy=(h-N*cell)/2;
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    const light=(r+c)%2===0;
+    ctx.fillStyle=light?'#f8fafc':'#e2e8f0';ctx.fillRect(sx+c*cell,sy+r*cell,cell,cell);
+    ctx.strokeStyle=C.border;ctx.lineWidth=1;ctx.strokeRect(sx+c*cell,sy+r*cell,cell,cell);
+    if(step&&step.board[r]===c){
+      const qc=step.phase==='solution'?C.green:step.phase==='place'?C.green:step.phase==='backtrack'?C.red:step.phase==='unsafe'?C.red:C.amber;
+      lbl(ctx,'♛',sx+c*cell+cell/2,sy+r*cell+cell/2,qc,cell*0.6);
+    }
+  }
+  // Legend
+  const lx=sx+N*cell+14;
+  [['♛ Place',C.green],['↩ Back',C.red],['· Try',C.amber]].forEach(([t,cl],i)=>{
+    rr(ctx,lx,sy+i*36,100,28,5,cl+'22',cl+'55');lbl(ctx,t,lx+50,sy+i*36+14,cl,11);
+  });
+  if(step){
+    document.getElementById('nqInfo').textContent=`Step ${nqCur}: ${step.msg}`;
+    document.getElementById('nq-sol').textContent=`Solutions: ${step.sols}`;
+  }
+}
+function nqControl(cmd){
+  if(!nqSteps.length)nqBuild();
+  if(cmd==='reset'){clearInterval(nqTimer);nqRunning=false;nqCur=0;nqBuild();nqDraw(null);document.getElementById('nqPlay').textContent='▶ Play';clearHistory('nqHistory');return;}
+  if(cmd==='step'){if(nqCur<nqSteps.length){const s=nqSteps[nqCur];nqDraw(s);addHistory('nqHistory',nqCur+1,s.msg,s.phase==='solution'||s.phase==='place'?'sh-good':s.phase==='backtrack'||s.phase==='unsafe'?'sh-bad':'');nqCur++;}return;}
+  if(cmd==='play'){
+    if(nqRunning){clearInterval(nqTimer);nqRunning=false;document.getElementById('nqPlay').textContent='▶ Play';return;}
+    if(nqCur>=nqSteps.length){nqCur=0;clearHistory('nqHistory');}
+    nqRunning=true;document.getElementById('nqPlay').textContent='⏸ Pause';
+    nqTimer=setInterval(()=>{if(nqCur<nqSteps.length)nqControl('step');else{clearInterval(nqTimer);nqRunning=false;document.getElementById('nqPlay').textContent='▶ Play';}},parseInt(document.getElementById('nqSpeed').value)||500);
+  }
+}
+nqBuild();setTimeout(()=>nqDraw(null),100);
+
+// ════════════════════════════════════════════════════════════
+// BRANCH & BOUND KNAPSACK
+// ════════════════════════════════════════════════════════════
+const bbItems=[{n:'A',w:2,v:10},{n:'B',w:4,v:10},{n:'C',w:6,v:12},{n:'D',w:9,v:18}],bbW=15;
+let bbSteps=[],bbCur=0,bbTimer=null;
+function bbBound(level,wt,val){
+  if(wt>bbW)return 0;let b=val,j=level+1,tot=wt;
+  const sorted=[...bbItems].sort((a,b_)=>b_.v/b_.w-a.v/a.w);
+  while(j<sorted.length&&tot+sorted[j].w<=bbW){tot+=sorted[j].w;b+=sorted[j].v;j++;}
+  if(j<sorted.length)b+=((bbW-tot)*(sorted[j].v/sorted[j].w));
+  return b;
+}
+function bbBuild(){
+  bbSteps=[];let best=0,nodeId=0;const tree=[];
+  function explore(level,wt,val,parentId){
+    const id=nodeId++,bound=bbBound(level,wt,val),pruned=bound<=best;
+    tree.push({id,parentId,level,wt,val,bound,pruned,best});
+    bbSteps.push({tree:tree.map(n=>({...n})),cur:id,best,msg:pruned?`Prune: bound(${bound.toFixed(1)}) ≤ best(${best})`:`Explore level=${level+1}: val=${val}, wt=${wt}, bound=${bound.toFixed(1)}`});
+    if(pruned)return;if(val>best)best=val;if(level+1>=bbItems.length)return;
+    const sorted=[...bbItems].sort((a,b_)=>b_.v/b_.w-a.v/a.w);
+    if(wt+sorted[level+1].w<=bbW)explore(level+1,wt+sorted[level+1].w,val+sorted[level+1].v,id);
+    explore(level+1,wt,val,id);
+  }
+  explore(-1,0,0,null);
+  bbSteps.push({tree:tree.map(n=>({...n})),cur:-1,best,done:true,msg:`✅ Optimal Value = ${best}`});
+}
+function bbDraw(step){
+  const canvas=document.getElementById('bbCanvas');const{ctx,w,h}=setupCanvas(canvas);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.surface;ctx.fillRect(0,0,w,h);
+  if(!step){lbl(ctx,'Press Play for B&B visualization',w/2,h/2,C.text3,13);return;}
+  const byLevel={};
+  step.tree.forEach(n=>{const lev=n.level+1;if(!byLevel[lev])byLevel[lev]=[];byLevel[lev].push(n);});
+  const levels=Object.keys(byLevel).map(Number).sort((a,b)=>a-b);
+  const levelH=h/(levels.length+1),nodePos={};
+  levels.forEach((lev,li)=>{
+    const nodes=byLevel[lev],lw=w/(nodes.length+1);
+    nodes.forEach((nd,ni)=>{
+      const x=lw*(ni+1),y=levelH*(li+1);nodePos[nd.id]={x,y};
+      if(nd.parentId!=null&&nodePos[nd.parentId]){
+        const px=nodePos[nd.parentId].x,py=nodePos[nd.parentId].y;
+        ctx.beginPath();ctx.moveTo(px,py+14);ctx.lineTo(x,y-14);
+        ctx.strokeStyle=nd.pruned?C.red+'66':C.border;ctx.lineWidth=1;ctx.stroke();
+      }
+      const r=13,isCur=nd.id===step.cur;
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fillStyle=nd.pruned?'#fef2f2':isCur?'#fffbeb':C.surface2;ctx.fill();
+      ctx.strokeStyle=nd.pruned?C.red:isCur?C.amber:C.violet;ctx.lineWidth=isCur?2.5:1.5;ctx.stroke();
+      lbl(ctx,nd.val,x,y,nd.pruned?C.red:isCur?C.amber:C.text,9,isCur);
+      lbl(ctx,nd.pruned?'✗':'b='+nd.bound.toFixed(0),x,y+18,nd.pruned?C.red:C.text3,8);
+    });
+  });
+  document.getElementById('bbInfo').textContent=`Step ${bbCur}: ${step.msg}`;
+  document.getElementById('bb-best').textContent=`Best: ${step.best}`;
+}
+function bbControl(cmd){
+  if(!bbSteps.length)bbBuild();
+  if(cmd==='reset'){clearInterval(bbTimer);bbCur=0;bbBuild();bbDraw(null);clearHistory('bbHistory');return;}
+  if(cmd==='step'){if(bbCur<bbSteps.length){const s=bbSteps[bbCur];bbDraw(s);addHistory('bbHistory',bbCur+1,s.msg,s.done?'sh-good':s.msg.includes('Prune')?'sh-bad':'');bbCur++;}return;}
+  if(cmd==='play'){if(bbCur>=bbSteps.length){bbCur=0;clearHistory('bbHistory');}bbTimer=setInterval(()=>{if(bbCur<bbSteps.length)bbControl('step');else clearInterval(bbTimer);},800);}
+}
+bbBuild();setTimeout(()=>bbDraw(null),100);
+
+// ─── Resize ───────────────────────────────────────────────
+window.addEventListener('resize',()=>{
+  bsDraw(bsSteps[Math.max(0,bsCur-1)]||null);
+  msDraw(msSteps[Math.max(0,msCur-1)]||null);
+  qsDraw(qsSteps[Math.max(0,qsCur-1)]||null);
+});
+</script>
+</body>
+</html>
