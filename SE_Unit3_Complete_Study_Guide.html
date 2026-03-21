@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Engineering – Unit 3 | Complete Exam Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f4f8;
+  --card: #ffffff;
+  --primary: #1e40af;
+  --primary-light: #dbeafe;
+  --secondary: #7c3aed;
+  --secondary-light: #ede9fe;
+  --accent: #dc2626;
+  --accent-light: #fee2e2;
+  --green: #065f46;
+  --green-light: #d1fae5;
+  --orange: #b45309;
+  --orange-light: #fef3c7;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 24px rgba(0,0,0,0.14);
+  --radius: 12px;
+  --font-head: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+  --font-code: 'Fira Code', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ── HEADER ── */
+header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+  color: white;
+  padding: 2rem 1.5rem 1.2rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(30,64,175,0.3);
+}
+header .badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  padding: 0.25rem 1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+header h1 {
+  font-family: var(--font-head);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+header p {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* ── NAV TABS ── */
+.nav-wrap {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.nav-tabs {
+  display: flex;
+  overflow-x: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0;
+  padding: 0.85rem 1.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--primary); background: var(--primary-light); }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+/* ── MAIN CONTAINER ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── SECTION HEADERS ── */
+.chapter-header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: var(--radius);
+  padding: 1.8rem 2rem;
+  margin-bottom: 2rem;
+}
+.chapter-header .ch-badge {
+  background: rgba(255,255,255,0.25);
+  border-radius: 6px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+.chapter-header h2 {
+  font-family: var(--font-head);
+  font-size: 1.9rem;
+  margin-bottom: 0.4rem;
+}
+.chapter-header p { opacity: 0.88; font-size: 0.95rem; }
+
+.section-title {
+  font-family: var(--font-head);
+  font-size: 1.45rem;
+  color: var(--primary);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-title .num {
+  background: var(--primary);
+  color: white;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── SLIDE BOX ── */
+.slide-box {
+  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 1.8rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.slide-header {
+  background: linear-gradient(90deg, var(--primary) 0%, #2563eb 100%);
+  color: white;
+  padding: 0.7rem 1.3rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.slide-header .slide-num {
+  background: rgba(255,255,255,0.25);
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+}
+.slide-body { padding: 1.3rem 1.5rem; }
+
+/* ── LANGUAGE BLOCKS ── */
+.lang-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+@media (max-width: 640px) { .lang-pair { grid-template-columns: 1fr; } }
+.hinglish-box {
+  background: #fef9ee;
+  border-left: 4px solid #f59e0b;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.2rem;
+}
+.hinglish-box .lang-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #b45309;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+.english-box {
+  background: #f0fdf4;
+  border-left: 4px solid #22c55e;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.2rem;
+}
+.english-box .lang-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #15803d;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+/* ── KEYWORD CHIPS ── */
+.keyword-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0;
+}
+.chip {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.chip.red { background: var(--accent-light); color: var(--accent); }
+.chip.purple { background: var(--secondary-light); color: var(--secondary); }
+.chip.green { background: var(--green-light); color: var(--green); }
+.chip.orange { background: var(--orange-light); color: var(--orange); }
+
+/* ── TABLES ── */
+.tbl-wrap { overflow-x: auto; margin: 1rem 0; border-radius: var(--radius); box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th {
+  background: var(--primary);
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: #f8fafc; }
+tr:hover td { background: var(--primary-light); }
+
+/* ── SVG DIAGRAMS ── */
+.diagram-wrap {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+  text-align: center;
+}
+.diagram-title {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-radius: var(--radius);
+  padding: 1rem 1.3rem;
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+.callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+.callout.exam { background: #fffbeb; border: 1px solid #fcd34d; }
+.callout.exam .callout-icon::before { content: "📝"; }
+.callout.note { background: var(--primary-light); border: 1px solid #93c5fd; }
+.callout.note .callout-icon::before { content: "💡"; }
+.callout.example { background: var(--green-light); border: 1px solid #6ee7b7; }
+.callout.example .callout-icon::before { content: "🔧"; }
+.callout.warning { background: var(--accent-light); border: 1px solid #fca5a5; }
+.callout.warning .callout-icon::before { content: "⚠️"; }
+.callout-content strong { display: block; margin-bottom: 0.2rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── FORMULA BOX ── */
+.formula-box {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  font-family: var(--font-code);
+  font-size: 0.95rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+.formula-box .formula-title {
+  color: #89b4fa;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+.formula-line { margin: 0.3rem 0; }
+.formula-line .var { color: #f38ba8; }
+.formula-line .op { color: #fab387; }
+
+/* ── Q&A SECTION ── */
+.qa-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.2rem;
+  overflow: hidden;
+}
+.qa-question {
+  background: var(--primary-light);
+  padding: 0.9rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.qa-question:hover { background: #bfdbfe; }
+.qa-question .q-mark {
+  background: var(--primary);
+  color: white;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.qa-answer {
+  display: none;
+  padding: 1rem 1.2rem;
+  background: white;
+  border-top: 1px solid var(--border);
+  font-size: 0.93rem;
+  line-height: 1.7;
+}
+.qa-answer.open { display: block; }
+.qa-toggle { font-size: 0.75rem; color: var(--primary); flex-shrink: 0; margin-top: 0.2rem; }
+
+/* ── MCQ ── */
+.mcq-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow);
+}
+.mcq-q { font-weight: 700; margin-bottom: 0.8rem; }
+.mcq-option { padding: 0.5rem 0.8rem; border-radius: 6px; margin: 0.3rem 0; font-size: 0.9rem; cursor: pointer; border: 1px solid var(--border); transition: all 0.15s; }
+.mcq-option:hover { background: var(--primary-light); border-color: var(--primary); }
+.mcq-option.correct { background: var(--green-light); border-color: #059669; color: var(--green); font-weight: 600; }
+.mcq-option.wrong { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.mcq-explain { margin-top: 0.7rem; padding: 0.7rem 1rem; background: #f8fafc; border-radius: 6px; font-size: 0.87rem; color: var(--text-muted); display: none; }
+.mcq-btn { background: var(--primary); color: white; border: none; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.82rem; margin-top: 0.5rem; font-family: var(--font-body); }
+
+/* ── MARKS BADGE ── */
+.marks-badge {
+  display: inline-block;
+  background: var(--secondary);
+  color: white;
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* ── QUICK REVISION ── */
+.quick-box {
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+  border: 2px solid #6ee7b7;
+  border-radius: var(--radius);
+  padding: 1.3rem 1.5rem;
+  margin-bottom: 1.2rem;
+}
+.quick-box h4 {
+  color: var(--green);
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.quick-box ul { padding-left: 1.2rem; }
+.quick-box li { margin-bottom: 0.3rem; font-size: 0.92rem; }
+
+/* ── DIFF TABLE ── */
+.diff-table th:first-child { background: #475569; }
+.diff-table th:nth-child(2) { background: var(--primary); }
+.diff-table th:nth-child(3) { background: var(--secondary); }
+
+/* ── PROGRESS BAR ── */
+.effort-bar-wrap { margin: 0.3rem 0; display: flex; align-items: center; gap: 0.7rem; font-size: 0.85rem; }
+.effort-bar { height: 10px; border-radius: 5px; background: var(--border); flex: 1; overflow: hidden; }
+.effort-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
+
+/* ── STAIRCASE (CMM) ── */
+.staircase { display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding: 1rem 0; }
+.stair-step {
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.6rem 1.2rem;
+  margin-bottom: 4px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: transform 0.2s;
+}
+.stair-step:hover { transform: translateX(5px); }
+
+/* ── PYRAMID (Testing Levels) ── */
+.pyramid-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 1rem 0; }
+.pyramid-level {
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.6rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s;
+  cursor: default;
+}
+.pyramid-level:hover { transform: scale(1.02); }
+
+/* ── PROCESS FLOW ── */
+.flow-wrap { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem; padding: 1rem 0; justify-content: center; }
+.flow-box {
+  background: var(--primary-light);
+  border: 1.5px solid #93c5fd;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+  min-width: 90px;
+}
+.flow-arrow { color: var(--primary); font-size: 1.2rem; font-weight: 700; }
+
+/* ── TRIANGLE DIAGRAM ── */
+.mcall-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.mcall-card {
+  background: var(--primary-light);
+  border-radius: 8px;
+  padding: 0.8rem;
+  text-align: center;
+  font-size: 0.82rem;
+}
+.mcall-card .cat { font-weight: 700; color: var(--primary); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .container { padding: 1rem 0.8rem 3rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .mcall-grid { grid-template-columns: 1fr; }
+  .lang-pair { grid-template-columns: 1fr; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.tab-content.active { animation: fadeIn 0.3s ease; }
+
+/* ── PRINT ── */
+@media print { .nav-wrap, header { position: static !important; } .tab-content { display: block !important; } }
+
+/* ── SCROLL TO TOP ── */
+.scroll-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(30,64,175,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+  transition: transform 0.2s;
+}
+.scroll-top:hover { transform: scale(1.1); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">BE CSE/IT &bull; 4th Semester &bull; Software Engineering 24CST-208</div>
+  <h1>Unit 3 — Complete Exam Study Guide</h1>
+  <p>Chapter 3.1: Software Testing &nbsp;|&nbsp; Chapter 3.2: Quality Management &nbsp;|&nbsp; Chapter 3.3: Maintenance &amp; Reuse</p>
+</header>
+
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showTab('testing')">📋 3.1 Software Testing</button>
+    <button class="tab-btn" onclick="showTab('quality')">🏆 3.2 Quality Management</button>
+    <button class="tab-btn" onclick="showTab('maintenance')">🔧 3.3 Maintenance &amp; Reuse</button>
+    <button class="tab-btn" onclick="showTab('revision')">📚 Combined Revision</button>
+    <button class="tab-btn" onclick="showTab('questions')">❓ Question Bank</button>
+    <button class="tab-btn" onclick="showTab('quickrev')">⚡ Quick Notes</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TAB 1 : SOFTWARE TESTING -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="tab-testing" class="tab-content active">
+
+  <div class="chapter-header">
+    <span class="ch-badge">Chapter 3.1 &bull; Lectures 32–36</span>
+    <h2>Software Testing</h2>
+    <p>Fundamentals, strategies, levels, black/white-box techniques, and cyclomatic complexity.</p>
+  </div>
+
+  <!-- SLIDE 2 – Learning Objectives -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slide 2</span> Learning Objectives</div>
+    <div class="slide-body">
+      <p>This chapter covers three big objectives:</p>
+      <ul style="margin:0.7rem 0 0.7rem 1.3rem;line-height:2;">
+        <li><strong>LO1:</strong> Understand testing fundamentals — verification, validation, defect detection.</li>
+        <li><strong>LO2:</strong> Analyze strategic testing approaches — unit, integration, system, acceptance, alpha, beta.</li>
+        <li><strong>LO3:</strong> Apply black-box and white-box techniques including coverage and cyclomatic complexity.</li>
+      </ul>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Is chapter mein hum software testing ke baare mein padhenge. Testing ka matlab hai ki software sahi kaam kar raha hai ya nahi — ye verify karna. Hum different levels of testing sikhenge jaise unit testing aur system testing. Phir black-box aur white-box testing techniques dekhenge, aur ek formula bhi sikhi jis se code ki complexity calculate hoti hai.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>This chapter teaches us how to check if software is working correctly. We learn testing levels (from small units to the whole system), two approaches (black-box — testing without seeing code, and white-box — testing the internal code), and a mathematical formula to measure how complex a program is.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 – Introduction -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slide 3</span> Introduction to Software Testing</div>
+    <div class="slide-body">
+      <p>Software testing is the process of <strong>verifying</strong> whether an application meets its specified requirements and functions correctly under expected conditions.</p>
+      <div class="card-grid">
+        <div class="card" style="border-left:4px solid var(--primary);">
+          <strong>What it does</strong>
+          <p style="margin-top:0.4rem;font-size:0.9rem;">Identifies defects, bugs, and functional gaps before deployment — preventing real-world failures.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--secondary);">
+          <strong>Why it matters</strong>
+          <p style="margin-top:0.4rem;font-size:0.9rem;">Detecting issues early significantly reduces development costs and future maintenance efforts.</p>
+        </div>
+        <div class="card" style="border-left:4px solid #22c55e;">
+          <strong>What it validates</strong>
+          <p style="margin-top:0.4rem;font-size:0.9rem;">Both functional requirements (does it do the right things?) and non-functional (is it fast, secure, usable?).</p>
+        </div>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Software testing ek aisa process hai jisme hum check karte hain ki software sahi se kaam kar raha hai ya nahi. Jaise koi naya phone lene ke baad hum uski sari features check karte hain — calling, camera, internet — theek usi tarah software test kiya jata hai. Bugs aur errors dhundhne ke liye ye process zaruri hai.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Just as a car is test-driven before sale, software must be thoroughly tested before release. Testing finds hidden bugs, confirms the software does what it promises, and prevents embarrassing — or dangerous — failures after launch.</div>
+      </div>
+      <div class="callout example"><div class="callout-icon"></div><div class="callout-content"><strong>Real-Life Example</strong>When a bank's mobile app is developed, testers check if money transfers work correctly, if wrong amounts are rejected, if the app crashes on low battery, and if passwords are stored securely — all before the public release.</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4–5 – Fundamentals & Principles -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slides 4–5</span> Software Testing Fundamentals &amp; Key Principles</div>
+    <div class="slide-body">
+      <p>Testing evaluates software to ensure it performs correctly. It involves both <strong>verification</strong> (are we building the product right?) and <strong>validation</strong> (are we building the right product?). It is an integral part of the SDLC.</p>
+      <p style="margin-top:0.8rem;"><strong>The 5 Key Principles of Testing:</strong></p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Principle</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>Testing shows presence of defects</td><td>Testing can reveal bugs but <em>cannot prove</em> there are no bugs at all.</td></tr>
+            <tr><td><strong>2</strong></td><td>Exhaustive testing is impossible</td><td>You cannot test every possible input combination — prioritize critical areas.</td></tr>
+            <tr><td><strong>3</strong></td><td>Early testing</td><td>Bugs fixed early cost far less than bugs found after release.</td></tr>
+            <tr><td><strong>4</strong></td><td>Defect clustering (Pareto Principle)</td><td>80% of defects are found in 20% of the modules — focus effort there.</td></tr>
+            <tr><td><strong>5</strong></td><td>Pesticide Paradox</td><td>Running the same tests repeatedly stops finding new bugs — keep updating test cases.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Testing ke 5 important principles hain. Pehla — testing sirf bugs dhundh sakti hai, saare bugs ka absence prove nahi kar sakti. Doosra — sab inputs test karna impossible hai. Teesra — jitni jaldi bug dhundho, utna sasta fix hoga. Chautha — Pareto rule: 80% bugs sirf 20% modules mein hote hain. Paanchwa — Pesticide Paradox: wahi test baar baar chalane se naye bugs nahi milenge, isliye test cases update karte raho.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Think of testing like a food quality inspector. They can find contaminated batches but cannot guarantee all food is 100% safe. They focus on high-risk areas (80/20 rule), change their inspection methods to catch new problems (pesticide paradox), and inspect ingredients before cooking (early testing) to save waste.</div>
+      </div>
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Exam Tip — Pesticide Paradox</strong>The pesticide paradox is a frequently asked concept. Remember: if you spray the same pesticide repeatedly, bugs become immune. Similarly, running the same test cases means the software "becomes immune" — no new bugs are found. <strong>Solution: regularly update and add new test cases.</strong></div></div>
+      <div class="keyword-wrap">
+        <span class="chip">Verification</span><span class="chip">Validation</span><span class="chip">Pesticide Paradox</span><span class="chip">Pareto Principle (80/20)</span><span class="chip">Exhaustive Testing</span><span class="chip">Defect Clustering</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 – Verification vs Validation -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slide 7</span> Verification vs. Validation — Key Difference</div>
+    <div class="slide-body">
+      <div class="tbl-wrap">
+        <table class="diff-table">
+          <thead><tr><th>Aspect</th><th>Verification</th><th>Validation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Key Question</strong></td><td>Are we building the product <em>right</em>?</td><td>Are we building the <em>right</em> product?</td></tr>
+            <tr><td><strong>Type</strong></td><td>Static testing</td><td>Dynamic testing</td></tr>
+            <tr><td><strong>Focus</strong></td><td>Conformance to specifications</td><td>Meeting actual user needs</td></tr>
+            <tr><td><strong>Methods</strong></td><td>Reviews, inspections, walkthroughs</td><td>Actual test execution</td></tr>
+            <tr><td><strong>Timing</strong></td><td>Before validation phase</td><td>After verification phase</td></tr>
+            <tr><td><strong>Example</strong></td><td>Checking design docs match requirements</td><td>Running the software and testing features</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Ek simple example: agar aap ek restaurant mein chef hain. Verification matlab — kya recipe sahi follow ho rahi hai? (process check). Validation matlab — kya khana tasty hai aur customer khush hai? (result check). Verification pehle hoti hai, validation baad mein.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Verification is like checking whether a cake is being baked at the right temperature (process is correct). Validation is tasting the final cake to confirm it is actually delicious (output meets the need). You verify the process, then validate the product.</div>
+      </div>
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Exam Tip</strong>This is a very common 2-mark / 5-mark question. The golden lines: <strong>Verification = "Are we building the product right?" (Static)</strong> and <strong>Validation = "Are we building the right product?" (Dynamic)</strong>.</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDES 8-10 – Strategic Approach & Testing Levels -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slides 8–10</span> Strategic Approach &amp; Testing Levels</div>
+    <div class="slide-body">
+      <p>A <strong>testing strategy</strong> is a high-level plan that defines the testing scope, objectives, resources, timelines, and methods to be used throughout the software development lifecycle.</p>
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">Testing Levels Pyramid — Lower levels are done first, each builds on the previous</div>
+        <div class="pyramid-wrap">
+          <div class="pyramid-level" style="width:90%;background:#7c3aed;">🎯 Regression Testing — Verify no new bugs after changes</div>
+          <div class="pyramid-level" style="width:78%;background:#dc2626;">✅ Acceptance Testing — End users approve before deployment</div>
+          <div class="pyramid-level" style="width:66%;background:#d97706;">🖥️ System Testing — Whole system vs. all requirements</div>
+          <div class="pyramid-level" style="width:54%;background:#059669;">🔗 Integration Testing — Combined modules work together</div>
+          <div class="pyramid-level" style="width:42%;background:#1e40af;">🔬 Unit Testing — Individual components in isolation</div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Level</th><th>Objective</th><th>Scope</th><th>Done By</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Unit</strong></td><td>Validate logic</td><td>Single module</td><td>Developers</td><td>Early phase</td></tr>
+            <tr><td><strong>Integration</strong></td><td>Verify interaction</td><td>Combined modules</td><td>Testers</td><td>After units</td></tr>
+            <tr><td><strong>System</strong></td><td>Validate full system</td><td>Whole software</td><td>Test team</td><td>Pre-release</td></tr>
+            <tr><td><strong>Acceptance</strong></td><td>Final approval</td><td>User workflow</td><td>Customers</td><td>Before deployment</td></tr>
+            <tr><td><strong>Regression</strong></td><td>Detect reintroduced defects</td><td>Modified areas</td><td>QA team</td><td>After changes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Testing pyramid ek building jaisi hai. Pehle foundation (unit testing) check karo — ek ek brick. Phir walls (integration testing) — bricks mil ke sahi lagi hain ya nahi. Phir poori building (system testing). Phir owner (acceptance testing) — kya ghar customer ki zarurat poori karta hai? Aur agar baad mein koi changes ho toh regression testing se check karo ki kuch naya nahi tuta.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Imagine building a car. First you test each individual part (engine, tyres) — that is unit testing. Then you check that parts fit together (integration). Then you test the complete car (system). Then the customer does a test drive (acceptance). After any repair, you test again to make sure nothing new broke (regression).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDES 11-13 – Validation, Alpha, Beta -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slides 11–14</span> Validation Testing, Alpha &amp; Beta Testing</div>
+    <div class="slide-body">
+      <p><strong>Validation Testing</strong> ensures the software product functions as expected by comparing it against documented requirements. It uses the SRS (Software Requirements Specification) as the foundation.</p>
+      <div class="tbl-wrap">
+        <table class="diff-table">
+          <thead><tr><th>Parameter</th><th>Alpha Testing</th><th>Beta Testing</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Performed By</strong></td><td>Internal development/QA team</td><td>External real users</td></tr>
+            <tr><td><strong>Environment</strong></td><td>Controlled lab setting (developer site)</td><td>Real-world user environment (user site)</td></tr>
+            <tr><td><strong>Purpose</strong></td><td>Find critical bugs early, verify stability</td><td>Gather user feedback, validate UX</td></tr>
+            <tr><td><strong>Testing Type</strong></td><td>Both black-box and white-box</td><td>Primarily black-box</td></tr>
+            <tr><td><strong>Duration</strong></td><td>Weeks to months</td><td>Few weeks typically</td></tr>
+            <tr><td><strong>Access</strong></td><td>Limited internal access</td><td>Selected external users</td></tr>
+            <tr><td><strong>Example</strong></td><td>Developers testing Gmail before release</td><td>Public testers using Gmail Beta</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Alpha testing matlab — ghar ke andar khaana banake khud taste karo (developer log khud test karte hain). Beta testing matlab — mehman bulao aur unhe khana khilao aur unka feedback lo (real users apne system pe use karte hain). Dono milke product ko launch se pehle behtar banate hain.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>When a gaming company develops a new game — Alpha testing means their own employees play it and report bugs. Beta testing means a selected group of gamers worldwide download and test it, giving feedback on gameplay, difficulty, and crashes. Their feedback drives the final improvements before the official launch.</div>
+      </div>
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Memory Trick</strong>Alpha = A for <em>internal</em> = done at developer <em>site</em>. Beta = B for <em>external real users</em> = done at user <em>site</em>.</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDES 15-16 – System Testing -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slides 15–16</span> System Testing &amp; Types</div>
+    <div class="slide-body">
+      <p>System testing validates the <strong>complete integrated software system</strong> as a whole. It is conducted after integration testing and checks both functional and non-functional requirements.</p>
+      <div class="card-grid">
+        <div class="card" style="border-top:3px solid var(--primary);"><strong>🔍 Functional Testing</strong><p style="font-size:0.88rem;margin-top:0.3rem;">Verifies the system behaves according to requirement specifications.</p></div>
+        <div class="card" style="border-top:3px solid #d97706;"><strong>⚡ Performance Testing</strong><p style="font-size:0.88rem;margin-top:0.3rem;">Assesses speed, responsiveness, and stability under load.</p></div>
+        <div class="card" style="border-top:3px solid var(--accent);"><strong>🛡️ Security Testing</strong><p style="font-size:0.88rem;margin-top:0.3rem;">Evaluates the software's ability to protect against threats.</p></div>
+        <div class="card" style="border-top:3px solid #22c55e;"><strong>😊 Usability Testing</strong><p style="font-size:0.88rem;margin-top:0.3rem;">Measures how easy and intuitive the software is to use.</p></div>
+        <div class="card" style="border-top:3px solid var(--secondary);"><strong>💻 Compatibility Testing</strong><p style="font-size:0.88rem;margin-top:0.3rem;">Verifies software works across platforms, devices, and browsers.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDES 17-18 – Black Box Testing -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slides 17–18</span> Black-Box Testing</div>
+    <div class="slide-body">
+      <p>Black-box testing examines software <strong>functionality without any knowledge of internal code structure</strong>. The tester views the software as a "black box" — they give inputs and check if outputs are correct, without knowing how the software processes them.</p>
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">Black-Box Testing Concept</div>
+        <svg viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;">
+          <rect x="10" y="30" width="100" height="80" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+          <text x="60" y="65" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e40af" font-weight="600">TEST</text>
+          <text x="60" y="80" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e40af" font-weight="600">INPUT</text>
+          <text x="60" y="97" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3b82f6">(username,</text>
+          <text x="60" y="109" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3b82f6">password)</text>
+          <line x1="112" y1="70" x2="165" y2="70" stroke="#6b7280" stroke-width="2" marker-end="url(#arr)"/>
+          <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#6b7280"/></marker></defs>
+          <rect x="166" y="20" width="150" height="100" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+          <text x="241" y="55" text-anchor="middle" font-family="sans-serif" font-size="12" fill="white" font-weight="700">BLACK BOX</text>
+          <text x="241" y="72" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#94a3b8">Internal Logic</text>
+          <text x="241" y="87" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#94a3b8">HIDDEN from</text>
+          <text x="241" y="102" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#94a3b8">Tester</text>
+          <line x1="318" y1="70" x2="368" y2="70" stroke="#6b7280" stroke-width="2" marker-end="url(#arr)"/>
+          <rect x="370" y="30" width="100" height="80" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+          <text x="420" y="65" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#065f46" font-weight="600">OUTPUT</text>
+          <text x="420" y="80" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#065f46" font-weight="600">RESULT</text>
+          <text x="420" y="97" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#059669">("Login</text>
+          <text x="420" y="109" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#059669">Successful")</text>
+          <text x="241" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#6b7280">No knowledge of internal code — only input/output matters</text>
+        </svg>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Technique</th><th>Purpose</th><th>Example</th><th>Strength</th><th>Weakness</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Equivalence Partitioning</strong></td><td>Reduce test cases</td><td>Age: valid (18-60), invalid (&lt;18, &gt;60)</td><td>Fewer test cases</td><td>May miss complex flaws</td></tr>
+            <tr><td><strong>Boundary Value Analysis</strong></td><td>Check limit values</td><td>Test age = 17, 18, 60, 61</td><td>High defect detection at edges</td><td>Limited scope</td></tr>
+            <tr><td><strong>Decision Table</strong></td><td>Condition combinations</td><td>Login rules with username+password</td><td>Handles complex logic</td><td>Complex to create</td></tr>
+            <tr><td><strong>State Transition</strong></td><td>Behaviour changes</td><td>Login attempt → locked after 3 failures</td><td>Models state-based systems</td><td>Hard for simple apps</td></tr>
+            <tr><td><strong>Use-Case Testing</strong></td><td>User workflows</td><td>Purchase flow: select → cart → pay → confirm</td><td>Realistic end-to-end tests</td><td>May miss edge cases</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Black-box testing mein tester ko andar ka code nahi pata — woh sirf inputs deta hai aur dekha hai output sahi aaya ya nahi. Jaise ATM machine use karte waqt — hum nahi jaante andar ki circuit kaise kaam karti hai, bas PIN daalo aur paisa nikalo. Agar paisa nahi aaya toh bug hai!</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Think of ordering food online. As a tester, you enter item, address, payment details and check if the order is placed correctly — you do not know how the backend database, payment gateway, or delivery algorithm works internally. That is black-box testing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDES 19-21 – White Box Testing -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slides 19–21</span> White-Box Testing</div>
+    <div class="slide-body">
+      <p>White-box testing (also called <strong>glass-box, clear-box, or structural testing</strong>) examines the <strong>internal code structure, logic, and design</strong>. The tester has full access to source code and designs test cases based on program flow.</p>
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">White-Box Testing — Tester sees everything inside</div>
+        <svg viewBox="0 0 480 150" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;">
+          <rect x="10" y="30" width="100" height="80" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+          <text x="60" y="75" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e40af" font-weight="600">TEST INPUT</text>
+          <line x1="112" y1="70" x2="165" y2="70" stroke="#6b7280" stroke-width="2" marker-end="url(#arr2)"/>
+          <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#6b7280"/></marker></defs>
+          <rect x="166" y="20" width="150" height="100" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,3"/>
+          <text x="241" y="42" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e40af" font-weight="700">WHITE BOX</text>
+          <text x="241" y="58" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">if (x &gt; 0) {</text>
+          <text x="241" y="71" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#16a34a">  process(x);</text>
+          <text x="241" y="84" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">} else {</text>
+          <text x="241" y="97" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#dc2626">  error();</text>
+          <text x="241" y="110" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">}</text>
+          <line x1="318" y1="70" x2="368" y2="70" stroke="#6b7280" stroke-width="2" marker-end="url(#arr2)"/>
+          <rect x="370" y="30" width="100" height="80" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+          <text x="420" y="75" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#065f46" font-weight="600">OUTPUT</text>
+          <text x="241" y="140" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#6b7280">Tester sees internal code — designs tests based on logic paths</text>
+        </svg>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Technique</th><th>Focus</th><th>What it Checks</th><th>Benefit</th><th>Limitation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Statement Coverage</strong></td><td>Execution</td><td>Every statement runs at least once</td><td>Simple metric</td><td>Low defect detection</td></tr>
+            <tr><td><strong>Branch Coverage</strong></td><td>Decisions</td><td>Every True/False branch tested</td><td>Better logic check</td><td>Misses combined paths</td></tr>
+            <tr><td><strong>Condition Coverage</strong></td><td>Boolean logic</td><td>Each condition evaluates T and F</td><td>High precision</td><td>Complex for nested code</td></tr>
+            <tr><td><strong>Path Coverage</strong></td><td>All flows</td><td>Every possible execution path</td><td>Most thorough</td><td>Exponential test case growth</td></tr>
+            <tr><td><strong>Loop Testing</strong></td><td>Iteration logic</td><td>Loop bounds and iterations</td><td>Prevents infinite loops</td><td>Hard for irregular loops</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="formula-box">
+        <div class="formula-title">Statement Coverage Formula</div>
+        <div class="formula-line">Coverage <span class="op">=</span> (Number of <span class="var">Executed Statements</span> / Total <span class="var">Statements</span>) <span class="op">× 100%</span></div>
+        <div class="formula-line" style="margin-top:0.5rem;">Example: 8 of 10 statements executed → Coverage <span class="op">=</span> <span class="var">80%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDES 23-24 – Basis Path & Cyclomatic Complexity -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slides 23–24</span> Basis Path Testing &amp; Cyclomatic Complexity ⭐ Most Important</div>
+    <div class="slide-body">
+      <p><strong>Basis Path Testing</strong> is a white-box technique that derives a logical complexity measure of procedural design. It uses <strong>cyclomatic complexity</strong> to determine the minimum number of independent execution paths that must be tested.</p>
+      <p style="margin-top:0.7rem;"><strong>Cyclomatic Complexity V(G)</strong> is a quantitative measure of the logical complexity of a program, defined by Thomas J. McCabe. It determines how many independent paths exist through the code.</p>
+
+      <div class="formula-box">
+        <div class="formula-title">Cyclomatic Complexity Formulas (ALL 3 must be memorized)</div>
+        <div class="formula-line"><strong>Formula 1:</strong>  V(G) <span class="op">=</span> <span class="var">E</span> <span class="op">-</span> <span class="var">N</span> <span class="op">+</span> <span class="var">2P</span></div>
+        <div class="formula-line" style="font-size:0.82rem;color:#94a3b8;margin-left:1rem;">E = Edges, N = Nodes, P = Connected components (usually 1)</div>
+        <div class="formula-line" style="margin-top:0.5rem;"><strong>Formula 2:</strong>  V(G) <span class="op">=</span> Number of <span class="var">Regions</span> in flow graph</div>
+        <div class="formula-line" style="margin-top:0.5rem;"><strong>Formula 3:</strong>  V(G) <span class="op">=</span> Number of <span class="var">Decision Points</span> <span class="op">+</span> <span class="var">1</span></div>
+      </div>
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">Cyclomatic Complexity Risk Interpretation Table</div>
+        <div class="tbl-wrap" style="box-shadow:none;margin:0;">
+          <table>
+            <thead><tr><th>V(G) Value</th><th>Risk Level</th><th>Interpretation</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>1 – 10</strong></td><td style="color:#059669;font-weight:700;">🟢 Low</td><td>Simple program</td><td>Normal testing sufficient</td></tr>
+              <tr><td><strong>11 – 20</strong></td><td style="color:#d97706;font-weight:700;">🟡 Moderate</td><td>Moderate complexity</td><td>Moderate risk, needs attention</td></tr>
+              <tr><td><strong>21 – 50</strong></td><td style="color:#dc2626;font-weight:700;">🔴 High</td><td>Complex program</td><td>Major restructuring recommended</td></tr>
+              <tr><td><strong>&gt; 50</strong></td><td style="color:#7c2d12;font-weight:700;">⛔ Very High</td><td>Untestable</td><td>Immediate refactoring required</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="callout example"><div class="callout-icon"></div><div class="callout-content"><strong>Numerical Example — Calculate V(G)</strong>
+        Suppose a program has: E = 10 edges, N = 8 nodes, P = 1 component.<br>
+        <strong>V(G) = E – N + 2P = 10 – 8 + 2(1) = 4</strong><br>
+        This means there are 4 independent paths to be tested.<br>
+        V(G) = 4 → Low risk, simple program. ✅
+      </div></div>
+
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Cyclomatic complexity ek number hai jo batata hai ki code mein kitne alag-alag raaste hain. Jaise ek city mein different roads hain — koi bhi destination tak 4 tarike se ja sakte ho. Toh V(G) = 4 matlab 4 alag test cases banana padenge. Zyada complex code mein zyada raaste hain, isliye testing mushkil ho jaati hai.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Cyclomatic complexity is like counting the number of different routes through a road map (the program). If there are 4 different paths through the code, you need at least 4 test cases to cover all paths. Higher complexity = more paths = harder to test completely.</div>
+      </div>
+
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Most Important Exam Points</strong>
+        (1) The formula <strong>V(G) = E – N + 2P</strong> appears in almost every exam. (2) Decision Points formula = <strong>number of IF/WHILE/FOR decisions + 1</strong>. (3) V(G) also equals the <strong>number of independent paths</strong> that must be tested. (4) For a single-component graph, P = 1.
+      </div></div>
+      <div class="keyword-wrap">
+        <span class="chip red">Cyclomatic Complexity V(G)</span><span class="chip">Basis Path Testing</span><span class="chip">E – N + 2P</span><span class="chip">Decision Points</span><span class="chip">Independent Paths</span><span class="chip">Flow Graph</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Slide 25 -->
+  <div class="slide-box">
+    <div class="slide-header"><span class="slide-num">Slide 25</span> Chapter Summary</div>
+    <div class="slide-body">
+      <div class="quick-box">
+        <h4>📋 10-Second Chapter Recap</h4>
+        <ul>
+          <li>Testing verifies and validates software — finds defects before deployment.</li>
+          <li>5 Principles: presence-not-absence, no exhaustive testing, early testing, 80/20 rule, pesticide paradox.</li>
+          <li>Levels: Unit → Integration → System → Acceptance → Regression.</li>
+          <li>Alpha = internal, controlled. Beta = external, real users.</li>
+          <li>Black-box = no code knowledge, tests inputs/outputs.</li>
+          <li>White-box = full code access, tests internal paths.</li>
+          <li><strong>V(G) = E – N + 2P</strong> — most important formula of this chapter.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tab-testing -->
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TAB 2 : QUALITY MANAGEMENT -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="tab-quality" class="tab-content">
+
+  <div class="chapter-header" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);">
+    <span class="ch-badge">Chapter 3.2 &bull; Lectures 37–41</span>
+    <h2>Quality Management</h2>
+    <p>Software quality, reliability metrics, formal reviews, statistical SQA, ISO 9000, and SEI-CMM.</p>
+  </div>
+
+  <!-- Slide 3-4 – Introduction -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#7c3aed,#9333ea);"><span class="slide-num">Slides 3–4</span> Introduction to Quality Management</div>
+    <div class="slide-body">
+      <p>Quality management is a <strong>systematic approach</strong> that ensures software products meet all specified customer requirements. It encompasses four key activities:</p>
+      <div class="flow-wrap">
+        <div class="flow-box">📋 Quality Planning</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">✅ Quality Assurance</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">🔍 Quality Control</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">🔄 Continuous Improvement</div>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Quality management matlab — ek system banana jo ensure kare ki software sahi, reliable aur user ke kaam ka ho. Jaise ek factory mein quality control hoti hai — har product check hota hai. Software mein bhi yahi hota hai. Planning se start karo, phir assurance (process sahi hai), phir control (product sahi hai), phir continuously improve karte raho.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Quality management in software is like a restaurant's food safety system — they plan hygiene standards, train staff (assurance), inspect food before serving (control), and continuously improve recipes based on customer feedback (continuous improvement). The goal is consistent, high-quality output every time.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5-7 – Software Quality Dimensions & McCall's Model -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#7c3aed,#9333ea);"><span class="slide-num">Slides 5–7</span> Software Quality Dimensions &amp; McCall's Model</div>
+    <div class="slide-body">
+      <p>Software quality is defined as conformance to: (1) explicitly stated functional requirements, (2) documented development standards, and (3) implicit expectations of professional software.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Quality Attribute</th><th>Description</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Correctness</strong></td><td>Meets all specified functional requirements</td><td>Calculator gives correct results</td></tr>
+            <tr><td><strong>Reliability</strong></td><td>Performs consistently over time without failures</td><td>Server uptime 99.9%</td></tr>
+            <tr><td><strong>Efficiency</strong></td><td>Optimal use of memory and processing</td><td>App loads in &lt;2 seconds</td></tr>
+            <tr><td><strong>Integrity</strong></td><td>Security and data protection</td><td>Passwords encrypted in database</td></tr>
+            <tr><td><strong>Usability</strong></td><td>Easy to use and learn</td><td>First-time user can navigate easily</td></tr>
+            <tr><td><strong>Maintainability</strong></td><td>Easy to modify and fix</td><td>Code has clear documentation</td></tr>
+            <tr><td><strong>Flexibility</strong></td><td>Adapts to changing requirements</td><td>Plugin-based architecture</td></tr>
+            <tr><td><strong>Portability</strong></td><td>Works across platforms</td><td>App runs on Windows, Mac, Linux</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin:1rem 0 0.5rem;"><strong>McCall's Quality Model</strong> organizes these factors into three categories:</p>
+      <div class="mcall-grid">
+        <div class="mcall-card">
+          <div class="cat">Product Operation</div>
+          <p style="font-size:0.82rem;">How the software performs during use</p>
+          <div class="keyword-wrap" style="justify-content:center;margin-top:0.4rem;">
+            <span class="chip" style="font-size:0.75rem;">Correctness</span><span class="chip" style="font-size:0.75rem;">Reliability</span><span class="chip" style="font-size:0.75rem;">Efficiency</span><span class="chip" style="font-size:0.75rem;">Integrity</span><span class="chip" style="font-size:0.75rem;">Usability</span>
+          </div>
+        </div>
+        <div class="mcall-card" style="background:var(--secondary-light);">
+          <div class="cat" style="color:var(--secondary);">Product Revision</div>
+          <p style="font-size:0.82rem;">How easily it can be changed</p>
+          <div class="keyword-wrap" style="justify-content:center;margin-top:0.4rem;">
+            <span class="chip purple" style="font-size:0.75rem;">Maintainability</span><span class="chip purple" style="font-size:0.75rem;">Flexibility</span><span class="chip purple" style="font-size:0.75rem;">Testability</span>
+          </div>
+        </div>
+        <div class="mcall-card" style="background:var(--green-light);">
+          <div class="cat" style="color:var(--green);">Product Transition</div>
+          <p style="font-size:0.82rem;">How well it moves to new environments</p>
+          <div class="keyword-wrap" style="justify-content:center;margin-top:0.4rem;">
+            <span class="chip green" style="font-size:0.75rem;">Portability</span><span class="chip green" style="font-size:0.75rem;">Reusability</span><span class="chip green" style="font-size:0.75rem;">Interoperability</span>
+          </div>
+        </div>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>McCall ka model software quality ko teen categories mein divide karta hai. Operation matlab "kaam kaise karta hai" — jaise phone call quality. Revision matlab "badalna kitna aasaan hai" — jaise phone ka software update. Transition matlab "dusri jagah le jaana kitna aasaan hai" — jaise SIM card alag phone mein lagana.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>McCall's model divides software quality into: Operation (does it work correctly and securely?), Revision (can we easily fix and update it?), and Transition (can we port it to other platforms or reuse its parts?). All three categories must be strong for truly high-quality software.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slides 8-10 – Software Reliability -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#7c3aed,#9333ea);"><span class="slide-num">Slides 8–10</span> Software Reliability &amp; Metrics</div>
+    <div class="slide-body">
+      <p>Software reliability is the <strong>probability of failure-free operation for a specified period of time in a specified environment</strong>. Unlike hardware, software does not wear out physically — it fails due to design defects.</p>
+
+      <div class="formula-box">
+        <div class="formula-title">Key Reliability Formulas — All must be memorized</div>
+        <div class="formula-line"><span class="var">MTBF</span> <span class="op">=</span> Total Operating Time / Number of Failures</div>
+        <div class="formula-line" style="font-size:0.82rem;color:#94a3b8;margin-left:1rem;">Mean Time Between Failures — average time between consecutive failures</div>
+        <div class="formula-line" style="margin-top:0.6rem;"><span class="var">MTTF</span> <span class="op">=</span> Total Operating Time / Total Failures</div>
+        <div class="formula-line" style="font-size:0.82rem;color:#94a3b8;margin-left:1rem;">Mean Time To Failure — average time to first failure in new systems</div>
+        <div class="formula-line" style="margin-top:0.6rem;"><span class="var">MTTR</span> <span class="op">=</span> Total Repair Time / Number of Repairs</div>
+        <div class="formula-line" style="font-size:0.82rem;color:#94a3b8;margin-left:1rem;">Mean Time To Repair — average time to fix a failure</div>
+        <div class="formula-line" style="margin-top:0.6rem;"><span class="var">Availability</span> <span class="op">=</span> MTBF / (MTBF + MTTR)</div>
+        <div class="formula-line" style="font-size:0.82rem;color:#94a3b8;margin-left:1rem;">Percentage of time the system is operational</div>
+        <div class="formula-line" style="margin-top:0.6rem;"><span class="var">Failure Rate</span> <span class="op">=</span> Number of Failures / Operating Time</div>
+      </div>
+
+      <div class="callout example"><div class="callout-icon"></div><div class="callout-content"><strong>Numerical Example — Reliability Calculation</strong>
+        A server runs for 1000 hours and has 5 failures. Total repair time = 10 hours.<br>
+        <strong>MTBF = 1000/5 = 200 hours</strong> (fails once every 200 hours on average)<br>
+        <strong>MTTR = 10/5 = 2 hours</strong> (each repair takes 2 hours)<br>
+        <strong>Availability = 200/(200+2) = 200/202 ≈ 99.01%</strong>
+      </div></div>
+
+      <p style="margin-top:1rem;"><strong>Reliability Models:</strong></p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>Key Assumption</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Jelinski-Moranda</strong></td><td>Constant failure rate for each remaining defect</td></tr>
+            <tr><td><strong>Goel-Okumoto</strong></td><td>Uses non-homogeneous Poisson process for predictions</td></tr>
+            <tr><td><strong>Musa's Basic Execution Time</strong></td><td>Relates failures directly to execution time</td></tr>
+            <tr><td><strong>Schneidewind Model</strong></td><td>Uses least squares estimation for reliability prediction</td></tr>
+            <tr><td><strong>Littlewood-Verrall</strong></td><td>Variable failure rate for each individual defect</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slides 11-15 – Software Reviews & FTR -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#7c3aed,#9333ea);"><span class="slide-num">Slides 11–15</span> Software Reviews &amp; Formal Technical Reviews (FTR)</div>
+    <div class="slide-body">
+      <p>Software reviews are an <strong>early defect-detection mechanism</strong> conducted before formal testing. They are cost-efficient because defects found early cost far less to fix than those found after release.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Review Type</th><th>Structure</th><th>Purpose</th><th>Who Leads?</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Informal Review</strong></td><td>Less structured</td><td>Quick feedback</td><td>Any team member</td></tr>
+            <tr><td><strong>Walkthrough</strong></td><td>Author-led</td><td>Educational, knowledge sharing</td><td>Author</td></tr>
+            <tr><td><strong>Inspection</strong></td><td>Most rigorous</td><td>Systematic defect detection</td><td>Trained moderator</td></tr>
+            <tr><td><strong>Audit</strong></td><td>Formal process</td><td>Compliance verification</td><td>External auditor</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin:1rem 0 0.5rem;"><strong>Formal Technical Review (FTR)</strong> — follows predefined roles, documented procedures, and produces formal records.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Moderator</strong></td><td>Plans, facilitates, and controls the entire review meeting process</td></tr>
+            <tr><td><strong>Author</strong></td><td>Creates the work product and explains technical details to reviewers</td></tr>
+            <tr><td><strong>Reviewer</strong></td><td>Examines the product, identifies defects, and suggests improvements</td></tr>
+            <tr><td><strong>Recorder</strong></td><td>Documents all issues, defects, and action items during the meeting</td></tr>
+            <tr><td><strong>Manager</strong></td><td>Ensures resources are available — has NO evaluation role</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">FTR Process Flow</div>
+        <div class="flow-wrap">
+          <div class="flow-box" style="background:#ede9fe;border-color:#7c3aed;color:#7c3aed;">📩 Review Request</div>
+          <div class="flow-arrow" style="color:#7c3aed;">→</div>
+          <div class="flow-box" style="background:#ede9fe;border-color:#7c3aed;color:#7c3aed;">📋 Review Planning</div>
+          <div class="flow-arrow" style="color:#7c3aed;">→</div>
+          <div class="flow-box" style="background:#ede9fe;border-color:#7c3aed;color:#7c3aed;">📚 Individual Preparation</div>
+          <div class="flow-arrow" style="color:#7c3aed;">→</div>
+          <div class="flow-box" style="background:#ede9fe;border-color:#7c3aed;color:#7c3aed;">🤝 Review Meeting (2-4 hrs)</div>
+          <div class="flow-arrow" style="color:#7c3aed;">→</div>
+          <div class="flow-box" style="background:#ede9fe;border-color:#7c3aed;color:#7c3aed;">📝 Issue Recording</div>
+          <div class="flow-arrow" style="color:#7c3aed;">→</div>
+          <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">✅ Rework &amp; Follow-up</div>
+        </div>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>FTR matlab ek formal meeting jisme code ya document ko baaki team ke saamne present karo. Moderator meeting chalata hai, author apna kaam explain karta hai, reviewers bugs dhundhte hain, recorder notes likhta hai. Jaise class mein project presentation hoti hai aur teacher marks deta hai — aur koi improvement suggest karta hai.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>An FTR is like a structured code review meeting in a company. The author presents their code/design. Senior developers (reviewers) point out issues. A moderator keeps the meeting on track within 2-4 hours. The recorder writes everything down. Then the author fixes all issues found. This catches problems before they reach the testing stage.</div>
+      </div>
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Exam Focus</strong>FTR meeting duration = <strong>2 to 4 hours maximum</strong>. The Manager's role in FTR = ensures resources only, <strong>no evaluation role</strong>. Moderator = most important role in FTR.</div></div>
+    </div>
+  </div>
+
+  <!-- Slides 16-18 – Statistical SQA -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#7c3aed,#9333ea);"><span class="slide-num">Slides 16–18</span> Statistical SQA &amp; SPC</div>
+    <div class="slide-body">
+      <p>Statistical SQA uses <strong>quantitative and statistical methods</strong> to measure and control software quality. It enables data-driven decision-making about process quality and product reliability.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Technique</th><th>Application</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Pareto Analysis</strong></td><td>Defect categorization</td><td>Identify 20% of causes creating 80% of defects (80/20 rule)</td></tr>
+            <tr><td><strong>Control Charts</strong></td><td>Process monitoring</td><td>Detect when a process goes out of control</td></tr>
+            <tr><td><strong>Histogram</strong></td><td>Data distribution</td><td>Visualize frequency patterns of defect types</td></tr>
+            <tr><td><strong>Scatter Diagram</strong></td><td>Correlation analysis</td><td>Identify relationship between two variables</td></tr>
+            <tr><td><strong>Run Charts</strong></td><td>Trend analysis</td><td>Monitor changes over time</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem;"><strong>Statistical Process Control (SPC)</strong> uses control charts with three lines:</p>
+      <div class="diagram-wrap">
+        <div class="diagram-title">SPC Control Chart Structure</div>
+        <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;">
+          <rect x="0" y="0" width="480" height="180" fill="white"/>
+          <!-- axes -->
+          <line x1="50" y1="20" x2="50" y2="160" stroke="#475569" stroke-width="1.5"/>
+          <line x1="50" y1="160" x2="460" y2="160" stroke="#475569" stroke-width="1.5"/>
+          <!-- UCL -->
+          <line x1="50" y1="40" x2="460" y2="40" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6,3"/>
+          <text x="462" y="44" font-family="sans-serif" font-size="10" fill="#dc2626" font-weight="700">UCL</text>
+          <!-- Center -->
+          <line x1="50" y1="100" x2="460" y2="100" stroke="#2563eb" stroke-width="2"/>
+          <text x="462" y="104" font-family="sans-serif" font-size="10" fill="#2563eb" font-weight="700">CL</text>
+          <!-- LCL -->
+          <line x1="50" y1="145" x2="460" y2="145" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6,3"/>
+          <text x="462" y="149" font-family="sans-serif" font-size="10" fill="#dc2626" font-weight="700">LCL</text>
+          <!-- Process data points (within control) -->
+          <polyline points="80,105 120,95 160,110 200,90 240,100 280,108 320,88 360,102 400,95 440,100"
+            fill="none" stroke="#059669" stroke-width="2"/>
+          <circle cx="80" cy="105" r="3" fill="#059669"/>
+          <circle cx="120" cy="95" r="3" fill="#059669"/>
+          <circle cx="160" cy="110" r="3" fill="#059669"/>
+          <circle cx="200" cy="90" r="3" fill="#059669"/>
+          <circle cx="240" cy="100" r="3" fill="#059669"/>
+          <circle cx="280" cy="108" r="3" fill="#059669"/>
+          <circle cx="320" cy="88" r="3" fill="#059669"/>
+          <circle cx="360" cy="102" r="3" fill="#059669"/>
+          <circle cx="400" cy="35" r="4" fill="#dc2626"/>
+          <circle cx="440" cy="100" r="3" fill="#059669"/>
+          <!-- out of control annotation -->
+          <line x1="400" y1="35" x2="400" y2="25" stroke="#dc2626" stroke-width="1"/>
+          <text x="385" y="20" font-family="sans-serif" font-size="9" fill="#dc2626">Out of control!</text>
+          <!-- labels -->
+          <text x="10" y="44" font-family="sans-serif" font-size="9" fill="#dc2626" transform="rotate(-90,10,44)">Quality</text>
+          <text x="240" y="175" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#475569">Time →</text>
+          <text x="200" y="14" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">UCL = Upper Control Limit  |  CL = Center Line  |  LCL = Lower Control Limit</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slides 19-21 – ISO 9000 -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#7c3aed,#9333ea);"><span class="slide-num">Slides 19–21</span> ISO 9000 Quality Standards</div>
+    <div class="slide-body">
+      <p>ISO 9000 is an international standard developed by the <strong>International Organization for Standardization (ISO)</strong> that provides a comprehensive framework for quality management systems. It focuses on customer satisfaction and continuous improvement.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Standard</th><th>Focus Area</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ISO 9000</strong></td><td>Fundamentals and vocabulary for quality management systems</td></tr>
+            <tr><td><strong>ISO 9001</strong></td><td>Requirements for QMS — the one organizations get <em>certified</em> for ✅</td></tr>
+            <tr><td><strong>ISO 9004</strong></td><td>Guidelines for performance improvement and sustained success</td></tr>
+            <tr><td><strong>ISO 19011</strong></td><td>Auditing management systems</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin:0.8rem 0 0.4rem;"><strong>ISO 9001 — 7 Key Principles:</strong></p>
+      <div class="card-grid">
+        <div class="card" style="border-left:3px solid var(--secondary);font-size:0.88rem;padding:0.8rem 1rem;"><strong>1. Customer Focus</strong><p style="margin-top:0.2rem;">Prioritize user needs and satisfaction consistently</p></div>
+        <div class="card" style="border-left:3px solid var(--secondary);font-size:0.88rem;padding:0.8rem 1rem;"><strong>2. Leadership</strong><p style="margin-top:0.2rem;">Top management establishes direction and quality policy</p></div>
+        <div class="card" style="border-left:3px solid var(--secondary);font-size:0.88rem;padding:0.8rem 1rem;"><strong>3. Employee Involvement</strong><p style="margin-top:0.2rem;">Engage all staff in quality commitment</p></div>
+        <div class="card" style="border-left:3px solid var(--secondary);font-size:0.88rem;padding:0.8rem 1rem;"><strong>4. Process Approach</strong><p style="margin-top:0.2rem;">Define workflows for consistent efficiency</p></div>
+        <div class="card" style="border-left:3px solid var(--secondary);font-size:0.88rem;padding:0.8rem 1rem;"><strong>5. Continuous Improvement</strong><p style="margin-top:0.2rem;">Always strive to do better</p></div>
+        <div class="card" style="border-left:3px solid var(--secondary);font-size:0.88rem;padding:0.8rem 1rem;"><strong>6. Evidence-based Decisions</strong><p style="margin-top:0.2rem;">Decisions based on factual data, not guesswork</p></div>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>ISO 9001 ek certificate hai jo batata hai ki kisi company ki quality management system internationally accepted standard ke mutabiq hai. Jaise khaane ki company ka FSSAI certificate — ye prove karta hai ki process sahi hai. IT companies bhi ISO 9001 le kar prove karti hain ki unka software development process reliable aur quality-focused hai.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>ISO 9001 certification is like a government-issued safety certificate for a food company. It tells customers: "This company has verified, standard processes for quality." In software, companies get ISO 9001 certified to demonstrate their development, testing, and delivery processes meet global quality standards.</div>
+      </div>
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Exam Fact</strong>ISO <strong>9001</strong> is the certifiable standard (organizations get certified to 9001, not 9000 or 9004). This distinction appears in MCQs.</div></div>
+    </div>
+  </div>
+
+  <!-- Slides 22-26 – SQA Plan & SEI CMM -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#7c3aed,#9333ea);"><span class="slide-num">Slides 22–26</span> SQA Plan &amp; SEI-CMM Framework ⭐ Most Important</div>
+    <div class="slide-body">
+      <p><strong>SEI-CMM (Capability Maturity Model)</strong> was developed by the Software Engineering Institute at Carnegie Mellon University. It is a framework for assessing and improving software development processes. It defines <strong>5 maturity levels</strong>.</p>
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">SEI-CMM Maturity Levels — Staircase Representation</div>
+        <div class="staircase">
+          <div class="stair-step" style="width:95%;background:#b91c1c;">⭐⭐⭐⭐⭐ Level 5 — Optimizing: Continuous improvement, defect prevention, process innovation</div>
+          <div class="stair-step" style="width:80%;background:#d97706;">⭐⭐⭐⭐ Level 4 — Managed: Quantitative measurement, statistical process control</div>
+          <div class="stair-step" style="width:65%;background:#059669;">⭐⭐⭐ Level 3 — Defined: Organization-wide standard processes, documented</div>
+          <div class="stair-step" style="width:50%;background:#2563eb;">⭐⭐ Level 2 — Repeatable: Basic project management, repeatable results</div>
+          <div class="stair-step" style="width:35%;background:#6b7280;">⭐ Level 1 — Initial: Ad-hoc, chaotic, success depends on individual heroics</div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Level</th><th>Name</th><th>Characteristics</th><th>Key Focus</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>Initial</td><td>Unpredictable, ad-hoc, chaotic</td><td>No structured process — success by luck or individual effort</td></tr>
+            <tr><td><strong>2</strong></td><td>Repeatable</td><td>Basic project management established</td><td>Planning, tracking, requirements management</td></tr>
+            <tr><td><strong>3</strong></td><td>Defined</td><td>Organization-wide standard processes</td><td>Process definition, training, integrated management</td></tr>
+            <tr><td><strong>4</strong></td><td>Managed</td><td>Quantitative measurement and control</td><td>Metrics and data drive all decisions</td></tr>
+            <tr><td><strong>5</strong></td><td>Optimizing</td><td>Continuous improvement through innovation</td><td>Defect prevention, technology change management</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>CMM ek school ki tarah hai. Level 1 = koi padhai nahi, sab fail — chaotic. Level 2 = thodi discipline, attendance hone lagi. Level 3 = school ka syllabus fix ho gaya sab ke liye. Level 4 = marks track hone lage, data se improve kar rahe hain. Level 5 = top rank school — continuous improvement, naye methods, best practices. India mein bahut saari IT companies Level 3 ya Level 5 CMM certified hain — ye client ko quality proof deti hai.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>CMM is like school grades: Level 1 = no structure (chaotic classroom). Level 2 = teacher takes attendance (basic management). Level 3 = proper curriculum for all classes (standardized processes). Level 4 = exam analytics, student performance tracked (quantitative management). Level 5 = continuously improving teaching methods (optimizing). Major Indian IT companies like TCS and Infosys are CMM Level 5 certified — their highest quality credential.</div>
+      </div>
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Most Frequently Asked — CMM Levels</strong>Level 4 = MANAGED (Quantitative). Level 5 = OPTIMIZING (Continuous improvement). These two are always confused — remember: 4 = Measurement, 5 = Improvement. The question "At which level are processes quantitatively controlled?" → Answer: Level 4.</div></div>
+      <div class="keyword-wrap">
+        <span class="chip red">CMM Level 1-5</span><span class="chip purple">SEI — Carnegie Mellon</span><span class="chip">KPA (Key Process Areas)</span><span class="chip">ISO 9001</span><span class="chip orange">MTBF MTTF MTTR</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tab-quality -->
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TAB 3 : MAINTENANCE & REUSE -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="tab-maintenance" class="tab-content">
+
+  <div class="chapter-header" style="background:linear-gradient(135deg,#065f46,#059669);">
+    <span class="ch-badge">Chapter 3.3 &bull; Lectures 42–44</span>
+    <h2>Software Maintenance &amp; Reuse</h2>
+    <p>Types of maintenance, reverse engineering, maintenance models, and reuse strategies.</p>
+  </div>
+
+  <!-- Slides 4-6 – Introduction -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#065f46,#059669);"><span class="slide-num">Slides 4–6</span> Introduction to Software Maintenance</div>
+    <div class="slide-body">
+      <p>Software maintenance is the <strong>systematic process of modifying a software product after its initial delivery</strong> to correct faults, improve performance, and adapt to changing requirements.</p>
+      <div class="callout warning"><div class="callout-icon"></div><div class="callout-content"><strong>Key Statistic — Exam Favourite!</strong>Software maintenance represents <strong>60 to 70% of total software lifecycle costs</strong>. This means more money is spent maintaining existing software than building new software.</div></div>
+
+      <p><strong>Why is maintenance needed?</strong></p>
+      <div class="card-grid">
+        <div class="card" style="border-left:3px solid #059669;font-size:0.88rem;"><strong>🐛 Error Correction</strong><p>Bugs found during real-world operation need fixing</p></div>
+        <div class="card" style="border-left:3px solid #059669;font-size:0.88rem;"><strong>🔄 Requirement Changes</strong><p>User needs evolve — software must keep up</p></div>
+        <div class="card" style="border-left:3px solid #059669;font-size:0.88rem;"><strong>⚡ Performance Improvement</strong><p>Optimize speed and efficiency over time</p></div>
+        <div class="card" style="border-left:3px solid #059669;font-size:0.88rem;"><strong>🛡️ Security Updates</strong><p>New vulnerabilities emerge and must be patched</p></div>
+        <div class="card" style="border-left:3px solid #059669;font-size:0.88rem;"><strong>📜 Regulatory Compliance</strong><p>Laws and standards change, software must comply</p></div>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Software maintenance matlab — jaise ek car khareedne ke baad petrol bhar, tyre change karo, servicing karao — ye sab maintenance hai. Software bhi bana ke chod nahi sakte. Bugs aate hain, nayi features chahiye hoti hain, aur operating system change hota hai — toh software ko update karte rehna padta hai. Aur ye sab total cost ka 60-70% le leta hai!</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Think of a smartphone. You bought it once, but you keep updating the OS, patching security holes, installing new apps, and upgrading storage. Similarly, once software is deployed, it constantly needs care — bug fixes, new feature additions, compatibility with new hardware, and security patches. This ongoing work is software maintenance.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 7-11 – Types of Maintenance -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#065f46,#059669);"><span class="slide-num">Slides 7–11</span> Types of Software Maintenance ⭐ Most Important</div>
+    <div class="slide-body">
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">Types of Maintenance — Effort Distribution</div>
+        <div style="padding:0.5rem 0;">
+          <div class="effort-bar-wrap"><strong style="width:200px;flex-shrink:0;">Perfective (50%)</strong><div class="effort-bar"><div class="effort-fill" style="width:50%;background:#7c3aed;"></div></div><span>50%</span></div>
+          <div class="effort-bar-wrap"><strong style="width:200px;flex-shrink:0;">Adaptive (25%)</strong><div class="effort-bar"><div class="effort-fill" style="width:25%;background:#2563eb;"></div></div><span>25%</span></div>
+          <div class="effort-bar-wrap"><strong style="width:200px;flex-shrink:0;">Corrective (20%)</strong><div class="effort-bar"><div class="effort-fill" style="width:20%;background:#dc2626;"></div></div><span>20%</span></div>
+          <div class="effort-bar-wrap"><strong style="width:200px;flex-shrink:0;">Preventive (5%)</strong><div class="effort-bar"><div class="effort-fill" style="width:5%;background:#059669;"></div></div><span>5%</span></div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Definition</th><th>Trigger</th><th>Example</th><th>Effort %</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:#dc2626;">Corrective</strong></td><td>Fix bugs and errors discovered after deployment</td><td>Bug reports from users</td><td>Fixing a crash in Android app after update</td><td>20%</td></tr>
+            <tr><td><strong style="color:#2563eb;">Adaptive</strong></td><td>Modify software for new environments</td><td>Platform/OS changes</td><td>Migrating app from on-premise to AWS cloud</td><td>25%</td></tr>
+            <tr><td><strong style="color:#7c3aed;">Perfective</strong></td><td>Improve performance &amp; add new features</td><td>User requests, market needs</td><td>Adding Dark Mode to WhatsApp</td><td>50%</td></tr>
+            <tr><td><strong style="color:#059669;">Preventive</strong></td><td>Prevent future problems — refactoring</td><td>Proactive quality management</td><td>Restructuring messy legacy code before it breaks</td><td>5%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Maintenance ke chaar types yaad karne ka trick: C-A-P-P. <br>Corrective = galti thi, sahi karo. (Bug fix)<br>Adaptive = environment badal gaya, adapt karo. (Cloud migration)<br>Perfective = aur achha banao. (New features)<br>Preventive = future mein problem na aaye, pehle se sahi karo. (Refactoring)</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>
+          Think of a building analogy: Corrective = fixing a broken pipe (reactive). Adaptive = retrofitting old wiring for modern appliances (environmental change). Perfective = adding a new floor with better facilities (enhancement). Preventive = waterproofing the roof before monsoon arrives (proactive). Perfective is the biggest chunk (50%) because users always want more features!
+        </div>
+      </div>
+      <div class="callout exam"><div class="callout-icon"></div><div class="callout-content"><strong>Memory Trick — CAPP Rule</strong>
+        <strong>C</strong>orrective = <strong>C</strong>rash fix (reactive, bugs) |
+        <strong>A</strong>daptive = <strong>A</strong>djust to environment |
+        <strong>P</strong>erfective = <strong>P</strong>erformance + new features (50% — MOST effort!) |
+        <strong>P</strong>reventive = <strong>P</strong>roactive refactoring (least effort, 5%)
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Slide 12 – Maintenance Process -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#065f46,#059669);"><span class="slide-num">Slide 12</span> Maintenance Process</div>
+    <div class="slide-body">
+      <div class="flow-wrap">
+        <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">📩 Maintenance Request Received</div>
+        <div class="flow-arrow" style="color:#059669;">→</div>
+        <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">🔍 Impact &amp; Feasibility Analysis</div>
+        <div class="flow-arrow" style="color:#059669;">→</div>
+        <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">✏️ Design Modification</div>
+        <div class="flow-arrow" style="color:#059669;">→</div>
+        <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">💻 Code Changes</div>
+        <div class="flow-arrow" style="color:#059669;">→</div>
+        <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">🧪 Testing &amp; QA</div>
+        <div class="flow-arrow" style="color:#059669;">→</div>
+        <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">🚀 Production Deployment</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slides 13-16 – Reverse Engineering -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#065f46,#059669);"><span class="slide-num">Slides 13–16</span> Software Reverse Engineering</div>
+    <div class="slide-body">
+      <p>Software reverse engineering is the process of <strong>systematically analyzing existing software to identify its components and understand their interrelationships</strong>. It extracts structural and functional information from implemented source code.</p>
+
+      <p style="margin:0.7rem 0 0.4rem;"><strong>When is it used?</strong></p>
+      <div class="card-grid">
+        <div class="card" style="font-size:0.88rem;border-left:3px solid #059669;"><strong>📚 Recover Lost Documentation</strong><p>When original design docs are missing or outdated</p></div>
+        <div class="card" style="font-size:0.88rem;border-left:3px solid #059669;"><strong>🏛️ Legacy System Maintenance</strong><p>Understand old systems nobody fully knows anymore</p></div>
+        <div class="card" style="font-size:0.88rem;border-left:3px solid #059669;"><strong>🔄 Migration & Reengineering</strong><p>Move old system to modern technology</p></div>
+        <div class="card" style="font-size:0.88rem;border-left:3px solid #059669;"><strong>🔌 Interoperability</strong><p>Understand interfaces for system integration</p></div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Level</th><th>Focus Area</th><th>Output Artifacts</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Implementation</strong></td><td>Source code analysis</td><td>Code structure documents</td></tr>
+            <tr><td><strong>Design</strong></td><td>Architecture patterns</td><td>Design diagrams, models</td></tr>
+            <tr><td><strong>Requirements</strong></td><td>Functionality analysis</td><td>Requirement specifications</td></tr>
+            <tr><td><strong>Domain</strong></td><td>Business logic</td><td>Domain knowledge base</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="diagram-wrap">
+        <div class="diagram-title">Reverse Engineering Process</div>
+        <div class="flow-wrap">
+          <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">Acquire Source Code</div>
+          <div class="flow-arrow" style="color:#059669;">→</div>
+          <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">Analyze &amp; Parse Code</div>
+          <div class="flow-arrow" style="color:#059669;">→</div>
+          <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">Extract Logic &amp; Dependencies</div>
+          <div class="flow-arrow" style="color:#059669;">→</div>
+          <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">Generate High-Level Abstractions</div>
+          <div class="flow-arrow" style="color:#059669;">→</div>
+          <div class="flow-box" style="background:#d1fae5;border-color:#059669;color:#065f46;">Create Documentation</div>
+        </div>
+      </div>
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Reverse engineering matlab — ek purani building ka blueprint nahi mila toh usse dekh ke naya blueprint banao. Similarly, agar purane software ka design document kho gaya, toh uske code ko padh ke samajhna ki ye kaam kaise karta hai. Jaise ek mechanic car khol ke engine samajhta hai bina manual ke.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Imagine receiving an old recipe with no instructions — you taste the dish and work backwards to figure out each ingredient and cooking step. Reverse engineering software is similar: you study the existing running code to reconstruct the original design, understand the logic, and create documentation that was never written or was lost.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slides 17-22 – Maintenance Models -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#065f46,#059669);"><span class="slide-num">Slides 17–22</span> Software Maintenance Models</div>
+    <div class="slide-body">
+      <div class="card-grid">
+        <div class="card" style="border-top:3px solid #dc2626;">
+          <strong style="color:#dc2626;">⚡ Quick Fix Model</strong>
+          <p style="font-size:0.87rem;margin-top:0.4rem;">Fastest approach — immediate fix without full analysis. High risk of introducing new bugs. No documentation update. Used for emergency situations only. Should be followed by proper permanent solution.</p>
+        </div>
+        <div class="card" style="border-top:3px solid #2563eb;">
+          <strong style="color:#2563eb;">🔄 Iterative Enhancement Model</strong>
+          <p style="font-size:0.87rem;margin-top:0.4rem;">System enhanced through multiple planned iterations. Each iteration adds features properly. Documentation updated after each cycle. Maintains system integrity through proper analysis-design-test phases.</p>
+        </div>
+        <div class="card" style="border-top:3px solid #7c3aed;">
+          <strong style="color:#7c3aed;">📦 Reuse-Oriented Model</strong>
+          <p style="font-size:0.87rem;margin-top:0.4rem;">Uses existing proven components from a repository. Reduces development time and cost. Improves quality by reusing tested components. Requires well-organized component library.</p>
+        </div>
+        <div class="card" style="border-top:3px solid #059669;">
+          <strong style="color:#059669;">📊 Boehm's Model</strong>
+          <p style="font-size:0.87rem;margin-top:0.4rem;">Risk-based analysis to prioritize tasks. Considers cost, schedule, and technical challenges. Balances corrective and enhancement work. Structured decision-making through risk assessment.</p>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>Approach</th><th>Speed</th><th>Quality</th><th>Cost</th><th>Documentation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Quick Fix</strong></td><td>Reactive</td><td>🟢 Fast</td><td>🔴 Low</td><td>🟢 Low</td><td>🔴 Poor</td></tr>
+            <tr><td><strong>Iterative</strong></td><td>Planned</td><td>🟡 Moderate</td><td>🟢 High</td><td>🟡 Moderate</td><td>🟢 Good</td></tr>
+            <tr><td><strong>Reuse-Oriented</strong></td><td>Component-based</td><td>🟢 Fast</td><td>🟢 High</td><td>🟢 Low</td><td>🟢 Excellent</td></tr>
+            <tr><td><strong>Boehm's</strong></td><td>Analytical</td><td>🔴 Slow</td><td>🟢 Very High</td><td>🔴 High</td><td>🟢 Excellent</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slides 23-26 – Software Reuse -->
+  <div class="slide-box">
+    <div class="slide-header" style="background:linear-gradient(90deg,#065f46,#059669);"><span class="slide-num">Slides 23–26</span> Software Reuse</div>
+    <div class="slide-body">
+      <p>Software reuse is the <strong>process of using existing software artifacts in new application development</strong>. It includes reusing code, components, designs, architectures, documentation, and test cases.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Issue Category</th><th>Specific Challenge</th><th>Impact</th><th>Solution</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Technical</strong></td><td>Integration compatibility</td><td>🔴 High</td><td>Standardized interfaces</td></tr>
+            <tr><td><strong>Organizational</strong></td><td>Cultural resistance to reuse</td><td>🟡 Medium</td><td>Training and incentives</td></tr>
+            <tr><td><strong>Economic</strong></td><td>High initial investment</td><td>🔴 High</td><td>Long-term ROI analysis</td></tr>
+            <tr><td><strong>Legal</strong></td><td>Licensing and ownership</td><td>🟡 Medium</td><td>Clear policies</td></tr>
+            <tr><td><strong>Quality</strong></td><td>Component reliability uncertainty</td><td>🔴 High</td><td>Certification and testing</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin:1rem 0 0.5rem;"><strong>Reuse Approaches (from least to most systematic):</strong></p>
+      <div class="staircase">
+        <div class="stair-step" style="width:95%;background:#065f46;">🏗️ Framework-Based Reuse — Architectural frameworks for domain-specific development. Max value.</div>
+        <div class="stair-step" style="width:80%;background:#047857;">📱 Application Family (Product Lines) — Shared core architecture across product family</div>
+        <div class="stair-step" style="width:65%;background:#059669;">🔌 Component-Based Reuse — Standardized components with well-defined interfaces</div>
+        <div class="stair-step" style="width:50%;background:#10b981;">📚 Systematic Reuse — Planned, organized with repository and defined processes</div>
+        <div class="stair-step" style="width:35%;background:#6b7280;">🎲 Ad-Hoc Reuse — Informal, opportunistic code copying — minimal structure</div>
+      </div>
+
+      <div class="lang-pair">
+        <div class="hinglish-box"><div class="lang-label">🇮🇳 Hinglish</div>Software reuse matlab — pehle se bana hua code ya component use karna naye project mein. Jaise Lego blocks — ek baar banao, baar baar use karo. Ad-hoc matlab randomly kisi ka code copy kar lo. Systematic matlab ek proper library banao aur wahan se use karo. Framework matlab poori building ka skeleton ready hai, bas walls aur furniture add karo.</div>
+        <div class="english-box"><div class="lang-label">🇬🇧 Plain English</div>Software reuse is like using LEGO bricks. Ad-hoc reuse = picking any random brick you find. Systematic reuse = having a sorted LEGO box with labelled bricks. Component-based reuse = buying standardized LEGO sets with documented instructions. Framework-based reuse = using a pre-built LEGO house base and just customizing the interior.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tab-maintenance -->
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TAB 4 : COMBINED REVISION -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="tab-revision" class="tab-content">
+
+  <div class="chapter-header" style="background:linear-gradient(135deg,#1e40af,#7c3aed,#059669);">
+    <span class="ch-badge">All 3 Chapters Combined</span>
+    <h2>Combined Revision Notes</h2>
+    <p>Definitions, cross-chapter connections, and consolidated key concepts for exam preparation.</p>
+  </div>
+
+  <div class="section-title"><span class="num">1</span> All Important Definitions</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Term</th><th>Definition</th><th>Chapter</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Software Testing</strong></td><td>Process of verifying whether an application meets specified requirements and functions correctly under expected conditions.</td><td>3.1</td></tr>
+        <tr><td><strong>Verification</strong></td><td>Static process checking "Are we building the product right?" — conformance to specs through reviews and inspections.</td><td>3.1</td></tr>
+        <tr><td><strong>Validation</strong></td><td>Dynamic process checking "Are we building the right product?" — executing the software and testing actual behavior.</td><td>3.1</td></tr>
+        <tr><td><strong>Pesticide Paradox</strong></td><td>Running the same test cases repeatedly will not find new bugs — test cases must be regularly updated and revised.</td><td>3.1</td></tr>
+        <tr><td><strong>Cyclomatic Complexity</strong></td><td>A quantitative measure of the logical complexity of a program's control flow graph. V(G) = E – N + 2P.</td><td>3.1</td></tr>
+        <tr><td><strong>Black-Box Testing</strong></td><td>Testing approach that examines software functionality without knowledge of internal code structure — focuses on inputs/outputs.</td><td>3.1</td></tr>
+        <tr><td><strong>White-Box Testing</strong></td><td>Testing that examines internal code structure, logic, and design. Tester has full access to source code.</td><td>3.1</td></tr>
+        <tr><td><strong>Alpha Testing</strong></td><td>Testing conducted at developer site by internal team using both black-box and white-box techniques.</td><td>3.1</td></tr>
+        <tr><td><strong>Beta Testing</strong></td><td>Testing conducted at end-user sites by real users under uncontrolled real-world conditions.</td><td>3.1</td></tr>
+        <tr><td><strong>Software Quality</strong></td><td>Conformance to explicitly stated functional requirements, development standards, and implicit professional expectations.</td><td>3.2</td></tr>
+        <tr><td><strong>MTBF</strong></td><td>Mean Time Between Failures = Total Operating Time / Number of Failures. Average time between consecutive failures.</td><td>3.2</td></tr>
+        <tr><td><strong>Reliability</strong></td><td>Probability of failure-free software operation for a specified time period in a specified environment.</td><td>3.2</td></tr>
+        <tr><td><strong>FTR (Formal Technical Review)</strong></td><td>Structured review with predefined roles (moderator, author, reviewer, recorder) and documented procedures for defect detection.</td><td>3.2</td></tr>
+        <tr><td><strong>SQA (Software Quality Assurance)</strong></td><td>Systematic set of activities providing evidence that the software development process meets quality standards.</td><td>3.2</td></tr>
+        <tr><td><strong>ISO 9001</strong></td><td>The certifiable international standard for Quality Management Systems, focusing on customer satisfaction and continuous improvement.</td><td>3.2</td></tr>
+        <tr><td><strong>SEI-CMM</strong></td><td>Capability Maturity Model — framework with 5 levels for assessing and improving software development process maturity.</td><td>3.2</td></tr>
+        <tr><td><strong>Software Maintenance</strong></td><td>Modification of a software product after delivery to correct faults, improve performance, or adapt to changed environments. Costs 60-70% of total lifecycle.</td><td>3.3</td></tr>
+        <tr><td><strong>Corrective Maintenance</strong></td><td>Reactive maintenance that fixes bugs and errors discovered after software deployment (20% effort).</td><td>3.3</td></tr>
+        <tr><td><strong>Adaptive Maintenance</strong></td><td>Modifying software to function in new operating environments — OS upgrades, hardware changes (25% effort).</td><td>3.3</td></tr>
+        <tr><td><strong>Perfective Maintenance</strong></td><td>Adding new features and improving performance based on user feedback — largest category at 50% effort.</td><td>3.3</td></tr>
+        <tr><td><strong>Preventive Maintenance</strong></td><td>Proactive refactoring and restructuring to prevent future problems — reduces technical debt (5% effort).</td><td>3.3</td></tr>
+        <tr><td><strong>Reverse Engineering</strong></td><td>Analyzing existing software to identify components and understand interrelationships — especially for legacy systems with lost documentation.</td><td>3.3</td></tr>
+        <tr><td><strong>Software Reuse</strong></td><td>Using existing software artifacts (code, components, designs) in new application development to reduce cost and time.</td><td>3.3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title"><span class="num">2</span> Cross-Chapter Connections</div>
+  <div class="card-grid">
+    <div class="card" style="border-left:4px solid var(--primary);">
+      <strong>Testing ↔ Quality Management</strong>
+      <p style="font-size:0.88rem;margin-top:0.4rem;">Software testing is a key activity within SQA. FTR (Ch 3.2) happens before testing (Ch 3.1). Alpha/Beta testing in Ch 3.1 is the validation testing discussed in Ch 3.2. Defect detection through testing feeds into statistical SQA metrics.</p>
+    </div>
+    <div class="card" style="border-left:4px solid var(--secondary);">
+      <strong>Quality ↔ Maintenance</strong>
+      <p style="font-size:0.88rem;margin-top:0.4rem;">ISO 9001 (Ch 3.2) standards guide maintenance processes (Ch 3.3). Higher CMM levels lead to better maintenance practices. Preventive maintenance (Ch 3.3) is the same as proactive quality management (Ch 3.2). FTR reviews also apply to maintenance changes.</p>
+    </div>
+    <div class="card" style="border-left:4px solid #059669;">
+      <strong>Testing ↔ Maintenance</strong>
+      <p style="font-size:0.88rem;margin-top:0.4rem;">After every maintenance change (Ch 3.3), regression testing (Ch 3.1) must be done. The Reuse-Oriented maintenance model (Ch 3.3) benefits from thorough component testing (Ch 3.1). White-box testing is used during corrective maintenance to understand code paths.</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="num">3</span> All Formulas at a Glance</div>
+  <div class="formula-box">
+    <div class="formula-title">All Formulas — Memorize These</div>
+    <div class="formula-line"><span class="var">Cyclomatic Complexity: </span>V(G) <span class="op">=</span> E <span class="op">-</span> N <span class="op">+</span> 2P   <span style="color:#6c7a9e">(also = Regions = Decision Points + 1)</span></div>
+    <div class="formula-line" style="margin-top:0.6rem;"><span class="var">Statement Coverage: </span>(Executed Statements / Total Statements) <span class="op">×</span> 100</div>
+    <div class="formula-line" style="margin-top:0.6rem;"><span class="var">MTBF: </span>Total Operating Time <span class="op">/</span> Number of Failures</div>
+    <div class="formula-line"><span class="var">MTTF: </span>Total Operating Time <span class="op">/</span> Total Failures</div>
+    <div class="formula-line"><span class="var">MTTR: </span>Total Repair Time <span class="op">/</span> Number of Repairs</div>
+    <div class="formula-line"><span class="var">Availability: </span>MTBF <span class="op">/</span> (MTBF <span class="op">+</span> MTTR)</div>
+    <div class="formula-line"><span class="var">Failure Rate: </span>Number of Failures <span class="op">/</span> Operating Time</div>
+  </div>
+
+  <div class="section-title"><span class="num">4</span> Key Comparison Tables</div>
+  <p><strong>Black-Box vs White-Box Testing:</strong></p>
+  <div class="tbl-wrap">
+    <table class="diff-table">
+      <thead><tr><th>Aspect</th><th>Black-Box</th><th>White-Box</th></tr></thead>
+      <tbody>
+        <tr><td>Knowledge Required</td><td>No internal code knowledge</td><td>Full source code access required</td></tr>
+        <tr><td>Also Called</td><td>Functional / Behavioral testing</td><td>Glass-box / Structural testing</td></tr>
+        <tr><td>Tests</td><td>Inputs and outputs only</td><td>Internal paths and logic</td></tr>
+        <tr><td>Techniques</td><td>Equivalence partitioning, BVA, Decision table</td><td>Statement, Branch, Path, Condition coverage</td></tr>
+        <tr><td>Done By</td><td>Independent testers (no code knowledge)</td><td>Developers / testers with coding skills</td></tr>
+        <tr><td>Best For</td><td>Large systems, user acceptance</td><td>Small units, code optimization</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:1rem;"><strong>Alpha vs Beta Testing:</strong></p>
+  <div class="tbl-wrap">
+    <table class="diff-table">
+      <thead><tr><th>Aspect</th><th>Alpha Testing</th><th>Beta Testing</th></tr></thead>
+      <tbody>
+        <tr><td>Who?</td><td>Internal team (developers/QA)</td><td>External real users</td></tr>
+        <tr><td>Where?</td><td>Developer site (controlled)</td><td>User site (real environment)</td></tr>
+        <tr><td>What type?</td><td>Black-box + White-box</td><td>Primarily Black-box</td></tr>
+        <tr><td>Goal</td><td>Find critical bugs, verify stability</td><td>Gather user feedback, validate UX</td></tr>
+        <tr><td>Order</td><td>Happens First</td><td>Happens Second (after Alpha)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:1rem;"><strong>Verification vs Validation:</strong></p>
+  <div class="tbl-wrap">
+    <table class="diff-table">
+      <thead><tr><th>Aspect</th><th>Verification</th><th>Validation</th></tr></thead>
+      <tbody>
+        <tr><td>Key Question</td><td>"Building product RIGHT?"</td><td>"Building the RIGHT product?"</td></tr>
+        <tr><td>Type</td><td>Static</td><td>Dynamic</td></tr>
+        <tr><td>Method</td><td>Reviews, inspections, walkthroughs</td><td>Actual test execution</td></tr>
+        <tr><td>Timing</td><td>Before validation</td><td>After verification</td></tr>
+        <tr><td>Focus</td><td>Process conformance</td><td>Product meets user needs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- end tab-revision -->
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TAB 5 : QUESTION BANK -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="tab-questions" class="tab-content">
+
+  <div class="chapter-header" style="background:linear-gradient(135deg,#1e3a5f,#1e40af);">
+    <span class="ch-badge">Exam Preparation</span>
+    <h2>Complete Question Bank</h2>
+    <p>1-mark to 10-mark questions, MCQs, scenario-based, viva, and twisted questions with answers.</p>
+  </div>
+
+  <!-- 1-MARK -->
+  <div class="section-title"><span class="num">1</span> 1-Mark Questions (Define / State)</div>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div><p><span class="marks-badge">1M</span><strong>What is software testing?</strong><br><em>Process of verifying software meets specified requirements and functions correctly.</em></p></div>
+      <div><p><span class="marks-badge">1M</span><strong>What is cyclomatic complexity?</strong><br><em>Quantitative measure of program's logical complexity; V(G) = E – N + 2P.</em></p></div>
+      <div><p><span class="marks-badge">1M</span><strong>What is MTBF?</strong><br><em>Mean Time Between Failures = Total Operating Time / Number of Failures.</em></p></div>
+      <div><p><span class="marks-badge">1M</span><strong>What is the Pesticide Paradox?</strong><br><em>Same test cases repeated → stop finding new bugs → must regularly update test cases.</em></p></div>
+      <div><p><span class="marks-badge">1M</span><strong>Full form: CMM, SQA, FTR, MTTR.</strong><br><em>Capability Maturity Model | Software Quality Assurance | Formal Technical Review | Mean Time To Repair.</em></p></div>
+      <div><p><span class="marks-badge">1M</span><strong>What does V(G) ≤ 10 mean?</strong><br><em>Low risk, simple program — normal testing is sufficient.</em></p></div>
+      <div><p><span class="marks-badge">1M</span><strong>What is preventive maintenance?</strong><br><em>Proactive refactoring to prevent future failures and reduce technical debt.</em></p></div>
+      <div><p><span class="marks-badge">1M</span><strong>Which CMM level is highest?</strong><br><em>Level 5 — Optimizing (continuous improvement and innovation).</em></p></div>
+    </div>
+  </div>
+
+  <!-- 2-MARK -->
+  <div class="section-title"><span class="num">2</span> 2-Mark Questions</div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">2M</span>Differentiate between Verification and Validation.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>Verification</strong> asks "Are we building the product right?" — it is a <em>static</em> process using reviews and inspections to check conformance to specifications. <strong>Validation</strong> asks "Are we building the right product?" — it is a <em>dynamic</em> process involving actual test execution to ensure the product meets user needs. Verification happens first, validation happens after.</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">2M</span>What is the Pareto Principle in software testing?</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">The Pareto Principle (also called Defect Clustering) states that <strong>80% of software defects are concentrated in just 20% of the modules</strong>. This means testing effort should be focused on these high-risk, defect-prone modules to maximize defect detection efficiency rather than testing all modules equally.</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">2M</span>What are the four types of software maintenance? Give the percentage effort for each.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>(1) Corrective:</strong> Fixing bugs after deployment — 20% effort. <strong>(2) Adaptive:</strong> Modifying for new environments (OS/hardware changes) — 25%. <strong>(3) Perfective:</strong> Improving performance and adding features — 50% (largest). <strong>(4) Preventive:</strong> Refactoring to prevent future problems — 5% (smallest).</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">2M</span>What is reverse engineering in software? State its purpose.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">Software reverse engineering is the process of <strong>systematically analyzing existing software to identify its components and understand their interrelationships</strong> by examining source code. Its purposes include: recovering lost documentation, understanding legacy systems, facilitating migration to new technologies, supporting interoperability, and enabling effective maintenance of complex systems.</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">2M</span>State the formula for Availability in software reliability.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>Availability = MTBF / (MTBF + MTTR)</strong><br>Where MTBF = Mean Time Between Failures and MTTR = Mean Time To Repair.<br>Example: MTBF = 200 hrs, MTTR = 2 hrs → Availability = 200/202 = 99.01%. This represents the percentage of time a system is operational.</div>
+  </div>
+
+  <!-- 5-MARK -->
+  <div class="section-title"><span class="num">3</span> 5-Mark Questions</div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">5M</span>Explain Black-Box Testing techniques with examples.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">
+      <p>Black-box testing examines software functionality WITHOUT knowledge of internal code. Key techniques:</p>
+      <p><strong>1. Equivalence Partitioning:</strong> Divides input data into valid and invalid classes. E.g., for age input (18–60): valid = {25}, invalid = {10}, {70}. Reduces number of test cases.</p>
+      <p><strong>2. Boundary Value Analysis:</strong> Tests at exact boundary edges. For age 18–60: test 17, 18, 60, 61. High defect rate at edges.</p>
+      <p><strong>3. Decision Table Testing:</strong> Tests all combinations of conditions. E.g., login: correct username + correct password = success; wrong password = fail.</p>
+      <p><strong>4. State Transition Testing:</strong> Tests behavior changes between states. E.g., bank account: Normal → Locked after 3 wrong PINs → Unlocked after verification.</p>
+      <p><strong>5. Use-Case Testing:</strong> Tests complete user workflows. E.g., e-commerce: browse → add to cart → checkout → payment → order confirmation.</p>
+    </div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">5M</span>Explain SEI-CMM maturity levels in detail.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">
+      <p>SEI-CMM (Software Engineering Institute Capability Maturity Model) has 5 levels:</p>
+      <p><strong>Level 1 – Initial:</strong> Processes are ad-hoc and chaotic. Success depends on individual heroics, not processes. No planning or management structure.</p>
+      <p><strong>Level 2 – Repeatable:</strong> Basic project management is established. Requirements, planning, tracking, and configuration management in place. Processes are disciplined but project-specific.</p>
+      <p><strong>Level 3 – Defined:</strong> Organization-wide standard processes documented and used across all projects. Includes process definition, training, peer reviews, and integrated management.</p>
+      <p><strong>Level 4 – Managed:</strong> Quantitative measurement and statistical control of processes. Metrics drive all decisions. Both software quality management and process management are quantitative.</p>
+      <p><strong>Level 5 – Optimizing:</strong> Continuous improvement through innovation, defect prevention, and technology change management. Focus is on preventing defects proactively and improving processes continuously.</p>
+      <p><strong>Key Point:</strong> Each level builds upon the previous level. Organizations must achieve all lower levels before advancing. Major IT companies like TCS, Infosys are CMM Level 5 certified.</p>
+    </div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">5M</span>Explain Formal Technical Review (FTR) — its process, roles, and importance.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">
+      <p><strong>Definition:</strong> FTR is a structured software review with predefined roles, documented procedures, and formal findings.</p>
+      <p><strong>Roles:</strong> (1) Moderator — plans, facilitates, controls the meeting. (2) Author — presents work product. (3) Reviewer — finds defects and suggests improvements. (4) Recorder — documents all issues. (5) Manager — ensures resources (NO evaluation role).</p>
+      <p><strong>Process:</strong> Review request → Planning → Individual preparation → Review meeting (2–4 hrs max) → Issue recording → Rework and follow-up.</p>
+      <p><strong>Importance:</strong> Reviews find defects much earlier and cheaper than testing. Studies show defects found in reviews cost 10x less to fix than defects found in testing, and 100x less than production defects. Also promotes knowledge sharing and standards adherence.</p>
+    </div>
+  </div>
+
+  <!-- 10-MARK -->
+  <div class="section-title"><span class="num">4</span> 10-Mark Questions</div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">10M</span>Explain software testing strategies, levels, and their objectives in detail. Also explain white-box testing techniques.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">
+      <p><strong>Testing Strategy:</strong> A high-level plan defining scope, objectives, resources, and methods throughout the SDLC. It aligns with the development lifecycle and ensures systematic testing.</p>
+      <p><strong>Testing Levels (5 levels):</strong></p>
+      <p>1. <strong>Unit Testing:</strong> Tests individual components (functions/methods) in isolation. Done by developers in early phase. Finds logic errors at smallest level.</p>
+      <p>2. <strong>Integration Testing:</strong> Tests combined modules working together. Done by testers after unit testing. Finds interface defects between modules.</p>
+      <p>3. <strong>System Testing:</strong> Tests complete software system against all requirements (functional + non-functional). Done by test team pre-release. Includes functional, performance, security, usability, compatibility testing.</p>
+      <p>4. <strong>Acceptance Testing:</strong> Final user-driven testing before deployment. Alpha testing (internal, controlled) and Beta testing (external, real users). Done by customers.</p>
+      <p>5. <strong>Regression Testing:</strong> Re-testing after modifications to ensure no new bugs were introduced. Done by QA team after every change.</p>
+      <p><strong>White-Box Testing Techniques:</strong></p>
+      <p>1. <strong>Statement Coverage:</strong> Ensures every executable statement runs at least once. Formula: (Executed/Total)×100.</p>
+      <p>2. <strong>Branch Coverage:</strong> Every decision's true and false branches must execute. Better than statement coverage.</p>
+      <p>3. <strong>Condition Coverage:</strong> Each Boolean sub-condition evaluates both T and F.</p>
+      <p>4. <strong>Path Coverage:</strong> Tests all independent execution paths — most thorough but exponentially complex.</p>
+      <p>5. <strong>Basis Path Testing + Cyclomatic Complexity:</strong> V(G) = E – N + 2P determines minimum paths to test. V(G) ≤ 10: simple, V(G) 11-20: moderate, V(G) 21-50: complex, V(G) > 50: untestable.</p>
+    </div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">10M</span>Explain software maintenance types, reverse engineering, and software reuse with approaches.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">
+      <p><strong>Software Maintenance Definition:</strong> Systematic modification after delivery to correct faults, improve performance, adapt to environment. Costs 60-70% of total lifecycle.</p>
+      <p><strong>4 Types:</strong> (1) Corrective — bug fixes, 20%. (2) Adaptive — environment changes, 25%. (3) Perfective — new features, 50%. (4) Preventive — refactoring, 5%.</p>
+      <p><strong>Reverse Engineering:</strong> Analyzing existing code to recover lost design info, understand legacy systems, and facilitate migration. Levels: Implementation (code) → Design (architecture) → Requirements (functionality) → Domain (business logic). Process: Acquire → Analyze → Extract → Abstract → Document.</p>
+      <p><strong>Maintenance Models:</strong> Quick Fix (fast, low quality), Iterative Enhancement (planned, good quality), Reuse-Oriented (component-based, fast and quality), Boehm's (analytical, highest quality).</p>
+      <p><strong>Software Reuse:</strong> Using existing artifacts in new development. Issues: Technical (integration), Organizational (resistance), Economic (cost), Legal (licensing), Quality (reliability). Approaches (least to most systematic): Ad-hoc → Systematic → Component-based → Application Family → Framework-based.</p>
+    </div>
+  </div>
+
+  <!-- SCENARIO QUESTIONS -->
+  <div class="section-title"><span class="num">5</span> Scenario-Based Questions</div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">Scenario</span>A hospital's new patient management system crashes when two nurses try to update the same patient record simultaneously. Which type of maintenance is needed? Justify.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>Answer: Corrective Maintenance.</strong><br>The system is crashing due to a concurrency bug (two simultaneous updates) discovered after deployment. Corrective maintenance addresses bugs and errors found during actual operational use. The team would apply an emergency fix — implementing proper database locking or transaction management — then follow up with thorough testing. This is reactive, triggered by a discovered failure.</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">Scenario</span>A company writes the same database connection code in every new project. A developer suggests building a centralized library. Which reuse approach is this? What are the challenges?</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>Answer: Moving from Ad-hoc Reuse to Systematic/Component-Based Reuse.</strong><br>Currently, the team practices ad-hoc reuse (informal copying of code). The developer's suggestion is to establish systematic reuse with a centralized component repository. Challenges include: <br>• Technical: Ensuring the library works across different project contexts (integration compatibility).<br>• Organizational: Getting developers to change habits and use the library instead of writing their own code (cultural resistance).<br>• Economic: Initial investment in building, documenting, and maintaining the library.<br>• Quality: Ensuring the library component is reliable and well-tested for all use cases.<br>Long-term benefit: Significant reduction in development time and consistency across projects.</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">Scenario</span>Calculate cyclomatic complexity: A program's flow graph has 12 edges, 9 nodes, and 1 connected component. Is this safe to deploy?</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>Calculation:</strong><br>V(G) = E – N + 2P = 12 – 9 + 2(1) = 3 + 2 = <strong>5</strong><br>Interpretation: V(G) = 5 falls in the range 1–10 → <strong>Low Risk, Simple Program</strong>.<br>This means there are 5 independent paths to test. Since V(G) ≤ 10, the program has low complexity and normal testing is sufficient. Yes, it is relatively safe to deploy after testing all 5 independent paths.</div>
+  </div>
+
+  <!-- TWISTED QUESTIONS -->
+  <div class="section-title"><span class="num">6</span> Twisted / Conceptual Questions</div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">Twisted</span>"Testing can prove that software is completely bug-free." True or False? Justify fully.</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>FALSE.</strong> This relates to the first principle of testing: "Testing shows the <em>presence</em> of defects but cannot prove their <em>absence</em>." Even after extensive testing, no tester can guarantee that ALL bugs have been found. Exhaustive testing (testing every possible input combination) is impossible for real systems. A calculator with just two 32-bit integer inputs would require 2^64 test cases — impossible to run. Testing reduces risk and increases confidence but cannot provide absolute proof of zero bugs. Quote: "Program testing can be used to show the presence of bugs, but never to show their absence." — Dijkstra.</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">Twisted</span>Can a company at CMM Level 1 still deliver good software? Why or why not?</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer"><strong>Yes — but not reliably or repeatedly.</strong> CMM Level 1 (Initial) means processes are ad-hoc and chaotic. Success depends on individual heroics and exceptional personal effort. A talented team or single brilliant developer CAN deliver good software at Level 1, but the key issue is <em>repeatability</em>. Next project, if the same hero is unavailable or tired, the quality drops. At Level 1, you cannot predict outcomes, cannot guarantee delivery dates, and cannot scale. CMM exists to ensure quality comes from <em>processes</em>, not individuals, making success repeatable and independent of who is on the team.</div>
+  </div>
+  <div class="qa-box">
+    <div class="qa-question" onclick="toggleQA(this)"><div><span class="marks-badge">Twisted</span>Why does perfective maintenance (50% effort) dominate over corrective maintenance (20%)? Should companies be worried?</div><div class="qa-toggle">▼ Show Answer</div></div>
+    <div class="qa-answer">Perfective maintenance dominates because in mature software that is working correctly, most effort is spent <strong>improving and extending</strong> the product — adding new features, optimizing performance, improving UX — driven by user demand and market competition. Low corrective maintenance (20%) actually signals <strong>good quality</strong> — it means the software had few bugs after release. Companies should NOT be worried by high perfective maintenance; it is a sign of a successful, in-demand product. Worry would arise if corrective maintenance is high (many bugs) or if preventive maintenance is zero (technical debt accumulating).</div>
+  </div>
+
+  <!-- VIVA QUESTIONS -->
+  <div class="section-title"><span class="num">7</span> Viva Questions &amp; Answers</div>
+  <div class="card">
+    <div style="display:grid;gap:0.8rem;">
+      <div style="border-left:3px solid var(--primary);padding-left:1rem;"><strong>Q: What is the difference between a bug, defect, and failure?</strong><br>A: Bug = error in code (developer mistake). Defect = deviation from requirement (found during testing). Failure = software unable to perform its function (observed by user in production).</div>
+      <div style="border-left:3px solid var(--secondary);padding-left:1rem;"><strong>Q: Why is P usually 1 in cyclomatic complexity formula?</strong><br>A: P = number of connected components in the flow graph. A typical single program/function has just one connected component, so P = 1. For multiple procedures, P would be higher.</div>
+      <div style="border-left:3px solid #059669;padding-left:1rem;"><strong>Q: What is the difference between software reliability and hardware reliability?</strong><br>A: Hardware wears out physically over time (bathtub curve). Software does not have physical wear — it fails due to design defects. Software reliability improves as bugs are removed but can degrade if bad maintenance introduces new bugs.</div>
+      <div style="border-left:3px solid #d97706;padding-left:1rem;"><strong>Q: Can you perform white-box testing on a closed-source application?</strong><br>A: No — white-box testing requires access to source code. For closed-source software, only black-box testing is possible since the internal workings are hidden. This is why third-party testers typically use black-box techniques.</div>
+      <div style="border-left:3px solid #dc2626;padding-left:1rem;"><strong>Q: Why is the moderator's role most important in FTR?</strong><br>A: The moderator plans the review, ensures the right people attend, keeps the meeting focused on technical issues (not personal criticism), enforces the 2-4 hour time limit, and ensures action items are properly tracked. Without effective moderation, reviews degenerate into unproductive discussions.</div>
+    </div>
+  </div>
+
+  <!-- MCQs -->
+  <div class="section-title"><span class="num">8</span> MCQs with Explanations</div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">1. What is the formula for Cyclomatic Complexity V(G)?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">A) V(G) = N - E + 2P</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">B) V(G) = E - N + 2P</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">C) V(G) = E + N - 2P</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">D) V(G) = N + E + 2P</div>
+    <div class="mcq-explain">✅ <strong>Correct: B.</strong> V(G) = E - N + 2P where E = edges, N = nodes, P = connected components. This is the McCabe formula. Alternative: Decision Points + 1, or number of regions.</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">2. Which testing level is performed by CUSTOMERS before deployment?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">A) Unit Testing</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">B) Integration Testing</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">C) System Testing</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">D) Acceptance Testing</div>
+    <div class="mcq-explain">✅ <strong>Correct: D.</strong> Acceptance Testing is the final level where customers/end-users validate the software before deployment. This includes Alpha testing (internal) and Beta testing (external real users).</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">3. Which CMM maturity level uses quantitative measurement to manage processes?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">A) Level 2 — Repeatable</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">B) Level 3 — Defined</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">C) Level 4 — Managed</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">D) Level 5 — Optimizing</div>
+    <div class="mcq-explain">✅ <strong>Correct: C.</strong> Level 4 (Managed) uses quantitative measurements and statistical process control. Level 5 is for continuous improvement. Common confusion: Level 4 = measurement/statistics, Level 5 = improvement/innovation.</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">4. Which ISO standard is an organization certified against for Quality Management?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">A) ISO 9000</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">B) ISO 9001</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">C) ISO 9004</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">D) ISO 19011</div>
+    <div class="mcq-explain">✅ <strong>Correct: B.</strong> ISO 9001 is the only certifiable standard in the ISO 9000 family. ISO 9000 = vocabulary, ISO 9004 = improvement guidelines, ISO 19011 = auditing. Organizations get ISO 9001 certified.</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">5. Which type of software maintenance takes the MOST effort (50%)?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">A) Corrective</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">B) Adaptive</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">C) Perfective</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">D) Preventive</div>
+    <div class="mcq-explain">✅ <strong>Correct: C.</strong> Perfective maintenance (adding features, improving performance) accounts for 50% of maintenance effort. Adaptive = 25%, Corrective = 20%, Preventive = 5%.</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">6. Which role in FTR is responsible for DOCUMENTING all issues?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">A) Moderator</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">B) Author</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">C) Reviewer</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">D) Recorder</div>
+    <div class="mcq-explain">✅ <strong>Correct: D.</strong> The Recorder documents all issues, defects, and action items during the FTR meeting. Moderator facilitates, Author presents, Reviewer identifies defects.</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">7. Alpha testing is performed in what environment?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">A) Controlled environment at developer site</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">B) Real-world environment at user site</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">C) Cloud environment by third-party testers</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">D) No specific environment</div>
+    <div class="mcq-explain">✅ <strong>Correct: A.</strong> Alpha testing is conducted at the developer's site under controlled conditions by internal team. Beta testing is at user sites in real environments.</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-q">8. What does MTBF stand for?</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">A) Mean Time Before Failure</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'correct')">B) Mean Time Between Failures</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">C) Maximum Time Between Failures</div>
+    <div class="mcq-option" onclick="selectMCQ(this,'wrong')">D) Minimum Time Before Failure</div>
+    <div class="mcq-explain">✅ <strong>Correct: B.</strong> MTBF = Mean Time Between Failures = Total Operating Time / Number of Failures. It measures average time between consecutive failures, not before the first failure (that is MTTF).</div>
+    <button class="mcq-btn" onclick="showExplain(this)">Show Explanation</button>
+  </div>
+
+</div><!-- end tab-questions -->
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TAB 6 : QUICK NOTES -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="tab-quickrev" class="tab-content">
+
+  <div class="chapter-header" style="background:linear-gradient(135deg,#7c2d12,#dc2626);">
+    <span class="ch-badge">Last Minute Prep</span>
+    <h2>⚡ Quick Revision Sheet</h2>
+    <p>One-day-before-exam notes. Read this right before your exam. Concise, high-impact points only.</p>
+  </div>
+
+  <!-- CHAPTER 3.1 Quick Notes -->
+  <div class="quick-box">
+    <h4>📋 Chapter 3.1 — Software Testing (Fastest Recap)</h4>
+    <ul>
+      <li><strong>Testing</strong> = process to verify software meets requirements. Finds defects, doesn't prove absence.</li>
+      <li><strong>Verification</strong> = Static, "Building product RIGHT?" (reviews, inspections)</li>
+      <li><strong>Validation</strong> = Dynamic, "Building the RIGHT product?" (actual execution)</li>
+      <li><strong>5 Principles:</strong> presence-not-absence | no exhaustive testing | early testing | 80/20 defect clustering | pesticide paradox (update test cases!)</li>
+      <li><strong>Testing Pyramid (bottom to top):</strong> Unit → Integration → System → Acceptance → Regression</li>
+      <li><strong>Alpha</strong> = Internal, controlled, developer site. <strong>Beta</strong> = External, real users, user site.</li>
+      <li><strong>Black-box</strong> = No code knowledge, tests I/O. Techniques: Equivalence Partitioning, BVA, Decision Table, State Transition, Use-Case.</li>
+      <li><strong>White-box</strong> = Full code access. Techniques: Statement, Branch, Condition, Path Coverage, Loop Testing.</li>
+      <li>⭐ <strong>V(G) = E – N + 2P</strong> | Also = Regions = Decision Points + 1</li>
+      <li>V(G) ≤ 10: Safe | 11-20: Moderate | 21-50: High | >50: Untestable</li>
+    </ul>
+  </div>
+
+  <!-- CHAPTER 3.2 Quick Notes -->
+  <div class="quick-box" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#a78bfa;">
+    <h4 style="color:var(--secondary);">🏆 Chapter 3.2 — Quality Management (Fastest Recap)</h4>
+    <ul>
+      <li><strong>Quality</strong> = Correctness + Reliability + Efficiency + Integrity + Usability + Maintainability + Flexibility + Portability</li>
+      <li><strong>McCall's Model:</strong> Operation (correctness, reliability, efficiency, integrity, usability) | Revision (maintainability, flexibility, testability) | Transition (portability, reusability, interoperability)</li>
+      <li><strong>MTBF</strong> = Operating Time / Failures | <strong>MTTR</strong> = Repair Time / Repairs | <strong>Availability</strong> = MTBF/(MTBF+MTTR)</li>
+      <li><strong>FTR Roles:</strong> Moderator (facilitates) | Author (presents) | Reviewer (finds bugs) | Recorder (documents) | Manager (ensures resources, NO evaluation)</li>
+      <li><strong>FTR duration</strong> = 2 to 4 hours max</li>
+      <li><strong>Statistical SQA tools:</strong> Pareto (80/20 defect analysis) | Control Charts (process monitoring) | Histogram | Scatter Diagram | Run Charts</li>
+      <li><strong>ISO 9001</strong> = the certifiable standard (NOT 9000 or 9004)</li>
+      <li>⭐ <strong>CMM Levels:</strong> 1-Initial | 2-Repeatable | 3-Defined | 4-Managed(Quantitative!) | 5-Optimizing(Continuous Improvement!)</li>
+    </ul>
+  </div>
+
+  <!-- CHAPTER 3.3 Quick Notes -->
+  <div class="quick-box" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-color:#34d399;">
+    <h4 style="color:#065f46;">🔧 Chapter 3.3 — Maintenance &amp; Reuse (Fastest Recap)</h4>
+    <ul>
+      <li>⭐ Maintenance = <strong>60-70% of total software lifecycle cost</strong></li>
+      <li><strong>CAPP types:</strong> Corrective(20%) | Adaptive(25%) | Perfective(50%—MOST!) | Preventive(5%—LEAST!)</li>
+      <li>Corrective = bug fix (reactive). Adaptive = new OS/platform. Perfective = new features. Preventive = refactoring.</li>
+      <li><strong>Maintenance Process:</strong> Request → Impact Analysis → Design → Code → Test → Deploy</li>
+      <li><strong>Reverse Engineering</strong> = analyze existing code to recover design. Used for legacy systems, lost docs, migration.</li>
+      <li><strong>RE Levels:</strong> Implementation → Design → Requirements → Domain</li>
+      <li><strong>Models comparison:</strong> Quick Fix (fast/low quality) | Iterative (planned/good) | Reuse-Oriented (fast+quality) | Boehm's (slow/best quality)</li>
+      <li><strong>Reuse Issues:</strong> Technical | Organizational | Economic | Legal | Quality</li>
+      <li><strong>Reuse Approaches (low→high):</strong> Ad-hoc → Systematic → Component-based → Application Family → Framework-based</li>
+    </ul>
+  </div>
+
+  <!-- Most Expected Exam Questions -->
+  <div class="section-title"><span class="num">!</span> Most Expected Exam Questions (Do Not Skip!)</div>
+  <div class="card" style="border:2px solid var(--accent);">
+    <div style="display:grid;gap:0.6rem;">
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip red">★★★</span>
+        <span>Calculate Cyclomatic Complexity from given flow graph (E, N values will be given) — V(G) = E–N+2P</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip red">★★★</span>
+        <span>Explain all 5 CMM maturity levels with characteristics and Key Process Areas</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip red">★★★</span>
+        <span>Differentiate Verification vs Validation with table — must know all 5 aspects</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip red">★★★</span>
+        <span>Explain 4 types of software maintenance with examples and effort percentage</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip purple">★★☆</span>
+        <span>FTR — roles, process, and its importance in quality management</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip purple">★★☆</span>
+        <span>Black-box testing techniques (all 5) with examples — Equivalence Partitioning, BVA, Decision Table, State Transition, Use-Case</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip purple">★★☆</span>
+        <span>Reliability metrics: MTBF, MTTF, MTTR, Availability with formulas and numerical example</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+        <span class="chip">★☆☆</span>
+        <span>Software reverse engineering — definition, levels, and process</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.7rem;padding:0.5rem 0;">
+        <span class="chip">★☆☆</span>
+        <span>McCall's quality model — three categories and attributes in each</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- One-Day Before Summary Card -->
+  <div class="section-title"><span class="num">📌</span> One-Day-Before Exam Cheat Sheet</div>
+  <div class="card" style="border:2px solid #fbbf24;background:#fffbeb;">
+    <h3 style="color:#92400e;font-family:var(--font-head);margin-bottom:1rem;">📌 Must-Know Numbers &amp; Facts</h3>
+    <div class="tbl-wrap" style="box-shadow:none;margin:0;">
+      <table>
+        <thead><tr><th>Fact</th><th>Value / Answer</th></tr></thead>
+        <tbody>
+          <tr><td>Cyclomatic Complexity Formula</td><td><strong>V(G) = E – N + 2P</strong></td></tr>
+          <tr><td>Low risk complexity range</td><td><strong>V(G) ≤ 10</strong></td></tr>
+          <tr><td>Perfective maintenance effort</td><td><strong>50% (MOST)</strong></td></tr>
+          <tr><td>Preventive maintenance effort</td><td><strong>5% (LEAST)</strong></td></tr>
+          <tr><td>Maintenance % of total lifecycle</td><td><strong>60–70%</strong></td></tr>
+          <tr><td>FTR meeting duration limit</td><td><strong>2 to 4 hours</strong></td></tr>
+          <tr><td>Manager's role in FTR</td><td><strong>Resources only — NO evaluation</strong></td></tr>
+          <tr><td>CMM Level with quantitative control</td><td><strong>Level 4 — Managed</strong></td></tr>
+          <tr><td>CMM Level with continuous improvement</td><td><strong>Level 5 — Optimizing</strong></td></tr>
+          <tr><td>ISO standard for certification</td><td><strong>ISO 9001 (not 9000!)</strong></td></tr>
+          <tr><td>Defect clustering rule</td><td><strong>80% bugs in 20% modules (Pareto)</strong></td></tr>
+          <tr><td>Alpha testing: who &amp; where?</td><td><strong>Internal team, developer site</strong></td></tr>
+          <tr><td>Beta testing: who &amp; where?</td><td><strong>External real users, user site</strong></td></tr>
+          <tr><td>Availability formula</td><td><strong>MTBF / (MTBF + MTTR)</strong></td></tr>
+          <tr><td>Verification type</td><td><strong>Static</strong></td></tr>
+          <tr><td>Validation type</td><td><strong>Dynamic</strong></td></tr>
+          <tr><td>White-box also called</td><td><strong>Glass-box / Structural testing</strong></td></tr>
+          <tr><td>SEI-CMM developed by</td><td><strong>Software Engineering Institute, Carnegie Mellon University</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- end tab-quickrev -->
+
+</div><!-- end container -->
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function toggleQA(el) {
+  const answer = el.nextElementSibling;
+  answer.classList.toggle('open');
+  const toggle = el.querySelector('.qa-toggle');
+  toggle.textContent = answer.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer';
+}
+
+function selectMCQ(el, type) {
+  const parent = el.closest('.mcq-box');
+  parent.querySelectorAll('.mcq-option').forEach(o => {
+    o.classList.remove('correct','wrong');
+  });
+  el.classList.add(type);
+  parent.querySelector('.mcq-explain').style.display = 'block';
+}
+
+function showExplain(btn) {
+  const explain = btn.previousElementSibling;
+  explain.style.display = 'block';
+  btn.textContent = 'Explanation Shown ✓';
+  btn.style.background = '#059669';
+  btn.disabled = true;
+}
+</script>
+</body>
+</html>
