@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 – OS Security & Types | Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f6f0;
+  --surface:#ffffff;
+  --surface2:#f0ede4;
+  --border:#e0d8c8;
+  --accent:#c0392b;
+  --accent2:#e74c3c;
+  --accent3:#8e44ad;
+  --green:#27ae60;
+  --blue:#2980b9;
+  --orange:#e67e22;
+  --navy:#1a2744;
+  --text:#1c1c1c;
+  --text2:#444;
+  --text3:#777;
+  --hinglish:#7d3c98;
+  --english:#1a5276;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:16px;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;}
+code,pre{font-family:'Fira Code',monospace;}
+
+/* --- NAV SIDEBAR --- */
+#sidebar{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--navy);overflow-y:auto;z-index:100;padding:0 0 40px;}
+#sidebar .logo{padding:20px 16px 10px;border-bottom:1px solid rgba(255,255,255,0.12);margin-bottom:8px;}
+#sidebar .logo h2{color:#fff;font-size:1rem;line-height:1.3;}
+#sidebar .logo span{color:#f39c12;font-size:0.78rem;display:block;margin-top:4px;font-family:'Source Sans 3',sans-serif;font-weight:300;}
+#sidebar ul{list-style:none;}
+#sidebar ul li a{display:block;padding:6px 16px;color:rgba(255,255,255,0.72);font-size:0.82rem;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent;}
+#sidebar ul li a:hover,#sidebar ul li a.active{color:#fff;background:rgba(255,255,255,0.1);border-left-color:#f39c12;}
+#sidebar .nav-head{padding:10px 16px 4px;color:#f39c12;font-size:0.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-family:'Source Sans 3',sans-serif;}
+
+/* --- MAIN CONTENT --- */
+#main{margin-left:260px;padding:0 40px 80px;}
+.page-hero{background:linear-gradient(135deg,var(--navy) 0%,#2c3e50 100%);color:#fff;padding:50px 40px;margin-bottom:40px;}
+.page-hero h1{font-size:2.4rem;margin-bottom:8px;}
+.page-hero p{color:rgba(255,255,255,0.78);font-size:1rem;font-family:'Source Sans 3',sans-serif;font-weight:300;}
+.badge{display:inline-block;background:#f39c12;color:#1a2744;font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:16px;font-family:'Source Sans 3',sans-serif;letter-spacing:0.5px;}
+
+/* --- SECTION HEADERS --- */
+.section-header{background:var(--navy);color:#fff;padding:16px 24px;border-radius:var(--radius) var(--radius) 0 0;display:flex;align-items:center;gap:12px;margin-top:48px;}
+.section-header .icon{width:36px;height:36px;border-radius:50%;background:#f39c12;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.section-header h2{font-size:1.4rem;color:#fff;}
+.section-body{background:var(--surface);border:1px solid var(--border);border-top:0;border-radius:0 0 var(--radius) var(--radius);padding:28px;}
+
+/* --- SLIDE CARD --- */
+.slide-card{border:1px solid var(--border);border-radius:8px;margin-bottom:24px;overflow:hidden;}
+.slide-card-head{background:var(--surface2);padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.slide-num{background:var(--accent);color:#fff;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:20px;}
+.slide-card-body{padding:18px;}
+
+/* --- HINGLISH / ENGLISH BOXES --- */
+.lang-box{border-radius:8px;padding:14px 18px;margin:12px 0;}
+.lang-box.hinglish{background:#f9f0ff;border-left:4px solid var(--hinglish);}
+.lang-box.english{background:#eaf4fc;border-left:4px solid var(--english);}
+.lang-box .lang-label{font-size:0.73rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.lang-box.hinglish .lang-label{color:var(--hinglish);}
+.lang-box.english .lang-label{color:var(--english);}
+
+/* --- KEYWORD BOX --- */
+.keyword-box{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;margin:12px 0;}
+.keyword-box strong{color:#e65100;font-size:0.8rem;letter-spacing:0.5px;text-transform:uppercase;}
+.kw{display:inline-block;background:#fff3cd;border:1px solid #ffc107;color:#856404;font-size:0.8rem;padding:2px 8px;border-radius:4px;margin:3px;}
+
+/* --- EXAM ALERT --- */
+.exam-alert{background:#fff5f5;border:2px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0;}
+.exam-alert .exam-label{color:var(--accent);font-weight:700;font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+
+/* --- DIAGRAM BOX --- */
+.diagram-box{background:#f0f4f8;border:1px solid #ccd6e0;border-radius:8px;padding:20px;margin:16px 0;overflow-x:auto;}
+.diagram-box .diag-title{font-weight:700;color:var(--navy);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;}
+.diag-ascii{font-family:'Fira Code',monospace;font-size:0.8rem;line-height:1.6;color:#1a2744;white-space:pre;}
+
+/* --- TABLES --- */
+.styled-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.88rem;}
+.styled-table th{background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-family:'Source Sans 3',sans-serif;font-weight:600;}
+.styled-table td{padding:9px 14px;border-bottom:1px solid var(--border);}
+.styled-table tr:nth-child(even) td{background:var(--surface2);}
+.styled-table tr:hover td{background:#e8f4f8;}
+
+/* --- Q&A --- */
+.qa-item{border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden;}
+.qa-q{background:var(--navy);color:#fff;padding:10px 16px;font-size:0.9rem;cursor:pointer;}
+.qa-q span{color:#f39c12;margin-right:6px;}
+.qa-a{padding:12px 16px;background:#fff;font-size:0.88rem;border-top:1px solid var(--border);}
+
+/* --- MCQ --- */
+.mcq-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:12px;}
+.mcq-q{font-weight:600;margin-bottom:8px;}
+.mcq-opt{font-size:0.87rem;margin:3px 0;padding:4px 8px;border-radius:4px;}
+.mcq-opt.correct{background:#d4edda;color:#155724;font-weight:600;}
+.mcq-exp{font-size:0.82rem;color:#555;margin-top:8px;padding-top:8px;border-top:1px solid #eee;}
+
+/* --- REVISION SHEET --- */
+.rev-card{background:linear-gradient(135deg,#fff9f0,#fff);border:2px solid #f39c12;border-radius:10px;padding:20px;margin-bottom:16px;}
+.rev-card h4{color:#c0392b;margin-bottom:10px;}
+.rev-point{display:flex;gap:8px;margin:5px 0;font-size:0.88rem;}
+.rev-point::before{content:"✦";color:#f39c12;flex-shrink:0;margin-top:2px;}
+
+/* --- RAID SPECIFIC --- */
+.raid-level{border:1px solid var(--border);border-radius:8px;margin-bottom:16px;overflow:hidden;}
+.raid-level-head{padding:12px 18px;font-weight:700;font-size:1rem;display:flex;align-items:center;gap:10px;}
+.raid-level-body{padding:14px 18px;border-top:1px solid var(--border);}
+.r0{border-left:5px solid #e74c3c;} .r0 .raid-level-head{background:#fdf2f2;}
+.r1{border-left:5px solid #27ae60;} .r1 .raid-level-head{background:#f0faf4;}
+.r2{border-left:5px solid #f39c12;} .r2 .raid-level-head{background:#fef9ec;}
+.r3{border-left:5px solid #2980b9;} .r3 .raid-level-head{background:#ebf5fb;}
+.r4{border-left:5px solid #8e44ad;} .r4 .raid-level-head{background:#f5eef8;}
+.r5{border-left:5px solid #16a085;} .r5 .raid-level-head{background:#eafaf1;}
+.r6{border-left:5px solid #d35400;} .r6 .raid-level-head{background:#fef5ec;}
+
+/* --- MISC --- */
+.tip{background:#e8f8f5;border-left:4px solid #27ae60;padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:0.88rem;}
+.warn{background:#fef9e7;border-left:4px solid #f39c12;padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:0.88rem;}
+.tag{display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:4px;margin:2px;}
+.tag.red{background:#fde8e8;color:#c0392b;}
+.tag.green{background:#e8f8f5;color:#1e8449;}
+.tag.blue{background:#ebf5fb;color:#1a5276;}
+.tag.purple{background:#f5eef8;color:#7d3c98;}
+.tag.orange{background:#fef5ec;color:#d35400;}
+.mark{background:#fffde7;padding:0 4px;border-radius:3px;font-weight:600;}
+
+/* --- PROGRESS NAV --- */
+.progress-bar{position:fixed;top:0;left:260px;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent3));z-index:200;}
+.back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--navy);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.2);text-decoration:none;}
+
+/* --- RESPONSIVE --- */
+@media(max-width:900px){
+  #sidebar{display:none;}
+  #main{margin-left:0;padding:0 16px 60px;}
+  .page-hero{padding:30px 20px;}
+}
+
+/* --- SECTION IDs --- */
+section{scroll-margin-top:20px;}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="logo">
+    <h2>Unit 3 – OS Security & Types</h2>
+    <span>Operating System | 24CST-205</span>
+  </div>
+  <div class="nav-head">RAID</div>
+  <ul>
+    <li><a href="#raid-intro">What is RAID?</a></li>
+    <li><a href="#raid-levels">RAID Levels 0–6</a></li>
+    <li><a href="#raid-problems">Problems with RAID</a></li>
+  </ul>
+  <div class="nav-head">Protection & Security</div>
+  <ul>
+    <li><a href="#goals">Goals of Protection</a></li>
+    <li><a href="#principles">Principles of Protection</a></li>
+    <li><a href="#domain">Domain Structure</a></li>
+    <li><a href="#access-matrix">Access Matrix</a></li>
+    <li><a href="#impl-access">Implementation of AM</a></li>
+  </ul>
+  <div class="nav-head">Security Threats</div>
+  <ul>
+    <li><a href="#sec-problem">The Security Problem</a></li>
+    <li><a href="#prog-threats">Program Threats</a></li>
+    <li><a href="#net-threats">System & Network Threats</a></li>
+    <li><a href="#crypto">Cryptography</a></li>
+    <li><a href="#auth">Authentication</a></li>
+    <li><a href="#firewalls">Firewalls & Defenses</a></li>
+  </ul>
+  <div class="nav-head">Distributed OS</div>
+  <ul>
+    <li><a href="#dist-intro">Distributed OS Intro</a></li>
+    <li><a href="#topology">Topology & Network</a></li>
+    <li><a href="#comm-struct">Communication Structure</a></li>
+    <li><a href="#osi">OSI Model</a></li>
+    <li><a href="#robustness">Robustness & Design</a></li>
+  </ul>
+  <div class="nav-head">Revision</div>
+  <ul>
+    <li><a href="#combined-rev">Combined Revision</a></li>
+    <li><a href="#qna">Q&A Bank</a></li>
+    <li><a href="#mcqs">MCQs</a></li>
+    <li><a href="#diff-tables">Difference Tables</a></li>
+    <li><a href="#lastmin">Last-Minute Sheet</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+
+<div class="page-hero">
+  <div class="badge">OPERATING SYSTEM · 24CST-205 · UNIT 3</div>
+  <h1>Security, RAID & Distributed OS</h1>
+  <p>Complete Slide-wise Study Guide | Hinglish + English | Diagrams | Exam Q&A | MCQs | Last-Minute Revision</p>
+</div>
+
+<!-- ============================================================ -->
+<!--                        RAID SECTION                          -->
+<!-- ============================================================ -->
+<section id="raid-intro">
+<div class="section-header">
+  <div class="icon">💾</div>
+  <div><h2>RAID – Redundant Array of Independent Disks</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">Lecture 31 · PPT: Lecture-31_Raid.pptx</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slide 3–5</span><strong>What is RAID? Why RAID?</strong></div>
+<div class="slide-card-body">
+<p><strong>Definition:</strong> RAID combines multiple small, inexpensive disk drives into an <mark class="mark">array of disk drives</mark> whose performance exceeds that of a Single Large Expensive Drive (SLED). The array appears to the OS as one single logical storage unit — this is an example of <em>storage virtualization</em>.</p>
+<p style="margin-top:10px">RAID stores the same data in different places (redundantly) on multiple hard disks. Because multiple disks overlap their I/O operations in a balanced way, both performance and fault tolerance improve. Storing data redundantly increases the <mark class="mark">Mean Time Between Failures (MTBF)</mark>.</p>
+
+<div class="lang-box hinglish">
+  <div class="lang-label">🇮🇳 Hinglish Explanation</div>
+  <p>RAID ek aisa system hai jisme bahut saare chhote-chhote disk drives ko milake ek bada aur fast storage banate hain. Jaise 10 chote coolie milke ek heavy luggage uthate hain, waisi tarah kai disks milke kaam karte hain. Computer ko lagta hai yeh ek hi disk hai. Agar ek disk fail bhi ho jaaye, toh data doosri disk mein safe rehta hai — yahi RAID ki khasiyat hai.</p>
+</div>
+<div class="lang-box english">
+  <div class="lang-label">🇬🇧 Plain English</div>
+  <p>RAID is a technology that groups multiple physical hard drives together so they work as one unit. The operating system sees them as a single disk. By spreading data across drives, RAID improves both speed (parallelism) and safety (if one drive dies, data isn't lost). The concept is called "storage virtualization."</p>
+</div>
+
+<div class="keyword-box">
+  <strong>Keywords</strong><br>
+  <span class="kw">RAID Array</span><span class="kw">SLED</span><span class="kw">Storage Virtualization</span><span class="kw">MTBF</span><span class="kw">Redundancy</span><span class="kw">Fault Tolerance</span><span class="kw">I/O Parallelism</span>
+</div>
+
+<div class="diagram-box">
+<div class="diag-title">RAID vs SLED – Concept</div>
+<pre class="diag-ascii">
+  WITHOUT RAID (SLED)            WITH RAID
+  ┌─────────────────┐      ┌────┬────┬────┬────┐
+  │                 │      │ D1 │ D2 │ D3 │ D4 │
+  │   1 Big         │      │    │    │    │    │
+  │   Expensive     │  VS  │ Small drives, fast │
+  │   Disk          │      │ parallel access    │
+  │   (slow, risky) │      │ (faster + safer)   │
+  └─────────────────┘      └────┴────┴────┴────┘
+  Single point of failure!   If one fails, others help!
+</pre>
+</div>
+
+<div class="exam-alert">
+  <div class="exam-label">⚠️ Exam Point</div>
+  <p>RAID full form is <strong>Redundant Array of Independent Disks</strong> (older: Inexpensive Disks). The two key goals are: <strong>(1) increase data reliability/capacity</strong> and <strong>(2) increase I/O performance</strong>. RAID is named RAID-0, RAID-1 ... RAID-6. Always remember SLED = Single Large Expensive Drive.</p>
+</div>
+</div>
+</div>
+
+<!-- STRIPING -->
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slide 7–8</span><strong>Striping – Fundamental Concept</strong></div>
+<div class="slide-card-body">
+<p>Striping is a method of concatenating multiple drives into one logical unit by partitioning each drive's storage into <strong>stripes</strong> — which can be as small as one sector (512 bytes) or as large as several megabytes. The processor doesn't idle waiting for data because multiple stripes are read/written in parallel.</p>
+<div class="diagram-box">
+<div class="diag-title">How Striping Works (RAID 0)</div>
+<pre class="diag-ascii">
+  File Data:  [Block A] [Block B] [Block C] [Block D] [Block E] [Block F]
+
+  Disk 1:  ┌─────────┬─────────┬─────────┐
+           │ Block A │ Block C │ Block E │   ← Every alternate block
+           └─────────┴─────────┴─────────┘
+  Disk 2:  ┌─────────┬─────────┬─────────┐
+           │ Block B │ Block D │ Block F │   ← Every other block
+           └─────────┴─────────┴─────────┘
+              ↑ Both read simultaneously = DOUBLE SPEED ↑
+</pre>
+</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Striping matlab hai data ko chhote-chhote tukdon mein kaat ke alag-alag disks mein store karna. Jaise pizza ke 6 slice ek baar mein 6 logon ko mile — sab ek saath khaate hain, jaldi khatam hoti hai. Aise hi data parallel mein read/write hota hai, speed badh jaati hai. Lekin agar ek disk kharaab ho gayi toh poora data kho jaata hai — koi backup nahi!</p></div>
+<div class="exam-alert"><div class="exam-label">⚠️ Key Point</div><p>Striping = <strong>No fault tolerance</strong>. Any disk failure = total data loss. Used in RAID 0 only for maximum speed.</p></div>
+</div>
+</div>
+
+<!-- RAID LEVELS -->
+<section id="raid-levels">
+<div class="slide-card" style="margin-top:10px;">
+<div class="slide-card-head"><span class="slide-num">Slides 7–17</span><strong>All RAID Levels – Detailed</strong></div>
+<div class="slide-card-body">
+
+<div class="raid-level r0">
+  <div class="raid-level-head">🔴 RAID 0 – Striping (No Redundancy)</div>
+  <div class="raid-level-body">
+    <p>Data is split (striped) across drives giving <strong>maximum read/write throughput</strong>. No redundant information is stored. Failure of ANY single disk = complete data loss. Minimum 2 disks required.</p>
+    <div class="diagram-box"><pre class="diag-ascii">
+  Disk1: [A1][A3][A5]
+  Disk2: [A2][A4][A6]   ← Data split, no copy
+  Performance: ★★★★★   Reliability: ✗ (zero)</pre></div>
+    <p><span class="tag red">No Fault Tolerance</span><span class="tag blue">Max Speed</span><span class="tag orange">Min 2 Disks</span></p>
+    <p class="tip"><strong>Real-life:</strong> Used in gaming rigs, video editing stations where speed matters more than safety. Not for banking data!</p>
+  </div>
+</div>
+
+<div class="raid-level r1">
+  <div class="raid-level-head">🟢 RAID 1 – Mirroring (100% Duplication)</div>
+  <div class="raid-level-body">
+    <p>All data is written to <strong>two or more drives simultaneously</strong>. If one drive fails, the other has a complete copy. Reads can be faster (read from either), writes are same speed. High cost: <strong>50% of storage is overhead</strong>. Minimum 2 disks.</p>
+    <div class="diagram-box"><pre class="diag-ascii">
+  Disk1: [A1][A2][A3]  (Primary)
+  Disk2: [A1][A2][A3]  (Exact Mirror Copy)
+          ↑ identical data on both disks ↑
+  If Disk1 fails → Disk2 serves all data!</pre></div>
+    <p><span class="tag green">100% Fault Tolerance</span><span class="tag blue">Good Read Speed</span><span class="tag red">50% Space Waste</span></p>
+    <p class="tip"><strong>Real-life:</strong> Used in ATMs, hospitals, and financial servers where data must never be lost.</p>
+  </div>
+</div>
+
+<div class="raid-level r2">
+  <div class="raid-level-head">🟡 RAID 2 – Hamming Error Correction (Rarely Used)</div>
+  <div class="raid-level-body">
+    <p>Uses <strong>Hamming error correction codes</strong>. Intended for drives without built-in error detection. All SCSI drives already have built-in error detection, making RAID 2 practically obsolete. Requires 39 disks — very expensive and rarely used.</p>
+    <p><span class="tag orange">Obsolete</span><span class="tag blue">Hamming Code</span><span class="tag red">39 Disks Needed</span></p>
+  </div>
+</div>
+
+<div class="raid-level r3">
+  <div class="raid-level-head">🔵 RAID 3 – Byte-Level Striping with Dedicated Parity</div>
+  <div class="raid-level-body">
+    <p>All disk spindles are <strong>synchronized</strong>. Data is striped byte-by-byte across disks. A dedicated parity disk stores parity information calculated from corresponding bytes on all data disks. If one disk fails, data can be reconstructed from remaining disks + parity.</p>
+    <div class="diagram-box"><pre class="diag-ascii">
+  Disk1: [B1][B4][B7]  ← byte 1, 4, 7...
+  Disk2: [B2][B5][B8]  ← byte 2, 5, 8...
+  Disk3: [B3][B6][B9]  ← byte 3, 6, 9...
+  ParityDisk: [P1][P2][P3]  ← P = XOR of all bytes in stripe
+  
+  If Disk2 fails: B2 = P XOR B1 XOR B3 (reconstructed!)</pre></div>
+    <p><span class="tag green">1-Disk Fault Tolerance</span><span class="tag blue">Dedicated Parity</span></p>
+  </div>
+</div>
+
+<div class="raid-level r4">
+  <div class="raid-level-head">🟣 RAID 4 – Block-Level Striping with Dedicated Parity</div>
+  <div class="raid-level-body">
+    <p>Like RAID 3 but striping is at <strong>block level</strong> (not byte). One dedicated parity drive. Read performance is excellent (same as RAID 0). <strong>Writes are slow</strong> because parity must be recalculated and updated each time. Cost is low since only one parity disk used.</p>
+    <p><span class="tag green">Good Read Speed</span><span class="tag red">Slow Writes</span><span class="tag purple">Dedicated Parity Block</span></p>
+  </div>
+</div>
+
+<div class="raid-level r5">
+  <div class="raid-level-head">🟦 RAID 5 – Block Striping with Distributed Parity ⭐ Most Popular</div>
+  <div class="raid-level-body">
+    <p>Most widely used RAID level. Parity is <strong>distributed across all drives</strong> (no dedicated parity disk). All drives but one must be present to operate. A single drive failure doesn't destroy the array — reads continue by recalculating from distributed parity. Minimum 3 disks.</p>
+    <div class="diagram-box"><pre class="diag-ascii">
+  Disk1: [A1][B1][C1][P4]  ← parity rotates!
+  Disk2: [A2][B2][P3][C2]
+  Disk3: [A3][P2][B3][C3]
+  Disk4: [P1][A4][B4][C4]
+  
+  P = Parity (XOR of all data in stripe row)
+  Parity is spread = no bottleneck on one disk!
+  
+  Any ONE disk failure → data reconstructed from others</pre></div>
+    <p><span class="tag green">Best Balance</span><span class="tag blue">Distributed Parity</span><span class="tag purple">Min 3 Disks</span><span class="tag orange">1-Disk Fault Tolerance</span></p>
+    <p class="tip"><strong>Real-life:</strong> Used in NAS drives, enterprise servers, cloud storage backends. Best choice for most use cases.</p>
+    <div class="exam-alert"><div class="exam-label">⚠️ Most Expected</div><p>RAID 5 is the most commonly asked RAID level in exams. Remember: <strong>distributed parity, not dedicated parity</strong>. Tolerates exactly 1 disk failure. Performance degrades after failure until rebuilt.</p></div>
+  </div>
+</div>
+
+<div class="raid-level r6">
+  <div class="raid-level-head">🟠 RAID 6 – Block Striping with Double Distributed Parity</div>
+  <div class="raid-level-body">
+    <p>Like RAID 5 but uses <strong>two sets of distributed parity</strong>, tolerating <strong>2 simultaneous disk failures</strong>. Essential for large arrays where rebuild time is long — during RAID 5 rebuild, a second failure would cause total data loss. RAID 6 gives extra protection window. Minimum 4 disks.</p>
+    <div class="diagram-box"><pre class="diag-ascii">
+  Disk1: [A1][P+Q area][C1]
+  Disk2: [A2][B2][P+Q ]
+  Disk3: [P][A3][B3 ]
+  Disk4: [Q][P ][A4 ]
+  
+  TWO parity blocks (P and Q) per stripe row
+  → Can survive 2 disk failures simultaneously!</pre></div>
+    <p><span class="tag green">2-Disk Fault Tolerance</span><span class="tag blue">Double Parity</span><span class="tag red">More Overhead</span><span class="tag orange">Min 4 Disks</span></p>
+    <p class="tip"><strong>Real-life:</strong> Used in large data centers, cloud providers like AWS, where arrays have 20+ disks and single-parity isn't enough.</p>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- RAID SUMMARY TABLE -->
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Summary</span><strong>RAID Levels Comparison Table</strong></div>
+<div class="slide-card-body">
+<table class="styled-table">
+<tr><th>RAID Level</th><th>Technique</th><th>Min Disks</th><th>Fault Tolerance</th><th>Read</th><th>Write</th><th>Use Case</th></tr>
+<tr><td><strong>RAID 0</strong></td><td>Striping only</td><td>2</td><td>None</td><td>★★★★★</td><td>★★★★★</td><td>Video editing, gaming</td></tr>
+<tr><td><strong>RAID 1</strong></td><td>Mirroring</td><td>2</td><td>1 disk</td><td>★★★★</td><td>★★★</td><td>ATMs, Finance</td></tr>
+<tr><td><strong>RAID 2</strong></td><td>Hamming ECC</td><td>39</td><td>1 disk</td><td>★★</td><td>★★</td><td>Obsolete</td></tr>
+<tr><td><strong>RAID 3</strong></td><td>Byte stripe + Ded. Parity</td><td>3</td><td>1 disk</td><td>★★★</td><td>★★★</td><td>Multimedia</td></tr>
+<tr><td><strong>RAID 4</strong></td><td>Block stripe + Ded. Parity</td><td>3</td><td>1 disk</td><td>★★★★</td><td>★★</td><td>Rarely used</td></tr>
+<tr><td><strong>RAID 5</strong></td><td>Block stripe + Dist. Parity</td><td>3</td><td>1 disk</td><td>★★★★</td><td>★★★</td><td>NAS, Servers</td></tr>
+<tr><td><strong>RAID 6</strong></td><td>Block stripe + Double Parity</td><td>4</td><td>2 disks</td><td>★★★★</td><td>★★</td><td>Data Centers</td></tr>
+</table>
+</div>
+</div>
+
+<!-- PROBLEMS WITH RAID -->
+<section id="raid-problems">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Analysis</span><strong>Problems with RAID</strong></div>
+<div class="slide-card-body">
+<p>Although RAID improves performance and reliability, it has several important limitations that are often tested in exams.</p>
+<table class="styled-table">
+<tr><th>Problem</th><th>Explanation</th></tr>
+<tr><td><strong>No protection against data corruption</strong></td><td>If data is corrupted (logical error), corruption gets mirrored/striped too. RAID protects against hardware failure, not data errors.</td></tr>
+<tr><td><strong>Slow rebuild time</strong></td><td>After a disk fails, rebuilding the array from parity can take hours–days for large drives. During rebuild, another failure = data loss.</td></tr>
+<tr><td><strong>RAID 0 – no redundancy</strong></td><td>Any single disk failure = 100% data loss. Most dangerous RAID level.</td></tr>
+<tr><td><strong>High cost</strong></td><td>RAID 1 wastes 50% storage. RAID 5/6 need extra parity disks.</td></tr>
+<tr><td><strong>Controller failure</strong></td><td>If RAID controller fails, the entire array may become inaccessible.</td></tr>
+<tr><td><strong>Write penalty</strong></td><td>RAID 5/6 have write penalty because parity must be calculated and written on every write operation.</td></tr>
+<tr><td><strong>Not a backup</strong></td><td>RAID is NOT a substitute for backups. Accidental deletion, viruses, and ransomware affect all mirrors equally.</td></tr>
+</table>
+<div class="exam-alert"><div class="exam-label">⚠️ Common Exam Mistake</div><p>Students often write "RAID = Backup." <strong>WRONG!</strong> RAID protects against hardware failure only. It does NOT protect against software corruption, deletion, or ransomware. Always state: "RAID is fault tolerance, not backup."</p></div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>RAID ke problems: Sabse badi galti — RAID ko backup samajhna. RAID sirf disk failure se bachata hai. Agar virus ne poora data delete kar diya, RAID mein bhi delete ho jaayega. Rebuild time bhi problem hai — badi disk rebuild hone mein 10+ ghante lagte hain aur us time ek aur disk fail ho gayi toh sab khatam. RAID 5 mein write karte time parity calculate karni padti hai — iska matlab write operations thode slow hote hain.</p></div>
+</div>
+</div>
+</section>
+
+</section><!-- end raid -->
+
+<!-- ============================================================ -->
+<!--             SYSTEM PROTECTION & SECURITY                     -->
+<!-- ============================================================ -->
+<section id="goals">
+<div class="section-header">
+  <div class="icon">🛡️</div>
+  <div><h2>System Protection & Security</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPTs: L-3_1_1 to L-3_1_4</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slide 3 – L-3_1_1</span><strong>Goals of Protection</strong></div>
+<div class="slide-card-body">
+<p>In a protection model, a computer consists of a collection of <strong>objects</strong> (hardware or software). Each object has a <strong>unique name</strong> and can be accessed only through a well-defined set of operations. The <em>protection problem</em> is to ensure that each object is accessed correctly and only by those processes that are <strong>allowed</strong> to do so.</p>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Computer mein jo bhi cheez hoti hai — file, printer, memory, CPU — yeh sab "objects" hain. Protection ka goal hai ki har object sirf usko access kare jise permission di gayi hai. Jaise bank locker — sirf account holder hi khol sakta hai, koi stranger nahi. OS ka kaam hai yeh ensure karna ki koi galat banda galat cheez access na kare.</p></div>
+<div class="lang-box english"><div class="lang-label">🇬🇧 English</div><p>Protection in OS means controlling who can access which resources. Every hardware or software resource is an "object." The OS ensures that processes access objects only in authorized ways — for example, a print operation on a printer, or a read operation on a file.</p></div>
+<div class="keyword-box"><strong>Keywords</strong><br><span class="kw">Object</span><span class="kw">Protection Problem</span><span class="kw">Access Rights</span><span class="kw">Authorized Access</span></div>
+</div>
+</div>
+
+<section id="principles">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slide 4</span><strong>Principles of Protection</strong></div>
+<div class="slide-card-body">
+<p>The guiding principle is the <mark class="mark">Principle of Least Privilege</mark> — programs, users, and systems should be given <em>just enough privileges</em> to perform their tasks, and nothing more.</p>
+<table class="styled-table">
+<tr><th>Concept</th><th>Explanation</th></tr>
+<tr><td><strong>Principle of Least Privilege</strong></td><td>Give minimum permissions needed. If a process only needs read access, don't give write or execute.</td></tr>
+<tr><td><strong>Static Privileges</strong></td><td>Fixed for life of system/process. Never change during execution.</td></tr>
+<tr><td><strong>Dynamic Privileges</strong></td><td>Change as needed — domain switching, privilege escalation (e.g., sudo in Linux).</td></tr>
+<tr><td><strong>Coarse-grained (Rough-grained)</strong></td><td>Simple to implement, easier to manage. Less secure but less overhead.</td></tr>
+<tr><td><strong>Fine-grained</strong></td><td>Complex, more overhead, but much more protective. More secure.</td></tr>
+<tr><td><strong>Domain</strong></td><td>Can be a user, a process, or a procedure.</td></tr>
+</table>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Principle of Least Privilege matlab: jitni zaroorat utni hi power do. Agar ek program ko sirf read karna hai, toh use write power mat do. Yeh ek safeguard hai — agar program mein bug aya, toh woh sirf utna hi damage kar sakta hai jitni use permission thi. Jaise peon ko office ki master key mat do — sirf apne room ki key do!</p></div>
+<div class="exam-alert"><div class="exam-label">⚠️ Exam Point</div><p>Principle of Least Privilege is THE most important principle in OS protection. Always explain: "if an entity (process/user) has a bug or is compromised, damage is limited to only the privileges it was granted."</p></div>
+</div>
+</div>
+</section>
+
+<section id="domain">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slide 5</span><strong>Domain Structure</strong></div>
+<div class="slide-card-body">
+<p>An <strong>access-right</strong> is defined as <code>&lt;object-name, rights-set&gt;</code> where rights-set is a subset of all valid operations on that object. A <strong>Domain</strong> is a set of access-rights. A process executes in exactly one domain at a time, and that domain determines what objects it can access and how.</p>
+<div class="diagram-box">
+<div class="diag-title">Domain Structure Diagram</div>
+<pre class="diag-ascii">
+  Domain D1:                 Domain D2:              Domain D3:
+  ┌──────────────────┐       ┌──────────────────┐    ┌──────────────────┐
+  │ File F1: {Read}  │       │ File F1: {Read}  │    │ File F2: {Read}  │
+  │ File F2: {Read,  │       │ Printer: {Print} │    │ File F3: {Read,  │
+  │          Write}  │       │                  │    │          Write,  │
+  │ Printer: {Print} │       │                  │    │          Execute}│
+  └──────────────────┘       └──────────────────┘    └──────────────────┘
+  
+  A process in Domain D1 can Read F1, Read+Write F2, Print.
+  A process in Domain D2 can only Read F1 and Print.
+  Objects outside your domain are COMPLETELY inaccessible!
+</pre>
+</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Domain ek box ki tarah hai jisme sirf kuch hi permissions hain. Jaise school mein: student domain ke pass library access hai, canteen access hai — principal room nahi. Teacher domain ke pass staffroom bhi hai. Har process apne domain ke hisaab se hi objects access kar sakti hai.</p></div>
+<div class="keyword-box"><strong>Keywords</strong><br><span class="kw">Access Right</span><span class="kw">Domain</span><span class="kw">Rights-set</span><span class="kw">Object</span></div>
+</div>
+</div>
+</section>
+
+<section id="access-matrix">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 6–13</span><strong>Access Matrix</strong></div>
+<div class="slide-card-body">
+<p>The Access Matrix is a <strong>2D matrix</strong> where:</p>
+<ul style="margin-left:20px;margin-top:8px;">
+<li><strong>Rows</strong> represent Domains (D1, D2, D3...)</li>
+<li><strong>Columns</strong> represent Objects (Files, Printers, Disks...)</li>
+<li><strong>Access(i,j)</strong> = set of operations that process in Domain-i can invoke on Object-j</li>
+</ul>
+
+<div class="diagram-box">
+<div class="diag-title">Access Matrix Example</div>
+<pre class="diag-ascii">
+          │  File F1   │  File F2   │  File F3   │  Printer   │  Domain D1 │ Domain D2 │
+──────────┼────────────┼────────────┼────────────┼────────────┼────────────┼───────────┤
+ Domain1  │ Read       │ Read,Write │            │ Print      │            │  Switch   │
+──────────┼────────────┼────────────┼────────────┼────────────┼────────────┼───────────┤
+ Domain2  │ Read       │            │            │            │ Switch     │           │
+──────────┼────────────┼────────────┼────────────┼────────────┼────────────┼───────────┤
+ Domain3  │ Read,Write │ Read,Write │ Read,Write │ Print      │            │           │
+          │ Execute    │            │ Execute    │            │            │           │
+─────────────────────────────────────────────────────────────────────────────────────────
+  Empty cell = NO access allowed!
+  Switch = process can switch from this domain to that domain
+</pre>
+</div>
+
+<p style="margin-top:14px">Special access rights in the matrix include:</p>
+<table class="styled-table">
+<tr><th>Special Right</th><th>Meaning</th></tr>
+<tr><td><strong>owner</strong></td><td>Process can add/remove access rights for that object</td></tr>
+<tr><td><strong>copy (*)</strong></td><td>Process can copy its access rights to that object to another domain</td></tr>
+<tr><td><strong>control</strong></td><td>Di can modify Dj's access rights (domain-to-domain control)</td></tr>
+<tr><td><strong>transfer</strong></td><td>Process can switch from Domain Di to Domain Dj</td></tr>
+</table>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Access Matrix ek badi table hai — rows mein domains (jaise User1, User2, Admin) aur columns mein objects (jaise File1, Printer, Database). Har cell mein likha hota hai — is domain ko is object par kya karna allowed hai. Agar cell khali hai toh bilkul access nahi. Yeh ek permissions table ki tarah hai, jaise school ke register mein — kaun si class kaun si lab use kar sakti hai.</p></div>
+<div class="exam-alert"><div class="exam-label">⚠️ Frequently Asked</div><p>Access Matrix separates <strong>mechanism</strong> (OS provides the matrix + rules) from <strong>policy</strong> (user dictates who can do what). This is a key design principle. Also remember the 4 special rights: owner, copy, control, transfer.</p></div>
+</div>
+</div>
+</section>
+
+<section id="impl-access">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 14–16</span><strong>Implementation of Access Matrix</strong></div>
+<div class="slide-card-body">
+<p>The access matrix is generally a <strong>sparse matrix</strong> (most cells are empty). Four implementation strategies exist:</p>
+
+<table class="styled-table">
+<tr><th>#</th><th>Method</th><th>How it Works</th><th>Problem</th></tr>
+<tr>
+  <td><strong>1</strong></td>
+  <td><strong>Global Table</strong></td>
+  <td>Store ordered triples &lt;domain, object, rights-set&gt; in a global table. To check: search for &lt;Di, Oj, Rk&gt; where operation M ∈ Rk.</td>
+  <td>Table can be huge → won't fit in main memory. Difficult to group objects.</td>
+</tr>
+<tr>
+  <td><strong>2</strong></td>
+  <td><strong>Access Lists (ACL)</strong></td>
+  <td>Each <em>column</em> (object) has a list of &lt;domain, rights-set&gt; pairs. Like: File F1 → {D1:Read, D3:Read,Write}. A default set can grant common access.</td>
+  <td>Checking requires scanning entire list for each access.</td>
+</tr>
+<tr>
+  <td><strong>3</strong></td>
+  <td><strong>Capability List</strong></td>
+  <td>Each <em>row</em> (domain) has a list of &lt;object, rights&gt; pairs. Like a key ring — possession of capability = permission. Protected by OS, never directly accessible by domain itself. Like a "secure pointer."</td>
+  <td>Revoking access is complex — must find all capability lists that mention the object.</td>
+</tr>
+<tr>
+  <td><strong>4</strong></td>
+  <td><strong>Lock-Key</strong></td>
+  <td>Compromise between ACL and Capability list. Each object has <em>locks</em> (unique bit patterns); each domain has <em>keys</em>. Access allowed only if domain has a key matching one of the object's locks.</td>
+  <td>Managing locks and keys adds overhead.</td>
+</tr>
+</table>
+
+<div class="diagram-box">
+<div class="diag-title">ACL vs Capability List</div>
+<pre class="diag-ascii">
+  ACCESS CONTROL LIST (per Object):        CAPABILITY LIST (per Domain):
+  ┌─────────────────────────┐              ┌───────────────────────────┐
+  │  File F1's ACL          │              │  Domain D1's Cap. List    │
+  │  ─────────────────────  │              │  ─────────────────────    │
+  │  Domain1 → Read, Write  │              │  File F1 → Read, Write    │
+  │  Domain2 → Read         │              │  File F4 → Read,Write,Exec│
+  │  Domain3 → Read         │              │  File F5 → R,W,Del,Copy   │
+  └─────────────────────────┘              │  Printer → Print          │
+  ← Column-based (object POV)              └───────────────────────────┘
+                                           ← Row-based (domain POV)
+  
+  Unix/Linux uses ACL!                     Kerberos uses Capability-like tickets!
+</pre>
+</div>
+
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div>
+<p><strong>Global Table:</strong> Ek badi diary mein sab kuch likho — lekin itni badi hogi ki RAM mein fit nahi hogi.<br>
+<strong>Access List (ACL):</strong> Har file ke saath ek list — kaun-kaun use access kar sakta hai. Jaise building ke gate par register — kaun andar ja sakta hai.<br>
+<strong>Capability List:</strong> Har user ke paas ek keys ka bunch — jinke paas key hai woh enter kar sakte hain. Jaise college ID card.<br>
+<strong>Lock-Key:</strong> Dono ka combination — file mein lock, user ke paas key. Match karo, andar jao.</p>
+</div>
+<div class="exam-alert"><div class="exam-label">⚠️ Exam Point</div><p>Most important to remember: <strong>ACL = object-based (column)</strong>, <strong>Capability List = domain-based (row)</strong>. Capability lists are protected by OS — domain can't directly access them (hence "secure pointer"). Unix uses ACL. Ask: "Which implementation is best for revoking access?" → ACL (just remove the entry from the object's list).</p></div>
+</div>
+</div>
+</section>
+
+</div>
+</section><!-- end protection -->
+
+<!-- ============================================================ -->
+<!--                  THE SECURITY PROBLEM                        -->
+<!-- ============================================================ -->
+<section id="sec-problem">
+<div class="section-header">
+  <div class="icon">🔓</div>
+  <div><h2>The Security Problem & Threats</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPT: L-3_1_2</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slide 3–6</span><strong>Security Problem & Violation Categories</strong></div>
+<div class="slide-card-body">
+<p>A system is <strong>secure</strong> if resources are used and accessed as intended under all circumstances — but this is unachievable in practice. An <strong>Intruder (cracker)</strong> attempts to breach security. A <strong>threat</strong> is a potential security violation; an <strong>attack</strong> is an actual attempt. Attacks can be accidental or malicious. Accidental misuse is easier to protect against than deliberate attacks.</p>
+<table class="styled-table">
+<tr><th>Violation Category</th><th>Definition</th><th>Example</th></tr>
+<tr><td><strong>Breach of Confidentiality</strong></td><td>Unauthorized <em>reading</em> of data</td><td>Hacker reads your bank statements</td></tr>
+<tr><td><strong>Breach of Integrity</strong></td><td>Unauthorized <em>modification</em> of data</td><td>Attacker changes exam scores in DB</td></tr>
+<tr><td><strong>Breach of Availability</strong></td><td>Unauthorized <em>destruction</em> of data</td><td>Ransomware encrypts all files</td></tr>
+<tr><td><strong>Theft of Service</strong></td><td>Unauthorized <em>use</em> of resources</td><td>Using someone's Netflix account</td></tr>
+<tr><td><strong>Denial of Service (DoS)</strong></td><td>Preventing <em>legitimate</em> use</td><td>Flooding a web server so it can't respond to real users</td></tr>
+</table>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Security violations ke 5 types hain: <br>1. <b>Confidentiality</b> — kisi ne bina permission ke aapka data padh liya. <br>2. <b>Integrity</b> — data change kar diya (marks badle, bank balance modify kiya). <br>3. <b>Availability</b> — data hi destroy kar diya (ransomware). <br>4. <b>Theft of Service</b> — tumhari bandwidth use ki, crypto mine ki tumhare PC par. <br>5. <b>DoS</b> — server ko itne requests bhejo ki woh genuine users ke liye unavailable ho jaaye.</p></div>
+
+<div class="slide-card" style="border:none;margin:16px 0 0;padding:0;">
+<div class="slide-card-head" style="border-radius:8px 8px 0 0;"><span class="slide-num">Slide 5</span><strong>Security Violation Methods</strong></div>
+<div class="slide-card-body">
+<table class="styled-table">
+<tr><th>Method</th><th>How it Works</th></tr>
+<tr><td><strong>Masquerading</strong></td><td>Pretending to be an authorized user to escalate privileges. Like wearing someone's ID badge.</td></tr>
+<tr><td><strong>Replay Attack</strong></td><td>Capturing a valid message/authentication token and re-sending it later. Like recording a door-unlock code and using it again.</td></tr>
+<tr><td><strong>Man-in-the-Middle (MITM)</strong></td><td>Intruder sits between sender and receiver, intercepting and possibly modifying messages. Like a fake WhatsApp relay.</td></tr>
+<tr><td><strong>Session Hijacking</strong></td><td>Intercept an already-established session to bypass authentication. Like stealing someone's logged-in browser tab.</td></tr>
+</table>
+<div class="exam-alert"><div class="exam-label">⚠️ Exam Point</div><p>Remember all 5 violation categories with the <strong>CIA+TS mnemonic</strong>: Confidentiality, Integrity, Availability, Theft of Service, DoS. For methods: Masquerade → fake identity; Replay → repeat attack; MITM → intercept; Session hijacking → steal active session.</p></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<section id="prog-threats">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 7–11</span><strong>Program Threats</strong></div>
+<div class="slide-card-body">
+<table class="styled-table">
+<tr><th>Threat</th><th>Definition</th><th>Example</th></tr>
+<tr><td><strong>Trojan Horse</strong></td><td>Code segment that misuses its environment. Exploits mechanisms allowing user-written programs to be executed by others. Up to 80% of spam delivered by spyware-infected (Trojan) systems.</td><td>A "free game" app that secretly sends your data to attacker</td></tr>
+<tr><td><strong>Trap Door (Back Door)</strong></td><td>Specific user ID or password that circumvents normal security procedures. Can be secretly inserted by compiler. Hard to detect.</td><td>A developer secretly leaves a hardcoded password "admin123" in the code</td></tr>
+<tr><td><strong>Logic Bomb</strong></td><td>Program that initiates a security incident only when certain circumstances occur (e.g., specific date, event, or condition).</td><td>A disgruntled employee's code that deletes DB if their username is removed</td></tr>
+<tr><td><strong>Stack/Buffer Overflow</strong></td><td>Exploits a bug where program fails to check bounds on inputs. Data overflows into return address → points to malicious code → attacker gains control.</td><td>Classic exploit in early web browsers and network daemons</td></tr>
+<tr><td><strong>Virus</strong></td><td>Code fragment embedded in legitimate program. Self-replicating, designed to infect other computers. CPU/OS-specific. Usually spread via email or macros.</td><td>ILOVEYOU virus spread via email attachments in 2000</td></tr>
+</table>
+
+<div class="diagram-box">
+<div class="diag-title">Virus Types</div>
+<pre class="diag-ascii">
+  ┌─────────────────────────────────────────────────────────────┐
+  │                     VIRUS CATEGORIES                        │
+  ├─────────────────┬────────────────┬──────────────────────────┤
+  │ File/Parasitic  │ Boot/Memory    │ Macro Virus              │
+  │ Infects .exe    │ Infects MBR    │ Infects Office macros    │
+  │ files           │ or RAM         │ (Word, Excel)            │
+  ├─────────────────┼────────────────┼──────────────────────────┤
+  │ Source Code     │ Polymorphic    │ Encrypted                │
+  │ Infects source  │ Changes its    │ Encrypts itself to avoid │
+  │ before compile  │ signature      │ detection                │
+  ├─────────────────┼────────────────┼──────────────────────────┤
+  │ Stealth         │ Tunneling      │ Armored                  │
+  │ Hides from OS   │ Installs below │ Hard-coded to resist     │
+  │                 │ AV software    │ disassembly              │
+  └─────────────────┴────────────────┴──────────────────────────┘
+  Multipartite = uses MULTIPLE infection methods!
+</pre>
+</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div>
+<p><b>Trojan Horse:</b> Free software laga — andar chhupa hua spy. Jaise "free antivirus" jo khud hi virus hai.<br>
+<b>Trap Door:</b> Developer ne chori se ek secret password chhod diya code mein — later use kar ke andar ghus sakta hai.<br>
+<b>Logic Bomb:</b> Time bomb ki tarah — specific condition aane par blast. Jaise: "Agar mera naam employee list se hat gaya, toh poora database delete kar do."<br>
+<b>Buffer Overflow:</b> Program ka input box zyada data daalo — overflow ho jaata hai → return address overwrite hoti hai → attacker ka code execute hota hai.<br>
+<b>Virus:</b> Ek program jo khud ko copy karta rehta hai aur doosre programs ko infect karta hai.</p></div>
+<div class="exam-alert"><div class="exam-label">⚠️ Exam Point</div><p>Difference: <b>Virus</b> needs a host program to attach to. <b>Worm</b> (network threat) is standalone — doesn't need a host. Virus is a Program Threat; Worm is a Network Threat.</p></div>
+</div>
+</div>
+</section>
+
+<section id="net-threats">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 14–18</span><strong>System & Network Threats</strong></div>
+<div class="slide-card-body">
+<table class="styled-table">
+<tr><th>Threat</th><th>Description</th></tr>
+<tr><td><strong>Worm</strong></td><td>Uses <em>spawn mechanism</em>; standalone program (no host needed). The famous Morris Internet Worm (1988) exploited UNIX networking features (rsh, sendmail, finger bugs). It tried to break user passwords and replicated to connected systems. 99 lines of C. Infect-check: aborts if already infected, except every 7th time.</td></tr>
+<tr><td><strong>Port Scanning</strong></td><td>Automated attempt to connect to a range of ports on IP addresses. Tools: nmap (scans all ports), nessus (has exploit database). Usually launched from zombie systems to reduce traceability.</td></tr>
+<tr><td><strong>Denial of Service (DoS)</strong></td><td>Overloads target computer, preventing it from doing useful work. SYN flood exploits TCP handshake start. OS has limited half-open connection slots.</td></tr>
+<tr><td><strong>DDoS</strong></td><td>Distributed DoS — attacks come from multiple zombie sites simultaneously. Very hard to block (can't just block one IP).</td></tr>
+<tr><td><strong>Keystroke Logger</strong></td><td>Records keystrokes to capture passwords, credit card numbers. Installed by Trojans.</td></tr>
+<tr><td><strong>Botnet</strong></td><td>Network of compromised computers (zombies) used to deliver spam, launch DDoS attacks, or mine cryptocurrency.</td></tr>
+</table>
+<div class="diagram-box">
+<div class="diag-title">DoS vs DDoS Attack</div>
+<pre class="diag-ascii">
+  DoS ATTACK:                        DDoS ATTACK:
+  ┌──────────┐                       ┌──────────┐ ┌──────────┐ ┌──────────┐
+  │ Attacker │──── flood ────►       │ Zombie1  │ │ Zombie2  │ │ Zombie3  │
+  └──────────┘       [Target Server] └────┬─────┘ └────┬─────┘ └────┬─────┘
+                     crashes!             │              │             │
+  Single source      →                   └──────────────┴─────────────┘
+  (easy to block)                                        │ flood from all
+                                                    [Target Server]
+                                                    overwhelmed!
+                                         Multi-source (VERY hard to block)
+</pre>
+</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p><b>Worm:</b> Virus ke bhai jaise hai — lekin woh khud-se chalte hain, kisi host program ki zaroorat nahi. Morris worm 1988 mein internet par fela tha, sirf 99 lines of C code se! <br><b>Port Scanning:</b> Hacker nmap use kar ke dekhta hai kaun si ports khuli hain — jaise chor ghar ke saare darawaze khatkhatata hai. <br><b>DoS/DDoS:</b> Server ko itne requests bhejo ki woh real users ke liye jam jaaye. DDoS mein hazaaron zombie computers milke attack karte hain — isliye block karna almost impossible hai.</p></div>
+</div>
+</div>
+</section>
+
+</div>
+</section><!-- end security threats -->
+
+<!-- ============================================================ -->
+<!--                    CRYPTOGRAPHY                              -->
+<!-- ============================================================ -->
+<section id="crypto">
+<div class="section-header">
+  <div class="icon">🔐</div>
+  <div><h2>Cryptography as a Security Tool</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPT: L-3_1_3</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 3–5</span><strong>Why Cryptography?</strong></div>
+<div class="slide-card-body">
+<p>Cryptography is the broadest security tool available. Within a computer, source and destination are known and OS can protect them. But over a <strong>network</strong>, we cannot trust source/destination without cryptography — IP addresses can be spoofed, unauthorized hosts can be added. Cryptography solves: confirmation of source, receipt only by certain destination, and trust relationships.</p>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Computer ke andar OS sab kuch control karta hai — koi problem nahi. Lekin jab internet par message jaata hai, kaise pata ki woh sahi jagah se aaya? Kaise pata ki beech mein kisi ne padha nahi? Yahan Cryptography help karti hai — message ko ek code mein badal do, sirf sahi wala person hi decode kar sake.</p></div>
+</div>
+</div>
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 6–8</span><strong>Symmetric vs Asymmetric Encryption</strong></div>
+<div class="slide-card-body">
+<div class="diagram-box">
+<div class="diag-title">Symmetric Encryption</div>
+<pre class="diag-ascii">
+  Sender                                     Receiver
+  ┌────────┐  Same Key K   ┌────────┐       ┌────────┐
+  │ Plain  │──E(K,m)──────►│Cipher  │──────►│ Plain  │
+  │  text  │               │  text  │       │  text  │
+  │  "Hi"  │               │ "Xk3!" │◄──────│D(K,m)  │
+  └────────┘               └────────┘       └────────┘
+                              Same key used to ENCRYPT and DECRYPT
+  Algorithms: DES, Triple-DES, AES, RC4
+  Problem: How do you securely share the key?</pre>
+</div>
+<div class="diagram-box">
+<div class="diag-title">Asymmetric (Public Key) Encryption – RSA</div>
+<pre class="diag-ascii">
+  ┌──────────────────────────────────────────────────────────────┐
+  │   Bob generates KEY PAIR:                                    │
+  │   Public Key (ke, N)  → shared with EVERYONE                 │
+  │   Private Key (kd, N) → kept SECRET by Bob only             │
+  └──────────────────────────────────────────────────────────────┘
+  
+  Alice wants to send "Hello" to Bob:
+  
+  Alice                                              Bob
+  ┌────────┐  Bob's Public Key    ┌────────┐        ┌────────┐
+  │"Hello" │──Encrypt(ke,N)──────►│Cipher  │───────►│"Hello" │
+  │        │                      │  text  │        │        │
+  └────────┘                      └────────┘        └─Decrypt(kd,N)──┘
+  
+  Anyone can ENCRYPT using public key.
+  Only Bob can DECRYPT using his private key!
+  
+  RSA Example:
+  p=7, q=13 → N = 91, (p-1)(q-1) = 72
+  ke = 5 (public), kd = 29 (private)
+  Encrypt 69: 69^5 mod 91 = 62
+  Decrypt 62: 62^29 mod 91 = 69 ✓</pre>
+</div>
+<table class="styled-table">
+<tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr>
+<tr><td>Keys</td><td>Same key for encrypt & decrypt</td><td>Public key encrypt, Private key decrypt</td></tr>
+<tr><td>Speed</td><td>Very fast</td><td>Computationally intensive (slow)</td></tr>
+<tr><td>Key Distribution</td><td>Huge challenge (must share secretly)</td><td>Public key can be shared openly</td></tr>
+<tr><td>Based On</td><td>Transformations</td><td>Mathematical functions (prime factoring)</td></tr>
+<tr><td>Algorithms</td><td>DES, 3DES, AES, RC4</td><td>RSA</td></tr>
+<tr><td>Use</td><td>Bulk data encryption</td><td>Key exchange, digital signatures</td></tr>
+</table>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p><b>Symmetric:</b> Ek hi taala — bhejne wale ke paas bhi, receive karne wale ke paas bhi. Problem: taala share kaise karo securely? <br><b>Asymmetric:</b> Do keys — ek public (sab ko do), ek private (apne paas rakho). Koi bhi public key se lock kare, sirf tum hi private key se khol sakte ho. Jaise ek public mailbox jisme koi bhi letter daale, lekin sirf tumhare paas key hai usse kholne ki!</p></div>
+<div class="exam-alert"><div class="exam-label">⚠️ Exam Point</div><p>RSA is based on the fact that it is computationally infeasible to find the prime factors of a large composite number. Asymmetric is NOT used for bulk data encryption (too slow) — it's used for key exchange and digital signatures. Remember: <strong>DES = symmetric block cipher; RC4 = symmetric stream cipher; RSA = asymmetric block cipher</strong>.</p></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--                    AUTHENTICATION                            -->
+<!-- ============================================================ -->
+<section id="auth">
+<div class="section-header">
+  <div class="icon">🔑</div>
+  <div><h2>Authentication</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPT: L-3_1_4</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 3–8</span><strong>Authentication Types</strong></div>
+<div class="slide-card-body">
+<p>Authentication constrains the set of potential senders of a message — it proves who sent a message. It can also prove the message was not modified. Three main types:</p>
+<table class="styled-table">
+<tr><th>Type</th><th>How It Works</th><th>Example</th></tr>
+<tr><td><strong>Hash Function (Message Digest)</strong></td><td>Creates a small, fixed-size hash from the message. MD5 = 128-bit hash; SHA-1 = 160-bit hash. Hash is collision-resistant: impossible to find m' ≠ m such that H(m)=H(m'). If hashes match, message is unchanged.</td><td>Downloading a file and checking its MD5 checksum to verify it wasn't corrupted</td></tr>
+<tr><td><strong>MAC (Message Authentication Code)</strong></td><td>Uses symmetric encryption. MAC = f(k, H(m)). Both sender and receiver need same key k. Any computer with k can both generate and verify MACs.</td><td>HMAC in API authentication (e.g., AWS uses HMAC-SHA256)</td></tr>
+<tr><td><strong>Digital Signature</strong></td><td>Uses asymmetric keys. Sender signs with private key; anyone verifies with sender's public key. Based on RSA (but key use is REVERSED from encryption). Provides non-repudiation.</td><td>Signing software updates, PDF documents, emails (S/MIME)</td></tr>
+</table>
+<div class="diagram-box">
+<div class="diag-title">Digital Signature Process</div>
+<pre class="diag-ascii">
+  SIGNING (Sender):                    VERIFYING (Receiver):
+  ┌──────────┐                         ┌──────────────────────────────┐
+  │ Message  │──H(m)──►Hash            │ Received Message + Signature │
+  └──────────┘          │              │                              │
+                        ▼              │ Signature──►decrypt with     │
+                  Sign with            │              public key       │
+                  Private Key          │              → recovers H(m) │
+                        │              │                              │
+                        ▼              │ Compute H(m) of message      │
+                   Signature           │                              │
+                                       │ If BOTH H(m) match → VALID!  │
+                                       └──────────────────────────────┘
+  Key insight: Private key SIGNS, Public key VERIFIES
+  (opposite of encryption where public key encrypts)</pre>
+</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div>
+<p><b>Hash Function:</b> Message se ek chhota "fingerprint" banana — koi bhi change hua toh fingerprint change ho jaayega. MD5 = 128 bit, SHA-1 = 160 bit fingerprint.<br>
+<b>MAC:</b> Symmetric key use karke message ki "seal" banana — jaise letter par wax seal jo sirf secret key se banti aur verify hoti hai.<br>
+<b>Digital Signature:</b> Private key se sign karo, sab log public key se verify kar sakte hain. Agar signature valid hai, pakka sender ne hi bheja — yahi <em>non-repudiation</em> hai (sender mana nahi kar sakta ki usne message nahi bheja).</p></div>
+</div>
+</div>
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 12–13</span><strong>User Authentication & Passwords</strong></div>
+<div class="slide-card-body">
+<p>User identity is most often established through <strong>passwords</strong>. Password security practices:</p>
+<ul style="margin-left:20px;line-height:2;">
+<li>Passwords stored <strong>encrypted</strong> (never in plaintext) — Unix uses <code>/etc/shadow</code> (superuser-only readable)</li>
+<li>Add <strong>"salt"</strong> to password before hashing — prevents same password mapping to same encrypted value</li>
+<li><strong>One-time passwords</strong> — hardware token (key fob) generates password that changes very frequently</li>
+<li><strong>Biometrics</strong> — fingerprint, hand scan, retina scan</li>
+<li><strong>Multi-factor authentication (MFA)</strong> — requires 2+ factors (e.g., password + USB dongle + biometric)</li>
+</ul>
+<div class="tip"><strong>Why "salt"?</strong> Without salt, if two users have the same password "hello123," they'd have the same hash. An attacker could use a rainbow table (precomputed hash list) to crack many accounts at once. Salt adds a random value to each password before hashing, making rainbow table attacks ineffective.</div>
+<div class="exam-alert"><div class="exam-label">⚠️ Exam Point</div><p>Authentication vs Encryption: Authentication proves <strong>who</strong> sent a message + that it wasn't modified. Encryption provides <strong>confidentiality</strong>. Digital signatures provide <strong>non-repudiation</strong> (sender cannot deny sending). MFA requires 2+ independent factors from: something you know (password), something you have (key fob), something you are (biometric).</p></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--              FIREWALLS & SECURITY DEFENSES                   -->
+<!-- ============================================================ -->
+<section id="firewalls">
+<div class="section-header">
+  <div class="icon">🧱</div>
+  <div><h2>Firewalls, Defenses & Security Classifications</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPT: L-3_1_4</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 14–17</span><strong>Security Defenses & Firewall Types</strong></div>
+<div class="slide-card-body">
+<p><strong>Defense in Depth</strong> is the most common security theory — using multiple layers of security so that if one layer fails, others still protect the system.</p>
+<table class="styled-table">
+<tr><th>Defense Mechanism</th><th>Description</th></tr>
+<tr><td><strong>Security Policy</strong></td><td>Describes what is being secured — the rules of the system</td></tr>
+<tr><td><strong>Vulnerability Assessment</strong></td><td>Compares real state of system against security policy to find gaps</td></tr>
+<tr><td><strong>Intrusion Detection (IDS)</strong></td><td>Signature-based (known patterns) or Anomaly-based (deviations from normal). Can detect zero-day attacks. Problem: false positives and false negatives.</td></tr>
+<tr><td><strong>Virus Protection</strong></td><td>Antivirus software scanning for known virus signatures</td></tr>
+<tr><td><strong>Auditing & Logging</strong></td><td>Record all or specific system/network activities for post-incident analysis</td></tr>
+</table>
+
+<p style="margin-top:16px"><strong>Types of Firewalls:</strong></p>
+<table class="styled-table">
+<tr><th>Firewall Type</th><th>What It Does</th></tr>
+<tr><td><strong>Network Firewall</strong></td><td>Placed between trusted and untrusted hosts. Limits network access between security domains. Rules based on IP/hostname (can be spoofed). Can be <em>tunneled</em> (disallowed protocol inside allowed protocol, e.g., telnet inside HTTP).</td></tr>
+<tr><td><strong>Personal Firewall</strong></td><td>Software on a single host. Monitors/limits traffic to and from that specific host.</td></tr>
+<tr><td><strong>Application Proxy Firewall</strong></td><td>Understands application protocols (e.g., SMTP) and can control specific application-level behavior.</td></tr>
+<tr><td><strong>System-Call Firewall</strong></td><td>Monitors all important system calls and applies rules (e.g., "this program can execute that system call").</td></tr>
+</table>
+
+<div class="diagram-box">
+<div class="diag-title">Firewall Architecture</div>
+<pre class="diag-ascii">
+  Internet (Untrusted)                    Internal Network (Trusted)
+  ┌──────────────────────┐                ┌───────────────────────────┐
+  │ External Users       │   ┌──────────┐ │ Internal Servers          │
+  │ Attackers            │───►          │ │ Databases                 │
+  │ Unknown Traffic      │   │FIREWALL  │►│ Sensitive Resources       │
+  │                      │◄──│          │ │                           │
+  └──────────────────────┘   └──────────┘ └───────────────────────────┘
+                               │
+                     ┌─────────┴──────────┐
+                     │ RULES:             │
+                     │ Allow: HTTP(80)    │
+                     │ Allow: HTTPS(443)  │
+                     │ Block: Telnet(23)  │
+                     │ Block: Unknown IPs │
+                     └────────────────────┘
+  DMZ (De-Militarized Zone): Web servers sit between two firewalls</pre>
+</div>
+
+<p style="margin-top:14px"><strong>DoD Computer Security Classifications:</strong></p>
+<table class="styled-table">
+<tr><th>Level</th><th>Name</th><th>Description</th></tr>
+<tr><td><strong>D</strong></td><td>Minimal Security</td><td>No security features required. Example: MS-DOS</td></tr>
+<tr><td><strong>C1</strong></td><td>Discretionary Protection</td><td>Cooperating users with same protection level</td></tr>
+<tr><td><strong>C2</strong></td><td>Controlled Access</td><td>User-level access control + auditing</td></tr>
+<tr><td><strong>B1</strong></td><td>Labeled Security</td><td>All C properties + sensitivity labels on objects</td></tr>
+<tr><td><strong>B2/B3</strong></td><td>Structured/Security Domains</td><td>Formal security models</td></tr>
+<tr><td><strong>A</strong></td><td>Verified Design</td><td>Formal design and verification techniques for highest security</td></tr>
+</table>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p><b>Defense in Depth:</b> Ek layer nahi, kai layers ka security system. Jaise fort mein — outer wall, moat, inner wall, guards — sab milke protect karte hain.<br><b>Network Firewall:</b> Internet aur internal network ke beech ek daroga — sirf allowed traffic andar aane deta hai.<br><b>Application Proxy:</b> Email level par check karta hai — specific protocol (SMTP) ko samajhta hai aur us hisaab se filter karta hai.</p></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--               DISTRIBUTED OS                                 -->
+<!-- ============================================================ -->
+<section id="dist-intro">
+<div class="section-header">
+  <div class="icon">🌐</div>
+  <div><h2>Distributed & Network Operating Systems</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPT: L-3_2_1</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 3–8</span><strong>Distributed System – Introduction</strong></div>
+<div class="slide-card-body">
+<p>A <strong>distributed system</strong> is a collection of <em>loosely coupled processors</em> interconnected by a communications network. Processors are called nodes/computers/machines/hosts. A <em>site</em> is the physical location of a processor.</p>
+<p style="margin-top:10px"><strong>Reasons for Distributed Systems:</strong></p>
+<table class="styled-table">
+<tr><th>Reason</th><th>Details</th><th>Example</th></tr>
+<tr><td><strong>Resource Sharing</strong></td><td>Share and print files at remote sites; use specialized hardware; distributed databases</td><td>Cloud printing, shared NAS</td></tr>
+<tr><td><strong>Computation Speedup</strong></td><td>Load sharing — distribute work across multiple processors</td><td>MapReduce, distributed rendering</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Detect/recover from site failure; transfer functions; reintegrate failed sites</td><td>Kubernetes pod failover</td></tr>
+<tr><td><strong>Communication</strong></td><td>Message passing between nodes</td><td>Email, chat systems</td></tr>
+</table>
+
+<p style="margin-top:16px"><strong>Network OS vs Distributed OS:</strong></p>
+<table class="styled-table">
+<tr><th>Feature</th><th>Network OS</th><th>Distributed OS</th></tr>
+<tr><td>User awareness</td><td>Users KNOW there are multiple machines</td><td>Users UNAWARE of multiple machines</td></tr>
+<tr><td>Resource access</td><td>Explicitly via telnet, FTP, ssh, Remote Desktop</td><td>Transparent — like accessing local resources</td></tr>
+<tr><td>Data Migration</td><td>Manual file transfer (FTP)</td><td>Automatic — transfers only needed file portions</td></tr>
+<tr><td>Computation Migration</td><td>Not automatic</td><td>Transfers computation to where data is</td></tr>
+<tr><td>Process Migration</td><td>Manual</td><td>Automatic load balancing, concurrent subprocesses</td></tr>
+<tr><td>Example</td><td>Windows File Sharing, NFS</td><td>Google's internal systems, Plan 9</td></tr>
+</table>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p><b>Network OS:</b> User ko pata hai ki woh alag-alag machines use kar raha hai — "ssh server1", "ftp server2" — sab explicitly karna padta hai.<br><b>Distributed OS:</b> User ko lagta hai ek hi computer use kar raha hai — transparently sab kuch different machines par ho raha hai. Jaise Google search — user ko nahi pata ki kaun se 1000 servers us query ko handle kar rahe hain!</p></div>
+</div>
+</div>
+
+<section id="topology">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 9–14</span><strong>Network Structure & Topology</strong></div>
+<div class="slide-card-body">
+<table class="styled-table">
+<tr><th>Network Type</th><th>Description</th><th>Speed</th><th>Topology</th></tr>
+<tr><td><strong>LAN (Local Area Network)</strong></td><td>Small geographic area (building, campus). Multiaccess bus, ring, or star. Broadcast is fast and cheap. Nodes: workstations, PCs, a few mainframes.</td><td>10–100 Mbps</td><td>Bus, Ring, Star</td></tr>
+<tr><td><strong>WAN (Wide Area Network)</strong></td><td>Links geographically separated sites. Point-to-point long-haul lines (often leased from phone company). Broadcast requires multiple messages. Nodes: usually high % of mainframes.</td><td>1.544–45 Mbps</td><td>Point-to-Point, Mesh</td></tr>
+</table>
+
+<p style="margin-top:16px">Network topology criteria: <strong>Installation cost</strong>, <strong>Communication cost</strong>, and <strong>Reliability</strong> (if a link/site fails, can others still communicate?).</p>
+<div class="diagram-box">
+<div class="diag-title">Network Topologies</div>
+<pre class="diag-ascii">
+  BUS:              RING:             STAR:            MESH (Fully Connected):
+  A─B─C─D─E         A                    C               A───B
+  │(shared bus)      │                    │              ╱│╲  ╱│╲
+  All share one     B─┐  ┌─E           A─Hub─D          C─┼──D─┼─E
+  cable             │  C─D │            │   │             ╲│╱  ╲│╱
+                    └──────┘            B   E              F───G
+  
+  TREE:                    PARTIAL MESH:      HYBRID:
+  Root                      A───B              Combination
+  ├── Branch1               │╲  │             of topologies
+  │   ├── Leaf1             │  ╲│
+  │   └── Leaf2             C───D
+  └── Branch2
+      └── Leaf3
+  
+  LAN = Bus/Ring/Star    WAN = Partial Mesh / Point-to-Point</pre>
+</div>
+<div class="exam-alert"><div class="exam-label">⚠️ Exam Point</div><p>Three criteria for comparing topologies: <strong>Installation cost, Communication cost, Reliability</strong>. LAN = 10–100 Mbps; WAN = 1.544–45 Mbps. Fully connected mesh: every node has direct link to every other — highest reliability, highest cost.</p></div>
+</div>
+</div>
+</section>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--              COMMUNICATION STRUCTURE & OSI                   -->
+<!-- ============================================================ -->
+<section id="comm-struct">
+<div class="section-header">
+  <div class="icon">📡</div>
+  <div><h2>Communication Structure</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPT: L-3_2_2</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 3–9</span><strong>Four Basic Issues + Strategies</strong></div>
+<div class="slide-card-body">
+<p>The design of a communication network must address four basic issues:</p>
+
+<table class="styled-table">
+<tr><th>Issue</th><th>Definition</th><th>Solution</th></tr>
+<tr><td><strong>Naming & Name Resolution</strong></td><td>How do two processes locate each other?</td><td>DNS (Domain Name Service), &lt;hostname, identifier&gt; pairs</td></tr>
+<tr><td><strong>Routing Strategies</strong></td><td>How are messages sent through the network?</td><td>Fixed routing, Virtual Circuit, Dynamic routing</td></tr>
+<tr><td><strong>Connection Strategies</strong></td><td>How do two processes send a sequence of messages?</td><td>Circuit switching, Message switching, Packet switching</td></tr>
+<tr><td><strong>Contention</strong></td><td>Multiple sites want to transmit simultaneously — how to resolve?</td><td>CSMA/CD (Ethernet), Token passing, Message slots</td></tr>
+</table>
+
+<p style="margin-top:16px"><strong>Routing Strategies:</strong></p>
+<table class="styled-table">
+<tr><th>Strategy</th><th>How It Works</th><th>Pros/Cons</th></tr>
+<tr><td><strong>Fixed Routing</strong></td><td>Path A→B specified in advance. Only changes on hardware failure. Shortest path chosen.</td><td>+ Minimum cost, in-order delivery. − Can't adapt to load changes.</td></tr>
+<tr><td><strong>Virtual Circuit</strong></td><td>Path A→B fixed for duration of one session. Different sessions may use different paths.</td><td>+ Partial load adaptation, in-order delivery. − Less flexible than dynamic.</td></tr>
+<tr><td><strong>Dynamic Routing</strong></td><td>Path chosen when message sent. Uses least-loaded link at that moment.</td><td>+ Adapts to load, avoids congestion. − Messages may arrive OUT of order (need sequence numbers).</td></tr>
+</table>
+
+<p style="margin-top:16px"><strong>Connection Strategies:</strong></p>
+<table class="styled-table">
+<tr><th>Strategy</th><th>How</th><th>Example</th></tr>
+<tr><td><strong>Circuit Switching</strong></td><td>Permanent physical link for duration of communication. Setup time required. Wastes bandwidth when idle.</td><td>Telephone system (PSTN)</td></tr>
+<tr><td><strong>Message Switching</strong></td><td>Temporary link for one complete message transfer.</td><td>Post office mail system, early email</td></tr>
+<tr><td><strong>Packet Switching</strong></td><td>Messages divided into fixed-length packets. Each packet may take different path. Must be reassembled at destination.</td><td>Internet (TCP/IP)</td></tr>
+</table>
+
+<p style="margin-top:16px"><strong>Contention Resolution:</strong></p>
+<table class="styled-table">
+<tr><th>Method</th><th>How</th><th>Used In</th></tr>
+<tr><td><strong>CSMA/CD</strong></td><td>Carrier Sense (listen before transmit) + Collision Detection (stop if collision). When busy, system performance degrades with many collisions.</td><td>Ethernet (most common LAN)</td></tr>
+<tr><td><strong>Token Passing</strong></td><td>A token circulates (usually in ring). Site waits for token before transmitting. After sending, retransmits the token.</td><td>IBM Token Ring, some HP/Apollo</td></tr>
+<tr><td><strong>Message Slots</strong></td><td>Fixed-length slots circulate. One logical message may span multiple slots.</td><td>Cambridge Digital Communication Ring (experimental)</td></tr>
+</table>
+
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div>
+<p><b>Fixed Routing:</b> Railway track ki tarah — rasta pehle se fix hai.<br>
+<b>Dynamic Routing:</b> GPS navigation ki tarah — real-time traffic dekhke rasta badal lena.<br>
+<b>Circuit Switching:</b> Pehle connection establish karo, phir baat karo — jaise landline phone call.<br>
+<b>Packet Switching:</b> Message ko packets mein todke bhejo — internet waali tarah.<br>
+<b>CSMA/CD:</b> Pehle suno agar koi bol raha hai, phir bolo. Agar dono ne ek saath bolna shuru kiya (collision), toh dono ruk jaate hain aur random time baad dobara try karte hain. Yahi Ethernet use karta hai!</p></div>
+</div>
+</div>
+
+<section id="osi">
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 10–15</span><strong>OSI Reference Model – 7 Layers</strong></div>
+<div class="slide-card-body">
+<div class="diagram-box">
+<div class="diag-title">OSI Model – Complete Layer Diagram</div>
+<pre class="diag-ascii">
+  SENDER                                      RECEIVER
+  ┌──────────────────────────┐                ┌──────────────────────────┐
+  │ 7. Application Layer     │◄──────────────►│ 7. Application Layer     │
+  │   User interaction,      │                │   File transfer, email,  │
+  │   file transfer, email   │                │   remote login (HTTP,FTP)│
+  ├──────────────────────────┤                ├──────────────────────────┤
+  │ 6. Presentation Layer    │                │ 6. Presentation Layer    │
+  │   Format conversion,     │                │   Char conversion,       │
+  │   encryption, ASCII↔EBCD │                │   half/full duplex       │
+  ├──────────────────────────┤                ├──────────────────────────┤
+  │ 5. Session Layer         │                │ 5. Session Layer         │
+  │   Process-to-process     │                │   Session management     │
+  │   communication protocol │                │                          │
+  ├──────────────────────────┤                ├──────────────────────────┤
+  │ 4. Transport Layer       │                │ 4. Transport Layer       │
+  │   Packet order, flow     │                │   TCP/UDP, port numbers  │
+  │   control, physical addr │                │                          │
+  ├──────────────────────────┤                ├──────────────────────────┤
+  │ 3. Network Layer         │                │ 3. Network Layer         │
+  │   Routing, addressing,   │                │   IP addresses, routers  │
+  │   S-to-D delivery        │                │                          │
+  ├──────────────────────────┤                ├──────────────────────────┤
+  │ 2. Data Link Layer       │                │ 2. Data Link Layer       │
+  │   Frames, error detect,  │                │   MAC addresses,         │
+  │   P2P delivery           │                │   error recovery         │
+  ├──────────────────────────┤                ├──────────────────────────┤
+  │ 1. Physical Layer        │◄──────────────►│ 1. Physical Layer        │
+  │   Bits, electrical signal│                │   Cables, signals, hubs  │
+  └──────────────────────────┘                └──────────────────────────┘
+  
+  Mnemonic: "Please Do Not Throw Sausage Pizza Away"
+            Physical / Data-Link / Network / Transport / Session / Presentation / Application
+</pre>
+</div>
+
+<table class="styled-table">
+<tr><th>Layer</th><th>Number</th><th>Key Function</th><th>Protocol Examples</th></tr>
+<tr><td><strong>Physical</strong></td><td>1</td><td>Mechanical/electrical details of bit transmission</td><td>Ethernet cables, WiFi radio</td></tr>
+<tr><td><strong>Data Link</strong></td><td>2</td><td>Frames, error detection/recovery, P2P delivery</td><td>Ethernet (MAC), PPP, ARP</td></tr>
+<tr><td><strong>Network</strong></td><td>3</td><td>Routing, addressing incoming/outgoing packets, S-to-D delivery</td><td>IP, ICMP, OSPF</td></tr>
+<tr><td><strong>Transport</strong></td><td>4</td><td>End-to-end communication, packet ordering, flow control, physical addresses</td><td>TCP, UDP</td></tr>
+<tr><td><strong>Session</strong></td><td>5</td><td>Process-to-process communication sessions</td><td>NetBIOS, RPC</td></tr>
+<tr><td><strong>Presentation</strong></td><td>6</td><td>Format/encoding differences, character conversion, half/full duplex</td><td>SSL/TLS, JPEG, ASCII/EBCDIC</td></tr>
+<tr><td><strong>Application</strong></td><td>7</td><td>Direct user interaction, file transfer, remote login, email, distributed databases</td><td>HTTP, FTP, SMTP, DNS, Telnet</td></tr>
+</table>
+
+<div class="diagram-box">
+<div class="diag-title">TCP/IP vs OSI Model</div>
+<pre class="diag-ascii">
+  OSI Model (7 layers)        TCP/IP Model (4 layers)
+  ┌───────────────────┐       ┌──────────────────────┐
+  │ 7. Application    │       │                      │
+  │ 6. Presentation   │──────►│ Application          │ HTTP, FTP, SMTP
+  │ 5. Session        │       │                      │
+  ├───────────────────┤       ├──────────────────────┤
+  │ 4. Transport      │──────►│ Transport            │ TCP, UDP
+  ├───────────────────┤       ├──────────────────────┤
+  │ 3. Network        │──────►│ Internet             │ IP, ICMP
+  ├───────────────────┤       ├──────────────────────┤
+  │ 2. Data Link      │       │                      │
+  │ 1. Physical       │──────►│ Network Interface    │ Ethernet, WiFi
+  └───────────────────┘       └──────────────────────┘
+</pre>
+</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>OSI Model mein 7 layers hain — yaad karne ka trick: <strong>"Please Do Not Throw Sausage Pizza Away"</strong> (Physical, Data Link, Network, Transport, Session, Presentation, Application). <br>Har layer apne upar wali layer ko service deti hai. Data layer-7 se layer-1 tak neeche jaata hai (sender), phir network par jaata hai aur layer-1 se layer-7 tak upar aata hai (receiver). <br>TCP/IP isi ka simplified 4-layer version hai — internet isi pe kaam karta hai!</p></div>
+<div class="exam-alert"><div class="exam-label">⚠️ Most Expected Exam Question</div><p>The OSI 7 layers are almost guaranteed in exams. Memorize: name, number, key function. The mnemonic "Please Do Not Throw Sausage Pizza Away" is universally used. Also remember: Data Link = P2P (Point to Point); Network = S2D (Source to Destination).</p></div>
+</div>
+</div>
+</section>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--              ROBUSTNESS & DESIGN ISSUES                      -->
+<!-- ============================================================ -->
+<section id="robustness">
+<div class="section-header">
+  <div class="icon">⚙️</div>
+  <div><h2>Robustness, Failure Detection & Design Issues</h2><small style="font-family:'Source Sans 3';font-weight:300;color:rgba(255,255,255,0.7)">PPT: L-3_2_3</small></div>
+</div>
+<div class="section-body">
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 3–6</span><strong>Failure Detection in Distributed Systems</strong></div>
+<div class="slide-card-body">
+<p>Detecting hardware failure in a distributed system is difficult because the system doesn't have a central point of monitoring. The <strong>Handshaking Protocol</strong> is used to detect link failures:</p>
+<div class="diagram-box">
+<div class="diag-title">Handshaking Protocol – Failure Detection</div>
+<pre class="diag-ascii">
+  Site A                    Network                    Site B
+    │                                                    │
+    │────── "I-am-up" ──────────────────────────────────►│  (periodic)
+    │◄───── "I-am-up" ──────────────────────────────────│
+    │                                                    │
+    │  [No message received within fixed interval...]    │
+    │                                                    │
+    │────── "Are-you-up?" ──────────────────────────────►│
+    │                                                    │
+    │  [Still no reply...]  ←─ Try alternate route ─────│?
+    │                                                    │
+    │  [STILL no reply]                                  │
+    │                                                    │
+    ▼  CONCLUDE: A FAILURE HAS OCCURRED                  │
+    
+  Types of possible failures:
+  1. Site B is down
+  2. Direct link A→B is down
+  3. Alternate link is also down
+  4. Message was lost
+  
+  ⚠ Site A CANNOT determine WHICH type of failure occurred!</pre>
+</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Distributed system mein failure detect karna mushkil hai — jaise phone lag rahi ho par saamne wala nahi utha raha. Pata nahi — phone band hai, ya network nahi hai, ya woh sona cha raha hai! Handshaking protocol use karte hain: regular "I am up" messages bhejte hain. Agar koi response nahi aaya ek time limit ke andar, toh "Are you up?" poochte hain alternate route se. Phir bhi kuch nahi? → Failure declare!</p></div>
+</div>
+</div>
+
+<div class="slide-card">
+<div class="slide-card-head"><span class="slide-num">Slides 6–8</span><strong>Reconfiguration & Design Issues</strong></div>
+<div class="slide-card-body">
+<p>When Site A determines a failure, it must <strong>reconfigure</strong> the system:</p>
+<ul style="margin-left:20px;line-height:2.2;">
+<li>If a <strong>link fails</strong> → broadcast this info to every site so routing tables are updated</li>
+<li>If a <strong>site fails</strong> → notify all other sites that its services are no longer available</li>
+<li>When site/link is <strong>restored</strong> → broadcast restoration info to all sites</li>
+</ul>
+
+<p style="margin-top:14px"><strong>10 Key Design Issues in Distributed Systems:</strong></p>
+<table class="styled-table">
+<tr><th>#</th><th>Issue</th><th>Meaning</th></tr>
+<tr><td>1</td><td><strong>Heterogeneity</strong></td><td>Different hardware, OS, protocols must work together</td></tr>
+<tr><td>2</td><td><strong>Openness</strong></td><td>Standard interfaces so components from different vendors can interact</td></tr>
+<tr><td>3</td><td><strong>Security</strong></td><td>Protect data in transit and at rest across multiple nodes</td></tr>
+<tr><td>4</td><td><strong>Scalability</strong></td><td>Easily add resources as demand grows</td></tr>
+<tr><td>5</td><td><strong>Failure Handling</strong></td><td>Detect, mask, tolerate, and recover from failures</td></tr>
+<tr><td>6</td><td><strong>Concurrency</strong></td><td>Multiple processes accessing shared resources simultaneously</td></tr>
+<tr><td>7</td><td><strong>Transparency</strong></td><td>5 types (below)</td></tr>
+<tr><td>8</td><td><strong>Quality of Service</strong></td><td>Reliable, timely delivery guarantees</td></tr>
+<tr><td>9</td><td><strong>Reliability</strong></td><td>System continues working despite failures</td></tr>
+<tr><td>10</td><td><strong>Performance</strong></td><td>Efficient use of resources, low latency</td></tr>
+</table>
+
+<p style="margin-top:14px"><strong>Types of Transparency:</strong></p>
+<table class="styled-table">
+<tr><th>Type</th><th>What is Hidden from User</th></tr>
+<tr><td><strong>Location Transparency</strong></td><td>Where a resource is located (local or remote)</td></tr>
+<tr><td><strong>Migration Transparency</strong></td><td>That a resource has moved to a different location</td></tr>
+<tr><td><strong>Replication Transparency</strong></td><td>That multiple copies of a resource exist</td></tr>
+<tr><td><strong>Concurrency Transparency</strong></td><td>That multiple users are accessing the same resource</td></tr>
+<tr><td><strong>Parallelism Transparency</strong></td><td>That tasks are being executed in parallel</td></tr>
+</table>
+
+<div class="tip"><strong>Key Design Goals:</strong> Transparency (appears as one system), Fault Tolerance (continues despite failures), Scalability (grows with demand), and Clusters (semi-autonomous machines acting as single system).</div>
+<div class="lang-box hinglish"><div class="lang-label">🇮🇳 Hinglish</div><p>Distributed system design ke 10 issues mein sabse important hai <b>Transparency</b>. User ko feel hona chahiye ki woh ek normal computer use kar raha hai — usse nahi pata ki kaun si file kaun se server par hai, kaun sa task kaun se machine par chal raha hai. Jaise Google ka user — bas type karo, result aata hai — 1000 servers ka kaam transparently hota hai!</p></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--                   COMBINED REVISION                          -->
+<!-- ============================================================ -->
+<section id="combined-rev">
+<div class="section-header">
+  <div class="icon">📚</div>
+  <div><h2>Combined Revision Notes</h2></div>
+</div>
+<div class="section-body">
+
+<div class="rev-card">
+<h4>🔴 RAID – Quick Revision</h4>
+<div class="rev-point">RAID = Redundant Array of Independent Disks. Replaces SLED (Single Large Expensive Drive). Two goals: reliability + performance.</div>
+<div class="rev-point">RAID 0 = Striping only. No fault tolerance. Max speed. Any disk fail = data loss.</div>
+<div class="rev-point">RAID 1 = Mirroring. 100% duplication. Min 2 disks. 50% storage waste. Best for critical data.</div>
+<div class="rev-point">RAID 2 = Hamming ECC. Obsolete (needs 39 disks). SCSI drives don't need it.</div>
+<div class="rev-point">RAID 3 = Byte-level stripe + dedicated parity disk. Synchronized spindles.</div>
+<div class="rev-point">RAID 4 = Block-level stripe + dedicated parity. Good reads, slow writes.</div>
+<div class="rev-point">RAID 5 = Block stripe + DISTRIBUTED parity. Most popular. Min 3 disks. 1-disk failure tolerance.</div>
+<div class="rev-point">RAID 6 = Block stripe + DOUBLE distributed parity. 2-disk failure tolerance. Min 4 disks.</div>
+<div class="rev-point">RAID is NOT a backup! Protects only against hardware failure.</div>
+</div>
+
+<div class="rev-card">
+<h4>🛡️ Protection – Quick Revision</h4>
+<div class="rev-point">Goal of Protection: Each object accessed correctly and only by authorized processes.</div>
+<div class="rev-point">Principle of Least Privilege: Give minimum privileges needed — limits damage from bugs/compromises.</div>
+<div class="rev-point">Domain: Set of access-rights. Access-right = &lt;object-name, rights-set&gt;.</div>
+<div class="rev-point">Access Matrix: Rows = Domains, Columns = Objects, Cell = Allowed operations.</div>
+<div class="rev-point">Special rights: owner, copy(*), control, transfer.</div>
+<div class="rev-point">Implementation: Global Table (too large), ACL (column/object-based), Capability List (row/domain-based, secure pointer), Lock-Key (compromise).</div>
+<div class="rev-point">Mechanism (OS enforces) vs Policy (user defines who gets what) — important design principle.</div>
+</div>
+
+<div class="rev-card">
+<h4>🔓 Security Threats – Quick Revision</h4>
+<div class="rev-point">5 Violation Categories: Confidentiality, Integrity, Availability, Theft of Service, DoS. Mnemonic: CIA+TS.</div>
+<div class="rev-point">Attack methods: Masquerading, Replay, MITM, Session Hijacking.</div>
+<div class="rev-point">Program Threats: Trojan Horse, Trap Door, Logic Bomb, Buffer Overflow, Virus.</div>
+<div class="rev-point">Virus vs Worm: Virus needs host program. Worm is standalone (uses network spawn mechanism).</div>
+<div class="rev-point">Network Threats: Worm, Port Scanning (nmap, nessus), DoS/DDoS, Keystroke Logger, Botnet.</div>
+<div class="rev-point">Security Levels: Physical, Human, OS, Network (weakest link determines overall security).</div>
+</div>
+
+<div class="rev-card">
+<h4>🔐 Cryptography & Auth – Quick Revision</h4>
+<div class="rev-point">Symmetric: Same key encrypt+decrypt. DES, 3DES, AES, RC4. Fast. Key distribution is the problem.</div>
+<div class="rev-point">Asymmetric: Public key (encrypt) + Private key (decrypt). RSA. Slow. Based on prime factoring.</div>
+<div class="rev-point">Hash: MD5=128-bit, SHA-1=160-bit. Collision-resistant fingerprint of message.</div>
+<div class="rev-point">MAC: Symmetric key + hash. Both parties need same key.</div>
+<div class="rev-point">Digital Signature: Sign with private key, verify with public key. Provides non-repudiation. RSA reversed.</div>
+<div class="rev-point">Passwords: Stored encrypted with salt. Unix: /etc/shadow. One-time passwords. Biometrics. MFA.</div>
+<div class="rev-point">Firewall types: Network, Personal, Application Proxy, System-Call.</div>
+<div class="rev-point">DoD Security Levels: D (minimal) → C1 → C2 → B1 → B2 → B3 → A (highest, formal verification).</div>
+</div>
+
+<div class="rev-card">
+<h4>🌐 Distributed OS – Quick Revision</h4>
+<div class="rev-point">Distributed system: Loosely coupled processors on communication network. Reasons: Resource sharing, Speed, Reliability, Communication.</div>
+<div class="rev-point">Network OS: User aware of multiple machines, explicit access (telnet, FTP).</div>
+<div class="rev-point">Distributed OS: Transparent, user unaware. Data/Computation/Process migration automatic.</div>
+<div class="rev-point">LAN: 10–100 Mbps, small area. WAN: 1.544–45 Mbps, large area.</div>
+<div class="rev-point">Topology criteria: Installation cost, Communication cost, Reliability.</div>
+<div class="rev-point">Routing: Fixed (predefined), Virtual Circuit (session-fixed), Dynamic (real-time, may arrive out-of-order).</div>
+<div class="rev-point">Switching: Circuit (telephone), Message (post), Packet (internet).</div>
+<div class="rev-point">Contention: CSMA/CD (Ethernet), Token Passing (IBM Token Ring), Message Slots.</div>
+<div class="rev-point">OSI 7 layers: Physical → Data Link → Network → Transport → Session → Presentation → Application. Mnemonic: "Please Do Not Throw Sausage Pizza Away."</div>
+<div class="rev-point">Failure Detection: Handshaking Protocol (I-am-up / Are-you-up). Cannot determine type of failure.</div>
+<div class="rev-point">Design Issues: 10 issues including Transparency (5 types: Location, Migration, Replication, Concurrency, Parallelism).</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--                       Q & A BANK                             -->
+<!-- ============================================================ -->
+<section id="qna">
+<div class="section-header">
+  <div class="icon">❓</div>
+  <div><h2>Complete Q&A Bank</h2></div>
+</div>
+<div class="section-body">
+
+<h3 style="color:var(--accent);margin-bottom:16px;font-size:1.2rem;">1-Mark Questions</h3>
+<div class="qa-item"><div class="qa-q"><span>Q1.</span>What does RAID stand for?</div><div class="qa-a"><strong>A:</strong> Redundant Array of Independent Disks. (Older expansion: Redundant Array of Inexpensive Disks)</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q2.</span>What is SLED?</div><div class="qa-a"><strong>A:</strong> Single Large Expensive Drive — a traditional single large disk that RAID was designed to replace.</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q3.</span>Name the RAID level with no fault tolerance.</div><div class="qa-a"><strong>A:</strong> RAID 0 (Striping only).</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q4.</span>State the Principle of Least Privilege.</div><div class="qa-a"><strong>A:</strong> Programs, users, and systems should be given just enough privileges to perform their tasks — no more.</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q5.</span>What is a Trojan Horse in OS security?</div><div class="qa-a"><strong>A:</strong> A code segment that misuses its environment by exploiting mechanisms that allow user-written programs to be executed by others.</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q6.</span>What hash sizes do MD5 and SHA-1 produce?</div><div class="qa-a"><strong>A:</strong> MD5 = 128-bit hash; SHA-1 = 160-bit hash.</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q7.</span>What is the OSI model mnemonic?</div><div class="qa-a"><strong>A:</strong> "Please Do Not Throw Sausage Pizza Away" — Physical, Data Link, Network, Transport, Session, Presentation, Application.</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q8.</span>What is a worm in network threats?</div><div class="qa-a"><strong>A:</strong> A standalone program (uses spawn mechanism) that replicates across networks without needing a host program, unlike a virus.</div></div>
+
+<h3 style="color:var(--accent);margin:24px 0 16px;font-size:1.2rem;">2-Mark Questions</h3>
+<div class="qa-item"><div class="qa-q"><span>Q1.</span>Differentiate between striping and mirroring in RAID.</div><div class="qa-a"><strong>A:</strong> <strong>Striping</strong> (RAID 0) splits data across multiple disks for speed but has zero fault tolerance — any disk failure means data loss. <strong>Mirroring</strong> (RAID 1) duplicates all data on 2+ disks for 100% fault tolerance but wastes 50% of storage capacity.</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q2.</span>What is an Access Matrix? How does it separate mechanism from policy?</div><div class="qa-a"><strong>A:</strong> Access Matrix is a 2D table where rows = domains, columns = objects, cells = allowed operations. <strong>Mechanism:</strong> OS provides the matrix infrastructure and strictly enforces rules. <strong>Policy:</strong> Users/administrators dictate who can access what. Thus OS doesn't decide policy — it only enforces it.</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q3.</span>What are the 5 categories of security violations? Give one example each.</div><div class="qa-a"><strong>A:</strong> (1) Breach of Confidentiality — unauthorized reading (hacker reads your email); (2) Breach of Integrity — unauthorized modification (changing bank balance); (3) Breach of Availability — destruction of data (ransomware); (4) Theft of Service — unauthorized resource use (crypto mining on your computer); (5) Denial of Service — preventing legitimate use (DDoS attack on a website).</div></div>
+<div class="qa-item"><div class="qa-q"><span>Q4.</span>Differentiate between Symmetric and Asymmetric Encryption.</div><div class="qa-a"><strong>A:</strong> <strong>Symmetric:</strong> Same key encrypts and decrypts. Very fast but key distribution is a challenge. Examples: DES, AES. <strong>Asymmetric:</strong> Public key encrypts, private key decrypts (or vice versa for signatures). Slower but solves key distribution. Based on prime factoring. Example: RSA. Asymmetric is typically NOT used for bulk data encryption due to its computational cost.</div></div>
+
+<h3 style="color:var(--accent);margin:24px 0 16px;font-size:1.2rem;">5-Mark Questions</h3>
+<div class="qa-item"><div class="qa-q"><span>Q1.</span>Explain RAID levels 0, 1, 5, and 6 with their advantages and disadvantages.</div><div class="qa-a">
+<strong>RAID 0 (Striping):</strong> Data split across all drives. No redundancy. Advantage: maximum speed (all drives read/write in parallel). Disadvantage: any single disk failure = complete data loss. Min 2 disks.
+<br><br><strong>RAID 1 (Mirroring):</strong> Data written identically to 2+ drives. Advantage: 100% fault tolerance, fast reads. Disadvantage: 50% storage waste, high cost per MB. Min 2 disks.
+<br><br><strong>RAID 5 (Distributed Parity):</strong> Block striping + parity distributed across all drives (no dedicated parity disk). Advantage: best balance of performance, capacity, and fault tolerance. Tolerates 1 disk failure. Disadvantage: write penalty (parity recalculation), performance degrades after failure until rebuild. Min 3 disks.
+<br><br><strong>RAID 6 (Double Distributed Parity):</strong> Like RAID 5 but with 2 parity sets. Advantage: tolerates 2 simultaneous disk failures — critical for large arrays with long rebuild times. Disadvantage: higher write penalty, more overhead, min 4 disks.
+</div></div>
+
+<div class="qa-item"><div class="qa-q"><span>Q2.</span>Explain the four implementations of the Access Matrix.</div><div class="qa-a">
+<strong>1. Global Table:</strong> Stores ordered triples &lt;domain, object, rights-set&gt;. To check access, search for &lt;Di, Oj, Rk&gt; where operation M ∈ Rk. Problem: table is large, doesn't fit in main memory; grouping objects is difficult.
+<br><br><strong>2. Access Lists (ACL):</strong> Each object has a list of &lt;domain, rights-set&gt; pairs (column-based). Easy to extend with default sets. Used in Unix/Linux file systems. Problem: must scan entire list for each access check.
+<br><br><strong>3. Capability Lists:</strong> Each domain has a list of &lt;object, rights&gt; pairs (row-based). Possession = permission. Protected by OS — domains cannot directly access capability lists (secure pointer). Like a key ring. Problem: revoking access is complex — must find all capability lists mentioning the object.
+<br><br><strong>4. Lock-Key:</strong> Compromise between ACL and capability lists. Each object has a list of locks (bit patterns); each domain has a list of keys. Access allowed if domain's key matches object's lock. Problem: key/lock management overhead.
+</div></div>
+
+<div class="qa-item"><div class="qa-q"><span>Q3.</span>Explain the OSI 7-layer model with each layer's function.</div><div class="qa-a">
+<strong>1. Physical Layer:</strong> Handles mechanical and electrical details of transmitting a raw bit stream over physical medium (cables, signals, hubs).
+<br><strong>2. Data Link Layer:</strong> Handles frames (fixed-length parts of packets), error detection and recovery. Provides Point-to-Point delivery using MAC addresses.
+<br><strong>3. Network Layer:</strong> Routes and addresses packets. Handles source-to-destination delivery across multiple networks using IP addresses.
+<br><strong>4. Transport Layer:</strong> End-to-end communication. Partitions messages into packets, maintains packet order, controls flow, provides physical addresses. (TCP, UDP)
+<br><strong>5. Session Layer:</strong> Implements sessions — process-to-process communication protocols and synchronization.
+<br><strong>6. Presentation Layer:</strong> Resolves format differences: character conversions (ASCII ↔ EBCDIC), encryption, half/full duplex handling.
+<br><strong>7. Application Layer:</strong> Direct user-facing services: file transfer (FTP), remote login (Telnet), email (SMTP), distributed databases. (HTTP, DNS)
+<br><br>Mnemonic: "Please Do Not Throw Sausage Pizza Away"
+</div></div>
+
+<h3 style="color:var(--accent);margin:24px 0 16px;font-size:1.2rem;">10-Mark Questions</h3>
+<div class="qa-item"><div class="qa-q"><span>Q1.</span>Write a detailed note on System and Network Threats including program threats, virus categories, worms, and DoS attacks.</div><div class="qa-a">
+<strong>Introduction:</strong> System security threats come from both within programs (program threats) and from networks. Understanding these threats is essential for designing effective countermeasures.
+<br><br><strong>Program Threats:</strong>
+<br>• <em>Trojan Horse:</em> Code hidden in legitimate programs that exploits privileges. 80% of spam is delivered via spyware/Trojans.
+<br>• <em>Trap Door:</em> Secret password or code path bypassing normal security. Can be introduced at compilation stage. Hard to detect.
+<br>• <em>Logic Bomb:</em> Dormant code that activates when specific conditions are met (e.g., date, event, employee name removed).
+<br>• <em>Buffer Overflow:</em> Exploits programs that don't check input bounds. Data overflows into the return address on the call stack → attacker's code executes → unauthorized privilege escalation.
+<br>• <em>Virus:</em> Self-replicating code embedded in legitimate programs. CPU/OS specific. Spreads via email, macros.
+<br><br><strong>Virus Categories:</strong> File/Parasitic, Boot/Memory, Macro, Source Code, Polymorphic, Encrypted, Stealth, Tunneling, Multipartite, Armored. Virus dropper is a program that installs a virus.
+<br><br><strong>Network Threats:</strong>
+<br>• <em>Worm:</em> Standalone self-replicating program using network spawn mechanisms. No host needed. Morris Worm (1988): 99 lines of C exploiting Unix's rsh, finger, sendmail.
+<br>• <em>Port Scanning:</em> Automated tools (nmap, nessus) probe port ranges to find vulnerabilities. Launched from zombie systems.
+<br>• <em>DoS (Denial of Service):</em> Overloads target system. SYN flooding exploits TCP handshake — exhausts half-open connection queue. System appears unavailable to legitimate users.
+<br>• <em>DDoS (Distributed DoS):</em> DoS from multiple zombie/botnet machines simultaneously. Very difficult to block. Extortion tool, punishment mechanism.
+<br>• <em>Keystroke Logger:</em> Records keystrokes to steal passwords/credit cards. Installed by Trojans.
+<br>• <em>Botnet:</em> Network of compromised zombie computers used for spam, DDoS, crypto mining.
+<br><br><strong>Why Windows is targeted most:</strong> Most widespread OS, users typically run as administrators, monoculture makes coordinated attacks effective.
+<br><br><strong>Security Measure Levels:</strong> Security must be implemented at all four levels — Physical, Human, OS, Network — since it is only as strong as the weakest link.
+</div></div>
+
+<h3 style="color:var(--accent);margin:24px 0 16px;font-size:1.2rem;">Scenario-Based Questions</h3>
+<div class="qa-item"><div class="qa-q"><span>S1.</span>A company has 5 critical servers and wants fault tolerance for up to 2 simultaneous disk failures. Which RAID level should they use and why?</div><div class="qa-a"><strong>A: RAID 6.</strong> RAID 6 uses block-level striping with double distributed parity (two sets of parity), which provides fault tolerance for 2 simultaneous disk failures. This is especially important for large-capacity drives that take hours/days to rebuild — during RAID 5 rebuild, a second failure would cause total data loss. RAID 6 gives a safety window for the rebuild period. Minimum 4 disks required.</div></div>
+<div class="qa-item"><div class="qa-q"><span>S2.</span>Alice wants to send a digitally signed message to Bob so Bob can verify Alice sent it and the message wasn't tampered with. Explain the complete process.</div><div class="qa-a"><strong>A:</strong> Alice computes H(m) = hash of the message using SHA-1 (160-bit). She then signs: Signature = H(m)^ks mod N, using her private key ks. She sends the message AND the signature to Bob. Bob computes H(m) of the received message independently. Bob also decrypts the signature: a^kv mod N = H(m)?, using Alice's public key kv. If both H(m) values match → message is authentic and unmodified → Alice cannot deny sending it (non-repudiation).</div></div>
+<div class="qa-item"><div class="qa-q"><span>S3.</span>A process in Domain D2 wants to access File F3 with Write permission. The access matrix shows D2-F3 cell contains only "Read". What happens?</div><div class="qa-a"><strong>A:</strong> The OS checks Access(D2, F3) = {Read}. Since "Write" ∉ {Read}, the access is <strong>denied</strong>. The OS raises a protection violation/exception. The process does not gain write access. This enforces the protection mechanism — only operations explicitly listed in Access(i,j) are permitted.</div></div>
+
+<h3 style="color:var(--accent);margin:24px 0 16px;font-size:1.2rem;">Twisted Conceptual Questions</h3>
+<div class="qa-item"><div class="qa-q"><span>T1.</span>Can RAID 1 be used as a backup strategy? Justify your answer.</div><div class="qa-a"><strong>A: No, RAID 1 is NOT a backup strategy.</strong> RAID 1 protects only against hardware disk failure — it mirrors data in real time. If you accidentally delete a file, it's deleted on both mirrors simultaneously. If ransomware encrypts your data, both drives get encrypted. If a software corruption occurs, both mirrors are corrupted. A true backup is an offline, separate copy of data that is NOT modified when the primary data changes. RAID provides high availability; backup provides disaster recovery.</div></div>
+<div class="qa-item"><div class="qa-q"><span>T2.</span>In the OSI model, why does data travel DOWN the layers at the sender and UP at the receiver? What happens at each layer?</div><div class="qa-a"><strong>A:</strong> At the sender, each layer adds its own header (encapsulation) as data travels down: Application creates data → Transport adds port numbers → Network adds IP addresses → Data Link adds MAC frames → Physical converts to bits. At the receiver, each layer strips its corresponding header (decapsulation) as data travels up, passing the remaining payload to the upper layer. This layered approach means each layer communicates logically with its peer layer on the other side, creating a horizontal abstraction even though physical communication only occurs at the Physical layer (bottom).</div></div>
+<div class="qa-item"><div class="qa-q"><span>T3.</span>Why is asymmetric encryption NOT used for bulk data encryption even though it's more secure?</div><div class="qa-a"><strong>A:</strong> Asymmetric encryption is based on complex mathematical operations (modular exponentiation with large prime numbers) and is computationally intensive — much slower than symmetric encryption. For bulk data (large files, real-time streams), this overhead is unacceptable. In practice, a <strong>hybrid approach</strong> is used: asymmetric encryption is used only to securely exchange a symmetric session key (small data), and then that symmetric key is used for fast bulk data encryption. This is exactly how HTTPS/TLS works — RSA for key exchange, AES for data encryption.</div></div>
+
+<h3 style="color:var(--accent);margin:24px 0 16px;font-size:1.2rem;">Viva Questions</h3>
+<div class="qa-item"><div class="qa-q"><span>V1.</span>What is the difference between a domain and an access right?</div><div class="qa-a">An <strong>access right</strong> is a pair &lt;object-name, rights-set&gt; that specifies what operations can be performed on a specific object. A <strong>domain</strong> is a set of access rights — it defines the complete set of objects a process can access and how. A process executing in a domain can access all objects listed in that domain's access rights.</div></div>
+<div class="qa-item"><div class="qa-q"><span>V2.</span>What is "salt" in password hashing and why is it used?</div><div class="qa-a">Salt is a random value appended to a password before it is hashed. Without salt, if two users have the same password "hello123," they produce identical hashes — an attacker with a precomputed rainbow table can crack many accounts at once. Salt makes each hash unique even for identical passwords, making rainbow table attacks infeasible because the attacker would need a separate table for every possible salt value.</div></div>
+<div class="qa-item"><div class="qa-q"><span>V3.</span>How does the Morris Worm differ from a virus?</div><div class="qa-a">The Morris Worm was a <strong>standalone program</strong> that used network mechanisms (rsh, sendmail, finger) to propagate — no host program needed. A virus is a code fragment embedded in a legitimate program that needs that host to replicate. The worm spread autonomously across the network, while viruses spread through file sharing. The Morris Worm had special logic: it would abort if a target system was already infected, except every 7th infection attempt — to ensure spread wasn't blocked by fake "already infected" defenses.</div></div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--                         MCQs                                 -->
+<!-- ============================================================ -->
+<section id="mcqs">
+<div class="section-header">
+  <div class="icon">✅</div>
+  <div><h2>MCQs with Explanation</h2></div>
+</div>
+<div class="section-body">
+
+<div class="mcq-item">
+<div class="mcq-q">1. Which RAID level uses block-level striping with distributed parity and tolerates exactly one disk failure?</div>
+<div class="mcq-opt">A. RAID 1</div>
+<div class="mcq-opt">B. RAID 3</div>
+<div class="mcq-opt correct">C. RAID 5 ✓</div>
+<div class="mcq-opt">D. RAID 6</div>
+<div class="mcq-exp">RAID 5 uses block striping with parity distributed across ALL drives (not a dedicated parity disk). Min 3 disks. Tolerates exactly 1 disk failure. RAID 6 tolerates 2 failures. RAID 3 uses byte-level with dedicated parity. RAID 1 is mirroring.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">2. The Principle of Least Privilege states that:</div>
+<div class="mcq-opt">A. Users should have maximum privileges to avoid errors</div>
+<div class="mcq-opt correct">B. Programs/users should have just enough privileges to perform their tasks ✓</div>
+<div class="mcq-opt">C. All privileges should be static during system lifetime</div>
+<div class="mcq-opt">D. Privileges should be granted based on user seniority</div>
+<div class="mcq-exp">Least Privilege = minimum needed privileges. Limits damage if entity is compromised or has a bug. Can be static or dynamic. Domain can be user, process, or procedure.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">3. In the Access Matrix, which implementation uses a column-based approach per object?</div>
+<div class="mcq-opt">A. Global Table</div>
+<div class="mcq-opt correct">B. Access Control List (ACL) ✓</div>
+<div class="mcq-opt">C. Capability List</div>
+<div class="mcq-opt">D. Lock-Key</div>
+<div class="mcq-exp">ACL = column-based (per object). Each object has a list of &lt;domain, rights-set&gt; pairs. Capability List = row-based (per domain). Unix uses ACL for file permissions.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">4. Which security violation involves unauthorized modification of data?</div>
+<div class="mcq-opt">A. Breach of Confidentiality</div>
+<div class="mcq-opt correct">B. Breach of Integrity ✓</div>
+<div class="mcq-opt">C. Breach of Availability</div>
+<div class="mcq-opt">D. Theft of Service</div>
+<div class="mcq-exp">Integrity = modification. Confidentiality = reading. Availability = destruction. Theft of Service = unauthorized use. DoS = prevention of legitimate use.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">5. RSA is classified as which type of encryption?</div>
+<div class="mcq-opt">A. Symmetric stream cipher</div>
+<div class="mcq-opt">B. Symmetric block cipher</div>
+<div class="mcq-opt correct">C. Asymmetric block cipher ✓</div>
+<div class="mcq-opt">D. Hash function</div>
+<div class="mcq-exp">RSA is asymmetric (public/private key pair) and a block cipher. It's based on difficulty of factoring products of two large primes. DES = symmetric block; RC4 = symmetric stream; MD5/SHA = hash functions.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">6. Which layer of OSI model handles routing and source-to-destination delivery?</div>
+<div class="mcq-opt">A. Data Link Layer</div>
+<div class="mcq-opt correct">B. Network Layer ✓</div>
+<div class="mcq-opt">C. Transport Layer</div>
+<div class="mcq-opt">D. Session Layer</div>
+<div class="mcq-exp">Network Layer (Layer 3) = routing + S2D (Source to Destination) delivery + IP addresses. Data Link = P2P (Point to Point) + MAC addresses. Transport = end-to-end + TCP/UDP. The key: Network layer knows how to get from source network to destination network.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">7. CSMA/CD is used in which network technology?</div>
+<div class="mcq-opt">A. Token Ring</div>
+<div class="mcq-opt correct">B. Ethernet ✓</div>
+<div class="mcq-opt">C. ATM</div>
+<div class="mcq-opt">D. Frame Relay</div>
+<div class="mcq-exp">CSMA/CD (Carrier Sense Multiple Access with Collision Detection) is the contention resolution method used in Ethernet. Token Passing is used in IBM Token Ring. CSMA/CD: listen before transmit, stop+retry if collision detected.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">8. The Morris Internet Worm exploited which vulnerability?</div>
+<div class="mcq-opt">A. Windows Registry</div>
+<div class="mcq-opt">B. Web browser scripting</div>
+<div class="mcq-opt correct">C. Unix networking features (rsh, sendmail, finger) ✓</div>
+<div class="mcq-opt">D. FTP authentication</div>
+<div class="mcq-exp">The Morris Worm exploited Unix's remote shell (rsh) trust relationships, a bug in the finger program, and a sendmail debug vulnerability. It was 99 lines of C code and infected thousands of machines in 1988.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">9. In digital signatures, what is used to sign and what is used to verify?</div>
+<div class="mcq-opt">A. Public key signs, Private key verifies</div>
+<div class="mcq-opt correct">B. Private key signs, Public key verifies ✓</div>
+<div class="mcq-opt">C. Same key for both</div>
+<div class="mcq-opt">D. Hash function for both</div>
+<div class="mcq-exp">Digital signatures REVERSE the use from encryption: Private key signs (only owner can sign), Public key verifies (anyone can verify). This provides non-repudiation. Compare with encryption: Public key encrypts, Private key decrypts.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">10. Which RAID level requires the most disks (39) due to Hamming error correction codes?</div>
+<div class="mcq-opt correct">A. RAID 2 ✓</div>
+<div class="mcq-opt">B. RAID 3</div>
+<div class="mcq-opt">C. RAID 4</div>
+<div class="mcq-opt">D. RAID 6</div>
+<div class="mcq-exp">RAID 2 uses Hamming ECC (error correction codes) and requires 39 disks. Since modern SCSI drives have built-in error detection, RAID 2 is practically obsolete and rarely used.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">11. A distributed OS differs from a Network OS in that:</div>
+<div class="mcq-opt">A. Distributed OS requires explicit commands like telnet/FTP</div>
+<div class="mcq-opt">B. Network OS hides multiplicity of machines</div>
+<div class="mcq-opt correct">C. Distributed OS is transparent — users are unaware of multiple machines ✓</div>
+<div class="mcq-opt">D. Network OS automatically performs process migration</div>
+<div class="mcq-exp">Distributed OS: transparent, users unaware of multiple machines, access similar to local resources. Network OS: users explicitly use telnet, FTP, ssh — they know about multiple machines. Data/Computation/Process migration is automatic only in Distributed OS.</div>
+</div>
+
+<div class="mcq-item">
+<div class="mcq-q">12. Which routing strategy adapts to load changes and may deliver messages out of order?</div>
+<div class="mcq-opt">A. Fixed Routing</div>
+<div class="mcq-opt">B. Virtual Circuit</div>
+<div class="mcq-opt correct">C. Dynamic Routing ✓</div>
+<div class="mcq-opt">D. Circuit Switching</div>
+<div class="mcq-exp">Dynamic routing chooses paths at send-time based on least-loaded link. It adapts to load changes (unlike fixed routing) but messages may arrive out of order (fixed routing and virtual circuits guarantee order). Sequence numbers solve out-of-order delivery.</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--                   DIFFERENCE TABLES                          -->
+<!-- ============================================================ -->
+<section id="diff-tables">
+<div class="section-header">
+  <div class="icon">⚖️</div>
+  <div><h2>Difference-Based Questions</h2></div>
+</div>
+<div class="section-body">
+
+<h3 style="margin-bottom:14px;color:var(--navy)">RAID 5 vs RAID 6</h3>
+<table class="styled-table">
+<tr><th>Feature</th><th>RAID 5</th><th>RAID 6</th></tr>
+<tr><td>Parity</td><td>Single distributed parity</td><td>Double distributed parity</td></tr>
+<tr><td>Fault tolerance</td><td>1 disk failure</td><td>2 simultaneous disk failures</td></tr>
+<tr><td>Min disks</td><td>3</td><td>4</td></tr>
+<tr><td>Write speed</td><td>Moderate penalty</td><td>Higher write penalty</td></tr>
+<tr><td>Use case</td><td>Most business servers, NAS</td><td>Large arrays, high-availability data centers</td></tr>
+<tr><td>Cost</td><td>Less overhead</td><td>More parity = more overhead</td></tr>
+</table>
+
+<h3 style="margin:24px 0 14px;color:var(--navy)">ACL (Access Control List) vs Capability List</h3>
+<table class="styled-table">
+<tr><th>Feature</th><th>Access Control List (ACL)</th><th>Capability List</th></tr>
+<tr><td>Based on</td><td>Object (column of access matrix)</td><td>Domain (row of access matrix)</td></tr>
+<tr><td>Each entry</td><td>Per object: list of &lt;domain, rights&gt;</td><td>Per domain: list of &lt;object, rights&gt;</td></tr>
+<tr><td>Analogy</td><td>Guest list at a venue (object-centric)</td><td>Key ring held by a person (domain-centric)</td></tr>
+<tr><td>Revoking access</td><td>Easy — remove entry from object's list</td><td>Hard — must find all capability lists mentioning object</td></tr>
+<tr><td>Protection</td><td>List stored with object</td><td>Protected by OS (not directly accessible to domain)</td></tr>
+<tr><td>Example</td><td>Unix/Linux file permissions</td><td>Kerberos tickets</td></tr>
+</table>
+
+<h3 style="margin:24px 0 14px;color:var(--navy)">Virus vs Worm</h3>
+<table class="styled-table">
+<tr><th>Feature</th><th>Virus</th><th>Worm</th></tr>
+<tr><td>Type</td><td>Program Threat</td><td>Network Threat</td></tr>
+<tr><td>Host needed?</td><td>Yes — attaches to a legitimate program</td><td>No — standalone program</td></tr>
+<tr><td>Spread method</td><td>File sharing, email attachments, macros</td><td>Network (exploits network vulnerabilities)</td></tr>
+<tr><td>Replication</td><td>Needs host execution to replicate</td><td>Uses spawn mechanism, replicates autonomously</td></tr>
+<tr><td>Example</td><td>ILOVEYOU (2000), Boot sector viruses</td><td>Morris Worm (1988), Conficker</td></tr>
+</table>
+
+<h3 style="margin:24px 0 14px;color:var(--navy)">Symmetric vs Asymmetric Encryption</h3>
+<table class="styled-table">
+<tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr>
+<tr><td>Keys</td><td>Single shared key</td><td>Public key + Private key pair</td></tr>
+<tr><td>Speed</td><td>Fast</td><td>Slow (computationally intensive)</td></tr>
+<tr><td>Based on</td><td>Transformations</td><td>Mathematical functions (prime factoring)</td></tr>
+<tr><td>Key distribution</td><td>Huge challenge (must share secretly)</td><td>Public key can be openly distributed</td></tr>
+<tr><td>Use case</td><td>Bulk data encryption</td><td>Key exchange, digital signatures</td></tr>
+<tr><td>Examples</td><td>DES, 3DES, AES, RC4</td><td>RSA</td></tr>
+</table>
+
+<h3 style="margin:24px 0 14px;color:var(--navy)">Network OS vs Distributed OS</h3>
+<table class="styled-table">
+<tr><th>Feature</th><th>Network OS</th><th>Distributed OS</th></tr>
+<tr><td>User awareness</td><td>Aware of multiple machines</td><td>Unaware — looks like one machine</td></tr>
+<tr><td>Resource access</td><td>Explicit (telnet, FTP, ssh)</td><td>Transparent — like local access</td></tr>
+<tr><td>Data migration</td><td>Manual (FTP)</td><td>Automatic</td></tr>
+<tr><td>Computation migration</td><td>Not supported</td><td>Automatic</td></tr>
+<tr><td>Process migration</td><td>Manual</td><td>Automatic load balancing</td></tr>
+<tr><td>Example</td><td>Windows File Share, NFS</td><td>Google's internal OS, Plan 9</td></tr>
+</table>
+
+<h3 style="margin:24px 0 14px;color:var(--navy)">Fixed Routing vs Dynamic Routing</h3>
+<table class="styled-table">
+<tr><th>Feature</th><th>Fixed Routing</th><th>Dynamic Routing</th></tr>
+<tr><td>Path determination</td><td>Pre-specified, doesn't change</td><td>Determined at message send time</td></tr>
+<tr><td>Path chosen</td><td>Shortest path (static)</td><td>Least-loaded link at that moment</td></tr>
+<tr><td>Load adaptation</td><td>Cannot adapt</td><td>Adapts to congestion</td></tr>
+<tr><td>Message order</td><td>Guaranteed in-order delivery</td><td>Messages may arrive out of order</td></tr>
+<tr><td>Flexibility</td><td>Low</td><td>High</td></tr>
+</table>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!--                LAST-MINUTE REVISION SHEET                    -->
+<!-- ============================================================ -->
+<section id="lastmin">
+<div class="section-header">
+  <div class="icon">⚡</div>
+  <div><h2>Last-Minute Revision Sheet</h2></div>
+</div>
+<div class="section-body">
+
+<div style="background:linear-gradient(135deg,#fff9f0,#fff);border:3px solid #f39c12;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="color:#c0392b;margin-bottom:16px;font-size:1.3rem;">🚨 ONE DAY BEFORE EXAM — QUICK NOTES</h3>
+
+<p style="font-weight:700;color:var(--navy);margin-bottom:8px;">RAID QUICK FACTS:</p>
+<p style="font-family:'Fira Code';font-size:0.85rem;background:#f8f8f8;padding:12px;border-radius:6px;line-height:2;">
+RAID 0 = Striping, NO fault tolerance, max speed, min 2 disks<br>
+RAID 1 = Mirroring, 1-disk tolerance, 50% waste, min 2 disks<br>
+RAID 2 = Hamming ECC, OBSOLETE, 39 disks needed<br>
+RAID 3 = Byte stripe + dedicated parity, synchronized spindles<br>
+RAID 4 = Block stripe + dedicated parity, slow writes<br>
+RAID 5 = Block stripe + DISTRIBUTED parity, 1-disk tolerance, min 3 disks ⭐MOST POPULAR<br>
+RAID 6 = Double distributed parity, 2-disk tolerance, min 4 disks<br>
+RAID ≠ BACKUP (protects hardware failure only!)
+</p>
+
+<p style="font-weight:700;color:var(--navy);margin:12px 0 8px;">PROTECTION:</p>
+<p style="font-family:'Fira Code';font-size:0.85rem;background:#f8f8f8;padding:12px;border-radius:6px;line-height:2;">
+Goal: Each object accessed ONLY by authorized processes<br>
+Principle of Least Privilege: Minimum privileges needed<br>
+Access Right = &lt;object-name, rights-set&gt;<br>
+Domain = Set of access-rights<br>
+Access Matrix: Rows=Domains, Cols=Objects, Cell=Operations<br>
+Special Rights: owner, copy(*), control, transfer<br>
+ACL = Column-based (per object) | Capability = Row-based (per domain)<br>
+Mechanism(OS) vs Policy(User) — KEY DESIGN PRINCIPLE
+</p>
+
+<p style="font-weight:700;color:var(--navy);margin:12px 0 8px;">SECURITY VIOLATIONS (CIA+TS):</p>
+<p style="font-family:'Fira Code';font-size:0.85rem;background:#f8f8f8;padding:12px;border-radius:6px;line-height:2;">
+Confidentiality = unauthorized READ<br>
+Integrity = unauthorized MODIFY<br>
+Availability = unauthorized DESTROY<br>
+Theft of Service = unauthorized USE<br>
+DoS = PREVENT legitimate use<br>
+Methods: Masquerading | Replay | MITM | Session Hijacking
+</p>
+
+<p style="font-weight:700;color:var(--navy);margin:12px 0 8px;">PROGRAM THREATS:</p>
+<p style="font-family:'Fira Code';font-size:0.85rem;background:#f8f8f8;padding:12px;border-radius:6px;line-height:2;">
+Trojan Horse: hidden code, misuses environment<br>
+Trap Door: secret bypass, hard to detect<br>
+Logic Bomb: activates on condition<br>
+Buffer Overflow: exploit unbounded input → overwrite return address<br>
+Virus: needs host, self-replicating<br>
+Worm: standalone, network spread (Morris Worm = 99 lines C, 1988)
+</p>
+
+<p style="font-weight:700;color:var(--navy);margin:12px 0 8px;">CRYPTOGRAPHY:</p>
+<p style="font-family:'Fira Code';font-size:0.85rem;background:#f8f8f8;padding:12px;border-radius:6px;line-height:2;">
+Symmetric: Same key. DES/3DES/AES/RC4. Fast.<br>
+Asymmetric: Public(encrypt)+Private(decrypt). RSA. Slow. Prime factoring.<br>
+Hash: MD5=128bit, SHA-1=160bit. Collision-resistant.<br>
+MAC: Symmetric + Hash. Both parties need same key.<br>
+Digital Signature: Private signs, Public verifies. Non-repudiation.<br>
+MFA: ≥2 factors (know + have + are)
+</p>
+
+<p style="font-weight:700;color:var(--navy);margin:12px 0 8px;">OSI 7 LAYERS (bottom→top):</p>
+<p style="font-family:'Fira Code';font-size:0.85rem;background:#f8f8f8;padding:12px;border-radius:6px;line-height:2;">
+1.Physical → 2.Data Link(P2P,MAC) → 3.Network(S2D,IP,Routing)<br>
+→ 4.Transport(TCP/UDP,flow) → 5.Session → 6.Presentation(format)<br>
+→ 7.Application(HTTP,FTP,SMTP,DNS)<br>
+Mnemonic: "Please Do Not Throw Sausage Pizza Away"
+</p>
+
+<p style="font-weight:700;color:var(--navy);margin:12px 0 8px;">DISTRIBUTED OS:</p>
+<p style="font-family:'Fira Code';font-size:0.85rem;background:#f8f8f8;padding:12px;border-radius:6px;line-height:2;">
+Network OS: user AWARE of machines, explicit FTP/telnet<br>
+Distributed OS: TRANSPARENT, user unaware<br>
+LAN: 10-100 Mbps | WAN: 1.544-45 Mbps<br>
+Topology criteria: Installation cost, Communication cost, Reliability<br>
+Routing: Fixed(static) | Virtual Circuit(session) | Dynamic(real-time,unordered)<br>
+Switching: Circuit(phone) | Message(post) | Packet(internet)<br>
+Contention: CSMA/CD(Ethernet) | Token Passing(IBM) | Message Slots<br>
+Failure Detection: Handshaking (I-am-up / Are-you-up)<br>
+Transparency Types: Location|Migration|Replication|Concurrency|Parallelism<br>
+Design Issues: Heterogeneity, Openness, Security, Scalability, Failure,<br>
+              Concurrency, Transparency, QoS, Reliability, Performance
+</p>
+</div>
+
+<div class="warn"><strong>⏰ Last 30 Minutes:</strong> Focus on RAID levels table, OSI layers in order, 5 violation categories (CIA+TS), Virus vs Worm difference, ACL vs Capability List, and Principle of Least Privilege. These are the highest-probability exam topics!</div>
+
+</div>
+</section>
+
+</div><!-- end main -->
+
+<a href="#" class="back-top" title="Back to top">↑</a>
+
+<script>
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+// Active nav highlight
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#sidebar ul li a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 80) current = s.id; });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
