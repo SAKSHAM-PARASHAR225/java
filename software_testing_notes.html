@@ -1,0 +1,2441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Testing — Unit 3.1 Study Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --surface2: #f4f1eb;
+    --border: #e0d9ce;
+    --text: #1a1612;
+    --text-muted: #6b5f52;
+    --text-light: #9e8f80;
+    --accent: #c0392b;
+    --accent2: #2c6e49;
+    --accent3: #1a4480;
+    --accent-soft: #fdf0ef;
+    --accent2-soft: #edf7f1;
+    --accent3-soft: #eef2f8;
+    --yellow: #f39c12;
+    --yellow-soft: #fef9ee;
+    --purple: #6c3483;
+    --purple-soft: #f5eef8;
+    --tag-bg: #e8e4dc;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--text);
+    color: var(--bg);
+    padding: 48px 60px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(192,57,43,0.15);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 200px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(44,110,73,0.12);
+  }
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  header p {
+    color: #bbb;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .header-badges {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #ccc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 0 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    box-shadow: var(--shadow);
+  }
+  nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 16px 18px;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 60px; }
+
+  /* SECTION HEADERS */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    margin-top: 0;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--border), transparent);
+    margin-left: 8px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  section { margin-bottom: 60px; scroll-margin-top: 60px; }
+
+  /* DEFINITION BOX */
+  .def-box {
+    background: var(--accent3-soft);
+    border-left: 4px solid var(--accent3);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .def-box .def-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .def-box p { font-size: 15px; line-height: 1.7; }
+
+  /* THEORY CARD */
+  .theory-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin: 20px 0;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+  .theory-card:hover { box-shadow: var(--shadow-lg); }
+  .theory-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .theory-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 14px 0 6px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .icon {
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .icon-red { background: var(--accent-soft); color: var(--accent); }
+  .icon-green { background: var(--accent2-soft); color: var(--accent2); }
+  .icon-blue { background: var(--accent3-soft); color: var(--accent3); }
+  .icon-yellow { background: var(--yellow-soft); color: var(--yellow); }
+  .icon-purple { background: var(--purple-soft); color: var(--purple); }
+
+  /* ALERT BOX */
+  .alert {
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 14.5px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .alert-exam { background: #fff8e1; border: 1px solid #f39c12; }
+  .alert-exam .alert-icon { color: #f39c12; font-size: 18px; flex-shrink: 0; }
+  .alert-tip { background: var(--accent2-soft); border: 1px solid var(--accent2); }
+  .alert-tip .alert-icon { color: var(--accent2); font-size: 18px; flex-shrink: 0; }
+  .alert-note { background: var(--accent3-soft); border: 1px solid var(--accent3); }
+  .alert-note .alert-icon { color: var(--accent3); font-size: 18px; flex-shrink: 0; }
+  .alert strong { font-weight: 600; }
+
+  /* COMPARISON TABLE */
+  .table-wrap { overflow-x: auto; margin: 20px 0; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead tr { background: var(--text); color: white; }
+  thead th {
+    padding: 14px 16px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr:last-child { border-bottom: none; }
+  td { padding: 12px 16px; vertical-align: top; }
+  td:first-child { font-weight: 600; color: var(--accent3); font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+  /* CODE / FORMULA BOX */
+  .formula-box {
+    background: #1a1612;
+    color: #f0e6d3;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .formula-box .comment { color: #7a6a5a; }
+  .formula-box .keyword { color: #e67e22; }
+  .formula-box .value { color: #2ecc71; }
+  .formula-box .highlight { color: #3498db; }
+
+  /* EXAMPLE BOX */
+  .example-box {
+    background: var(--yellow-soft);
+    border: 1px solid #f0c040;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  .example-box .ex-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #b7770d;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 600;
+  }
+
+  /* STEP LIST */
+  .step-list { list-style: none; margin: 12px 0; }
+  .step-list li {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .step-num {
+    background: var(--accent);
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .step-num.green { background: var(--accent2); }
+  .step-num.blue { background: var(--accent3); }
+
+  /* PILL TAGS */
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .pill-red { background: var(--accent-soft); color: var(--accent); border: 1px solid #e5a09a; }
+  .pill-green { background: var(--accent2-soft); color: var(--accent2); border: 1px solid #a3c9b3; }
+  .pill-blue { background: var(--accent3-soft); color: var(--accent3); border: 1px solid #a0b7d4; }
+  .pill-yellow { background: var(--yellow-soft); color: #a06800; border: 1px solid #f0c040; }
+  .pill-purple { background: var(--purple-soft); color: var(--purple); border: 1px solid #c39bd3; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  @media(max-width:760px){ .grid-2 { grid-template-columns: 1fr; } }
+
+  /* Q&A SECTION */
+  .qa-section { margin-bottom: 50px; }
+  .qa-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .qa-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+  }
+  .qa-badge-easy { background: var(--accent2-soft); color: var(--accent2); border: 2px solid var(--accent2); }
+  .qa-badge-medium { background: var(--yellow-soft); color: #a06800; border: 2px solid var(--yellow); }
+  .qa-badge-hard { background: var(--accent-soft); color: var(--accent); border: 2px solid var(--accent); }
+  .qa-title-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .qa-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-left: auto; }
+
+  .qa-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .qa-q {
+    padding: 18px 22px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .qa-q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    background: var(--accent);
+    padding: 3px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .qa-q-num.green { background: var(--accent2); }
+  .qa-q-num.yellow { background: var(--yellow); }
+  .qa-q p { font-weight: 600; font-size: 15px; color: var(--text); }
+  .qa-a {
+    padding: 20px 22px;
+    font-size: 14.5px;
+    line-height: 1.8;
+    border-left: 4px solid var(--accent2);
+  }
+  .qa-a p + p { margin-top: 10px; }
+  .qa-a ul { margin: 8px 0 8px 20px; }
+  .qa-a li { margin-bottom: 5px; }
+  .qa-a strong { color: var(--accent3); }
+
+  /* CHEAT SHEET */
+  .cheat-sheet {
+    background: var(--text);
+    color: #f0e6d3;
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 40px;
+  }
+  .cheat-sheet h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .cheat-sheet .cs-subtitle {
+    color: #7a6a5a;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .cs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media(max-width:900px){ .cs-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:600px){ .cs-grid { grid-template-columns: 1fr; } }
+  .cs-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .cs-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .cs-card ul { list-style: none; }
+  .cs-card li {
+    font-size: 13px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: #d4c8b8;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .cs-card li:last-child { border-bottom: none; }
+  .cs-dot { color: var(--accent); font-size: 8px; margin-top: 7px; flex-shrink: 0; }
+  .cs-formula {
+    background: rgba(192,57,43,0.15);
+    border: 1px solid rgba(192,57,43,0.3);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #f0c0bb;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 40px 0;
+  }
+
+  /* MNEMONIC */
+  .mnemonic {
+    background: var(--purple-soft);
+    border: 1px solid #c39bd3;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .mnemonic .mnem-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--purple);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 600;
+  }
+  .mnemonic p { font-size: 14.5px; }
+  .mnemonic strong { color: var(--purple); font-size: 18px; letter-spacing: 1px; }
+
+  p { margin-bottom: 8px; }
+  ul { margin-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; }
+  b, strong { font-weight: 600; }
+
+  /* FLOW GRAPH VISUAL */
+  .flow-graph {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  /* scroll to top */
+  .scroll-top {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(192,57,43,0.3);
+    transition: transform 0.2s;
+    text-decoration: none;
+  }
+  .scroll-top:hover { transform: translateY(-3px); }
+
+  .two-col-list { columns: 2; gap: 30px; }
+  @media(max-width:600px){ .two-col-list { columns: 1; } }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-tag">24CST-208 · Software Engineering · Unit 3.1 · Lectures 32–36</span>
+  <h1>Software Testing</h1>
+  <p>Dr. Gitanjali Gupta · BE-CSE 4th Semester · Chandigarh University · Jan–Jun 2026</p>
+  <div class="header-badges">
+    <span class="badge">Study Notes</span>
+    <span class="badge">30 Q&A Bank</span>
+    <span class="badge">Cheat Sheet</span>
+    <span class="badge">Numericals Included</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#intro">📖 Intro</a>
+  <a href="#verification">✅ V&V</a>
+  <a href="#strategy">🎯 Strategy</a>
+  <a href="#levels">📊 Levels</a>
+  <a href="#validation">🔬 Validation</a>
+  <a href="#blackbox">⬛ Black Box</a>
+  <a href="#whitebox">⬜ White Box</a>
+  <a href="#basispath">🔀 Basis Path</a>
+  <a href="#qa">❓ Q&A Bank</a>
+  <a href="#cheatsheet">📌 Cheat Sheet</a>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 1: INTRODUCTION -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="intro">
+  <div class="section-title"><span class="section-num">01</span> Introduction to Software Testing</div>
+  <p class="section-desc">Foundations, objectives, and Glen Myers' principles — exam mein almost har baar aata hai!</p>
+
+  <div class="def-box">
+    <span class="def-label">📘 Definition</span>
+    <p><strong>Software Testing</strong> is the process of <em>verifying and validating</em> that a software application is bug-free, meets technical requirements as guided by its design and development, and meets user requirements effectively and efficiently while handling all exceptional and boundary cases.</p>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-red">🎯</span> Glen Myers — Testing Objectives</h3>
+    <p>According to <strong>Glen Myers</strong>, software testing is a process of investigating a program to find errors. Key points:</p>
+    <ul>
+      <li>Finding an <strong>unknown error not yet discovered</strong> = sign of a good test case</li>
+      <li>Higher number of errors found = better quality of testing</li>
+      <li>Goal: find different types of errors <em>without taking much time</em></li>
+    </ul>
+    <div class="mnemonic">
+      <span class="mnem-label">🧠 Mnemonic</span>
+      <p><strong>VERI-VALI-FIND</strong> — Verify (right build?), Validate (right product?), Find bugs early!</p>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-blue">🔑</span> Key Testing Principles (from PPT Slide 5)</h3>
+    <div class="grid-2">
+      <div>
+        <h4>1. Testing Shows Presence — Not Absence</h4>
+        <p>Testing can reveal bugs but <strong>cannot prove software is 100% bug-free</strong>.</p>
+        <h4>2. Exhaustive Testing is Impossible</h4>
+        <p>Can't test every input/path combination. Prioritize critical areas.</p>
+        <h4>3. Early Testing</h4>
+        <p>Defects are cheaper to fix earlier in SDLC. "Shift Left" testing.</p>
+      </div>
+      <div>
+        <h4>4. Defect Clustering (Pareto Principle)</h4>
+        <p><strong>80% defects found in 20% of modules</strong> — focus testing on these.</p>
+        <h4>5. Pesticide Paradox</h4>
+        <p>If same test cases run repeatedly, they stop finding new bugs. <strong>Update test cases regularly!</strong></p>
+      </div>
+    </div>
+    <div class="alert alert-exam">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Exam Alert:</strong> "Pesticide Paradox" is a frequently asked MCQ/short answer. Remember: running same tests = missing new bugs. Test cases must evolve!</div>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-green">🔧</span> Two Types of Testing</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>Manual Testing</th><th>Automation Testing</th></tr></thead>
+        <tbody>
+          <tr><td>Method</td><td>Human tester manually executes tests</td><td>Scripts & tools run tests automatically</td></tr>
+          <tr><td>Speed</td><td>Slow for repetitive tests</td><td>Fast, repeatable, consistent</td></tr>
+          <tr><td>Best For</td><td>Exploratory, UI/UX, one-time tests</td><td>Regression, load, performance testing</td></tr>
+          <tr><td>Cost</td><td>Lower initial cost, higher long-term</td><td>Higher initial cost, lower long-term</td></tr>
+          <tr><td>Tools</td><td>No special tools needed</td><td>Selenium, JUnit, TestNG, etc.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 2: VERIFICATION & VALIDATION -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="verification">
+  <div class="section-title"><span class="section-num">02</span> Verification vs Validation</div>
+  <p class="section-desc">The most classic distinction in SE exams — "Right product vs Product right!"</p>
+
+  <div class="grid-2">
+    <div class="def-box">
+      <span class="def-label">✅ Verification — "Are we building the product RIGHT?"</span>
+      <p>A set of tasks that ensure software correctly implements a <strong>specific function</strong>. Checks conformance to specifications. It is a <strong>static testing approach</strong> — involves reviews, inspections, walkthroughs.</p>
+    </div>
+    <div class="def-box">
+      <span class="def-label">🎯 Validation — "Are we building the RIGHT product?"</span>
+      <p>A set of tasks that ensure the software built is <strong>traceable to customer requirements</strong>. It is a <strong>dynamic testing approach</strong> — involves actual execution. Done AFTER verification.</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Aspect</th><th>Verification</th><th>Validation</th></tr></thead>
+      <tbody>
+        <tr><td>Question</td><td>Building product right?</td><td>Building right product?</td></tr>
+        <tr><td>Type</td><td>Static testing</td><td>Dynamic testing</td></tr>
+        <tr><td>Focus</td><td>Conformance to specs</td><td>Actual customer needs</td></tr>
+        <tr><td>Method</td><td>Reviews, inspections, walkthroughs</td><td>Actual test execution</td></tr>
+        <tr><td>Timing</td><td>During development</td><td>After verification phase</td></tr>
+        <tr><td>Done By</td><td>QA team / developers</td><td>Testing team / customer</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-exam">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Exam Trick:</strong> VERI = VERIfy = Internally checking (process). VALI = VALIdate = Customer satisfaction (product). This appears in 2-mark questions almost every semester!</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 3: TESTING STRATEGY -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="strategy">
+  <div class="section-title"><span class="section-num">03</span> Software Testing Strategy</div>
+  <p class="section-desc">Ek overall plan — what, how, when, and who to test. Very important for 5-mark answers!</p>
+
+  <div class="def-box">
+    <span class="def-label">📘 Definition</span>
+    <p>A <strong>Software Testing Strategy</strong> is a high-level plan that defines the testing scope, objectives, resources, and timelines. It aligns with the SDLC methodology and ensures systematic, organized testing throughout development.</p>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-yellow">📋</span> Key Strategy Components (8 Points)</h3>
+    <ul class="step-list">
+      <li><span class="step-num">1</span><div><strong>Identify and specify requirements quantifiably</strong> — maintainability, probability, usability should be measurable.</div></li>
+      <li><span class="step-num">2</span><div><strong>Specify testing objectives clearly</strong> — effectiveness, failure handling, cost of defects.</div></li>
+      <li><span class="step-num">3</span><div><strong>Identify user categories</strong> — develop profiles for each user type (use cases).</div></li>
+      <li><span class="step-num">4</span><div><strong>Develop a test plan</strong> — enable rapid-cycle testing for continuous quality improvement.</div></li>
+      <li><span class="step-num">5</span><div><strong>Robust self-testing software</strong> — design software that can detect different error classes automatically.</div></li>
+      <li><span class="step-num">6</span><div><strong>Use formal reviews as filters</strong> before testing — reduces testing effort and time significantly.</div></li>
+      <li><span class="step-num">7</span><div><strong>Conduct formal technical reviews</strong> — evaluate quality of test strategy and test cases.</div></li>
+      <li><span class="step-num">8</span><div><strong>Continuous improvement approach</strong> — statistical process control for measuring and controlling quality.</div></li>
+    </ul>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-green">🔄</span> Rapid Cycle Testing</h3>
+    <p>A type of testing that <strong>improves quality by identifying and measuring changes</strong> needed to improve the software process. A test plan is an essential document for enabling this.</p>
+    <div class="alert alert-tip">
+      <span class="alert-icon">💡</span>
+      <div>Rapid Cycle Testing = jaldi jaldi small cycles mein test karo, improvements laate raho continuously. Like Agile sprints!</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 4: TESTING LEVELS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="levels">
+  <div class="section-title"><span class="section-num">04</span> Levels of Software Testing</div>
+  <p class="section-desc">Unit → Integration → System → Acceptance — ye sequence yaad rakho!</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Level</th><th>What is Tested</th><th>By Whom</th><th>Timing</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Unit Testing</td><td>Individual components/modules</td><td>Developers</td><td>Early phase</td><td>Validate each unit performs as designed</td></tr>
+        <tr><td>Integration Testing</td><td>Combined modules interacting</td><td>Testers</td><td>After units done</td><td>Expose faults in module interactions</td></tr>
+        <tr><td>System Testing</td><td>Complete integrated system</td><td>Testing team</td><td>Pre-release</td><td>Evaluate compliance with requirements (Black Box)</td></tr>
+        <tr><td>Acceptance Testing</td><td>Full system from user PoV</td><td>Customers/QA</td><td>Before deployment</td><td>Check business requirements & acceptability</td></tr>
+        <tr><td>Regression Testing</td><td>Modified/unchanged areas</td><td>QA Team</td><td>After changes</td><td>Verify new changes didn't break existing features</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-red">🔴</span> Alpha Testing vs Beta Testing</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Parameter</th><th>Alpha Testing</th><th>Beta Testing</th></tr></thead>
+        <tbody>
+          <tr><td>Performed By</td><td>Internal development team</td><td>External real users</td></tr>
+          <tr><td>Environment</td><td>Controlled lab / developer site</td><td>Real-world user environment</td></tr>
+          <tr><td>Purpose</td><td>Find critical bugs early, verify stability</td><td>Gather user feedback, real-world validation</td></tr>
+          <tr><td>Duration</td><td>Weeks to months</td><td>Few weeks typically</td></tr>
+          <tr><td>Techniques Used</td><td>White Box + Black Box</td><td>Black Box primarily</td></tr>
+          <tr><td>Order</td><td>Comes FIRST</td><td>Comes AFTER Alpha</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mnemonic">
+      <span class="mnem-label">🧠 Mnemonic</span>
+      <p><strong>A</strong>lpha = <strong>A</strong>ndar (internal team), <strong>B</strong>eta = <strong>B</strong>aahar (external users). Simple!</p>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-blue">🖥️</span> System Testing — Deep Dive</h3>
+    <p>System testing is a <strong>Black Box Testing</strong> technique performed on the complete integrated system. It is done AFTER integration testing and BEFORE acceptance testing.</p>
+    <h4>System Testing Process:</h4>
+    <ul class="step-list">
+      <li><span class="step-num blue">1</span><div><strong>Test Environment Setup</strong> — Create testing environment</div></li>
+      <li><span class="step-num blue">2</span><div><strong>Create Test Case</strong> — Generate test cases</div></li>
+      <li><span class="step-num blue">3</span><div><strong>Create Test Data</strong> — Generate data to be tested</div></li>
+      <li><span class="step-num blue">4</span><div><strong>Execute Test Case</strong> — Run the tests</div></li>
+      <li><span class="step-num blue">5</span><div><strong>Defect Reporting</strong> — Log detected defects</div></li>
+      <li><span class="step-num blue">6</span><div><strong>Regression Testing</strong> — Check side effects</div></li>
+      <li><span class="step-num blue">7</span><div><strong>Log Defects</strong> — Fix identified defects</div></li>
+      <li><span class="step-num blue">8</span><div><strong>Retest</strong> — Re-run if test fails</div></li>
+    </ul>
+    <h4>Types of System Testing:</h4>
+    <div class="pill-row">
+      <span class="pill pill-red">Performance Testing</span>
+      <span class="pill pill-blue">Load Testing</span>
+      <span class="pill pill-green">Stress Testing</span>
+      <span class="pill pill-yellow">Scalability Testing</span>
+      <span class="pill pill-purple">Security Testing</span>
+      <span class="pill pill-red">Usability Testing</span>
+      <span class="pill pill-green">Compatibility Testing</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 5: VALIDATION TESTING -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="validation">
+  <div class="section-title"><span class="section-num">05</span> Validation Testing</div>
+  <p class="section-desc">Customer satisfaction confirm karna — "Right product banaya kya?"</p>
+
+  <div class="def-box">
+    <span class="def-label">📘 Definition</span>
+    <p><strong>Validation Testing</strong> is the process of evaluating software during or at the end of development to determine whether it satisfies specified business requirements. It ensures the product actually meets the client's needs and demonstrates fulfillment of its intended use when deployed in the appropriate environment.</p>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-green">📋</span> Stages of Validation Testing Process</h3>
+    <ul class="step-list">
+      <li><span class="step-num green">1</span><div><strong>Validation Planning</strong> — Plan all activities to be included</div></li>
+      <li><span class="step-num green">2</span><div><strong>Define Requirements</strong> — Set goals and define testing requirements</div></li>
+      <li><span class="step-num green">3</span><div><strong>Selecting a Team</strong> — Skilled development/QA team (third party included)</div></li>
+      <li><span class="step-num green">4</span><div><strong>Developing Documents</strong> — User specification document with operating conditions</div></li>
+      <li><span class="step-num green">5</span><div><strong>Estimation/Evaluation</strong> — Evaluate as per specs, submit validation report</div></li>
+      <li><span class="step-num green">6</span><div><strong>Fixing Bugs / Incorporating Changes</strong> — Remove errors found during evaluation</div></li>
+    </ul>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-purple">🔀</span> Validation Testing Variations</h3>
+    <div class="grid-2">
+      <div>
+        <h4>Unit Testing</h4>
+        <p>Looks for bugs in individual components. Tests modules/objects separately.</p>
+        <h4>Integration Testing</h4>
+        <p>Tests interaction between different interfaces of components AND interaction with OS, hardware, file system.</p>
+        <h4>System Testing</h4>
+        <p>Entire software system is ready. Verifies system against specified requirements.</p>
+      </div>
+      <div>
+        <h4>Acceptance Testing</h4>
+        <p>Tester thinks like a CLIENT — checks user needs, business processes.</p>
+        <h4>Alpha Testing</h4>
+        <p>At developer site with potential customers. Problems fixed immediately.</p>
+        <h4>Beta Testing</h4>
+        <p>After alpha — conducted at user's end in real environment.</p>
+      </div>
+    </div>
+    <h4>Regression Testing</h4>
+    <p>After changes/modifications are made to existing code — ensures new code still fulfills customer requirements without introducing new bugs.</p>
+  </div>
+
+  <div class="alert alert-note">
+    <span class="alert-icon">📌</span>
+    <div><strong>Independent Validation &amp; Verification (IV&amp;V):</strong> When validation tests are carried out by a <strong>third party</strong>, they are called IV&amp;V. The third party submits a validation report to the developer, who then makes required changes and re-tests. Frequently asked in 2-mark questions!</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 6: BLACK BOX TESTING -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="blackbox">
+  <div class="section-title"><span class="section-num">06</span> Black Box Testing</div>
+  <p class="section-desc">Internal code nahi pata — sirf inputs/outputs se test karo. Behavioral Testing bhi kehte hain!</p>
+
+  <div class="def-box">
+    <span class="def-label">📘 Definition</span>
+    <p><strong>Black Box Testing</strong> (aka Behavioral Testing) is a software testing method in which functionalities of software are tested <em>without having knowledge</em> of internal code structure, implementation details, and internal paths. It focuses entirely on <strong>input and output</strong>, based on software requirements and specifications.</p>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-red">⬛</span> How to Perform Black Box Testing — Steps</h3>
+    <ul class="step-list">
+      <li><span class="step-num">1</span><div>Examine requirements and specifications of the system</div></li>
+      <li><span class="step-num">2</span><div>Choose <strong>valid inputs</strong> (positive scenario) and <strong>invalid inputs</strong> (negative scenario)</div></li>
+      <li><span class="step-num">3</span><div>Determine <strong>expected outputs</strong> for all inputs</div></li>
+      <li><span class="step-num">4</span><div>Construct test cases with selected inputs</div></li>
+      <li><span class="step-num">5</span><div>Execute the test cases</div></li>
+      <li><span class="step-num">6</span><div>Compare actual outputs with expected outputs</div></li>
+      <li><span class="step-num">7</span><div>Fix defects and re-test</div></li>
+    </ul>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-blue">🔧</span> Black Box Testing Techniques — Detailed</h3>
+
+    <!-- Equivalence Partitioning -->
+    <h4>1. Equivalence Partitioning (EP)</h4>
+    <p>Partition the input domain into equivalence classes where each member of a class behaves similarly. If one test case in a class fails, all others in that class also fail.</p>
+    <p><strong>Two steps:</strong> (a) Identify equivalence classes — valid &amp; invalid. (b) Generate test cases covering all classes.</p>
+    <div class="example-box">
+      <span class="ex-label">📐 Worked Example — Square Root Function</span>
+      <p><strong>Valid Classes:</strong></p>
+      <ul>
+        <li>Whole number, perfect square → integer output (e.g., 9 → 3)</li>
+        <li>Whole number, not perfect square → decimal output (e.g., 7 → 2.64...)</li>
+        <li>Positive decimals (e.g., 2.5)</li>
+      </ul>
+      <p style="margin-top:8px"><strong>Invalid Classes:</strong></p>
+      <ul>
+        <li>Negative numbers (integer or decimal) — e.g., -4</li>
+        <li>Non-numeric characters — e.g., "a", "!", ";"</li>
+      </ul>
+      <p style="margin-top:8px"><em>Instead of testing ALL possible inputs, we test ONE representative from each class — fewer test cases, same effectiveness!</em></p>
+    </div>
+
+    <!-- BVA -->
+    <h4>2. Boundary Value Analysis (BVA)</h4>
+    <p>Errors tend to cluster at <strong>boundaries</strong> of input domains. BVA tests values at, just below, and just above boundaries.</p>
+    <div class="example-box">
+      <span class="ex-label">📐 Example — Valid Range: 10 to 100</span>
+      <p>Test these values: <strong>9</strong> (just below), <strong>10</strong> (boundary), <strong>11</strong> (just above), <strong>50</strong> (mid-valid), <strong>99</strong>, <strong>100</strong> (boundary), <strong>101</strong> (just above invalid)</p>
+      <p>High defect detection rate with limited test cases!</p>
+    </div>
+
+    <!-- Cause-Effect Graphing -->
+    <h4>3. Cause-Effect Graphing</h4>
+    <p>Establishes relationships between logical inputs (causes) and corresponding actions (effects) using <strong>Boolean graphs</strong>, then converts to a decision table.</p>
+    <ul class="step-list">
+      <li><span class="step-num blue">1</span><div>Identify inputs (causes) and outputs (effects)</div></li>
+      <li><span class="step-num blue">2</span><div>Develop cause-effect graph</div></li>
+      <li><span class="step-num blue">3</span><div>Transform graph into decision table</div></li>
+      <li><span class="step-num blue">4</span><div>Convert decision table rules into test cases</div></li>
+    </ul>
+    <div class="alert alert-exam"><span class="alert-icon">⚠️</span><div>Each column in the decision table = 1 test case. If there are 2 conditions, there are <strong>2² = 4 test cases</strong> minimum.</div></div>
+
+    <!-- Other Types -->
+    <h4>4. Syntax Driven Testing</h4>
+    <p>Applied to systems that can be represented syntactically by a language (e.g., compilers, context-free grammars). Test cases ensure each grammar rule is used at least once.</p>
+
+    <h4>5. Requirement Based Testing</h4>
+    <p>Validates the requirements given in the <strong>SRS (Software Requirements Specification)</strong> of the system.</p>
+
+    <h4>6. Compatibility Testing</h4>
+    <p>Tests software across different infrastructure parameters: Processor type, OS (Windows/Linux), Architecture (32-bit/64-bit), Backend components (database servers).</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Technique</th><th>Purpose</th><th>Strength</th><th>Weakness</th></tr></thead>
+      <tbody>
+        <tr><td>Equivalence Partitioning</td><td>Reduce number of test cases</td><td>Fewer test cases needed</td><td>Misses complex boundary flaws</td></tr>
+        <tr><td>Boundary Value Analysis</td><td>Check edge/limit behavior</td><td>High defect detection rate</td><td>Limited scope</td></tr>
+        <tr><td>Cause-Effect Graphing</td><td>Model condition-outcome logic</td><td>Detailed logic coverage</td><td>Complex to create</td></tr>
+        <tr><td>Decision Table</td><td>Business rules / conditions</td><td>All condition combos covered</td><td>Large tables for many conditions</td></tr>
+        <tr><td>State Transition</td><td>Model state-changing behaviour</td><td>Good for login/workflow systems</td><td>Hard for simple apps</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 7: WHITE BOX TESTING -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="whitebox">
+  <div class="section-title"><span class="section-num">07</span> White Box Testing</div>
+  <p class="section-desc">Code dekhke test karo — Glass Box, Clear Box, Structural Testing bhi bolte hain!</p>
+
+  <div class="def-box">
+    <span class="def-label">📘 Definition</span>
+    <p><strong>White Box Testing</strong> (also called Clear Box / Glass Box / Structural / Code-based Testing) is a software testing technique in which <strong>internal structure, design, and code</strong> are tested to verify the flow of input-output and improve design, usability, and security. Testers have <strong>full access to source code</strong>.</p>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-yellow">⬜</span> What White Box Testing Verifies</h3>
+    <div class="grid-2">
+      <ul>
+        <li>Internal security holes</li>
+        <li>Broken/poorly structured code paths</li>
+        <li>Flow of specific inputs through code</li>
+      </ul>
+      <ul>
+        <li>Expected output correctness</li>
+        <li>Functionality of conditional loops</li>
+        <li>Each statement, object, and function individually</li>
+      </ul>
+    </div>
+    <div class="alert alert-tip"><span class="alert-icon">💡</span><div>White Box Testing requires the tester to have <strong>programming knowledge</strong>. Testers must carefully reason about the implementation details.</div></div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-blue">🔬</span> White Box Testing Techniques — Detailed</h3>
+
+    <h4>1. Statement Coverage</h4>
+    <p>Every executable statement in the program must be executed <strong>at least once</strong>. In a flowchart, every node must be traversed at least once. Simple but lowest level of coverage.</p>
+    <div class="formula-box">
+<span class="comment">// Formula</span>
+<span class="keyword">Statement Coverage</span> = (<span class="value">Executed Statements</span> / <span class="highlight">Total Statements</span>) × 100%
+    </div>
+
+    <h4>2. Branch Coverage (Decision Coverage)</h4>
+    <p>Every branch from every decision point must be executed at least once — both <strong>TRUE</strong> and <strong>FALSE</strong> branches. In a flowchart, all edges must be traversed at least once.</p>
+    <div class="example-box">
+      <span class="ex-label">📐 Example</span>
+      <p>For a program with 2 decision points (if/else branches): minimum 4 test cases required (True-True, True-False, False-True, False-False)</p>
+    </div>
+
+    <h4>3. Condition Coverage</h4>
+    <p>All <strong>individual Boolean conditions</strong> must evaluate to both TRUE and FALSE at least once.</p>
+    <div class="example-box">
+      <span class="ex-label">📐 Example</span>
+      <p>Code: <code>IF (X == 0 || Y == 0)</code></p>
+      <p>Two conditions: X==0, Y==0</p>
+      <ul>
+        <li>TC1: X=0, Y=55 → X==0 is TRUE, Y==0 is FALSE</li>
+        <li>TC2: X=5, Y=0 → X==0 is FALSE, Y==0 is TRUE</li>
+      </ul>
+    </div>
+
+    <h4>4. Multiple Condition Coverage</h4>
+    <p>All possible combinations of condition outcomes tested at least once. For <strong>n conditions → 2ⁿ test cases</strong> required.</p>
+    <div class="example-box">
+      <span class="ex-label">📐 Example — 2 Conditions → 4 Test Cases</span>
+      <p>Code: <code>IF (X == 0 || Y == 0)</code></p>
+      <ul>
+        <li>TC1: X=0, Y=0 (T, T)</li>
+        <li>TC2: X=0, Y=5 (T, F)</li>
+        <li>TC3: X=55, Y=0 (F, T)</li>
+        <li>TC4: X=55, Y=5 (F, F)</li>
+      </ul>
+      <p><em>General rule: n conditions → 2ⁿ test cases</em></p>
+    </div>
+
+    <h4>5. Loop Testing</h4>
+    <p>Loops are fundamental to algorithms, so they need special testing. Errors often occur at the beginning and end of loops.</p>
+    <div class="grid-2">
+      <div>
+        <h4>Simple Loops (size n):</h4>
+        <ul>
+          <li>Skip the loop entirely</li>
+          <li>Only 1 pass through loop</li>
+          <li>2 passes</li>
+          <li>m passes (where m &lt; n)</li>
+          <li>n-1 passes</li>
+          <li>n+1 passes</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Nested Loops:</h4>
+        <ul>
+          <li>Start from innermost loop</li>
+          <li>Set all outer loops to minimum count</li>
+          <li>Run simple loop tests on innermost</li>
+          <li>Work outward until all loops tested</li>
+        </ul>
+        <h4>Concatenated Loops:</h4>
+        <ul>
+          <li>Independent → apply simple loop tests to each</li>
+          <li>Not independent → treat like nesting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-red">⚖️</span> White Box vs Black Box — Quick Compare</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>White Box Testing</th><th>Black Box Testing</th></tr></thead>
+        <tbody>
+          <tr><td>Code Access</td><td>Full access to source code</td><td>No code access</td></tr>
+          <tr><td>Knowledge Required</td><td>Programming expertise needed</td><td>No programming needed</td></tr>
+          <tr><td>Perspective</td><td>Developer/internal view</td><td>User/external view</td></tr>
+          <tr><td>Focus</td><td>Internal logic, structure, paths</td><td>Inputs and outputs only</td></tr>
+          <tr><td>Missing Features</td><td>Cannot detect missing functions</td><td>Can detect via requirement check</td></tr>
+          <tr><td>Automation</td><td>Easy to automate</td><td>Harder to fully automate</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h4>Advantages of White Box Testing:</h4>
+    <div class="pill-row">
+      <span class="pill pill-green">Thorough code coverage</span>
+      <span class="pill pill-green">Code optimization</span>
+      <span class="pill pill-green">Early testing possible</span>
+      <span class="pill pill-green">Easy to automate</span>
+    </div>
+    <h4>Disadvantages of White Box Testing:</h4>
+    <div class="pill-row">
+      <span class="pill pill-red">Very expensive</span>
+      <span class="pill pill-red">Requires programming expertise</span>
+      <span class="pill pill-red">Can't detect missing features</span>
+      <span class="pill pill-red">Complex, sometimes unrealistic</span>
+      <span class="pill pill-red">Code changes require new test cases</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SECTION 8: BASIS PATH TESTING -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="basispath">
+  <div class="section-title"><span class="section-num">08</span> Basis Path Testing &amp; Cyclomatic Complexity</div>
+  <p class="section-desc">Most important numerical topic! Cyclomatic complexity formula ko perfectly yaad karo!</p>
+
+  <div class="def-box">
+    <span class="def-label">📘 Definition</span>
+    <p><strong>Basis Path Testing</strong> is a White Box testing technique that uses the <strong>control structure of a program</strong> to derive test cases. A control flow graph is prepared and all possible paths present in the graph are executed. It ensures <strong>100% statement coverage AND 100% branch coverage</strong>.</p>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-blue">📊</span> Control Flow Graph (CFG)</h3>
+    <p>A <strong>Control Flow Graph (V, E)</strong> is a directed graph representing the control structure of a program/module.</p>
+    <div class="grid-2">
+      <div>
+        <h4>Node Types:</h4>
+        <ul>
+          <li><strong>Junction Node:</strong> more than one arrow entering</li>
+          <li><strong>Decision Node (Predicate Node):</strong> more than one arrow leaving</li>
+          <li><strong>Region:</strong> area bounded by edges and nodes</li>
+        </ul>
+        <h4>Common Notations:</h4>
+        <ul>
+          <li>Sequential Statements → single flow</li>
+          <li>If-Then-Else → branching</li>
+          <li>Do-While / While-Do → loops</li>
+          <li>Switch-Case → multiple branches</li>
+        </ul>
+      </div>
+      <div class="flow-graph">
+        <div style="font-size:15px; margin-bottom:8px; color:var(--text)">Sample CFG Flow:</div>
+        <div>Node 1</div>
+        <div>↓</div>
+        <div>Node 2 [Decision]</div>
+        <div>↙ &nbsp;&nbsp;&nbsp;&nbsp; ↘</div>
+        <div>Node 3 &nbsp;&nbsp;&nbsp; Node 4</div>
+        <div>↘ &nbsp;&nbsp;&nbsp;&nbsp; ↙</div>
+        <div>Node 5 [Junction]</div>
+        <div>↓</div>
+        <div>Node 6 (End)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-red">🔢</span> Cyclomatic Complexity V(G)</h3>
+    <p><strong>Cyclomatic Complexity</strong> is a measure of the <em>logical complexity</em> of a program. It defines the <strong>number of independent paths</strong> (minimum test cases needed).</p>
+
+    <div class="formula-box">
+<span class="comment">// THREE EQUIVALENT FORMULAS — all give the same answer</span>
+
+<span class="keyword">Formula 1</span> (Edges & Nodes):
+  V(G) = <span class="value">E</span> - <span class="value">N</span> + 2<span class="value">P</span>
+  where E = edges, N = nodes, P = connected components (usually 1)
+
+<span class="keyword">Formula 2</span> (Decision Nodes):
+  V(G) = <span class="value">d</span> + <span class="value">P</span>
+  where d = number of decision/predicate nodes, P = connected components
+
+<span class="keyword">Formula 3</span> (Regions):
+  V(G) = <span class="value">Number of regions</span> in the flow graph
+  <span class="comment">// Include the outer region (outside the graph)</span>
+    </div>
+
+    <div class="alert alert-exam">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Exam Critical:</strong> All three formulas MUST give the same answer. Use all three to verify in numericals! If they don't match, you made an error somewhere.</div>
+    </div>
+
+    <h4>Cyclomatic Complexity Risk Interpretation (from PPT Slide 24):</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>V(G) Range</th><th>Risk Level</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td>V(G) ≤ 10</td><td>🟢 Low Risk</td><td>Simple program, easy to test</td></tr>
+          <tr><td>V(G) = 11–20</td><td>🟡 Moderate Risk</td><td>Moderate complexity, manageable</td></tr>
+          <tr><td>V(G) = 21–50</td><td>🔴 High Risk</td><td>Complex program, difficult to test</td></tr>
+          <tr><td>V(G) &gt; 50</td><td>⛔ Very High Risk</td><td>Essentially untestable — refactor!</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-yellow">📐</span> Worked Numerical — Basis Path Testing</h3>
+    <div class="example-box">
+      <span class="ex-label">📐 Complete Solved Example</span>
+      <p><strong>Given Flow Graph:</strong> Consider a graph with the following structure:</p>
+      <ul>
+        <li>Nodes: 1, 2, 3, 4, 5, 6, 7, 8 (N = 8)</li>
+        <li>Edges: 1→2, 2→3, 2→4, 3→5, 3→6, 4→7, 5→7, 6→7, 7→8, 7→1 (E = 10 — wait, let's use the textbook example)</li>
+      </ul>
+      <p style="margin-top:10px"><strong>Standard Textbook Example (from Lecture 4):</strong></p>
+      <p>A flow graph has <strong>4 independent paths</strong> identified as:</p>
+      <ul>
+        <li>P1: 1 → 2 → 4 → 7 → 8</li>
+        <li>P2: 1 → 2 → 3 → 5 → 7 → 8</li>
+        <li>P3: 1 → 2 → 3 → 6 → 7 → 8</li>
+        <li>P4: 1 → 2 → 4 → 7 → 1 → ... → 7 → 8 (loop path)</li>
+      </ul>
+      <p style="margin-top:10px"><strong>Calculation:</strong></p>
+      <ul>
+        <li>V(G) using Formula 1: E - N + 2 = (calculated from graph)</li>
+        <li>V(G) using Formula 2: P (predicate nodes) + 1</li>
+        <li>V(G) = <strong>4</strong> (all formulas agree)</li>
+        <li>Therefore, <strong>4 independent paths, minimum 4 test cases needed</strong></li>
+      </ul>
+    </div>
+
+    <div class="example-box">
+      <span class="ex-label">📐 Lecture 5 Example — Complete Walkthrough</span>
+      <p><strong>Flow Graph from Lecture 5 (4 Paths):</strong></p>
+      <ul>
+        <li><strong>Path 1:</strong> 1 → 2 → 5 → 7</li>
+        <li><strong>Path 2:</strong> 1 → 2 → 5 → 6 → 7</li>
+        <li><strong>Path 3:</strong> 1 → 2 → 3 → 2 → 5 → 6 → 7</li>
+        <li><strong>Path 4:</strong> 1 → 2 → 3 → 4 → 2 → 5 → 6 → 7</li>
+      </ul>
+      <p style="margin-top:8px">→ V(G) = 4 → 4 independent paths → design 4 test cases</p>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-green">✅</span> Steps for Basis Path Testing</h3>
+    <ul class="step-list">
+      <li><span class="step-num green">1</span><div><strong>Draw/Construct the Control Flow Graph</strong> from code or flowchart</div></li>
+      <li><span class="step-num green">2</span><div><strong>Compute Cyclomatic Complexity V(G)</strong> using any of 3 formulas</div></li>
+      <li><span class="step-num green">3</span><div><strong>Identify Independent Paths</strong> — number equals V(G)</div></li>
+      <li><span class="step-num green">4</span><div><strong>Design Test Cases</strong> corresponding to each independent path</div></li>
+    </ul>
+    <div class="alert alert-tip">
+      <span class="alert-icon">💡</span>
+      <div><strong>Independent Path:</strong> A path that introduces at least <em>one new edge</em> that has not been traversed before. The cyclomatic complexity = upper bound for number of tests needed.</div>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3><span class="icon icon-purple">🎯</span> Advantages of Basis Path Testing</h3>
+    <div class="grid-2">
+      <div>
+        <h4>More Coverage</h4>
+        <p>Maximum logic coverage (not just path coverage) → thorough testing.</p>
+        <h4>Maintenance Testing</h4>
+        <p>When software is modified, basis path testing ensures changes are tested properly.</p>
+      </div>
+      <div>
+        <h4>Unit Testing</h4>
+        <p>Developers use it to test their own code structure before submitting.</p>
+        <h4>Integration Testing</h4>
+        <p>Tests all paths on module interfaces to avoid interface errors.</p>
+        <h4>Testing Effort</h4>
+        <p>Testing effort ∝ Cyclomatic complexity (more complex = more tests).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  Q&A BANK -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="qa">
+  <div class="section-title"><span class="section-num">Q&A</span> Question &amp; Answer Bank</div>
+  <p class="section-desc">30 questions — examiner ki nazar se! Seedha exam mein aane wale topics.</p>
+
+  <!-- EASY QUESTIONS -->
+  <div class="qa-section">
+    <div class="qa-header">
+      <span class="qa-badge qa-badge-easy">EASY</span>
+      <span class="qa-title-text">2 Mark Questions</span>
+      <span class="qa-meta">3–4 lines · Q 1–10</span>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q1</span><p>Define Software Testing. What is its main objective?</p></div>
+      <div class="qa-a">
+        <p><strong>Software Testing</strong> is the process of verifying and validating that a software application is bug-free, meets technical requirements, and satisfies user needs effectively while handling all exceptional and boundary cases.</p>
+        <p>The <strong>main objective</strong> is to systematically find different types of errors without consuming excessive time, so that the overall software development cost and time are reduced, and software quality is improved.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q2</span><p>Differentiate between Verification and Validation. (2 marks)</p></div>
+      <div class="qa-a">
+        <p><strong>Verification</strong> ("Are we building the product RIGHT?") ensures software correctly implements a specific function. It is a <em>static</em> process involving reviews, inspections, and walkthroughs — done during development.</p>
+        <p><strong>Validation</strong> ("Are we building the RIGHT product?") ensures the built software is traceable to customer requirements. It is a <em>dynamic</em> process involving actual test execution — done after verification.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q3</span><p>What is the Pesticide Paradox in software testing?</p></div>
+      <div class="qa-a">
+        <p>The <strong>Pesticide Paradox</strong> is a testing principle which states that if the same set of test cases is run repeatedly over time, they will eventually stop finding new defects — just like pests developing resistance to pesticides.</p>
+        <p><strong>Solution:</strong> Test cases must be regularly reviewed and updated to discover new bugs. New and different test cases must be written to exercise different parts of the software to potentially find more defects.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q4</span><p>What is Alpha Testing? How does it differ from Beta Testing?</p></div>
+      <div class="qa-a">
+        <p><strong>Alpha Testing</strong> is performed at the developer's site in a controlled environment by internal testers/QA teams. It uses both White Box and Black Box techniques to find critical bugs early.</p>
+        <p><strong>Beta Testing</strong> is conducted at the end user's site in real-world, uncontrolled conditions. Real users provide feedback on usability, performance, and compatibility. Beta follows alpha in sequence — alpha is internal, beta is external.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q5</span><p>What is Black Box Testing? Give another name for it.</p></div>
+      <div class="qa-a">
+        <p><strong>Black Box Testing</strong> (also called <em>Behavioral Testing</em>) is a software testing method where functionalities are tested without any knowledge of the internal code structure, implementation details, or internal paths. Testers focus only on inputs and outputs based on requirements and specifications.</p>
+        <p>It is well-suited for testing large code segments and is performed by an independent testing team.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q6</span><p>What is White Box Testing? List any two other names for it.</p></div>
+      <div class="qa-a">
+        <p><strong>White Box Testing</strong> is a software testing technique in which the internal structure, design, and code of software are tested to verify the flow of input-output and improve design, usability, and security. Testers have full access to the source code.</p>
+        <p>Other names: <strong>Glass Box Testing, Clear Box Testing, Structural Testing, Open Box Testing, Code-based Testing.</strong> It requires testers to have programming knowledge.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q7</span><p>What is Cyclomatic Complexity? State the formula to calculate it.</p></div>
+      <div class="qa-a">
+        <p><strong>Cyclomatic Complexity V(G)</strong> is a measure of the logical complexity of a program. It determines the number of independent paths in a control flow graph, which in turn gives the minimum number of test cases required.</p>
+        <p><strong>Formulas:</strong><br>
+        (1) V(G) = E – N + 2P (E = edges, N = nodes, P = connected components)<br>
+        (2) V(G) = d + P (d = decision nodes, P = components)<br>
+        (3) V(G) = Number of regions in the flow graph</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q8</span><p>What is Regression Testing? When is it performed?</p></div>
+      <div class="qa-a">
+        <p><strong>Regression Testing</strong> is a type of software testing performed after changes, modifications, or upgrades are made to existing code. Its purpose is to verify that the new changes have not broken or adversely affected any existing functionality.</p>
+        <p>It is performed <strong>after bug fixes, code changes, or new feature additions</strong>. It is also used in automation testing scenarios for repeated, efficient verification of unchanged functions.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q9</span><p>What is the Defect Clustering principle in software testing?</p></div>
+      <div class="qa-a">
+        <p><strong>Defect Clustering</strong> is a testing principle based on the <em>Pareto Principle (80/20 rule)</em>. It states that approximately <strong>80% of defects are found in about 20% of the software modules</strong>.</p>
+        <p>This principle guides testers to focus their testing efforts on these high-defect-density modules, leading to more efficient and effective defect discovery. Critical/complex modules get proportionally more testing attention.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num green">Q10</span><p>What is IV&V (Independent Validation and Verification)?</p></div>
+      <div class="qa-a">
+        <p><strong>IV&V (Independent Validation and Verification)</strong> refers to validation testing performed by a <strong>third-party organization</strong> rather than the development team. The developer provides a user manual describing the standard operating conditions.</p>
+        <p>The third-party organization conducts tests and submits a <strong>validation report</strong> to the developer. The developer then makes required changes and re-tests to confirm customer needs are met. IV&V provides an unbiased quality evaluation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIUM QUESTIONS -->
+  <div class="qa-section">
+    <div class="qa-header">
+      <span class="qa-badge qa-badge-medium">MEDIUM</span>
+      <span class="qa-title-text">5 Mark Questions</span>
+      <span class="qa-meta">10–15 lines · Q 11–22</span>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q11</span><p>Explain the different levels of software testing with their objectives.</p></div>
+      <div class="qa-a">
+        <p>Software testing is performed at four major levels:</p>
+        <ul>
+          <li><strong>Unit Testing:</strong> Tests individual components/modules in isolation. Performed by developers in the early phase. Validates that each unit performs as designed. Detects bugs in individual functions/methods.</li>
+          <li><strong>Integration Testing:</strong> Tests how units work together when combined. Performed by testers after unit testing. Focuses on interfaces and interactions between modules. Detects faults that arise from module integration.</li>
+          <li><strong>System Testing:</strong> Tests the complete integrated system against specified requirements. A Black Box technique performed by the testing team. Evaluates both functional and non-functional requirements. Performed after integration testing and before acceptance testing.</li>
+          <li><strong>Acceptance Testing:</strong> Tests whether the system meets business requirements and user expectations. Performed by the customer before final deployment. Determines if the software is acceptable for delivery. Includes Alpha Testing (internal) and Beta Testing (external users).</li>
+          <li><strong>Regression Testing:</strong> Performed after any changes/fixes are made. Ensures new changes don't break existing functionality. Critical for maintaining software quality in iterative development.</li>
+        </ul>
+        <p>The sequence is: Unit → Integration → System → Acceptance. Each level builds on the previous, progressively increasing the scope of testing from individual components to the complete system.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q12</span><p>Explain Equivalence Partitioning with a suitable example.</p></div>
+      <div class="qa-a">
+        <p><strong>Equivalence Partitioning</strong> is a Black Box testing technique where the input domain is divided into groups (equivalence classes) where all values in a class behave similarly. Instead of testing every possible input, one representative value from each class is tested.</p>
+        <p><strong>Two steps:</strong></p>
+        <ul>
+          <li><strong>Step 1 — Identify Equivalence Classes:</strong> Partition the input domain into valid and invalid value sets.</li>
+          <li><strong>Step 2 — Generate Test Cases:</strong> Assign unique IDs to each class and write test cases covering all valid and invalid classes.</li>
+        </ul>
+        <p><strong>Example — Square Root Function:</strong></p>
+        <p><em>Valid Classes:</em></p>
+        <ul>
+          <li>EC1: Perfect square whole number (e.g., 9) → integer output</li>
+          <li>EC2: Non-perfect square whole number (e.g., 7) → decimal output</li>
+          <li>EC3: Positive decimal (e.g., 2.5)</li>
+        </ul>
+        <p><em>Invalid Classes:</em></p>
+        <ul>
+          <li>EC4: Negative numbers (e.g., -5)</li>
+          <li>EC5: Non-numeric characters (e.g., "a", "!")</li>
+        </ul>
+        <p>Instead of testing thousands of numbers, we test one from each of 5 classes = only 5 test cases. This dramatically reduces testing effort while maintaining thoroughness.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q13</span><p>Explain Boundary Value Analysis. How does it differ from Equivalence Partitioning?</p></div>
+      <div class="qa-a">
+        <p><strong>Boundary Value Analysis (BVA)</strong> is a Black Box testing technique based on the observation that errors tend to cluster at the boundaries of input domains. By testing values at, just above, and just below the boundaries, the probability of finding errors increases significantly.</p>
+        <p><strong>Boundary Values to test</strong> for a range [min, max]:</p>
+        <ul>
+          <li>min - 1 (just below minimum — invalid)</li>
+          <li>min (boundary — valid)</li>
+          <li>min + 1 (just above minimum — valid)</li>
+          <li>Nominal/middle value (valid)</li>
+          <li>max - 1 (just below maximum — valid)</li>
+          <li>max (boundary — valid)</li>
+          <li>max + 1 (just above maximum — invalid)</li>
+        </ul>
+        <p><strong>Example:</strong> For valid range 10 to 100:<br>Test: 9, 10, 11, 55, 99, 100, 101</p>
+        <p><strong>Difference from Equivalence Partitioning:</strong></p>
+        <ul>
+          <li>EP tests any representative value from a class (typically mid-range)</li>
+          <li>BVA specifically focuses on edge/boundary values where errors are most likely</li>
+          <li>BVA is complementary to EP — both are often used together</li>
+          <li>BVA has a higher defect detection rate for input validation errors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q14</span><p>Explain the working process and advantages of White Box Testing.</p></div>
+      <div class="qa-a">
+        <p><strong>White Box Testing</strong> tests the internal structure, design, and code of software. The tester has full access to source code and verifies internal security holes, code paths, loop functionality, and individual statement/function behavior.</p>
+        <p><strong>Working Process:</strong></p>
+        <ul>
+          <li><strong>Input:</strong> Requirements, functional specs, design documents, source code</li>
+          <li><strong>Processing:</strong> Perform risk analysis, design test cases to cover entire code</li>
+          <li><strong>Proper Test Planning:</strong> Execute tests, iterate until error-free; communicate results</li>
+          <li><strong>Output:</strong> Prepare final report of the entire testing process</li>
+        </ul>
+        <p><strong>Advantages:</strong></p>
+        <ul>
+          <li>Very thorough — entire code and structures are tested</li>
+          <li>Optimizes code by removing extra lines and errors</li>
+          <li>Can start early — doesn't need an interface unlike Black Box</li>
+          <li>Easy to automate using coverage tools</li>
+          <li>Helps identify hidden security vulnerabilities in code</li>
+        </ul>
+        <p><strong>Disadvantages:</strong></p>
+        <ul>
+          <li>Very expensive — requires skilled programmers</li>
+          <li>Missing functionalities cannot be detected (tests only what exists)</li>
+          <li>Code redesign requires completely new test cases</li>
+          <li>Very complex and sometimes not practically achievable</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q15</span><p>Describe the different types of System Testing.</p></div>
+      <div class="qa-a">
+        <p><strong>System Testing</strong> is a Black Box testing technique performed on the complete integrated system to evaluate compliance with requirements. It has several types:</p>
+        <ul>
+          <li><strong>Functional Testing:</strong> Verifies the system behaves according to functional requirements and specifications. Tests what the system does.</li>
+          <li><strong>Performance Testing:</strong> Assesses speed, responsiveness, scalability, stability, and reliability of the software under different conditions. Tests how fast the system responds.</li>
+          <li><strong>Load Testing:</strong> Tests system behavior under extreme or peak load conditions. Determines if the system can handle heavy user traffic.</li>
+          <li><strong>Stress Testing:</strong> Tests robustness of the system under varying loads — often beyond normal capacity. Checks what happens when the system breaks.</li>
+          <li><strong>Scalability Testing:</strong> Checks the system's ability to scale up or down in terms of user load. Important for cloud-based applications.</li>
+          <li><strong>Security Testing:</strong> Evaluates the software's ability to protect against threats and vulnerabilities, including unauthorized access and data breaches.</li>
+          <li><strong>Usability Testing:</strong> Measures how easy and intuitive the software is for end users — user experience focus.</li>
+          <li><strong>Compatibility Testing:</strong> Verifies the software works correctly across different platforms, devices, browsers, OS, and hardware configurations.</li>
+        </ul>
+        <p>System testing is performed AFTER integration testing and BEFORE acceptance testing. An independent testing team (not the development team) typically conducts it to ensure unbiased evaluation.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q16</span><p>Explain Statement Coverage and Branch Coverage with examples.</p></div>
+      <div class="qa-a">
+        <p>These are two key White Box testing coverage techniques:</p>
+        <p><strong>Statement Coverage:</strong> Ensures that every executable statement in the program is executed at least once. In a flowchart, every node must be traversed.</p>
+        <ul>
+          <li>Formula: Statement Coverage = (Executed Statements / Total Statements) × 100%</li>
+          <li>It is the simplest and lowest level of coverage criterion</li>
+          <li>Example: A function with 10 statements — if 8 are executed during testing, coverage = 80%</li>
+          <li>Weakness: Doesn't guarantee both sides of a condition are tested</li>
+        </ul>
+        <p><strong>Branch Coverage (Decision Coverage):</strong> Ensures that every branch from every decision point (both TRUE and FALSE outcomes) is executed at least once.</p>
+        <ul>
+          <li>In a flowchart, all edges must be traversed at least once</li>
+          <li>Example: for <code>if (x &gt; 0) { A() } else { B() }</code>, both the TRUE branch (A executed) and FALSE branch (B executed) must be tested</li>
+          <li>Stronger than statement coverage — catches errors in conditional logic</li>
+          <li>Weakness: Misses combinations of conditions</li>
+        </ul>
+        <p><strong>Hierarchy:</strong> Path Coverage &gt; Branch Coverage &gt; Statement Coverage (in terms of thoroughness). Higher coverage = more test cases needed.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q17</span><p>What is Cause-Effect Graphing? Explain the steps involved.</p></div>
+      <div class="qa-a">
+        <p><strong>Cause-Effect Graphing</strong> is a Black Box testing technique that establishes relationships between logical inputs (causes) and corresponding actions/outputs (effects) using Boolean graphs. It helps in designing systematic test cases for complex conditions.</p>
+        <p><strong>Steps:</strong></p>
+        <ul>
+          <li><strong>Step 1 — Identify Causes and Effects:</strong> List all inputs (causes) and outputs/actions (effects) from the requirements/specifications</li>
+          <li><strong>Step 2 — Develop Cause-Effect Graph:</strong> Represent causes and effects as nodes; connect them with Boolean relationships (AND, OR, NOT)</li>
+          <li><strong>Step 3 — Transform into Decision Table:</strong> Convert the graph into a decision table where columns represent rules and rows represent causes/effects. Each column = one rule.</li>
+          <li><strong>Step 4 — Convert to Test Cases:</strong> Each column (rule) in the decision table becomes one test case</li>
+        </ul>
+        <p><strong>Important Rule:</strong> If there are 2 conditions (causes), there will be 2² = 4 columns = 4 test cases minimum. For n conditions, 2ⁿ combinations exist.</p>
+        <p><strong>Advantage:</strong> Systematically generates test cases that cover all combinations of input conditions, ensuring complete logical coverage of business rules. Especially useful for systems with complex interdependent conditions.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q18</span><p>Explain the stages of Validation Testing Process.</p></div>
+      <div class="qa-a">
+        <p><strong>Validation Testing</strong> is performed to ensure the software meets customer requirements. It involves the following stages:</p>
+        <ul>
+          <li><strong>Stage 1 — Validation Planning:</strong> Plan all activities that need to be included during testing. Define the scope, schedule, and approach for validation.</li>
+          <li><strong>Stage 2 — Define Requirements:</strong> Set testing goals and clearly define the requirements. This becomes the baseline against which the software is evaluated.</li>
+          <li><strong>Stage 3 — Selecting a Team:</strong> Select a skilled and knowledgeable development/QA team. Third-party validators (IV&V) may also be included for independent assessment.</li>
+          <li><strong>Stage 4 — Developing Documents:</strong> Create a user specification document describing the operating conditions, environment, and expected behaviors of the software.</li>
+          <li><strong>Stage 5 — Estimation/Evaluation:</strong> Evaluate the software against its specifications. Run tests and compile results into a validation report highlighting pass/fail status.</li>
+          <li><strong>Stage 6 — Fixing Bugs / Incorporating Changes:</strong> Based on evaluation results, change the software to remove errors. After fixes, re-evaluate to confirm resolution.</li>
+        </ul>
+        <p>The cycle may repeat until all validation criteria are met. The goal is to ensure complete customer satisfaction and that the software fulfills all intended use cases in the appropriate deployment environment.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q19</span><p>Explain Loop Testing with its different types.</p></div>
+      <div class="qa-a">
+        <p><strong>Loop Testing</strong> is a White Box testing technique specifically designed to test loops, which are fundamental to algorithms and frequently contain errors at their beginning and ending conditions.</p>
+        <p><strong>Types of Loop Testing:</strong></p>
+        <p><strong>1. Simple Loops</strong> (loop size n): Test cases are designed to:</p>
+        <ul>
+          <li>Skip the loop entirely (0 iterations)</li>
+          <li>Only 1 pass through the loop</li>
+          <li>2 passes through the loop</li>
+          <li>m passes (where m &lt; n)</li>
+          <li>n-1 passes through the loop</li>
+          <li>n+1 passes through the loop (boundary)</li>
+        </ul>
+        <p><strong>2. Nested Loops:</strong></p>
+        <ul>
+          <li>Start from the innermost loop</li>
+          <li>Set all outer loops to their minimum iteration count</li>
+          <li>Conduct simple loop tests on the innermost loop</li>
+          <li>Work outward progressively until all loops are covered</li>
+        </ul>
+        <p><strong>3. Concatenated Loops</strong> (one after another):</p>
+        <ul>
+          <li>If loops are independent: apply simple loop tests to each individually</li>
+          <li>If loops share a loop counter or are not independent: treat them like nested loops</li>
+        </ul>
+        <p>Loop testing is critical because infinite loops, off-by-one errors, and incorrect loop exit conditions are among the most common programming bugs.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q20</span><p>What is a Control Flow Graph? Explain its components.</p></div>
+      <div class="qa-a">
+        <p>A <strong>Control Flow Graph (CFG)</strong> is a directed graph that represents the control structure of a program or module. It is used in Basis Path Testing to identify all possible execution paths.</p>
+        <p><strong>Components:</strong></p>
+        <ul>
+          <li><strong>Nodes (Vertices):</strong> Represent sequences of statements or decision points. A node can be a sequential statement, a condition check, or a junction point.</li>
+          <li><strong>Edges (Arrows):</strong> Represent the flow of control between nodes — i.e., the path execution takes from one node to another.</li>
+          <li><strong>Junction Node:</strong> A node with MORE THAN ONE arrow entering it (convergence point). Example: where if/else branches merge.</li>
+          <li><strong>Decision Node (Predicate Node):</strong> A node with MORE THAN ONE arrow leaving it (divergence point). Example: every if, while, for, switch statement.</li>
+          <li><strong>Region:</strong> An area bounded by edges and nodes. The area OUTSIDE the entire graph also counts as one region. Number of regions = Cyclomatic Complexity.</li>
+        </ul>
+        <p><strong>Notations used in CFG:</strong></p>
+        <ul>
+          <li>Sequential statements → simple flow (one node, one edge)</li>
+          <li>If-Then-Else → branch at decision node, join at junction node</li>
+          <li>While-Do → loop back edge from end to condition node</li>
+          <li>Do-While → loop body first, condition check at end</li>
+          <li>Switch-Case → multiple branches from one decision node</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q21</span><p>Explain Manual Testing vs Automation Testing. When should each be preferred?</p></div>
+      <div class="qa-a">
+        <p><strong>Manual Testing</strong> is where human testers manually execute test cases without automation tools. The tester plays the role of an end-user and identifies unexpected behavior.</p>
+        <p><strong>Automation Testing</strong> is where testers write scripts and use tools (like Selenium, JUnit, TestNG) to automatically execute test cases. Used for re-running scenarios quickly and repeatedly.</p>
+        <p><strong>Key Differences:</strong></p>
+        <ul>
+          <li>Manual: Slower, requires human observation; Automation: Fast, consistent, repeatable</li>
+          <li>Manual: Lower initial cost; Automation: Higher initial investment, lower long-term cost</li>
+          <li>Manual: Best for exploratory, UI/UX, ad-hoc testing; Automation: Best for regression, load, performance testing</li>
+          <li>Manual: Flexible for changing requirements; Automation: Rigid — scripts need updating when UI changes</li>
+        </ul>
+        <p><strong>When to use Manual:</strong> First-time testing of new features, exploratory testing, usability testing, complex scenarios requiring human judgment, small projects with tight budgets.</p>
+        <p><strong>When to use Automation:</strong> Repetitive regression tests, load/performance testing, smoke testing with each build, large data volume testing, cross-browser/platform compatibility testing.</p>
+        <p>Best practice: combine both — automate stable, repetitive tests while using manual testing for complex, exploratory scenarios.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num yellow">Q22</span><p>Explain Condition Coverage and Multiple Condition Coverage with examples.</p></div>
+      <div class="qa-a">
+        <p>Both are White Box testing techniques for handling Boolean conditions:</p>
+        <p><strong>Condition Coverage:</strong> All individual conditions within a decision must evaluate to both TRUE and FALSE at least once.</p>
+        <p>Example: <code>IF (X == 0 || Y == 0)</code> — Two conditions: [X==0] and [Y==0]</p>
+        <ul>
+          <li>TC1: X=0, Y=55 → X==0 is TRUE; Y==0 is FALSE</li>
+          <li>TC2: X=5, Y=0 → X==0 is FALSE; Y==0 is TRUE</li>
+        </ul>
+        <p>Only 2 test cases needed. Each condition gets TRUE and FALSE coverage.</p>
+        <p><strong>Multiple Condition Coverage:</strong> ALL possible combinations of condition outcomes must be tested. For n conditions → 2ⁿ test cases required.</p>
+        <p>Example: Same <code>IF (X == 0 || Y == 0)</code> — n=2 conditions → 2²=4 test cases:</p>
+        <ul>
+          <li>TC1: X=0, Y=0 → (TRUE, TRUE)</li>
+          <li>TC2: X=0, Y=5 → (TRUE, FALSE)</li>
+          <li>TC3: X=55, Y=0 → (FALSE, TRUE)</li>
+          <li>TC4: X=55, Y=5 → (FALSE, FALSE)</li>
+        </ul>
+        <p><strong>Key difference:</strong> Condition Coverage tests each condition independently; Multiple Condition Coverage tests ALL combinations. Multiple Condition Coverage is more thorough but requires exponentially more test cases. For 3 conditions → 8 test cases; 4 conditions → 16 test cases.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HARD/SCENARIO QUESTIONS -->
+  <div class="qa-section">
+    <div class="qa-header">
+      <span class="qa-badge qa-badge-hard">HARD / SCENARIO</span>
+      <span class="qa-title-text">10 Mark Questions</span>
+      <span class="qa-meta">30+ lines · Q 23–30</span>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q23</span><p>Explain Basis Path Testing in detail. Perform basis path testing on a program that reads two integers and prints their sum if both are positive, otherwise prints an error. Draw the flow graph, calculate cyclomatic complexity, identify independent paths, and design test cases.</p></div>
+      <div class="qa-a">
+        <p><strong>Basis Path Testing</strong> is a White Box testing technique based on the control structure of the program. It uses Cyclomatic Complexity to determine the number of independent paths in the program's control flow graph, then designs one test case per path to achieve 100% statement and branch coverage.</p>
+
+        <p><strong>Given Program (Pseudocode):</strong></p>
+        <div class="formula-box">
+1. START
+2. Read X, Y
+3. IF (X > 0) AND (Y > 0) THEN
+4.     Print "Sum =", X + Y
+5. ELSE
+6.     Print "Error: Both must be positive"
+7. END IF
+8. END
+        </div>
+
+        <p><strong>Step 1 — Control Flow Graph Construction:</strong></p>
+        <p>Nodes and their roles:</p>
+        <ul>
+          <li>Node 1: START + Read X, Y (Sequential)</li>
+          <li>Node 2: Decision — IF (X > 0) AND (Y > 0)</li>
+          <li>Node 3: TRUE branch — Print "Sum"</li>
+          <li>Node 4: FALSE branch — Print "Error"</li>
+          <li>Node 5: END (Junction node)</li>
+        </ul>
+        <p>Edges: 1→2, 2→3 (TRUE), 2→4 (FALSE), 3→5, 4→5</p>
+        <p>So: E = 5, N = 5, P = 1</p>
+
+        <p><strong>Step 2 — Calculate Cyclomatic Complexity V(G):</strong></p>
+        <ul>
+          <li><strong>Formula 1:</strong> V(G) = E – N + 2P = 5 – 5 + 2(1) = <strong>2</strong></li>
+          <li><strong>Formula 2:</strong> V(G) = d + P = 1 decision node + 1 = <strong>2</strong></li>
+          <li><strong>Formula 3:</strong> Regions = 2 (inner region + outer region) = <strong>2</strong></li>
+          <li>All three formulas agree: <strong>V(G) = 2</strong></li>
+        </ul>
+
+        <p><strong>Step 3 — Risk Assessment:</strong></p>
+        <p>V(G) = 2, which is ≤ 10 → <strong>Low Risk, Simple Program</strong>. Easy to test.</p>
+
+        <p><strong>Step 4 — Independent Paths:</strong></p>
+        <p>V(G) = 2, so there are 2 independent paths:</p>
+        <ul>
+          <li><strong>Path 1:</strong> 1 → 2 → 3 → 5 (Both positive: TRUE branch)</li>
+          <li><strong>Path 2:</strong> 1 → 2 → 4 → 5 (One/both non-positive: FALSE branch)</li>
+        </ul>
+        <p>An independent path introduces at least one new edge not traversed before.</p>
+
+        <p><strong>Step 5 — Design Test Cases:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Test Case</th><th>Path</th><th>X</th><th>Y</th><th>Expected Output</th><th>Coverage</th></tr></thead>
+            <tbody>
+              <tr><td>TC1</td><td>Path 1 (TRUE)</td><td>5</td><td>3</td><td>Sum = 8</td><td>TRUE branch, Nodes 1,2,3,5</td></tr>
+              <tr><td>TC2</td><td>Path 2 (FALSE)</td><td>-2</td><td>4</td><td>Error: Both must be positive</td><td>FALSE branch, Nodes 1,2,4,5</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Result:</strong> With just 2 test cases, we achieve 100% statement coverage (all nodes visited) and 100% branch coverage (both TRUE and FALSE branches covered). This demonstrates the power of Basis Path Testing — minimum test cases for maximum coverage.</p>
+
+        <p><strong>Advantages of this approach:</strong></p>
+        <ul>
+          <li>Systematic — removes guesswork from test case design</li>
+          <li>Complete — guarantees every statement and branch is exercised</li>
+          <li>Measurable — complexity score gives insight into testing effort needed</li>
+          <li>If V(G) is very high (>50), this signals a need to refactor the code</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q24</span><p>Compare Black Box Testing and White Box Testing in detail. Discuss their techniques, advantages, disadvantages, and scenarios where each is appropriate. Provide examples for each technique.</p></div>
+      <div class="qa-a">
+        <p>Black Box Testing and White Box Testing are the two fundamental approaches to software testing, representing opposite ends of the testing spectrum in terms of code visibility and tester knowledge.</p>
+
+        <p><strong>BLACK BOX TESTING (Behavioral Testing)</strong></p>
+        <p><em>Definition:</em> Tests software functionality without any knowledge of internal code structure. Focus is entirely on inputs and outputs based on requirements and specifications.</p>
+
+        <p><strong>Techniques:</strong></p>
+        <ul>
+          <li><strong>Equivalence Partitioning:</strong> Group similar inputs into classes and test one representative. Example: for age validation (1-100), test 50 (valid), -1 (invalid below), 101 (invalid above).</li>
+          <li><strong>Boundary Value Analysis:</strong> Test at exact boundaries. For range 10-100: test 9, 10, 11, 99, 100, 101.</li>
+          <li><strong>Cause-Effect Graphing:</strong> Model input-output relationships as Boolean graphs. Convert to decision table. n conditions → 2ⁿ test cases.</li>
+          <li><strong>Syntax-Driven Testing:</strong> For systems described by grammar (e.g., compilers). Each grammar rule tested at least once.</li>
+          <li><strong>Compatibility Testing:</strong> Test across different OS, hardware, browsers.</li>
+        </ul>
+
+        <p><strong>Advantages of Black Box:</strong></p>
+        <ul>
+          <li>No programming knowledge required — domain experts can test</li>
+          <li>Tests from the user's perspective — validates real-world use</li>
+          <li>Unbiased — tester doesn't know implementation details</li>
+          <li>Can detect missing or incorrect requirements</li>
+          <li>Applicable at all levels: unit, integration, system, acceptance</li>
+        </ul>
+
+        <p><strong>Disadvantages of Black Box:</strong></p>
+        <ul>
+          <li>Cannot test internal security vulnerabilities</li>
+          <li>Many paths may remain untested (no visibility into code)</li>
+          <li>Writing test cases without code knowledge can be challenging</li>
+          <li>Low efficiency — may produce redundant test cases</li>
+        </ul>
+
+        <p><strong>WHITE BOX TESTING (Structural/Glass Box Testing)</strong></p>
+        <p><em>Definition:</em> Tests internal code structure, design, and logic. Testers have full access to source code and test specific paths, conditions, and statements.</p>
+
+        <p><strong>Techniques:</strong></p>
+        <ul>
+          <li><strong>Statement Coverage:</strong> Every statement executed ≥ once. Formula: (Executed/Total) × 100%.</li>
+          <li><strong>Branch Coverage:</strong> Every TRUE/FALSE branch executed ≥ once.</li>
+          <li><strong>Condition Coverage:</strong> Each boolean sub-condition tested as TRUE and FALSE.</li>
+          <li><strong>Multiple Condition Coverage:</strong> All combinations tested. n conditions → 2ⁿ test cases.</li>
+          <li><strong>Basis Path Testing:</strong> V(G) computed, independent paths identified, one test case per path.</li>
+          <li><strong>Loop Testing:</strong> Simple/nested/concatenated loops tested at 0, 1, 2, n-1, n, n+1 iterations.</li>
+        </ul>
+
+        <p><strong>Advantages of White Box:</strong></p>
+        <ul>
+          <li>Thorough — covers all code statements, branches, and paths</li>
+          <li>Optimizes code — removes dead/redundant code</li>
+          <li>Detects hidden security vulnerabilities in code</li>
+          <li>Can start early without requiring a complete interface</li>
+          <li>Easily automated with code coverage tools</li>
+        </ul>
+
+        <p><strong>Disadvantages of White Box:</strong></p>
+        <ul>
+          <li>Expensive — requires expert programmers as testers</li>
+          <li>Cannot detect missing functionalities</li>
+          <li>Code changes require completely rewriting test cases</li>
+          <li>Path coverage with complex programs is practically impossible</li>
+          <li>Tester may inherit developer's blind spots/assumptions</li>
+        </ul>
+
+        <p><strong>COMPARATIVE TABLE:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Parameter</th><th>Black Box</th><th>White Box</th></tr></thead>
+            <tbody>
+              <tr><td>Code Visibility</td><td>No code access</td><td>Full code access</td></tr>
+              <tr><td>Knowledge Needed</td><td>Domain/requirements</td><td>Programming expertise</td></tr>
+              <tr><td>Perspective</td><td>External (user view)</td><td>Internal (developer view)</td></tr>
+              <tr><td>Missing Features</td><td>Can detect</td><td>Cannot detect</td></tr>
+              <tr><td>Security Testing</td><td>Limited</td><td>Thorough</td></tr>
+              <tr><td>When to Use</td><td>System, acceptance testing</td><td>Unit, integration testing</td></tr>
+              <tr><td>Automation</td><td>Moderate</td><td>Easy</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Best Practice:</strong> Neither approach alone is sufficient. <strong>Grey Box Testing</strong> — a combination of both — is often used in practice. A skilled tester uses black box testing to verify requirements and white box testing to ensure code quality.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q25</span><p>NUMERICAL: A program has the following pseudocode. Draw the control flow graph, calculate cyclomatic complexity using all three formulas, find independent paths, and design test cases. Program: Read N. If N > 0, loop from i=1 to N, print i. If N is 0, print "Zero". If N < 0, print "Negative".</p></div>
+      <div class="qa-a">
+        <p><strong>Given Pseudocode (numbered for CFG):</strong></p>
+        <div class="formula-box">
+1.  START
+2.  Read N
+3.  IF N > 0 THEN               ← Decision Node (Predicate 1)
+4.      i = 1
+5.      WHILE i ≤ N DO          ← Decision Node (Predicate 2)
+6.          Print i
+7.          i = i + 1
+8.      END WHILE
+9.  ELSE IF N == 0 THEN         ← Decision Node (Predicate 3)
+10.     Print "Zero"
+11. ELSE
+12.     Print "Negative"
+13. END IF
+14. END
+        </div>
+
+        <p><strong>Step 1 — Map to CFG Nodes:</strong></p>
+        <p>Collapse sequential statements into single nodes:</p>
+        <ul>
+          <li><strong>Node 1:</strong> START, Read N (statements 1-2)</li>
+          <li><strong>Node 2:</strong> Decision — IF N > 0 (statement 3) ← Predicate Node</li>
+          <li><strong>Node 3:</strong> i = 1 (statement 4)</li>
+          <li><strong>Node 4:</strong> Decision — WHILE i ≤ N (statement 5) ← Predicate Node</li>
+          <li><strong>Node 5:</strong> Print i; i++ (statements 6-7) — loop body</li>
+          <li><strong>Node 6:</strong> Decision — ELSE IF N == 0 (statement 9) ← Predicate Node</li>
+          <li><strong>Node 7:</strong> Print "Zero" (statement 10)</li>
+          <li><strong>Node 8:</strong> Print "Negative" (statement 12)</li>
+          <li><strong>Node 9:</strong> END (statement 14) ← Junction</li>
+        </ul>
+
+        <p><strong>CFG Edges:</strong></p>
+        <ul>
+          <li>1→2, 2→3 (TRUE: N>0), 3→4, 4→5 (TRUE: i≤N), 5→4 (loop back), 4→6 (FALSE: i>N exits loop then checks), 2→6 (FALSE: N not >0), 6→7 (TRUE: N==0), 6→8 (FALSE: N&lt;0), 7→9, 8→9, and after loop Node4's exit goes to 9 via collecting...</li>
+        </ul>
+
+        <p><em>Simplified for calculation:</em> Let's count: E = 11 edges, N = 9 nodes, P = 1 (connected)</p>
+
+        <p><strong>Step 2 — Cyclomatic Complexity:</strong></p>
+        <ul>
+          <li><strong>Formula 1:</strong> V(G) = E – N + 2P = 11 – 9 + 2 = <strong>4</strong></li>
+          <li><strong>Formula 2:</strong> V(G) = d + P = 3 predicate nodes + 1 = <strong>4</strong></li>
+          <li><strong>Formula 3:</strong> V(G) = Regions = 4 (count enclosed regions + outer region) = <strong>4</strong></li>
+          <li>✅ All three agree: <strong>V(G) = 4</strong></li>
+        </ul>
+
+        <p><strong>Risk Level:</strong> V(G) = 4 ≤ 10 → <strong>Low Risk</strong></p>
+
+        <p><strong>Step 3 — Independent Paths (4 total):</strong></p>
+        <ul>
+          <li><strong>Path 1:</strong> 1→2→3→4→6→9 (N>0 but loop executes 0 times — N was 0 after entering? Edge case)</li>
+          <li><strong>Path 2:</strong> 1→2→3→4→5→4→...→9 (N>0, loop executes N times — normal positive path)</li>
+          <li><strong>Path 3:</strong> 1→2→6→7→9 (N==0)</li>
+          <li><strong>Path 4:</strong> 1→2→6→8→9 (N&lt;0)</li>
+        </ul>
+
+        <p><strong>Step 4 — Test Cases:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>TC</th><th>Path</th><th>Input N</th><th>Expected Output</th><th>Nodes Covered</th></tr></thead>
+            <tbody>
+              <tr><td>TC1</td><td>Path 1 (loop, 1 iter)</td><td>N = 1</td><td>Prints: 1</td><td>1,2,3,4,5,4(exit),9</td></tr>
+              <tr><td>TC2</td><td>Path 2 (loop, N iter)</td><td>N = 3</td><td>Prints: 1, 2, 3</td><td>1,2,3,4,5,4,5,4,5,4,9</td></tr>
+              <tr><td>TC3</td><td>Path 3 (N==0)</td><td>N = 0</td><td>Prints: "Zero"</td><td>1,2,6,7,9</td></tr>
+              <tr><td>TC4</td><td>Path 4 (N&lt;0)</td><td>N = -5</td><td>Prints: "Negative"</td><td>1,2,6,8,9</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Conclusion:</strong> 4 test cases achieve 100% statement and branch coverage for this program. The cyclomatic complexity of 4 confirms low risk and good testability. Basis path testing has systematically generated the minimum required test cases.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q26</span><p>SCENARIO: You are a lead tester at a software company. A new banking mobile app has been developed. Design a comprehensive testing strategy covering all levels, types, and techniques. Justify each choice. What would you test first and why?</p></div>
+      <div class="qa-a">
+        <p><strong>Banking App Comprehensive Testing Strategy</strong></p>
+        <p>A banking application requires the highest levels of reliability, security, and usability. The following strategy applies a multi-layered testing approach:</p>
+
+        <p><strong>PHASE 1: Verification Phase (Before Code Testing)</strong></p>
+        <ul>
+          <li>Conduct <strong>Formal Technical Reviews</strong> of requirements and design documents</li>
+          <li>Perform <strong>walkthroughs and inspections</strong> of SRS, architecture documents</li>
+          <li>Verify all functional requirements are clearly defined and testable</li>
+          <li>This reduces bugs early — cheaper to fix design flaws than code bugs</li>
+        </ul>
+
+        <p><strong>PHASE 2: Unit Testing (White Box)</strong></p>
+        <ul>
+          <li>Developers test each module: Login, Transfer, Account Balance, Transaction History</li>
+          <li>Use <strong>Statement Coverage</strong> and <strong>Branch Coverage</strong> for all financial calculation modules</li>
+          <li>Apply <strong>Basis Path Testing</strong> for complex conditional logic (e.g., transfer validation, interest calculation)</li>
+          <li>Use <strong>Loop Testing</strong> for any modules that iterate over transactions</li>
+          <li>Use <strong>Multiple Condition Coverage</strong> for security checks (account status AND balance AND PIN validation)</li>
+          <li>Target: 100% code coverage for critical financial modules</li>
+        </ul>
+
+        <p><strong>PHASE 3: Integration Testing</strong></p>
+        <ul>
+          <li>Test interactions: Login Module ↔ Session Management, Transfer Module ↔ Database, Notification Module ↔ Backend</li>
+          <li>Test hardware interactions: biometric sensor, OTP system, push notifications</li>
+          <li>Verify API integrations: payment gateways, NEFT/RTGS/IMPS systems</li>
+          <li>Focus on interface errors that don't appear in unit testing</li>
+        </ul>
+
+        <p><strong>PHASE 4: System Testing (Black Box)</strong></p>
+        <ul>
+          <li><strong>Functional Testing:</strong> Test all features: login, transfer, bill payment, statement download</li>
+          <li><strong>Security Testing (HIGHEST PRIORITY for banking):</strong> SQL injection, session hijacking, brute force PIN attacks, SSL/TLS verification, data encryption</li>
+          <li><strong>Performance Testing:</strong> How long does fund transfer take? Target: &lt;3 seconds</li>
+          <li><strong>Load Testing:</strong> Simulate 100,000 simultaneous users during peak hours (month-end salary credits)</li>
+          <li><strong>Stress Testing:</strong> Push beyond limits — 500,000 users. Does it crash gracefully?</li>
+          <li><strong>Usability Testing:</strong> Senior citizens using the app — is it intuitive? Accessibility compliance</li>
+          <li><strong>Compatibility Testing:</strong> Test on Android 8-14, iOS 14-17, different screen sizes, network speeds (2G, 3G, 4G, WiFi)</li>
+          <li>Apply <strong>Equivalence Partitioning</strong>: valid amounts, invalid amounts (negative, exceeding balance, non-numeric)</li>
+          <li>Apply <strong>Boundary Value Analysis</strong>: transfer limit Rs. 2,00,000 — test 1,99,999 / 2,00,000 / 2,00,001</li>
+        </ul>
+
+        <p><strong>PHASE 5: Alpha Testing</strong></p>
+        <ul>
+          <li>Bank employees and QA team test in controlled environment</li>
+          <li>Simulate real banking scenarios: payroll processing, EMI deductions, FD maturity</li>
+          <li>Fix critical bugs found during this phase immediately</li>
+        </ul>
+
+        <p><strong>PHASE 6: Beta Testing</strong></p>
+        <ul>
+          <li>Release to 1,000 selected customers in real-world conditions</li>
+          <li>Collect feedback on usability, performance, reliability, feature gaps</li>
+          <li>Monitor crash reports, error logs, and user drop-off points</li>
+        </ul>
+
+        <p><strong>PHASE 7: Regression Testing (Ongoing)</strong></p>
+        <ul>
+          <li>After every bug fix or new feature addition, run full regression suite</li>
+          <li>Automate regression tests using Selenium/Appium for mobile</li>
+          <li>Apply Pesticide Paradox principle — update test cases regularly for new threat vectors</li>
+        </ul>
+
+        <p><strong>WHAT TO TEST FIRST and WHY:</strong></p>
+        <p>Security testing for authentication (login/PIN validation) should be the FIRST priority because:</p>
+        <ul>
+          <li>A single security breach can cause catastrophic financial and reputational damage</li>
+          <li>Regulatory compliance (RBI guidelines) mandates security verification</li>
+          <li>Defect Clustering principle — security modules are the most critical and failure-prone</li>
+          <li>Early detection prevents expensive redesigns later</li>
+        </ul>
+
+        <p><strong>Documentation and Metrics:</strong> Track defect density per module, test coverage percentage, mean time to repair (MTTR), and test pass rate. Submit formal validation report to compliance team before launch.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q27</span><p>Explain the Software Testing Strategy in detail. What are the key components of a comprehensive test strategy? How does it align with the SDLC?</p></div>
+      <div class="qa-a">
+        <p><strong>Software Testing Strategy</strong> is a high-level document that describes the approach, scope, resources, schedule, and objectives for testing a software system. It provides direction and guidelines for the entire testing process.</p>
+
+        <p><strong>Key Components of a Comprehensive Test Strategy:</strong></p>
+
+        <p><strong>1. Scope and Objectives:</strong></p>
+        <ul>
+          <li>Define what will be tested and what will NOT be tested</li>
+          <li>State clear, measurable objectives (e.g., "Achieve 95% statement coverage")</li>
+          <li>Identify the features/functions in scope and explicitly exclude others</li>
+        </ul>
+
+        <p><strong>2. Testing Levels and Their Mapping:</strong></p>
+        <ul>
+          <li>Unit → Developer responsibility → Early phase</li>
+          <li>Integration → Tester responsibility → After units complete</li>
+          <li>System → Testing team → Pre-release</li>
+          <li>Acceptance → Customer/QA → Before deployment</li>
+        </ul>
+
+        <p><strong>3. Testing Types:</strong></p>
+        <ul>
+          <li>Functional, Performance, Security, Regression, Load, Stress, Usability, Compatibility</li>
+          <li>Each type mapped to specific phase and responsible team</li>
+        </ul>
+
+        <p><strong>4. Testing Techniques:</strong></p>
+        <ul>
+          <li>Black Box: Equivalence Partitioning, Boundary Value Analysis, Cause-Effect Graphing</li>
+          <li>White Box: Statement/Branch/Condition/Path Coverage, Basis Path Testing, Loop Testing</li>
+        </ul>
+
+        <p><strong>5. Resources and Responsibilities:</strong></p>
+        <ul>
+          <li>Testing team composition, skills required</li>
+          <li>Tools and environment specifications (hardware, OS, network)</li>
+          <li>Budget allocation for testing activities</li>
+        </ul>
+
+        <p><strong>6. Schedule and Milestones:</strong></p>
+        <ul>
+          <li>Timeline for each testing phase with entry and exit criteria</li>
+          <li>Entry criteria: what must be true before testing begins (e.g., unit testing complete)</li>
+          <li>Exit criteria: what must be achieved for testing to conclude (e.g., all P1 bugs fixed)</li>
+        </ul>
+
+        <p><strong>7. Defect Management:</strong></p>
+        <ul>
+          <li>Defect tracking process, severity and priority classification</li>
+          <li>Escalation path for critical defects</li>
+          <li>Defect lifecycle: Reported → Assigned → Fixed → Retested → Closed</li>
+        </ul>
+
+        <p><strong>8. Continuous Improvement:</strong></p>
+        <ul>
+          <li>Statistical process control approach for measuring quality</li>
+          <li>Regular test case review to avoid Pesticide Paradox</li>
+          <li>Metrics collection: defect density, test pass rate, code coverage percentage</li>
+        </ul>
+
+        <p><strong>ALIGNMENT WITH SDLC:</strong></p>
+        <p>The testing strategy mirrors the SDLC phases:</p>
+        <ul>
+          <li><strong>Requirements Phase:</strong> Verification of requirements through reviews and walkthroughs (V-Model left side)</li>
+          <li><strong>Design Phase:</strong> Review of architectural and detailed design documents</li>
+          <li><strong>Implementation Phase:</strong> Unit testing by developers</li>
+          <li><strong>Integration Phase:</strong> Integration testing of combined modules</li>
+          <li><strong>Testing Phase:</strong> System testing by independent team</li>
+          <li><strong>Deployment Phase:</strong> User Acceptance Testing (UAT)</li>
+          <li><strong>Maintenance Phase:</strong> Regression testing after every change</li>
+        </ul>
+
+        <p>The <strong>V-Model</strong> best illustrates this alignment — each development activity has a corresponding testing activity. The strategy ensures "test early, test often" to detect defects when they are cheapest to fix (based on the Cost of Defects principle — defects found in requirements cost 10x less to fix than those found in production).</p>
+
+        <p><strong>Formal Technical Reviews as Filters:</strong> Before any testing begins, formal technical reviews help filter out defects early, reducing the testing burden significantly. This is one of the most cost-effective quality assurance practices.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q28</span><p>SCENARIO: A software development team has built an e-commerce website. After deployment, customers report bugs in the cart feature. As a QA lead, explain how you would apply Black Box Testing techniques to design comprehensive test cases for the shopping cart module. Use Equivalence Partitioning, Boundary Value Analysis, and Cause-Effect Graphing.</p></div>
+      <div class="qa-a">
+        <p><strong>E-Commerce Shopping Cart — Black Box Testing Strategy</strong></p>
+
+        <p>As QA Lead, I would apply three primary Black Box testing techniques to the cart module. The cart features include: add item, remove item, update quantity, apply coupon, and proceed to checkout.</p>
+
+        <p><strong>1. EQUIVALENCE PARTITIONING for Item Quantity Field</strong></p>
+        <p>Input: Quantity of items (rule: must be between 1 and 99)</p>
+        <p>Equivalence Classes:</p>
+        <ul>
+          <li><strong>EC1 (Valid):</strong> Whole numbers between 1 and 99 (e.g., 5) → Item added successfully</li>
+          <li><strong>EC2 (Invalid — Below):</strong> 0 or negative numbers (e.g., 0, -3) → Error: "Quantity must be at least 1"</li>
+          <li><strong>EC3 (Invalid — Above):</strong> Numbers > 99 (e.g., 150) → Error: "Maximum 99 items allowed"</li>
+          <li><strong>EC4 (Invalid — Type):</strong> Non-numeric input (e.g., "abc", "#") → Error: "Please enter a valid number"</li>
+          <li><strong>EC5 (Invalid — Decimal):</strong> Decimal numbers (e.g., 2.5) → Error: "Only whole numbers allowed"</li>
+        </ul>
+        <p>Test Cases: One test per class = 5 test cases instead of testing all possible numbers.</p>
+
+        <p><strong>2. BOUNDARY VALUE ANALYSIS for Quantity (Range: 1–99)</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Value</th><th>Type</th><th>Expected Result</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>Below min boundary</td><td>Error: Min quantity is 1</td></tr>
+              <tr><td>1</td><td>Minimum boundary (valid)</td><td>Item added with qty 1</td></tr>
+              <tr><td>2</td><td>Just above minimum</td><td>Item added successfully</td></tr>
+              <tr><td>50</td><td>Nominal mid value</td><td>Item added successfully</td></tr>
+              <tr><td>98</td><td>Just below maximum</td><td>Item added successfully</td></tr>
+              <tr><td>99</td><td>Maximum boundary (valid)</td><td>Item added with qty 99</td></tr>
+              <tr><td>100</td><td>Just above max (invalid)</td><td>Error: Max quantity is 99</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>7 test cases covering all boundary conditions. These are the values most likely to reveal bugs in the validation logic.</p>
+
+        <p><strong>3. CAUSE-EFFECT GRAPHING for Coupon Code Application</strong></p>
+        <p><em>Business Rule:</em> Coupon applies 20% discount ONLY IF (Coupon is Valid) AND (Cart Total > Rs. 500)</p>
+        <p>Causes (Inputs): C1 = Coupon Code Valid (YES/NO), C2 = Cart Total > Rs. 500 (YES/NO)</p>
+        <p>Effects (Outputs): E1 = 20% Discount Applied, E2 = Error: "Invalid coupon", E3 = Error: "Minimum cart Rs. 500 required"</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Rule</th><th>C1: Coupon Valid</th><th>C2: Total >500</th><th>E1: Discount</th><th>E2: Invalid</th><th>E3: MinOrder</th></tr></thead>
+            <tbody>
+              <tr><td>R1 (TC1)</td><td>YES</td><td>YES</td><td>✅ YES</td><td>❌ NO</td><td>❌ NO</td></tr>
+              <tr><td>R2 (TC2)</td><td>YES</td><td>NO</td><td>❌ NO</td><td>❌ NO</td><td>✅ YES</td></tr>
+              <tr><td>R3 (TC3)</td><td>NO</td><td>YES</td><td>❌ NO</td><td>✅ YES</td><td>❌ NO</td></tr>
+              <tr><td>R4 (TC4)</td><td>NO</td><td>NO</td><td>❌ NO</td><td>✅ YES</td><td>❌ NO</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>2 conditions → 2² = 4 test cases, each column becoming one test case.</p>
+
+        <p><strong>Additional Black Box Tests for Cart Module:</strong></p>
+        <ul>
+          <li><strong>Functional Testing:</strong> Add same item twice → quantity should increase, not duplicate. Remove all items → cart shows empty state. Price calculations with tax must be accurate.</li>
+          <li><strong>Compatibility Testing:</strong> Cart behavior on Chrome, Firefox, Safari, Edge. Mobile browsers (iOS Safari, Android Chrome). Cart persistence after browser tab close/reopen.</li>
+          <li><strong>Regression Testing:</strong> After fixing reported bugs, re-run all previous test cases to ensure fixes didn't introduce new bugs in checkout, payment, or order confirmation modules.</li>
+        </ul>
+
+        <p><strong>Conclusion:</strong> Through systematic Black Box techniques — without needing any knowledge of the cart's backend code — we designed 5 (EP) + 7 (BVA) + 4 (CEG) = 16 targeted test cases that comprehensively validate the cart module from a user perspective. This approach can be executed by domain experts or QA professionals without requiring programming knowledge.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q29</span><p>Explain the complete Basis Path Testing process. Given the following code, calculate cyclomatic complexity using all three methods, draw the CFG, find all independent paths, and design test cases: READ A, B. IF A > B: PRINT "A is greater". ELSE IF A == B: PRINT "Equal". ELSE: PRINT "B is greater". END.</p></div>
+      <div class="qa-a">
+        <p><strong>Basis Path Testing — Complete Process with Full Numerical</strong></p>
+
+        <p><strong>Given Code:</strong></p>
+        <div class="formula-box">
+Statement 1:  READ A, B
+Statement 2:  IF A > B                    ← Decision 1
+Statement 3:      PRINT "A is greater"
+Statement 4:  ELSE IF A == B              ← Decision 2  
+Statement 5:      PRINT "Equal"
+Statement 6:  ELSE
+Statement 7:      PRINT "B is greater"
+Statement 8:  END
+        </div>
+
+        <p><strong>Step 1 — Assign Nodes to CFG:</strong></p>
+        <ul>
+          <li><strong>Node 1:</strong> READ A, B (sequential statement)</li>
+          <li><strong>Node 2:</strong> IF A > B (Decision Node / Predicate 1) ← 2 outgoing edges</li>
+          <li><strong>Node 3:</strong> PRINT "A is greater" (TRUE branch of D1)</li>
+          <li><strong>Node 4:</strong> ELSE IF A == B (Decision Node / Predicate 2) ← 2 outgoing edges</li>
+          <li><strong>Node 5:</strong> PRINT "Equal" (TRUE branch of D2)</li>
+          <li><strong>Node 6:</strong> PRINT "B is greater" (FALSE branch of D2)</li>
+          <li><strong>Node 7:</strong> END (Junction — all paths converge here)</li>
+        </ul>
+
+        <p><strong>Step 2 — List Edges:</strong></p>
+        <ul>
+          <li>e1: Node 1 → Node 2</li>
+          <li>e2: Node 2 → Node 3 (A > B is TRUE)</li>
+          <li>e3: Node 2 → Node 4 (A > B is FALSE)</li>
+          <li>e4: Node 3 → Node 7</li>
+          <li>e5: Node 4 → Node 5 (A == B is TRUE)</li>
+          <li>e6: Node 4 → Node 6 (A == B is FALSE)</li>
+          <li>e7: Node 5 → Node 7</li>
+          <li>e8: Node 6 → Node 7</li>
+        </ul>
+        <p>Total: <strong>E = 8 edges, N = 7 nodes, P = 1 connected component</strong></p>
+
+        <p><strong>Step 3 — Calculate Cyclomatic Complexity V(G) using ALL THREE formulas:</strong></p>
+
+        <p><strong>Formula 1: V(G) = E – N + 2P</strong></p>
+        <ul>
+          <li>V(G) = 8 – 7 + 2(1)</li>
+          <li>V(G) = 8 – 7 + 2</li>
+          <li>V(G) = <strong>3</strong> ✅</li>
+        </ul>
+
+        <p><strong>Formula 2: V(G) = d + P (decision nodes + components)</strong></p>
+        <ul>
+          <li>d = 2 (Node 2 and Node 4 are decision/predicate nodes)</li>
+          <li>P = 1</li>
+          <li>V(G) = 2 + 1 = <strong>3</strong> ✅</li>
+        </ul>
+
+        <p><strong>Formula 3: V(G) = Number of Regions</strong></p>
+        <ul>
+          <li>Region R1: Area between edges e1, e2, e4 (left side)</li>
+          <li>Region R2: Area between edges e3, e5, e7 (middle)</li>
+          <li>Region R3: Outer region (outside the entire graph)</li>
+          <li>V(G) = 3 regions = <strong>3</strong> ✅</li>
+        </ul>
+
+        <p>✅ <strong>All three methods confirm: V(G) = 3</strong></p>
+        <p>Risk Level: V(G) = 3 ≤ 10 → <strong>Low Risk, Simple Program</strong></p>
+
+        <p><strong>Step 4 — Independent Paths (3 paths = 3 test cases needed):</strong></p>
+        <p>An independent path introduces at least one new edge not traversed before:</p>
+        <ul>
+          <li><strong>Path 1:</strong> 1 → 2 → 3 → 7 (TRUE branch: A > B is TRUE)<br>New edges: e1, e2, e4</li>
+          <li><strong>Path 2:</strong> 1 → 2 → 4 → 5 → 7 (A > B FALSE, A == B TRUE)<br>New edges: e3, e5, e7</li>
+          <li><strong>Path 3:</strong> 1 → 2 → 4 → 6 → 7 (A > B FALSE, A == B FALSE → B > A)<br>New edges: e6, e8 (introduces 2 new edges)</li>
+        </ul>
+
+        <p><strong>Step 5 — Design Test Cases:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Test Case</th><th>Path Covered</th><th>Input A</th><th>Input B</th><th>Expected Output</th><th>Conditions Exercised</th></tr></thead>
+            <tbody>
+              <tr><td>TC1</td><td>Path 1</td><td>A = 10</td><td>B = 5</td><td>A is greater</td><td>A > B = TRUE; takes TRUE branch at D1</td></tr>
+              <tr><td>TC2</td><td>Path 2</td><td>A = 7</td><td>B = 7</td><td>Equal</td><td>A > B = FALSE; A == B = TRUE; takes TRUE branch at D2</td></tr>
+              <tr><td>TC3</td><td>Path 3</td><td>A = 3</td><td>B = 9</td><td>B is greater</td><td>A > B = FALSE; A == B = FALSE; takes FALSE branch at D2</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Coverage Achieved:</strong></p>
+        <ul>
+          <li>Statement Coverage: 100% (all nodes 1-7 visited across 3 test cases)</li>
+          <li>Branch Coverage: 100% (both TRUE/FALSE branches of both decisions covered)</li>
+          <li>Path Coverage: 100% of independent paths covered</li>
+        </ul>
+
+        <p><strong>Conclusion:</strong> With just 3 test cases (minimum possible for this program), Basis Path Testing achieves complete coverage. The cyclomatic complexity of 3 confirms low logical complexity. This demonstrates the efficiency of the technique — mathematical derivation guarantees minimum yet complete test case set.</p>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q"><span class="qa-q-num">Q30</span><p>SCENARIO: Your team followed only Black Box Testing throughout development of a hospital management system. After release, critical bugs were found in the patient billing calculation, prescription validation logic, and drug interaction check code. Analyze this failure. What should have been done differently? Design a hybrid testing strategy for the next version.</p></div>
+      <div class="qa-a">
+        <p><strong>Analysis of Testing Failure — Hospital Management System</strong></p>
+
+        <p><strong>Root Cause Analysis:</strong></p>
+        <p>The exclusive use of Black Box Testing is the fundamental flaw. While Black Box testing verified that the system's external behavior matched requirements from a user perspective, it was unable to expose internal logical errors in the code.</p>
+        <ul>
+          <li><strong>Billing Calculation Bug:</strong> Likely an off-by-one error or incorrect conditional logic in fee calculation code. Black Box testing couldn't see the calculation algorithm — it only observed outputs. White Box testing (especially Statement and Branch Coverage) would have caught this by executing every calculation path.</li>
+          <li><strong>Prescription Validation Logic Bug:</strong> Complex nested conditions for dosage limits, drug interactions, and patient allergies — these multi-condition scenarios require Multiple Condition Coverage (2ⁿ test cases) which is a White Box technique. Black Box testing may have missed certain condition combinations.</li>
+          <li><strong>Drug Interaction Check Bug:</strong> Critical algorithm failure — the control flow logic for checking multiple simultaneous drugs was likely flawed. Basis Path Testing with Cyclomatic Complexity analysis would have identified all paths through this algorithm and designed test cases for each.</li>
+        </ul>
+
+        <p><strong>Key Principles Violated:</strong></p>
+        <ul>
+          <li><strong>Defect Clustering Ignored:</strong> Billing and prescription modules are the most critical (highest risk) — they should have received proportionally more rigorous testing, including White Box techniques.</li>
+          <li><strong>Early Testing Not Applied:</strong> Unit testing of individual calculation functions with White Box techniques would have caught these bugs early when they are cheapest to fix.</li>
+          <li><strong>No Formal Technical Reviews:</strong> Code review of billing algorithms would have caught logical errors before any testing began.</li>
+          <li><strong>Missing Coverage Metrics:</strong> Without White Box testing, the team had no way to know what percentage of the critical code was actually being tested.</li>
+        </ul>
+
+        <p><strong>REDESIGNED HYBRID TESTING STRATEGY FOR VERSION 2:</strong></p>
+
+        <p><strong>Phase 1 — Verification (Pre-Testing):</strong></p>
+        <ul>
+          <li>Formal code review of ALL financial and medical calculation modules by senior developers</li>
+          <li>Peer review of prescription validation algorithm and drug interaction logic</li>
+          <li>Static analysis tools (SonarQube) to detect code smells and vulnerabilities</li>
+          <li>IV&V: Independent third-party review for compliance with medical software standards</li>
+        </ul>
+
+        <p><strong>Phase 2 — White Box Unit Testing (Developer Level):</strong></p>
+        <ul>
+          <li><strong>Billing Module:</strong> Basis Path Testing — draw CFG, compute V(G). If V(G) > 15, REFACTOR before testing. Achieve 100% branch coverage.</li>
+          <li><strong>Prescription Validation:</strong> Multiple Condition Coverage for all drug-dosage condition combinations. With n conditions → design 2ⁿ test cases.</li>
+          <li><strong>Drug Interaction Check:</strong> Loop Testing for all medication list iterations. Basis Path Testing for interaction check algorithm.</li>
+          <li><strong>All Financial Calculations:</strong> Statement Coverage 100%, Branch Coverage 100%, Condition Coverage for all boolean conditions.</li>
+        </ul>
+
+        <p><strong>Phase 3 — Black Box Integration Testing:</strong></p>
+        <ul>
+          <li><strong>Equivalence Partitioning</strong> for patient input fields: valid age ranges, valid medication doses, valid billing amounts</li>
+          <li><strong>Boundary Value Analysis</strong> for dosage limits: min dose, max dose ± 1, zero dose, negative dose</li>
+          <li><strong>Cause-Effect Graphing</strong> for prescription rules: patient age + diagnosis + drug type → treatment valid/invalid</li>
+        </ul>
+
+        <p><strong>Phase 4 — System Testing (Independent Team):</strong></p>
+        <ul>
+          <li><strong>Performance Testing:</strong> Billing for 500 concurrent patients</li>
+          <li><strong>Security Testing:</strong> Patient data privacy (HIPAA compliance), unauthorized access prevention</li>
+          <li><strong>Regression Testing:</strong> After every bug fix, run automated regression suite</li>
+        </ul>
+
+        <p><strong>Phase 5 — Validation Testing:</strong></p>
+        <ul>
+          <li><strong>Alpha Testing:</strong> Hospital administrators and medical staff test in controlled environment</li>
+          <li><strong>Beta Testing:</strong> Controlled rollout to 2-3 pilot hospitals for real-world validation</li>
+          <li><strong>UAT:</strong> Doctors, pharmacists, billing staff confirm the system meets all workflow needs</li>
+        </ul>
+
+        <p><strong>Metrics and Success Criteria:</strong></p>
+        <ul>
+          <li>Unit test coverage ≥ 95% for all critical modules</li>
+          <li>V(G) ≤ 10 for all modules (refactor if higher)</li>
+          <li>Zero P1 (critical) bugs at beta release</li>
+          <li>All prescription validation paths tested with documented results</li>
+          <li>Independent validation report from third party before go-live</li>
+        </ul>
+
+        <p><strong>Lesson Learned:</strong> In a healthcare system where a bug can directly impact patient safety, no single testing technique is sufficient. The combination of White Box (for code correctness) and Black Box (for requirement validation) with formal reviews provides the highest quality assurance. "Testing shows presence of defects, not their absence" — therefore multiple layers of testing are not redundant but essential for safety-critical systems.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  CHEAT SHEET -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="cheatsheet">
+  <div class="cheat-sheet">
+    <h2>⚡ Quick Revision Cheat Sheet</h2>
+    <p class="cs-subtitle">Software Testing · Chapter 3.1 · SE 24CST-208</p>
+
+    <div class="cs-grid">
+
+      <div class="cs-card">
+        <h4>🎯 Core Definitions</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Testing = Verify + Validate; find bugs before users do</li>
+          <li><span class="cs-dot">◆</span>Verification = "Building product RIGHT?" → Static (reviews)</li>
+          <li><span class="cs-dot">◆</span>Validation = "Building RIGHT product?" → Dynamic (execution)</li>
+          <li><span class="cs-dot">◆</span>IV&V = Third-party independent validation</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>📋 5 Key Testing Principles</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Testing shows presence — NOT absence of bugs</li>
+          <li><span class="cs-dot">◆</span>Exhaustive testing = IMPOSSIBLE</li>
+          <li><span class="cs-dot">◆</span>Early testing = cheaper fixes</li>
+          <li><span class="cs-dot">◆</span>Defect Clustering: 80% bugs in 20% modules</li>
+          <li><span class="cs-dot">◆</span>Pesticide Paradox: Update test cases regularly!</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>📊 Testing Levels (In Order)</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Unit → Dev tests individual modules</li>
+          <li><span class="cs-dot">◆</span>Integration → Module interaction faults</li>
+          <li><span class="cs-dot">◆</span>System → Full system, Black Box, pre-release</li>
+          <li><span class="cs-dot">◆</span>Acceptance → Customer approves before deploy</li>
+          <li><span class="cs-dot">◆</span>Regression → After every change/fix</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>🔴 Alpha vs Beta Testing</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Alpha = Internal team, controlled, developer site</li>
+          <li><span class="cs-dot">◆</span>Beta = External users, real-world, uncontrolled</li>
+          <li><span class="cs-dot">◆</span>Alpha uses White Box + Black Box</li>
+          <li><span class="cs-dot">◆</span>Beta uses Black Box primarily</li>
+          <li><span class="cs-dot">◆</span>Alpha → Beta → Release (sequence!)</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>⬛ Black Box Techniques</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Equivalence Partitioning: Group similar inputs, test 1 per group</li>
+          <li><span class="cs-dot">◆</span>BVA: Test at boundaries ±1</li>
+          <li><span class="cs-dot">◆</span>Cause-Effect Graphing: n conditions → 2ⁿ test cases</li>
+          <li><span class="cs-dot">◆</span>Syntax-Driven: For grammar-based systems</li>
+          <li><span class="cs-dot">◆</span>Compatibility: OS, browser, hardware testing</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>⬜ White Box Techniques</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Statement Coverage: Every statement ≥ once</li>
+          <li><span class="cs-dot">◆</span>Branch Coverage: Every T/F branch covered</li>
+          <li><span class="cs-dot">◆</span>Condition Coverage: Each boolean T and F</li>
+          <li><span class="cs-dot">◆</span>Multiple Condition: ALL combos → 2ⁿ test cases</li>
+          <li><span class="cs-dot">◆</span>Loop Testing: 0, 1, 2, n-1, n, n+1 iterations</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>🔢 Cyclomatic Complexity</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>= Number of independent paths = Min test cases</li>
+          <li><span class="cs-dot">◆</span>Formula 1: V(G) = E – N + 2P</li>
+          <li><span class="cs-dot">◆</span>Formula 2: V(G) = d + P (d=decisions)</li>
+          <li><span class="cs-dot">◆</span>Formula 3: V(G) = Regions in flow graph</li>
+        </ul>
+        <div class="cs-formula">All 3 formulas give SAME answer!</div>
+      </div>
+
+      <div class="cs-card">
+        <h4>🚦 Risk Levels V(G)</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>≤ 10 → 🟢 Low Risk, Simple</li>
+          <li><span class="cs-dot">◆</span>11–20 → 🟡 Moderate Risk</li>
+          <li><span class="cs-dot">◆</span>21–50 → 🔴 High Risk, Complex</li>
+          <li><span class="cs-dot">◆</span>&gt; 50 → ⛔ Untestable! REFACTOR!</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>📐 Basis Path Testing Steps</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Step 1: Draw Control Flow Graph (CFG)</li>
+          <li><span class="cs-dot">◆</span>Step 2: Calculate V(G) — all 3 formulas</li>
+          <li><span class="cs-dot">◆</span>Step 3: Find V(G) independent paths</li>
+          <li><span class="cs-dot">◆</span>Step 4: Design 1 test case per path</li>
+          <li><span class="cs-dot">◆</span>Result: 100% statement + branch coverage!</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>⚖️ Black Box vs White Box</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>BB: No code access | WB: Full code access</li>
+          <li><span class="cs-dot">◆</span>BB: No programming needed | WB: Coding expertise</li>
+          <li><span class="cs-dot">◆</span>BB: Can find missing features | WB: Cannot</li>
+          <li><span class="cs-dot">◆</span>BB: User view | WB: Developer view</li>
+          <li><span class="cs-dot">◆</span>WB: Easy to automate | BB: Harder to automate</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>🖥️ System Testing Types</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Performance: Speed, responsiveness</li>
+          <li><span class="cs-dot">◆</span>Load: Behavior under extreme load</li>
+          <li><span class="cs-dot">◆</span>Stress: Beyond capacity limits</li>
+          <li><span class="cs-dot">◆</span>Scalability: Scale up/down capability</li>
+          <li><span class="cs-dot">◆</span>Security: Protect against threats</li>
+          <li><span class="cs-dot">◆</span>Compatibility: Cross-platform/device</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>🧠 Key Mnemonics</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span><b>VERI-VALI</b>: VERIfy=Process, VALIdate=Product</li>
+          <li><span class="cs-dot">◆</span><b>Alpha-Andar, Beta-Baahar</b></li>
+          <li><span class="cs-dot">◆</span><b>E-N+2P</b>: Edges minus Nodes + 2×Parts</li>
+          <li><span class="cs-dot">◆</span><b>n conditions → 2ⁿ test cases</b> (Multiple Cond.)</li>
+          <li><span class="cs-dot">◆</span><b>Pesticide</b>: Same tests = no new bugs found!</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>🔄 CFG Node Types</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>Junction Node: Multiple arrows ENTERING</li>
+          <li><span class="cs-dot">◆</span>Decision Node (Predicate): Multiple arrows LEAVING</li>
+          <li><span class="cs-dot">◆</span>Region: Area bounded by edges+nodes</li>
+          <li><span class="cs-dot">◆</span>Outer area ALSO counts as a region!</li>
+          <li><span class="cs-dot">◆</span>Independent Path: introduces ≥1 new edge</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>📋 Validation Testing Stages</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>1. Planning → 2. Define Requirements</li>
+          <li><span class="cs-dot">◆</span>3. Select Team → 4. Develop Docs</li>
+          <li><span class="cs-dot">◆</span>5. Evaluate/Estimate → 6. Fix & Retest</li>
+          <li><span class="cs-dot">◆</span>V-Model: Each dev phase ↔ test phase</li>
+        </ul>
+      </div>
+
+      <div class="cs-card">
+        <h4>⚡ Quick Formulas</h4>
+        <ul>
+          <li><span class="cs-dot">◆</span>V(G) = E – N + 2P</li>
+          <li><span class="cs-dot">◆</span>V(G) = Decision nodes + P</li>
+          <li><span class="cs-dot">◆</span>V(G) = # Regions</li>
+          <li><span class="cs-dot">◆</span>n conditions → 2ⁿ combos (Multiple Cond. Coverage)</li>
+          <li><span class="cs-dot">◆</span>Stmt Coverage = Executed/Total × 100%</li>
+        </ul>
+        <div class="cs-formula">V(G) = E − N + 2P</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</div>
+
+<a href="#" class="scroll-top">↑</a>
+
+</body>
+</html>
