@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Software Maintenance & Reuse – Study Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --surface2: #F4F2EE;
+    --border: #E2DDD5;
+    --ink: #1A1612;
+    --ink2: #4A4540;
+    --ink3: #7A746E;
+    --accent: #C8490A;
+    --accent2: #1D6FA4;
+    --accent3: #2D8A5E;
+    --yellow: #F5E642;
+    --yellow-bg: #FFFBDE;
+    --blue-bg: #EBF4FB;
+    --green-bg: #EAF7F0;
+    --red-bg: #FDF0EC;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --shadow-md: 0 4px 24px rgba(0,0,0,0.11);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 12px 32px;
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    box-shadow: var(--shadow);
+  }
+  nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    color: var(--ink2);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  nav a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .nav-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    color: var(--accent);
+    margin-right: 8px;
+    white-space: nowrap;
+  }
+
+  /* ─── LAYOUT ─── */
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 48px 40px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+  .hero-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    color: var(--accent);
+    background: var(--red-bg);
+    border: 1px solid #F0C4B2;
+    padding: 3px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 16px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .hero-sub {
+    color: var(--ink3);
+    font-size: 15px;
+    font-style: italic;
+  }
+  .hero-meta {
+    display: flex; gap: 24px; flex-wrap: wrap; margin-top: 24px;
+  }
+  .meta-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink3);
+  }
+  .meta-item strong { color: var(--ink2); }
+
+  /* ─── SECTION HEADING ─── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 700;
+    color: var(--ink);
+    margin: 56px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--accent);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    background: var(--red-bg);
+    border: 1px solid #F0C4B2;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  h2.topic {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--accent2);
+    margin: 40px 0 14px;
+  }
+  h3.subtopic {
+    font-family: 'Source Serif 4', serif;
+    font-size: 17px; font-weight: 600;
+    color: var(--ink);
+    margin: 28px 0 10px;
+  }
+
+  p { margin-bottom: 14px; color: var(--ink2); }
+
+  /* ─── DEFINITION BOX ─── */
+  .def-box {
+    background: var(--yellow-bg);
+    border-left: 5px solid #D4B800;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+  .def-box .def-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: #A08800;
+    margin-bottom: 6px;
+  }
+  .def-box p { color: var(--ink); margin: 0; font-size: 15px; }
+
+  /* ─── CARDS ─── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .card-icon { font-size: 28px; margin-bottom: 10px; }
+  .card h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .card p { font-size: 13px; color: var(--ink3); margin: 0; }
+  .card .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 3px;
+    display: inline-block; margin-top: 8px;
+  }
+
+  /* ─── TABLE ─── */
+  .tbl-wrap { overflow-x: auto; margin: 20px 0; border-radius: var(--radius); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); }
+  thead { background: var(--ink); color: #fff; }
+  thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .05em;
+    padding: 12px 16px; text-align: left;
+  }
+  tbody tr:nth-child(even) { background: var(--surface2); }
+  tbody td { padding: 11px 16px; font-size: 14px; color: var(--ink2); border-bottom: 1px solid var(--border); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* ─── DIAGRAM ─── */
+  .diagram-wrap {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 24px 0;
+    box-shadow: var(--shadow);
+  }
+  .diagram-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink3);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  /* ─── PROCESS FLOW ─── */
+  .flow {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+    justify-content: center; margin: 16px 0;
+  }
+  .flow-step {
+    background: var(--accent2);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-arrow { color: var(--accent); font-size: 20px; font-weight: 700; }
+
+  /* ─── HIGHLIGHT ─── */
+  .highlight {
+    background: var(--blue-bg);
+    border: 1.5px solid #B3D7EE;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--ink2);
+  }
+  .highlight strong { color: var(--accent2); }
+
+  .note-box {
+    background: var(--green-bg);
+    border-left: 4px solid var(--accent3);
+    padding: 14px 18px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 14px 0;
+    font-size: 14px; color: var(--ink2);
+  }
+  .warn-box {
+    background: var(--red-bg);
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 14px 0;
+    font-size: 14px; color: var(--ink2);
+  }
+
+  /* ─── EXAMPLE ─── */
+  .example {
+    background: var(--surface2);
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+  .example-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: var(--accent3);
+    margin-bottom: 8px;
+  }
+
+  /* ─── NUMERICAL ─── */
+  .numerical {
+    background: #F0F4FF;
+    border: 2px solid #C2CCEE;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+  }
+  .numerical .num-title {
+    font-weight: 600; color: var(--accent2);
+    font-size: 13px; text-transform: uppercase; letter-spacing: .05em;
+    margin-bottom: 10px;
+  }
+  .numerical .num-body { color: var(--ink2); line-height: 1.9; }
+  .numerical .num-answer {
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid #C2CCEE;
+    color: var(--accent); font-weight: 600;
+  }
+
+  /* ─── QUESTIONS ─── */
+  .q-section { margin: 48px 0; }
+  .q-category {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 32px 0 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .q-easy { background: #E8F7F0; color: #1A6B45; border: 2px solid #B8E8D4; }
+  .q-medium { background: #EBF4FB; color: #1D4F7A; border: 2px solid #B3D5F0; }
+  .q-hard { background: #FDF0EC; color: #8A2500; border: 2px solid #F0C4B2; }
+
+  .q-item {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    margin: 16px 0;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .q-header {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    background: var(--surface);
+  }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    background: var(--ink);
+    color: #fff;
+    padding: 3px 9px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-text { font-weight: 600; font-size: 15px; color: var(--ink); flex: 1; }
+  .q-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 4px;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .mark-2 { background: #E8F7F0; color: #1A6B45; }
+  .mark-5 { background: #EBF4FB; color: #1D4F7A; }
+  .mark-10 { background: #FDF0EC; color: #8A2500; }
+
+  .q-answer {
+    padding: 0 22px 20px 22px;
+    color: var(--ink2);
+    font-size: 14.5px;
+    line-height: 1.8;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .q-answer ul, .q-answer ol { padding-left: 22px; margin: 8px 0; }
+  .q-answer li { margin: 5px 0; }
+
+  /* ─── CHEAT SHEET ─── */
+  #cheatsheet {
+    background: var(--ink);
+    color: #EEEAE4;
+    border-radius: var(--radius);
+    padding: 40px;
+    margin-top: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  #cheatsheet::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--accent), #F5A623, var(--accent3), var(--accent2));
+  }
+  #cheatsheet h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 900;
+    color: #FFF;
+    margin-bottom: 8px;
+  }
+  #cheatsheet .cs-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: #A09A94;
+    margin-bottom: 32px;
+  }
+  .cs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+  .cs-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .cs-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: #F5A623;
+    margin-bottom: 12px;
+  }
+  .cs-card ul { padding-left: 16px; }
+  .cs-card li { font-size: 13px; color: #CCC8C2; margin: 5px 0; line-height: 1.5; }
+  .cs-card code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(255,255,255,.1);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #FFD580;
+  }
+
+  /* ─── MISC ─── */
+  ul.bullets { padding-left: 22px; margin: 10px 0 16px; }
+  ul.bullets li { margin: 6px 0; color: var(--ink2); font-size: 15px; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px;
+    border: 1.5px solid;
+  }
+  .tag-blue { color: var(--accent2); border-color: #B3D5F0; background: var(--blue-bg); }
+  .tag-green { color: var(--accent3); border-color: #B8E8D4; background: var(--green-bg); }
+  .tag-red { color: var(--accent); border-color: #F0C4B2; background: var(--red-bg); }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+  /* Scroll smooth */
+  html { scroll-behavior: smooth; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 28px 20px; }
+    .container { padding: 24px 14px 60px; }
+    #cheatsheet { padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav>
+  <span class="nav-brand">CH 3.3</span>
+  <a href="#notes">📖 Notes</a>
+  <a href="#types">Types</a>
+  <a href="#reverse">Reverse Eng.</a>
+  <a href="#models">Models</a>
+  <a href="#reuse">Reuse</a>
+  <a href="#questions">❓ Questions</a>
+  <a href="#cheatsheet">⚡ Cheat Sheet</a>
+</nav>
+
+<div class="container">
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">Software Engineering — Unit 3 · Chapter 3.3</div>
+  <h1>Software Maintenance<br>&amp; Reuse</h1>
+  <p class="hero-sub">Complete Study Notes · 30 Questions · Cheat Sheet</p>
+  <div class="hero-meta">
+    <span class="meta-item"><strong>Subject:</strong> 24CST-208 / 24ITT-208</span>
+    <span class="meta-item"><strong>Lectures:</strong> 42–44</span>
+    <span class="meta-item"><strong>Session:</strong> Even Sem 2025–26</span>
+    <span class="meta-item"><strong>Prepared by:</strong> Examiner's Notes</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  SECTION 1 — STUDY NOTES                               -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="notes">
+<div class="section-title"><span class="section-num">§1</span> Study Notes</div>
+
+<!-- 1.1 INTRODUCTION -->
+<h2 class="topic" id="intro">1.1 Introduction to Software Maintenance</h2>
+
+<div class="def-box">
+  <div class="def-label">IEEE Definition</div>
+  <p><strong>Software Maintenance</strong> is the process of modifying a software product <em>after delivery</em> to correct faults, improve performance, or adapt the product to a changed environment. — IEEE Std 1219-1998</p>
+</div>
+
+<p>Software maintenance is not merely "bug fixing." It encompasses all activities required to keep a software system operational, efficient, and aligned with user needs throughout its entire operational lifetime. Once a software product is deployed, real-world usage uncovers issues that were invisible during development, and the environment itself changes (new OS versions, new hardware, new legal requirements), making maintenance an inevitable and continuous activity.</p>
+
+<div class="highlight">
+  <strong>Key Statistic:</strong> Maintenance represents <strong>60–70%</strong> of total software lifecycle costs — more than all development phases combined. A software system that lasts 10 years may spend 7 years in active maintenance.
+</div>
+
+<h3 class="subtopic">Why is Maintenance Needed?</h3>
+<ul class="bullets">
+  <li><strong>Error Correction:</strong> Defects discovered during production use must be fixed promptly.</li>
+  <li><strong>Changing User Requirements:</strong> Business processes evolve, requiring new features or workflows.</li>
+  <li><strong>Technology Evolution:</strong> New OS, databases, cloud platforms require software adaptation.</li>
+  <li><strong>Security:</strong> Newly discovered vulnerabilities need patches.</li>
+  <li><strong>Compliance:</strong> Regulations (GDPR, ISO standards) may impose new requirements.</li>
+  <li><strong>Performance Optimization:</strong> System may degrade over time due to data growth or usage patterns.</li>
+</ul>
+
+<div class="numerical">
+  <div class="num-title">📊 Numerical Example 1 — Cost Distribution</div>
+  <div class="num-body">
+    A software project has a total lifecycle cost of ₹50 Lakhs.<br>
+    If maintenance accounts for 65% of this cost, then:<br><br>
+    <strong>Maintenance Cost</strong> = 65% × ₹50,00,000 = <strong>₹32,50,000</strong><br>
+    <strong>Development Cost</strong> = 35% × ₹50,00,000 = <strong>₹17,50,000</strong><br><br>
+    This shows that for every rupee spent developing software, nearly <strong>₹1.86</strong> is spent maintaining it.
+  </div>
+  <div class="num-answer">∴ Maintenance cost far exceeds development cost over the product lifetime.</div>
+</div>
+
+<hr>
+
+<!-- 1.2 TYPES -->
+<h2 class="topic" id="types">1.2 Types of Software Maintenance</h2>
+
+<p>Lientz and Swanson (1978) originally classified maintenance into four types, which remains the widely accepted taxonomy today.</p>
+
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr><th>Type</th><th>Primary Purpose</th><th>Avg. Effort %</th><th>Trigger</th><th>Nature</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Corrective</strong></td><td>Fix bugs and errors</td><td>20%</td><td>Failure report</td><td>Reactive</td></tr>
+    <tr><td><strong>Adaptive</strong></td><td>Environmental changes</td><td>25%</td><td>Technology shift</td><td>Reactive/Planned</td></tr>
+    <tr><td><strong>Perfective</strong></td><td>Feature enhancements</td><td>50%</td><td>User request</td><td>Proactive</td></tr>
+    <tr><td><strong>Preventive</strong></td><td>Future problem prevention</td><td>5%</td><td>Technical debt</td><td>Proactive</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="diagram-wrap">
+  <div class="diagram-title">Fig 1.1 — Maintenance Type Distribution (Pie Chart)</div>
+  <svg viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;display:block;margin:0 auto;">
+    <!-- Perfective 50% = 180deg arc: start 0, end 180 -->
+    <circle cx="160" cy="130" r="100" fill="#E8F7F0"/>
+    <!-- Segments using stroke-dasharray trick -->
+    <circle cx="160" cy="130" r="70" fill="none" stroke="#1D6FA4" stroke-width="60"
+      stroke-dasharray="110 220" stroke-dashoffset="0" transform="rotate(-90 160 130)"/>
+    <circle cx="160" cy="130" r="70" fill="none" stroke="#2D8A5E" stroke-width="60"
+      stroke-dasharray="55 220" stroke-dashoffset="-110" transform="rotate(-90 160 130)"/>
+    <circle cx="160" cy="130" r="70" fill="none" stroke="#C8490A" stroke-width="60"
+      stroke-dasharray="44 220" stroke-dashoffset="-165" transform="rotate(-90 160 130)"/>
+    <circle cx="160" cy="130" r="70" fill="none" stroke="#A08800" stroke-width="60"
+      stroke-dasharray="11 220" stroke-dashoffset="-209" transform="rotate(-90 160 130)"/>
+    <circle cx="160" cy="130" r="40" fill="white"/>
+    <text x="160" y="126" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700" fill="#1A1612">MAINT.</text>
+    <text x="160" y="140" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700" fill="#1A1612">TYPES</text>
+    <!-- Legend -->
+    <rect x="290" y="60" width="14" height="14" fill="#1D6FA4" rx="2"/>
+    <text x="310" y="72" font-family="Source Serif 4,serif" font-size="13" fill="#1A1612">Perfective — 50%</text>
+    <rect x="290" y="86" width="14" height="14" fill="#2D8A5E" rx="2"/>
+    <text x="310" y="98" font-family="Source Serif 4,serif" font-size="13" fill="#1A1612">Adaptive — 25%</text>
+    <rect x="290" y="112" width="14" height="14" fill="#C8490A" rx="2"/>
+    <text x="310" y="124" font-family="Source Serif 4,serif" font-size="13" fill="#1A1612">Corrective — 20%</text>
+    <rect x="290" y="138" width="14" height="14" fill="#A08800" rx="2"/>
+    <text x="310" y="150" font-family="Source Serif 4,serif" font-size="13" fill="#1A1612">Preventive — 5%</text>
+  </svg>
+</div>
+
+<h3 class="subtopic">A. Corrective Maintenance</h3>
+<p>Corrective maintenance deals with <em>identifying, analyzing, and fixing defects</em> discovered during the operation of the software system. It is purely reactive — triggered by a failure or malfunction.</p>
+<div class="example">
+  <div class="example-label">📌 Real-World Example</div>
+  <p>A banking application's EMI calculator gives wrong results for loans above ₹1 crore due to an integer overflow bug. The fix involves changing the data type from <code>int</code> to <code>long</code>. This is <strong>corrective maintenance</strong>.</p>
+</div>
+<ul class="bullets">
+  <li>Includes emergency patches, security hotfixes, and data integrity corrections.</li>
+  <li>Risk: rushed fixes without documentation can introduce new bugs.</li>
+  <li>Should be followed by regression testing to confirm no side effects.</li>
+</ul>
+
+<h3 class="subtopic">B. Adaptive Maintenance</h3>
+<p>Adaptive maintenance modifies a software system to accommodate changes in the <em>environment</em> — operating system, database, hardware, regulatory framework, or business context.</p>
+<div class="example">
+  <div class="example-label">📌 Real-World Example</div>
+  <p>A retail inventory system was built for Windows Server 2012. The organization upgrades to Windows Server 2022. The application must be adapted to use new APIs, updated drivers, and compatible libraries. This is <strong>adaptive maintenance</strong>.</p>
+</div>
+<ul class="bullets">
+  <li>Database migration (e.g., from MySQL to PostgreSQL) is a common adaptive task.</li>
+  <li>Cloud migration (on-premise to AWS/Azure) is a major adaptive activity today.</li>
+  <li>Regulatory compliance changes (like GST in 2017, GDPR in 2018) trigger adaptive work.</li>
+</ul>
+
+<h3 class="subtopic">C. Perfective Maintenance</h3>
+<p>Perfective maintenance is driven by <em>user requests for enhancements</em>. It adds new features, improves performance, and enhances usability. This is the most common type (50% of all maintenance effort).</p>
+<div class="example">
+  <div class="example-label">📌 Real-World Example</div>
+  <p>Users of a hospital management system request a <em>dashboard feature</em> showing real-time bed availability across departments. Adding this entirely new module — with analytics and visualizations — is <strong>perfective maintenance</strong>.</p>
+</div>
+
+<h3 class="subtopic">D. Preventive Maintenance</h3>
+<p>Preventive maintenance proactively improves the system to prevent future problems. It involves refactoring, restructuring, improving documentation, and reducing technical debt.</p>
+<div class="example">
+  <div class="example-label">📌 Real-World Example</div>
+  <p>A developer notices that a 10-year-old legacy codebase has deeply nested spaghetti code that is hard to read and test. Restructuring it into clean, modular functions — before any bugs occur — is <strong>preventive maintenance</strong>.</p>
+</div>
+
+<div class="numerical">
+  <div class="num-title">📊 Numerical Example 2 — Effort Allocation</div>
+  <div class="num-body">
+    A software team has <strong>800 person-days/year</strong> for maintenance.<br>
+    Based on standard distribution:<br><br>
+    Corrective (20%): 800 × 0.20 = <strong>160 person-days</strong><br>
+    Adaptive (25%): 800 × 0.25 = <strong>200 person-days</strong><br>
+    Perfective (50%): 800 × 0.50 = <strong>400 person-days</strong><br>
+    Preventive (5%): 800 × 0.05 = <strong>40 person-days</strong>
+  </div>
+  <div class="num-answer">∴ Half the team's effort goes to adding/improving features, showing maintenance is mostly value-adding work.</div>
+</div>
+
+<hr>
+
+<!-- 1.3 MAINTENANCE PROCESS -->
+<h2 class="topic">1.3 Maintenance Process</h2>
+
+<div class="diagram-wrap">
+  <div class="diagram-title">Fig 1.2 — Software Maintenance Process Flow</div>
+  <div class="flow">
+    <div class="flow-step">Maintenance<br>Request</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Impact &amp;<br>Feasibility Analysis</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Design<br>Solution</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Implement<br>Changes</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Testing &amp;<br>QA</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Deploy to<br>Production</div>
+  </div>
+</div>
+
+<ul class="bullets">
+  <li><strong>Maintenance Request:</strong> A user or system triggers a change request (bug report, change request form, enhancement proposal).</li>
+  <li><strong>Impact Analysis:</strong> Engineers assess which modules are affected, what the risk is, and estimate the effort required.</li>
+  <li><strong>Design Solution:</strong> A technical approach is planned — minimal invasive changes reduce regression risk.</li>
+  <li><strong>Implementation:</strong> Code is modified according to coding standards; comments and documentation are updated inline.</li>
+  <li><strong>Testing &amp; QA:</strong> Unit, integration, and regression tests are run. Regression testing is <em>mandatory</em> after every maintenance change.</li>
+  <li><strong>Deployment:</strong> The verified change is released to production, typically through CI/CD pipelines.</li>
+</ul>
+
+<hr>
+
+<!-- 1.4 REVERSE ENGINEERING -->
+<h2 class="topic" id="reverse">1.4 Software Reverse Engineering</h2>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p><strong>Software Reverse Engineering</strong> is the systematic process of analyzing an existing software system to identify its components, understand their interrelationships, and extract design-level information from the source code or binary, especially when original documentation is missing.</p>
+</div>
+
+<p>Reverse engineering is particularly critical for <em>legacy systems</em> — old software (often 20–30 years old) that was developed without proper documentation, written by engineers who have since left the organization, and yet runs critical business functions that cannot easily be replaced.</p>
+
+<h3 class="subtopic">Objectives of Reverse Engineering</h3>
+<ul class="bullets">
+  <li>Recover lost or outdated design documentation for legacy systems.</li>
+  <li>Understand system architecture before beginning a re-engineering effort.</li>
+  <li>Support interoperability — understanding interfaces to integrate with other systems.</li>
+  <li>Facilitate modernization: migrating COBOL mainframe apps to modern Java/Python.</li>
+  <li>Enable effective modification of complex, undocumented software.</li>
+</ul>
+
+<div class="diagram-wrap">
+  <div class="diagram-title">Fig 1.3 — Reverse Engineering Levels (Abstraction Pyramid)</div>
+  <svg viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;display:block;margin:0 auto;">
+    <!-- Domain Level (top) -->
+    <polygon points="250,20 310,60 190,60" fill="#C8490A" opacity=".9"/>
+    <text x="250" y="47" text-anchor="middle" font-family="Source Serif 4,serif" font-size="12" fill="white" font-weight="600">Domain</text>
+    <!-- Requirements Level -->
+    <polygon points="250,20 340,90 160,90" fill="none"/><rect x="165" y="62" width="170" height="30" fill="#A08800" rx="2"/>
+    <text x="250" y="82" text-anchor="middle" font-family="Source Serif 4,serif" font-size="12" fill="white" font-weight="600">Requirements Level</text>
+    <!-- Design Level -->
+    <rect x="135" y="94" width="230" height="34" fill="#1D6FA4" rx="2"/>
+    <text x="250" y="116" text-anchor="middle" font-family="Source Serif 4,serif" font-size="12" fill="white" font-weight="600">Design Level</text>
+    <!-- Implementation Level -->
+    <rect x="105" y="130" width="290" height="34" fill="#2D8A5E" rx="2"/>
+    <text x="250" y="152" text-anchor="middle" font-family="Source Serif 4,serif" font-size="12" fill="white" font-weight="600">Implementation Level (Source Code)</text>
+    <!-- Labels on right -->
+    <text x="410" y="47" font-family="JetBrains Mono,monospace" font-size="11" fill="#4A4540">← Business Logic</text>
+    <text x="410" y="82" font-family="JetBrains Mono,monospace" font-size="11" fill="#4A4540">← Functionality</text>
+    <text x="410" y="116" font-family="JetBrains Mono,monospace" font-size="11" fill="#4A4540">← Arch. Patterns</text>
+    <text x="410" y="152" font-family="JetBrains Mono,monospace" font-size="11" fill="#4A4540">← Code Structure</text>
+    <!-- Arrow -->
+    <text x="65" y="100" font-family="JetBrains Mono,monospace" font-size="22" fill="#C8490A">↑</text>
+    <text x="55" y="175" font-family="JetBrains Mono,monospace" font-size="10" fill="#4A4540">Increasing</text>
+    <text x="55" y="187" font-family="JetBrains Mono,monospace" font-size="10" fill="#4A4540">Abstraction</text>
+  </svg>
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr><th>Level</th><th>Focus Area</th><th>Output Artifacts</th><th>Tools Used</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Implementation</td><td>Source code analysis</td><td>Code structure documents, call graphs</td><td>Static analyzers (SonarQube)</td></tr>
+    <tr><td>Design</td><td>Architecture patterns</td><td>UML diagrams, class diagrams</td><td>Architecture recovery tools</td></tr>
+    <tr><td>Requirements</td><td>Functionality analysis</td><td>Requirement specs, use cases</td><td>Dynamic analysis, tracing</td></tr>
+    <tr><td>Domain</td><td>Business logic</td><td>Domain knowledge base, ontology</td><td>Expert interviews, domain models</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 class="subtopic">Reverse Engineering Process (Step-by-Step)</h3>
+<div class="diagram-wrap">
+  <div class="diagram-title">Fig 1.4 — Reverse Engineering Process</div>
+  <div class="flow" style="flex-direction:column;align-items:flex-start;gap:8px;max-width:420px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:28px;height:28px;background:#C8490A;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0;">1</div>
+      <div><strong>Acquire Source Code</strong> — obtain codebase, binaries, or both</div>
+    </div>
+    <div style="margin-left:14px;color:#C8490A;font-size:18px;">↓</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:28px;height:28px;background:#A08800;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0;">2</div>
+      <div><strong>Analyze &amp; Parse</strong> — understand structure, tokens, syntax</div>
+    </div>
+    <div style="margin-left:14px;color:#C8490A;font-size:18px;">↓</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:28px;height:28px;background:#1D6FA4;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0;">3</div>
+      <div><strong>Extract Information</strong> — identify dependencies, logic, data flow</div>
+    </div>
+    <div style="margin-left:14px;color:#C8490A;font-size:18px;">↓</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:28px;height:28px;background:#2D8A5E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0;">4</div>
+      <div><strong>Generate Abstractions</strong> — create UML, DFDs, ER diagrams</div>
+    </div>
+    <div style="margin-left:14px;color:#C8490A;font-size:18px;">↓</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:28px;height:28px;background:#7A746E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0;">5</div>
+      <div><strong>Create Documentation</strong> — write design docs, architecture specs</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- 1.5 MAINTENANCE MODELS -->
+<h2 class="topic" id="models">1.5 Software Maintenance Models</h2>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon">⚡</div>
+    <h4>Quick Fix Model</h4>
+    <p>Fastest approach; immediate patches without deep analysis. High risk of new defects.</p>
+    <span class="badge" style="background:#FDF0EC;color:#C8490A;border:1px solid #F0C4B2;">Reactive</span>
+  </div>
+  <div class="card">
+    <div class="card-icon">🔁</div>
+    <h4>Iterative Enhancement</h4>
+    <p>Planned iterations adding features systematically with analysis and documentation.</p>
+    <span class="badge" style="background:#EBF4FB;color:#1D6FA4;border:1px solid #B3D5F0;">Planned</span>
+  </div>
+  <div class="card">
+    <div class="card-icon">♻️</div>
+    <h4>Reuse-Oriented</h4>
+    <p>Uses existing tested components from a repository. High quality, low cost.</p>
+    <span class="badge" style="background:#E8F7F0;color:#2D8A5E;border:1px solid #B8E8D4;">Component-Based</span>
+  </div>
+  <div class="card">
+    <div class="card-icon">📐</div>
+    <h4>Boehm's Model</h4>
+    <p>Risk-based analysis; prioritizes tasks by cost, schedule, and technical challenge.</p>
+    <span class="badge" style="background:#FFFBDE;color:#A08800;border:1px solid #DDD000;">Analytical</span>
+  </div>
+  <div class="card">
+    <div class="card-icon">🔍</div>
+    <h4>Osborne's Model</h4>
+    <p>Four phases: Identification → Understanding → Modification → Revalidation.</p>
+    <span class="badge" style="background:#F4F2EE;color:#7A746E;border:1px solid #C8C4BE;">Structured</span>
+  </div>
+</div>
+
+<h3 class="subtopic">Quick Fix Model — Detailed</h3>
+<p>The quickest way to address a critical production failure. However, it bypasses proper analysis, design, and documentation, leading to what is called <em>"maintenance debt."</em> Every quick fix should be revisited within a planned maintenance cycle.</p>
+<div class="warn-box">⚠️ <strong>Risk:</strong> Quick fixes can create cascading failures. A patch on Module A might break Module B because the side effects were not analyzed. Always follow up with proper impact analysis.</div>
+
+<h3 class="subtopic">Iterative Enhancement Model — Detailed</h3>
+<div class="diagram-wrap">
+  <div class="diagram-title">Fig 1.5 — Iterative Enhancement Model</div>
+  <svg viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg" style="max-width:480px;display:block;margin:0 auto;">
+    <rect x="10" y="50" width="80" height="40" rx="6" fill="#1D6FA4"/>
+    <text x="50" y="66" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Request</text>
+    <text x="50" y="80" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Analysis</text>
+    <polygon points="90,70 100,65 100,75" fill="#4A4540"/>
+    <rect x="100" y="50" width="80" height="40" rx="6" fill="#2D8A5E"/>
+    <text x="140" y="66" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Design</text>
+    <text x="140" y="80" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Solution</text>
+    <polygon points="180,70 190,65 190,75" fill="#4A4540"/>
+    <rect x="190" y="50" width="80" height="40" rx="6" fill="#A08800"/>
+    <text x="230" y="66" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Implement</text>
+    <text x="230" y="80" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">&amp; Test</text>
+    <polygon points="270,70 280,65 280,75" fill="#4A4540"/>
+    <rect x="280" y="50" width="80" height="40" rx="6" fill="#C8490A"/>
+    <text x="320" y="66" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Update</text>
+    <text x="320" y="80" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Docs</text>
+    <polygon points="360,70 370,65 370,75" fill="#4A4540"/>
+    <rect x="370" y="50" width="80" height="40" rx="6" fill="#4A4540"/>
+    <text x="410" y="66" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Release</text>
+    <text x="410" y="80" text-anchor="middle" font-family="Source Serif 4,serif" font-size="11" fill="white">Next Iter.</text>
+    <!-- Feedback arrow -->
+    <path d="M 410,90 Q 410,130 230,130 Q 50,130 50,90" stroke="#C8490A" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+    <polygon points="50,90 44,100 56,100" fill="#C8490A"/>
+    <text x="230" y="125" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#C8490A">Feedback Loop → Next Iteration</text>
+  </svg>
+</div>
+
+<h3 class="subtopic">Boehm's Maintenance Model — Detailed</h3>
+<p>Barry Boehm introduced a risk-driven approach to maintenance. Before any modification is made, the team must:</p>
+<ul class="bullets">
+  <li><strong>Understand</strong> the existing system thoroughly — no modification before comprehension.</li>
+  <li><strong>Assess Risk</strong> — what is the probability of introducing new defects?</li>
+  <li><strong>Prioritize</strong> based on cost, schedule, and technical difficulty.</li>
+  <li><strong>Balance</strong> corrective fixes vs. enhancement requests using cost-benefit analysis.</li>
+</ul>
+
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr><th>Model</th><th>Approach</th><th>Speed</th><th>Quality</th><th>Cost</th><th>Documentation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Quick Fix</td><td>Reactive</td><td>Fast</td><td>Low</td><td>Low</td><td>Poor</td></tr>
+    <tr><td>Iterative Enhancement</td><td>Planned</td><td>Moderate</td><td>High</td><td>Moderate</td><td>Good</td></tr>
+    <tr><td>Reuse-Oriented</td><td>Component-based</td><td>Fast</td><td>High</td><td>Low</td><td>Excellent</td></tr>
+    <tr><td>Boehm's</td><td>Analytical/Risk-based</td><td>Slow</td><td>Very High</td><td>High</td><td>Excellent</td></tr>
+  </tbody>
+</table>
+</div>
+
+<hr>
+
+<!-- 1.6 SOFTWARE REUSE -->
+<h2 class="topic" id="reuse">1.6 Software Reuse</h2>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p><strong>Software Reuse</strong> is the process of using existing software artifacts — including source code, components, designs, architectures, documentation, and test cases — in the creation of a new software system, rather than building everything from scratch.</p>
+</div>
+
+<h3 class="subtopic">Benefits of Reuse</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon">⏱️</div>
+    <h4>Faster Development</h4>
+    <p>Pre-built, tested components reduce the time-to-market significantly.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">💰</div>
+    <h4>Cost Reduction</h4>
+    <p>Avoids re-coding known solutions; leverages prior investment.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">✅</div>
+    <h4>Higher Quality</h4>
+    <p>Reused components are already tested and validated in production.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">📦</div>
+    <h4>Standardization</h4>
+    <p>Common interfaces and components improve system consistency.</p>
+  </div>
+</div>
+
+<h3 class="subtopic">Reuse Program Issues</h3>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr><th>Issue Category</th><th>Specific Challenge</th><th>Impact Level</th><th>Solution Approach</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Technical</td><td>Integration compatibility</td><td>🔴 High</td><td>Standards and interfaces</td></tr>
+    <tr><td>Organizational</td><td>Cultural resistance</td><td>🟡 Medium</td><td>Training and incentives</td></tr>
+    <tr><td>Economic</td><td>Initial investment cost</td><td>🔴 High</td><td>Long-term ROI analysis</td></tr>
+    <tr><td>Legal</td><td>Licensing and ownership</td><td>🟡 Medium</td><td>Clear policies and guidelines</td></tr>
+    <tr><td>Quality</td><td>Component reliability</td><td>🔴 High</td><td>Certification and testing</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 class="subtopic">Reuse Approaches (Spectrum)</h3>
+<div class="diagram-wrap">
+  <div class="diagram-title">Fig 1.6 — Reuse Maturity Spectrum</div>
+  <svg viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;display:block;margin:0 auto;">
+    <!-- Arrow axis -->
+    <defs><marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="#1A1612"/></marker></defs>
+    <line x1="20" y1="55" x2="470" y2="55" stroke="#1A1612" stroke-width="2" marker-end="url(#arrowR)"/>
+    <!-- Labels below axis -->
+    <text x="50" y="75" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#C8490A">Ad-hoc</text>
+    <text x="160" y="75" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#A08800">Systematic</text>
+    <text x="270" y="75" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#1D6FA4">Component-Based</text>
+    <text x="385" y="75" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#2D8A5E">Framework-Based</text>
+    <!-- Dots on axis -->
+    <circle cx="50" cy="55" r="6" fill="#C8490A"/>
+    <circle cx="160" cy="55" r="6" fill="#A08800"/>
+    <circle cx="270" cy="55" r="6" fill="#1D6FA4"/>
+    <circle cx="385" cy="55" r="6" fill="#2D8A5E"/>
+    <!-- Benefits above axis -->
+    <text x="50" y="42" text-anchor="middle" font-family="Source Serif 4,serif" font-size="10" fill="#4A4540">Minimal</text>
+    <text x="160" y="42" text-anchor="middle" font-family="Source Serif 4,serif" font-size="10" fill="#4A4540">Moderate</text>
+    <text x="270" y="42" text-anchor="middle" font-family="Source Serif 4,serif" font-size="10" fill="#4A4540">High</text>
+    <text x="385" y="42" text-anchor="middle" font-family="Source Serif 4,serif" font-size="10" fill="#4A4540">Max Value</text>
+    <!-- X-axis label -->
+    <text x="245" y="100" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#7A746E">Increasing Maturity, Structure &amp; Long-Term Value →</text>
+  </svg>
+</div>
+
+<ul class="bullets">
+  <li><strong>Ad-hoc Reuse:</strong> Informal copy-paste of existing code. Unplanned, with no repository. Low benefit, creates duplicate maintenance burden.</li>
+  <li><strong>Systematic Reuse:</strong> Organized approach with a dedicated reuse repository. Teams actively search for reusable assets before building new ones.</li>
+  <li><strong>Component-Based Reuse (CBSD):</strong> Software is built by assembling standardized, independently deployed components with well-defined interfaces (e.g., REST APIs, JAR files, npm packages).</li>
+  <li><strong>Application Family (Product Line):</strong> A family of related products share a common architecture and core. Example: Microsoft Office suite shares rendering and file-format components.</li>
+  <li><strong>Framework-Based Reuse:</strong> Application frameworks (Spring, Django, Angular) provide a skeleton into which developers plug their specific logic. Maximum long-term value but requires high initial investment.</li>
+</ul>
+
+<div class="numerical">
+  <div class="num-title">📊 Numerical Example 3 — ROI of Reuse</div>
+  <div class="num-body">
+    <strong>Scenario:</strong> A company develops 5 similar applications per year.<br>
+    Without reuse: Each app costs ₹10 Lakhs → Total = ₹50 Lakhs<br>
+    With systematic reuse: Initial component library investment = ₹8 Lakhs<br>
+    Reuse reduces per-app cost by 40% → Per app = ₹6 Lakhs<br>
+    Total with reuse = ₹8L + (5 × ₹6L) = ₹8L + ₹30L = <strong>₹38 Lakhs</strong><br><br>
+    <strong>ROI of Reuse = (₹50L − ₹38L) / ₹38L × 100 = 31.6% savings</strong>
+  </div>
+  <div class="num-answer">∴ After Year 1 (library paid off), each subsequent app saves 40% directly. ROI grows year over year.</div>
+</div>
+
+<div class="note-box">
+  📝 <strong>Examiner's Tip:</strong> The "Reuse Program Issues" table is frequently asked in exams. Remember the 5 categories: Technical, Organizational, Economic, Legal, Quality (mnemonic: <strong>TOELQ</strong>).
+</div>
+
+</div><!-- end notes section -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  SECTION 2 — QUESTIONS                                  -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="questions">
+<div class="section-title"><span class="section-num">§2</span> 30 Examination Questions</div>
+
+<!-- ── EASY ── -->
+<div class="q-category q-easy">🟢 Easy — 2 Marks (3–4 lines each)</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q1</span><span class="q-text">Define Software Maintenance as per IEEE.</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer">According to IEEE Std 1219-1998, <strong>software maintenance</strong> is the modification of a software product after delivery to correct faults, improve performance, or adapt the product to a changed environment. It is an ongoing, systematic activity covering the entire operational lifetime of a software system, ensuring it remains functional, efficient, and aligned with evolving user expectations.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q2</span><span class="q-text">What percentage of software lifecycle cost does maintenance typically represent?</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer">Software maintenance represents approximately <strong>60–70%</strong> of the total software lifecycle cost. This makes it the most expensive phase of a software product's life, significantly exceeding the initial development cost. This high proportion highlights why efficient maintenance planning, process improvement, and automation are critical for software organizations to remain profitable and productive.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q3</span><span class="q-text">What is Corrective Maintenance? Give one example.</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer"><strong>Corrective maintenance</strong> involves identifying and fixing bugs, errors, and defects discovered after a software product has been deployed in a production environment. It is reactive in nature, triggered by failure reports from users or monitoring systems. <em>Example:</em> Fixing a calculation error in a payroll system that incorrectly computes overtime pay for employees working more than 60 hours per week.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q4</span><span class="q-text">Distinguish between Adaptive and Perfective Maintenance.</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer"><strong>Adaptive maintenance</strong> modifies software to keep it functional within a <em>changed environment</em> (new OS, database, hardware), and is triggered by external technology changes. In contrast, <strong>perfective maintenance</strong> enhances the system by adding <em>new features or improving performance</em> based on user requests. Adaptive is environmental-driven while perfective is feature-driven. Perfective accounts for the highest effort (~50%) compared to adaptive (~25%).</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q5</span><span class="q-text">What is Preventive Maintenance?</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer"><strong>Preventive maintenance</strong> proactively addresses potential future problems <em>before they manifest</em> as actual failures. It includes code refactoring, restructuring, improving documentation, and reducing technical debt. Though it represents only ~5% of maintenance effort, it yields significant long-term benefits: improved reliability, reduced future maintenance cost, better code readability, and extended software lifespan.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q6</span><span class="q-text">Define Software Reverse Engineering.</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer"><strong>Software Reverse Engineering</strong> is the systematic process of analyzing an existing software system to identify its components, understand their interrelationships, and recover design and architectural information — especially when original documentation is unavailable or outdated. It transforms low-level implementation details into higher-level abstractions such as design diagrams, architectural models, and requirement specifications, supporting legacy system maintenance and modernization.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q7</span><span class="q-text">What is the Quick Fix Model of maintenance?</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer">The <strong>Quick Fix Model</strong> is the fastest maintenance approach that provides an immediate solution to a critical problem without performing thorough impact analysis or following standard design procedures. It is suitable for emergency situations like production outages. However, it carries a <em>high risk</em> of introducing new defects, leaves documentation outdated, and should always be followed by a formal review and a permanent, well-analyzed solution.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q8</span><span class="q-text">List any four artifacts that can be reused in software development.</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer">Software reuse is not limited to source code. The following artifacts can be reused: (1) <strong>Source Code Components</strong> — libraries, functions, and modules; (2) <strong>Software Designs</strong> — architectural patterns and design patterns; (3) <strong>Documentation</strong> — requirement specs, test plans, user manuals; (4) <strong>Test Cases</strong> — automated test suites and regression tests. Reusing any of these reduces effort, cost, and time-to-market while improving consistency.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q9</span><span class="q-text">Name the five categories of issues in a software reuse program.</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer">A software reuse program faces issues across five categories: (1) <strong>Technical</strong> — integration and compatibility problems when combining components from different sources; (2) <strong>Organizational</strong> — cultural resistance from developers who prefer writing new code; (3) <strong>Economic</strong> — high initial investment in building a reuse repository; (4) <strong>Legal</strong> — licensing, intellectual property, and ownership concerns; (5) <strong>Quality</strong> — uncertainty about the reliability and certification of reused components.</div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q10</span><span class="q-text">What is the Iterative Enhancement Model?</span><span class="q-mark mark-2">2 Marks</span></div>
+  <div class="q-answer">The <strong>Iterative Enhancement Model</strong> improves a software system through multiple planned, time-boxed iterations. Each iteration follows a disciplined cycle: analyze the request → design a solution → implement and test → update documentation → release. Unlike the Quick Fix Model, it maintains system integrity and ensures documentation stays current after every change. It is especially effective for large-scale systems where continuous feature additions are required without compromising stability.</div>
+</div>
+
+<!-- ── MEDIUM ── -->
+<div class="q-category q-medium">🔵 Medium — 5 Marks (10–15 lines each)</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q11</span><span class="q-text">Explain the four types of software maintenance with examples and their approximate effort percentage.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>Software maintenance is classified into four types based on their purpose:</p>
+    <ol>
+      <li><strong>Corrective Maintenance (20%):</strong> Fixes defects discovered after deployment. It is purely reactive — triggered by bug reports and system failures. Example: Patching a null pointer exception in an e-commerce cart system that crashes on checkout. It includes emergency fixes, security patches, and data corruption repairs.</li>
+      <li><strong>Adaptive Maintenance (25%):</strong> Modifies software to function correctly within a changed environment. Triggered by hardware upgrades, OS version changes, or regulatory updates. Example: Rewriting database access code when migrating from Oracle 11g to PostgreSQL 15. Also includes cloud migrations and compliance with new data privacy laws.</li>
+      <li><strong>Perfective Maintenance (50%):</strong> Enhances existing functionality and adds new features based on user feedback. It is the most effort-intensive type and adds direct business value. Example: Adding a mobile-responsive dashboard with real-time analytics to a legacy web app. Also includes performance optimizations, UI redesigns, and new module additions.</li>
+      <li><strong>Preventive Maintenance (5%):</strong> Proactively addresses latent issues before they become failures. Involves refactoring, code restructuring, and documentation updates. Example: Converting legacy procedural code into object-oriented classes to improve testability and reduce future bug introduction. Reduces technical debt and improves long-term software health.</li>
+    </ol>
+    <p>Perfective maintenance dominates because mature systems face continuous enhancement demands. Organizations must allocate adequate budget for all four types to maintain a healthy software portfolio.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q12</span><span class="q-text">Describe the software maintenance process with a labeled process flow diagram.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>The software maintenance process is a structured, six-step workflow:</p>
+    <p><strong>Step 1 — Maintenance Request:</strong> A change request is submitted via a formal system (e.g., JIRA, ServiceNow). It may come from users (bug reports), management (new features), or automated monitoring (performance alerts). Each request is assigned a unique ID and priority level.</p>
+    <p><strong>Step 2 — Impact &amp; Feasibility Analysis:</strong> Engineers assess which modules are affected, estimate the effort, identify risks, and determine whether the change is technically feasible within the given time and resource constraints. A Change Impact Document (CID) is produced.</p>
+    <p><strong>Step 3 — Design Solution:</strong> A technical approach is designed. The team selects the minimal-invasive solution that achieves the objective without unnecessarily touching unrelated modules. UML diagrams or pseudocode may be used to specify the change.</p>
+    <p><strong>Step 4 — Implementation:</strong> Developers make code changes following established coding standards. Comments are updated inline. All changes are version-controlled (Git commit with a reference to the change request ID).</p>
+    <p><strong>Step 5 — Testing &amp; QA:</strong> Unit tests for changed modules, integration tests for affected interfaces, and full regression testing to ensure no unintended side effects. Test results are documented in a Test Report.</p>
+    <p><strong>Step 6 — Deployment:</strong> The validated change is deployed to production via a CI/CD pipeline. A release note is published, and the configuration management database (CMDB) is updated. Rollback procedures are prepared in case of failure.</p>
+    <div style="margin-top:12px;" class="flow">
+      <div class="flow-step">Request</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Analysis</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Design</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Implement</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Test</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Deploy</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q13</span><span class="q-text">Explain the levels of reverse engineering with a diagram.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>Reverse engineering operates at four levels of abstraction, moving from the concrete (source code) to the abstract (business domain):</p>
+    <p><strong>Level 1 — Implementation Level:</strong> Analysis of source code structure. Engineers examine files, functions, classes, and their interdependencies. Tools like static analyzers (SonarQube, Understand) generate call graphs, dependency maps, and code complexity metrics. Output: Code structure documents.</p>
+    <p><strong>Level 2 — Design Level:</strong> Recovers architectural patterns from the code. Engineers identify design patterns (MVC, Observer, Factory), module boundaries, and component interfaces. Output: UML class diagrams, component diagrams, sequence diagrams. This level bridges code to architecture.</p>
+    <p><strong>Level 3 — Requirements Level:</strong> Analyzes system behavior to recover functional requirements. Dynamic analysis (running the system and tracing behavior) helps here. Output: Use-case diagrams, requirement specifications, functional decomposition trees.</p>
+    <p><strong>Level 4 — Domain Level:</strong> The highest abstraction — recovers the business logic and domain knowledge embedded in the system. Involves interviews with domain experts and analysis of business rules encoded in the logic. Output: Domain model, ontology, business rule specifications.</p>
+    <p>Each higher level becomes increasingly dependent on human expertise and domain knowledge, making full automation difficult. The pyramid structure reflects that each higher level has less detail but greater semantic meaning.</p>
+    <p><em>Reverse engineering is essential for legacy migration projects</em> — for instance, converting COBOL mainframe banking applications to modern Java microservices requires all four levels of understanding.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q14</span><span class="q-text">Compare Quick Fix Model with Iterative Enhancement Model of software maintenance.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>The Quick Fix Model and Iterative Enhancement Model represent two ends of the maintenance planning spectrum.</p>
+    <p><strong>Quick Fix Model:</strong> Prioritizes speed above all else. When a production system fails, developers apply the fastest possible patch without full impact analysis, design review, or documentation updates. While this restores functionality quickly, it accumulates "maintenance debt" — hidden complexity from undocumented, hastily written code. Risk of regression is high. Documentation is typically not updated. This model is appropriate only as a temporary measure during emergencies.</p>
+    <p><strong>Iterative Enhancement Model:</strong> Treats every maintenance change as a mini-project. Each iteration follows a complete SDLC mini-cycle: analysis → design → implementation → testing → documentation → release. This structured approach maintains code quality, keeps documentation current, and minimizes regression risk. However, it is slower and requires more upfront planning effort.</p>
+    <p><strong>Comparison Table:</strong></p>
+    <ul>
+      <li>Speed: Quick Fix is fast; Iterative is moderate</li>
+      <li>Quality: Quick Fix produces low-quality output; Iterative produces high-quality output</li>
+      <li>Risk: Quick Fix carries high regression risk; Iterative carries low risk</li>
+      <li>Documentation: Quick Fix leaves documentation outdated; Iterative keeps it current</li>
+      <li>Best Use: Quick Fix for emergencies only; Iterative for planned, ongoing maintenance</li>
+      <li>Technical Debt: Quick Fix increases debt; Iterative reduces or stabilizes it</li>
+    </ul>
+    <p>In practice, organizations use Quick Fix as an immediate stop-gap and then plan a proper Iterative fix in the next maintenance cycle.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q15</span><span class="q-text">Explain the Reuse-Oriented Maintenance Model and its advantages.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>The <strong>Reuse-Oriented Maintenance Model</strong> is a component-based approach to software modification that prioritizes using existing, proven components from a structured repository rather than writing new code from scratch.</p>
+    <p><strong>Core Concept:</strong> When a maintenance change is needed, engineers first search the component library for an existing solution. If found, it is adapted (customized) and integrated. If not, a new component is built, tested, certified, and added to the repository for future use. This creates a self-reinforcing cycle of growing value.</p>
+    <p><strong>Key Requirements:</strong></p>
+    <ul>
+      <li>A well-organized component repository with metadata (name, version, interface specification, test coverage, known limitations)</li>
+      <li>Standardized interfaces for components to ensure interoperability</li>
+      <li>Quality certification process before components enter the repository</li>
+      <li>Training for developers on how to search for and adapt existing components</li>
+    </ul>
+    <p><strong>Advantages:</strong></p>
+    <ul>
+      <li><strong>Speed:</strong> Reusing tested components is much faster than building from scratch</li>
+      <li><strong>Quality:</strong> Repository components are pre-tested and validated, reducing defect introduction</li>
+      <li><strong>Cost:</strong> Amortizes the cost of component development across multiple uses</li>
+      <li><strong>Consistency:</strong> Shared components ensure uniform behavior across the system</li>
+      <li><strong>Documentation:</strong> Each component has standard documentation, improving maintainability</li>
+    </ul>
+    <p><em>Example:</em> A healthcare company maintains a library of validated cryptographic components. When adding a new patient portal, engineers reuse the authentication and encryption modules rather than reimplementing them, saving 3 weeks of development and eliminating security risks from ad-hoc implementation.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q16</span><span class="q-text">What is Software Reuse? Explain its different approaches.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p><strong>Software Reuse</strong> is the process of systematically using existing software artifacts — code, designs, architectures, test cases, or documentation — in new software development or maintenance activities to reduce cost, time, and effort while improving quality.</p>
+    <p><strong>Reuse Approaches (from least to most structured):</strong></p>
+    <ol>
+      <li><strong>Ad-hoc Reuse:</strong> Informal, opportunistic copying of code snippets without a formal process. Most common in practice but least beneficial. Creates copy-paste bugs and maintenance duplication. No repository needed, but no governance either.</li>
+      <li><strong>Systematic Reuse:</strong> An organized, planned approach with a dedicated reuse repository. Teams search for reusable assets before building new ones. Requires a process for cataloging, retrieving, and certifying reusable artifacts.</li>
+      <li><strong>Component-Based Reuse (CBSD):</strong> Software is assembled from standardized, independently deployable components with well-defined interfaces. Components are interchangeable. Examples: Java JAR libraries, npm packages, REST API services.</li>
+      <li><strong>Application Family / Product Line:</strong> Related products share a common core architecture. Only variable parts are built per product. Example: Google's Android phones use a common OS core but have manufacturer-specific layers.</li>
+      <li><strong>Framework-Based Reuse:</strong> Application frameworks (Spring Boot, Django, Angular) provide a skeleton architecture. Developers plug their specific business logic into predefined extension points. Provides maximum long-term value; initial investment is high but ROI is excellent.</li>
+    </ol>
+    <p>Each approach offers progressively greater benefits but also requires greater organizational investment, discipline, and cultural change.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q17</span><span class="q-text">Explain Boehm's Maintenance Model and its decision-making approach.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p><strong>Boehm's Maintenance Model</strong>, proposed by Barry Boehm, is a risk-based analytical approach to software maintenance that emphasizes thorough understanding before any modification is attempted.</p>
+    <p><strong>Core Philosophy:</strong> "Understand before you modify." Boehm argued that most maintenance errors arise from modifying code that the developer does not fully understand. By investing time in understanding the system first, the risk of introducing new defects is dramatically reduced.</p>
+    <p><strong>Key Decision Factors:</strong></p>
+    <ul>
+      <li><strong>Cost:</strong> What is the estimated effort and financial cost of this modification?</li>
+      <li><strong>Schedule:</strong> Can the change be implemented within the required timeframe?</li>
+      <li><strong>Technical Challenges:</strong> How complex is the affected code? What are the dependencies?</li>
+      <li><strong>Risk Assessment:</strong> What is the probability of introducing new defects? What is the impact if the change fails?</li>
+    </ul>
+    <p><strong>Process:</strong> The model uses a risk-benefit matrix. High-risk, low-benefit changes are deprioritized or deferred. Low-risk, high-benefit changes are prioritized. Resources are allocated to maximize the overall value delivered per maintenance cycle.</p>
+    <p><strong>Advantages:</strong> Results in very high quality outputs, excellent documentation, and structured decision-making. Disadvantages: Slow compared to Quick Fix; high upfront analysis cost.</p>
+    <p><em>Best suited for:</em> Safety-critical systems (medical devices, avionics, nuclear plant control) where maintenance errors can have catastrophic consequences and quality is paramount over speed.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q18</span><span class="q-text">Describe the challenges (issues) in implementing a software reuse program.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>Despite its benefits, software reuse programs face significant challenges across five dimensions:</p>
+    <p><strong>1. Technical Issues:</strong> Components from different sources may have incompatible interfaces, data formats, or technology stacks. A Java EE component may not integrate easily with a Python microservice. Standards like REST, SOAP, or message queues help bridge technical gaps, but significant integration effort may still be needed.</p>
+    <p><strong>2. Organizational Issues:</strong> Cultural resistance is the most underestimated barrier. Developers often prefer the "Not Invented Here" (NIH) syndrome — the tendency to build new code rather than reuse existing work. This requires management buy-in, developer training, incentive systems (e.g., rewarding component reuse), and a cultural shift toward collaborative development.</p>
+    <p><strong>3. Economic Issues:</strong> Building a high-quality, documented, well-tested component library requires significant upfront investment. Management may not see immediate ROI, making budget justification difficult. Long-term ROI analysis and pilot projects that demonstrate early wins help overcome this barrier.</p>
+    <p><strong>4. Legal Issues:</strong> Third-party components may carry licensing restrictions (GPL, LGPL, MIT, commercial licenses) that affect how the resulting product can be distributed or sold. Intellectual property ownership of internally developed components must also be clearly defined in contracts and policies.</p>
+    <p><strong>5. Quality Issues:</strong> Not all existing components are suitable for reuse. A component may be underdocumented, poorly tested, or have known limitations. A formal certification process — requiring documentation completeness, test coverage minimums, and code review — is needed before components enter the repository.</p>
+    <p>Successful reuse programs address all five areas simultaneously through governance, tooling, training, and process standards.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q19</span><span class="q-text">Why is software maintenance the most expensive phase of the software lifecycle? Justify with a numerical example.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>Software maintenance is the most expensive lifecycle phase for several structural reasons:</p>
+    <p><strong>Reasons for High Cost:</strong></p>
+    <ul>
+      <li><strong>Duration:</strong> Development may take 1–3 years, but a successful system is maintained for 10–20+ years.</li>
+      <li><strong>Complexity Growth:</strong> Each modification adds complexity; understanding the accumulated system becomes harder over time.</li>
+      <li><strong>Staff Turnover:</strong> Original developers leave; new engineers must spend time understanding unfamiliar code.</li>
+      <li><strong>Documentation Debt:</strong> Poorly documented systems require more time to understand before modifying.</li>
+      <li><strong>Regression Risk:</strong> Every change requires regression testing of the entire system, which grows with system size.</li>
+      <li><strong>Volume of Requests:</strong> As user base grows, the volume of change requests, bug reports, and enhancement demands grows exponentially.</li>
+    </ul>
+    <p><strong>Numerical Justification:</strong></p>
+    <ul>
+      <li>Project development cost: ₹20 Lakhs (over 2 years)</li>
+      <li>Annual maintenance cost: ₹4 Lakhs/year</li>
+      <li>System lifespan: 15 years</li>
+      <li>Total maintenance cost = ₹4L × 15 = ₹60 Lakhs</li>
+      <li>Total lifecycle cost = ₹20L + ₹60L = ₹80 Lakhs</li>
+      <li>Maintenance % = 60/80 × 100 = <strong>75%</strong> of total cost</li>
+    </ul>
+    <p>This shows that for a typical 15-year-old system, maintenance consumes 3× the original development cost, making it by far the dominant lifecycle expense.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q20</span><span class="q-text">Explain the objectives and process of Software Reverse Engineering.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p><strong>Software Reverse Engineering</strong> transforms low-level, implementation-specific information into higher-level, more abstract representations to support maintenance, reengineering, and migration of software systems.</p>
+    <p><strong>Objectives:</strong></p>
+    <ul>
+      <li>Recover lost or outdated design documentation for legacy systems written decades ago</li>
+      <li>Understand the architecture of inherited systems before modifying them</li>
+      <li>Facilitate system migration (e.g., mainframe to cloud) by understanding business logic</li>
+      <li>Support integration with other systems by recovering interface specifications</li>
+      <li>Enable security analysis to discover hidden vulnerabilities in the code</li>
+    </ul>
+    <p><strong>Process (5 Steps):</strong></p>
+    <ol>
+      <li><strong>Acquire Source Code:</strong> Obtain the codebase, binaries, or both. In worst cases, only compiled executables are available, requiring binary reverse engineering.</li>
+      <li><strong>Analyze &amp; Parse:</strong> Static analysis tools parse the code to understand syntax, tokens, module boundaries, and control flow. Abstract Syntax Trees (ASTs) are built.</li>
+      <li><strong>Extract Information:</strong> Identify dependencies, data flows, database interactions, external API calls, and algorithmic logic patterns.</li>
+      <li><strong>Generate Abstractions:</strong> Create higher-level models — UML class diagrams, entity-relationship diagrams, data flow diagrams, sequence diagrams — that represent the system's design and behavior.</li>
+      <li><strong>Create Documentation:</strong> Produce human-readable specifications: architecture documents, API documentation, business rule catalogs, and data dictionary.</li>
+    </ol>
+    <p><em>Example:</em> A 30-year-old COBOL banking system with no surviving documentation is being migrated to Java. Reverse engineering first recovers the data structures, business rules, and transaction flows, which then guide the Java reimplementation.</p>
+  </div>
+</div>
+
+<!-- ── HARD ── -->
+<div class="q-category q-hard">🔴 Hard / Scenario-Based — 10 Marks (30+ lines)</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q21</span><span class="q-text">SCENARIO: A large telecom company has a 15-year-old billing system developed in COBOL. The original developers have retired, documentation is missing, and the system runs on outdated hardware. The company plans to migrate it to a modern microservices architecture on cloud. As a software engineer, explain the complete strategy covering: (i) maintenance type needed, (ii) reverse engineering approach, (iii) recommended maintenance model, (iv) reuse strategy, and (v) challenges expected.</span><span class="q-mark mark-10">10 Marks</span></div>
+  <div class="q-answer">
+    <h4 style="color:var(--accent);margin-bottom:8px;">Comprehensive Legacy System Migration Strategy</h4>
+    
+    <p><strong>(i) Types of Maintenance Involved</strong></p>
+    <p>This scenario involves multiple maintenance types simultaneously, making it one of the most complex maintenance projects possible:</p>
+    <ul>
+      <li><strong>Adaptive Maintenance (Primary):</strong> The core driver is migrating from COBOL on aging hardware to Java microservices on cloud (AWS/Azure). This is a fundamental environmental change affecting the execution platform, programming paradigm, database, and network architecture.</li>
+      <li><strong>Corrective Maintenance:</strong> During the reverse engineering phase, previously unknown bugs in the 15-year-old COBOL code will be discovered. Known workarounds that were "built into" the system will be identified and properly fixed in the new system.</li>
+      <li><strong>Perfective Maintenance:</strong> The migration is also an opportunity to add modern capabilities the COBOL system could not support: REST APIs for third-party integration, real-time dashboards, mobile billing, and self-service portals.</li>
+      <li><strong>Preventive Maintenance:</strong> The rewritten microservices architecture will be designed with proper separation of concerns, automated testing, and CI/CD pipelines — preventing the technical debt accumulation that led to the current crisis.</li>
+    </ul>
+
+    <p><strong>(ii) Reverse Engineering Approach</strong></p>
+    <p>Since documentation is completely missing, reverse engineering is the critical first phase and must be executed methodically across all four levels:</p>
+    <p><em>Implementation Level:</em> Use COBOL-specific static analysis tools (e.g., Micro Focus Enterprise Analyzer) to parse the entire codebase. Generate call graphs showing which programs call which subroutines. Identify all file I/O operations, database calls (DB2 embedded SQL), and batch job definitions (JCL scripts). Create a complete inventory of all ~500+ COBOL programs.</p>
+    <p><em>Design Level:</em> From the call graphs and data flows, reconstruct the system's modular architecture. Identify functional subsystems: billing calculation engine, payment processing, invoice generation, customer management, usage rating. Map these to the proposed microservices boundaries.</p>
+    <p><em>Requirements Level:</em> Execute the COBOL system in a test environment with real historical data and trace its behavior. Document the business rules: tiered pricing formulas, discount structures, tax calculation logic, payment due date rules, credit limit enforcement. Each business rule must be captured in a Requirements Specification Document.</p>
+    <p><em>Domain Level:</em> Interview surviving subject-matter experts (SMEs), senior business analysts, and long-tenured customer service representatives to capture tacit knowledge — the unwritten business rules that exist only in people's minds. This is often the most time-consuming phase.</p>
+
+    <p><strong>(iii) Recommended Maintenance Model</strong></p>
+    <p>For this high-stakes, safety-critical (billing errors have financial and legal consequences), complex migration, <strong>Boehm's Maintenance Model</strong> combined with <strong>Iterative Enhancement</strong> is recommended:</p>
+    <p>Boehm's model ensures that no COBOL module is reimplemented until its behavior is fully understood through the reverse engineering phase. Risk assessment guides which modules are migrated first (lower-risk, non-real-time batch processes) versus last (real-time credit limit enforcement, payment gateway integration).</p>
+    <p>Iterative Enhancement governs the migration itself: each sprint (2 weeks) migrates one well-understood microservice from COBOL to Java, runs full parity testing (comparing outputs of both systems with identical inputs), and deploys to a parallel running environment.</p>
+
+    <p><strong>(iv) Reuse Strategy</strong></p>
+    <p>A <strong>Component-Based and Framework-Based Reuse</strong> strategy maximizes value in the new architecture:</p>
+    <ul>
+      <li><strong>Framework-Based:</strong> Use Spring Boot for Java microservices (providing dependency injection, REST endpoints, security, logging), Kubernetes for container orchestration, and Apache Kafka for event-driven billing event streams. These frameworks provide proven architectural skeleton, eliminating the need to build infrastructure from scratch.</li>
+      <li><strong>Component-Based:</strong> Reuse existing open-source/commercial components for: payment gateway integration (Stripe/Razorpay SDKs), PDF invoice generation (Apache PDFBox), email notification (SendGrid SDK), and authentication (OAuth 2.0/Keycloak).</li>
+      <li><strong>Internal Reuse:</strong> Build a shared component library for cross-cutting concerns: common data validation rules, logging standards, error handling patterns, and customer ID management. Every new microservice reuses these from the internal repository rather than implementing its own.</li>
+      <li><strong>Test Case Reuse:</strong> Business rule test cases derived from the COBOL parity testing phase become the automated regression suite for the Java system, ensuring behavioral equivalence.</li>
+    </ul>
+
+    <p><strong>(v) Challenges Expected</strong></p>
+    <ul>
+      <li><strong>Knowledge Loss:</strong> Retired developers took critical domain knowledge with them. Some business rules may be impossible to recover without running the system extensively on historical data.</li>
+      <li><strong>COBOL-Specific Behavior:</strong> COBOL has implicit decimal handling, packed decimal formats, and EBCDIC encoding that have no direct Java equivalent. Incorrect data type conversion can cause subtle billing calculation errors worth millions of rupees.</li>
+      <li><strong>Parallel Running Cost:</strong> Both systems must run simultaneously for months for parity testing — doubling infrastructure costs temporarily. Business must accept this operational cost as a migration risk-mitigation investment.</li>
+      <li><strong>Cultural Resistance:</strong> Legacy system operators and testers who are expert in the COBOL system will be skeptical of the new system. Change management and training programs are essential.</li>
+      <li><strong>Undiscovered Business Rules:</strong> The COBOL system likely contains decades of "special case" logic for specific enterprise customers, government contracts, or grandfathered pricing plans that are embedded deep in nested IF-ELSE trees. Missing even one can result in billing disputes or legal liability.</li>
+      <li><strong>Testing Completeness:</strong> Achieving 100% behavioral parity between a 15-year-old COBOL system and a new Java system is practically impossible without exhaustive test data covering all business scenarios. A risk-based testing strategy must prioritize high-value, high-risk billing scenarios.</li>
+      <li><strong>Timeline Pressure:</strong> Management and stakeholders often underestimate the complexity of reverse engineering, pushing for unrealistic deadlines. The engineering team must communicate timelines based on evidence from the analysis phase, not optimistic estimates.</li>
+    </ul>
+    
+    <p><strong>Conclusion:</strong> This migration project is estimated to take 24–36 months with a dedicated team of 15–20 engineers. Success depends on investing fully in the reverse engineering phase before writing any new code. The reuse strategy reduces the Java development effort by 35–40%, primarily by leveraging proven frameworks and open-source components.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q22</span><span class="q-text">SCENARIO: A startup has been building new software products rapidly using ad-hoc reuse (copy-paste). The CTO wants to establish a formal software reuse program. Explain: (i) problems with current ad-hoc approach, (ii) design of a systematic reuse program, (iii) component lifecycle management, (iv) organizational change required, and (v) ROI calculation for the proposed program.</span><span class="q-mark mark-10">10 Marks</span></div>
+  <div class="q-answer">
+    <h4 style="color:var(--accent);margin-bottom:8px;">Establishing a Formal Software Reuse Program</h4>
+
+    <p><strong>(i) Problems with Current Ad-Hoc Reuse</strong></p>
+    <p>The startup's current copy-paste approach causes five serious engineering problems:</p>
+    <ul>
+      <li><strong>Maintenance Duplication:</strong> When a bug is found in the original code, every copy in every product must be independently identified and fixed. With 10 products each containing 20 copied modules, a single bug fix requires 20 separate code changes across the organization. This multiplies maintenance effort dramatically.</li>
+      <li><strong>Divergence:</strong> Copies are independently modified over time, causing behavioral inconsistencies across products. Product A's authentication module may handle session timeouts differently from Product B's copy of the "same" module.</li>
+      <li><strong>No Quality Guarantee:</strong> A bug in the original automatically propagates to all copies. There is no quality gate preventing poorly tested code from being copied.</li>
+      <li><strong>Knowledge Silos:</strong> Each team knows only their copy's behavior. No team has complete knowledge of the "canonical" version. This makes cross-product debugging extremely difficult.</li>
+      <li><strong>Technical Debt Explosion:</strong> Ad-hoc copies accumulate divergent technical debt in every product simultaneously, making the long-term codebase increasingly unmaintainable and costly to evolve.</li>
+    </ul>
+
+    <p><strong>(ii) Designing a Systematic Reuse Program</strong></p>
+    <p>The formal reuse program requires three pillars: Repository Infrastructure, Process, and Governance.</p>
+    <p><em>Repository Infrastructure:</em> Establish a centralized Component Repository using tools like JFrog Artifactory, Nexus, or a private npm/PyPI registry. Each component is versioned using Semantic Versioning (MAJOR.MINOR.PATCH). The repository is searchable by component name, technology, functionality, and certification status. Components are stored with: source code, compiled artifacts, API documentation (auto-generated via Javadoc/Swagger), test suites, known limitations, and license information.</p>
+    <p><em>Process:</em> Establish a mandatory "Reuse-First" process: Before building any new module, developers must search the repository. If a matching component is found with ≥80% feature fit, it must be adapted rather than rebuilt. If no matching component exists, the new module is developed following component standards and submitted to the repository after completion. This creates a positive feedback loop — the repository grows richer with every project.</p>
+    <p><em>Governance:</em> Form a Component Stewardship Team (CST) of 3–4 senior engineers responsible for: reviewing component submissions, running certification tests, managing component versions, deprecating outdated components, and monitoring repository usage metrics.</p>
+
+    <p><strong>(iii) Component Lifecycle Management</strong></p>
+    <p>Every component in the repository passes through a defined lifecycle:</p>
+    <ul>
+      <li><strong>Development:</strong> Component is built to agreed interface standards, documented, and unit-tested with ≥85% coverage.</li>
+      <li><strong>Submission &amp; Review:</strong> Developer submits component to CST. Review checks: API design quality, documentation completeness, test coverage, security scan results.</li>
+      <li><strong>Certification:</strong> CST runs integration tests, performance benchmarks, and security validation. Upon passing, component is published to the repository as a "Certified" artifact.</li>
+      <li><strong>Active Use:</strong> Products consume the component via dependency management (Maven/Gradle/pip). Bug fixes are submitted as new patch versions. Enhancements as minor versions.</li>
+      <li><strong>Deprecation:</strong> When a component is superseded, it is marked "Deprecated" with a recommended replacement and migration guide. Products consuming it receive migration support for 6 months.</li>
+      <li><strong>Retirement:</strong> After the deprecation period, the component is removed from the active repository but archived for historical reference.</li>
+    </ul>
+
+    <p><strong>(iv) Organizational Change Required</strong></p>
+    <p>Technical infrastructure is only 30% of the challenge. The harder 70% is cultural and organizational change:</p>
+    <ul>
+      <li><strong>Leadership Mandate:</strong> CTO must formally declare the reuse-first policy as a company-wide engineering standard, not an optional guideline.</li>
+      <li><strong>Incentive Restructuring:</strong> Performance reviews should reward component contributions to the repository, not just feature delivery speed. Engineers who build widely reused components create enormous multiplied value for the organization.</li>
+      <li><strong>Training Program:</strong> Run workshops on: how to search the repository, how to evaluate component fit, how to submit new components, and how to use dependency management tools.</li>
+      <li><strong>Time Allocation:</strong> Teams must be given dedicated time for component development and submission — not just feature sprints. A 10–15% allocation to "reuse investment" activities should be built into project planning.</li>
+      <li><strong>Success Metrics:</strong> Track and publicly share: repository component count, reuse rate (% of modules sourced from repository), total lines of code avoided through reuse, and bugs avoided due to using certified components.</li>
+    </ul>
+
+    <p><strong>(v) ROI Calculation for the Proposed Reuse Program</strong></p>
+    <p>Assumptions for the startup:</p>
+    <ul>
+      <li>Develops 8 products per year, each with ~100 modules</li>
+      <li>Average module development cost: ₹15,000 (analysis + coding + testing + documentation)</li>
+      <li>Current ad-hoc reuse: ~20% of modules copied informally, saving 30% cost per copy = ₹4,500 saved per copy</li>
+      <li>Proposed systematic reuse: 50% of modules reused from certified repository, saving 60% cost per reuse = ₹9,000 saved per reuse</li>
+    </ul>
+    <p>Investment in reuse program (Year 1): Repository setup + CST team + training = ₹12 Lakhs</p>
+    <p>Current annual saving (ad-hoc): 8 × 100 × 0.20 × ₹4,500 = ₹7.2 Lakhs</p>
+    <p>Proposed annual saving (systematic): 8 × 100 × 0.50 × ₹9,000 = <strong>₹36 Lakhs</strong></p>
+    <p>Net Year-1 benefit = ₹36L − ₹12L = <strong>₹24 Lakhs net gain</strong></p>
+    <p>Year 2 onward (no initial investment): Annual saving = ₹36 Lakhs (pure gain)</p>
+    <p><strong>3-Year ROI = (₹24L + ₹36L + ₹36L) / ₹12L × 100 = 800% ROI</strong></p>
+    <p>Conclusion: The systematic reuse program pays back its investment within the first year and generates substantial ongoing savings. The CTO's business case is compelling and the engineering benefits (quality, consistency, reduced maintenance) provide additional unmeasured value beyond the direct cost savings.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q23</span><span class="q-text">SCENARIO: A hospital's patient management system shows increasing response times and frequent crashes after 8 years of operation. Analyze this problem using all four maintenance types and recommend which maintenance model(s) to apply and why. Include a maintenance plan with effort estimates.</span><span class="q-mark mark-10">10 Marks</span></div>
+  <div class="q-answer">
+    <h4 style="color:var(--accent);margin-bottom:8px;">Hospital Patient Management System — Maintenance Analysis</h4>
+    
+    <p><strong>Problem Analysis:</strong></p>
+    <p>The symptoms (increasing response times + frequent crashes after 8 years) indicate multiple simultaneous maintenance issues that must be addressed in a structured, prioritized manner.</p>
+
+    <p><strong>Analysis Through All Four Maintenance Types:</strong></p>
+    
+    <p><em>1. Corrective Maintenance (Immediate — 3 weeks):</em></p>
+    <p>The frequent crashes are the most urgent problem — they directly risk patient care. These must be addressed first:</p>
+    <ul>
+      <li>Analyze crash logs to identify root causes: potential candidates include memory leaks in patient search functionality, unhandled exceptions in concurrent appointment scheduling, or database connection pool exhaustion</li>
+      <li>Fix null pointer exceptions found in medication dosage calculation module (discovered in logs)</li>
+      <li>Patch database deadlock condition when multiple nurses update the same patient record simultaneously</li>
+      <li>Apply security patches for 3 known CVEs in the outdated Apache Struts 2 version being used</li>
+    </ul>
+    <p>Effort estimate: 2 senior engineers × 3 weeks = 240 person-hours</p>
+
+    <p><em>2. Adaptive Maintenance (Short-term — 2 months):</em></p>
+    <p>The 8-year-old system is running on outdated infrastructure that contributes to performance problems:</p>
+    <ul>
+      <li>Database upgrade: Oracle 11g → Oracle 21c (with performance improvements, better query optimizer)</li>
+      <li>Java upgrade: Java 8 → Java 17 LTS (better garbage collection, performance improvements)</li>
+      <li>Operating system upgrade: Windows Server 2012 → Windows Server 2022</li>
+      <li>Web server upgrade: Apache Tomcat 7 → Tomcat 10 (better connection handling)</li>
+      <li>Integration adaptation for new hospital lab equipment APIs (new diagnostic machines use HL7 FHIR standard; old system uses HL7 v2)</li>
+    </ul>
+    <p>Effort estimate: 3 engineers × 8 weeks = 960 person-hours</p>
+
+    <p><em>3. Perfective Maintenance (Medium-term — 4 months):</em></p>
+    <p>Once stability is restored, enhance system performance and usability:</p>
+    <ul>
+      <li>Database query optimization: Add indexes on most-queried patient tables; rewrite 15 slow SQL queries identified by the query profiler</li>
+      <li>Implement database connection pooling (HikariCP) to eliminate connection pool exhaustion crashes</li>
+      <li>Add server-side pagination for patient search (currently loading all 200,000 patient records into memory)</li>
+      <li>Implement Redis caching for frequently accessed reference data (doctor schedules, bed availability)</li>
+      <li>Add real-time bed occupancy dashboard (requested by hospital administration for 2 years)</li>
+      <li>Add mobile-responsive interface for ward nurses using tablets</li>
+    </ul>
+    <p>Effort estimate: 5 engineers × 16 weeks = 3,200 person-hours</p>
+
+    <p><em>4. Preventive Maintenance (Ongoing — 6 months parallel):</em></p>
+    <p>Address the structural causes that created the current crisis:</p>
+    <ul>
+      <li>Refactor monolithic patient record module (currently 15,000-line "God class") into 8 smaller, focused classes</li>
+      <li>Implement automated unit test suite for all business logic modules (current coverage: 12%; target: 75%)</li>
+      <li>Set up CI/CD pipeline to prevent untested code from reaching production</li>
+      <li>Implement automated performance monitoring with alerting (response time thresholds, error rate thresholds)</li>
+      <li>Update all technical documentation (architecture diagrams, API documentation, deployment guides)</li>
+      <li>Reduce cyclomatic complexity of critical modules from average 45 to under 10</li>
+    </ul>
+    <p>Effort estimate: 2 engineers × 24 weeks = 1,920 person-hours (parallel with other activities)</p>
+
+    <p><strong>Recommended Maintenance Models:</strong></p>
+    <p><em>Phase 1 — Quick Fix Model:</em> For the most critical crash-causing bugs only, apply Quick Fix to restore stability immediately. Patient safety is paramount; a 10-minute outage in a hospital ICU ward has life-threatening consequences. Document every quick fix for formal replacement in the next phase.</p>
+    <p><em>Phase 2 — Boehm's Model:</em> For the adaptive infrastructure changes, use Boehm's risk-based approach. Database and OS upgrades on a live medical system carry catastrophic failure risk. Each change must be analyzed for risk, tested in a full production-replica environment, and deployed during a planned maintenance window with rollback procedures ready.</p>
+    <p><em>Phase 3 — Iterative Enhancement:</em> For perfective and preventive maintenance work, use iterative sprints (2-week cycles). Each sprint delivers a specific, testable improvement. This allows the hospital's IT governance committee to review and approve each increment before the next begins.</p>
+
+    <p><strong>Consolidated Maintenance Plan:</strong></p>
+    <ul>
+      <li>Month 1: Emergency corrective fixes (240 hours) — System stabilized</li>
+      <li>Months 2–3: Adaptive infrastructure upgrades (960 hours) — Environment modernized</li>
+      <li>Months 4–7: Perfective enhancements (3,200 hours) — Performance &amp; features improved</li>
+      <li>Months 1–7 (parallel): Preventive refactoring (1,920 hours) — Technical debt reduced</li>
+      <li>Total effort: ~6,320 person-hours (~4 engineers × 7 months</li>
+    </ul>
+    
+    <p><strong>Expected Outcomes:</strong> Response times reduced from 8 seconds to under 1 second. System crashes eliminated. Technical debt reduced by 60%. Test coverage improved from 12% to 75%. System prepared for the next 8–10 years of operation without requiring another major overhaul.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q24</span><span class="q-text">Write a comprehensive note on software reverse engineering: its objectives, levels, process, tools, and applications in modern software development. Include a comparison with forward engineering.</span><span class="q-mark mark-10">10 Marks</span></div>
+  <div class="q-answer">
+    <h4 style="color:var(--accent);margin-bottom:8px;">Comprehensive Note on Software Reverse Engineering</h4>
+
+    <p><strong>Introduction:</strong></p>
+    <p>Software reverse engineering (SRE) is the discipline of extracting knowledge and design-level information from existing software systems. It is the inverse of traditional (forward) software engineering: instead of moving from requirements → design → code, reverse engineering moves from code → design → requirements → domain knowledge. SRE is a critical skill in the maintenance of legacy systems, security analysis, and competitive intelligence.</p>
+
+    <p><strong>Forward Engineering vs. Reverse Engineering:</strong></p>
+    <ul>
+      <li><strong>Forward Engineering:</strong> Starts with requirements; proceeds through design and implementation to build a new system. The direction is top-down: abstract → concrete.</li>
+      <li><strong>Reverse Engineering:</strong> Starts with existing implementation; proceeds to recover design and requirements. The direction is bottom-up: concrete → abstract.</li>
+      <li><strong>Re-engineering:</strong> Combines both — reverse engineer the existing system to understand it, then forward engineer a new, improved version. This is the complete modernization approach.</li>
+    </ul>
+
+    <p><strong>Objectives of Reverse Engineering:</strong></p>
+    <ul>
+      <li><strong>Documentation Recovery:</strong> Many legacy systems were built in the 1980s–1990s when documentation was not a priority. SRE recovers the architectural documentation that should have been created during development.</li>
+      <li><strong>Maintenance Support:</strong> Engineers cannot safely modify code they don't understand. SRE provides the understanding needed for safe maintenance.</li>
+      <li><strong>Migration Preparation:</strong> Before migrating a system to new technology, its complete behavior must be understood to ensure the new system is behaviorally equivalent.</li>
+      <li><strong>Security Audit:</strong> SRE identifies hidden vulnerabilities, backdoors, and undocumented behaviors in commercial software or third-party components.</li>
+      <li><strong>Interoperability:</strong> Recovering API specifications and data formats enables integration with other systems, especially when vendor documentation is incomplete or unavailable.</li>
+      <li><strong>Competitive Analysis:</strong> (Legal and ethical contexts only) Understanding how competitor products implement certain features to inform your own development strategy.</li>
+    </ul>
+
+    <p><strong>The Four Levels in Detail:</strong></p>
+    <p><em>Implementation Level:</em> The starting point. Automated static analysis tools parse the source code to build structural representations: Abstract Syntax Trees (ASTs), Control Flow Graphs (CFGs), Call Graphs, and Data Dependency Graphs. This level answers "what does the code do mechanically?" — function calls, variable usage, loops, conditions. Output: Code metrics, dead code identification, module dependency maps.</p>
+    <p><em>Design Level:</em> Recovers the architectural intent embedded in the code. Cluster analysis groups related modules. Pattern recognition identifies design patterns (Factory, Singleton, Observer). Architecture recovery identifies subsystem boundaries, layering, and component interfaces. Output: UML class diagrams, component diagrams, package structure documents, design pattern catalog.</p>
+    <p><em>Requirements Level:</em> Behavioral analysis recovers what the system is supposed to do from a user perspective. This involves dynamic analysis — actually running the system with test inputs and tracing the resulting behavior. Scenario extraction maps specific use cases. Output: Use case diagrams, functional requirement specifications, system behavior models.</p>
+    <p><em>Domain Level:</em> The most abstract and most human-dependent level. Recovers the business knowledge embedded in algorithms and data structures: pricing rules, eligibility criteria, workflow logic, regulatory constraints. Cannot be fully automated — requires domain expert validation. Output: Business rule repository, domain ontology, glossary of business terms.</p>
+
+    <p><strong>Reverse Engineering Process (5 Steps):</strong></p>
+    <ol>
+      <li><strong>Source Code Acquisition:</strong> Gather all source code, binaries, database schemas, configuration files, and available documentation. Establish version control for the analysis artifacts.</li>
+      <li><strong>Analysis and Parsing:</strong> Run static analysis tools to understand syntax and structure. Identify the programming languages, frameworks, and external libraries used. Build dependency trees.</li>
+      <li><strong>Information Extraction:</strong> Identify data flows, function call chains, database access patterns, external service calls, and algorithmic business rules. Document findings incrementally.</li>
+      <li><strong>Abstraction Generation:</strong> Use recovered information to generate UML diagrams, architecture views, data models, and behavioral specifications at each of the four levels.</li>
+      <li><strong>Documentation Creation:</strong> Produce human-readable, maintainable documentation: architecture guide, API specification, business rule catalog, database dictionary, deployment topology.</li>
+    </ol>
+
+    <p><strong>Tools Used in Practice:</strong></p>
+    <ul>
+      <li>Static Analysis: SonarQube, Understand (by SciTools), NDepend, PMD, SpotBugs</li>
+      <li>Architecture Recovery: Lattix, Structure101, JArchitect</li>
+      <li>UML Generation: Enterprise Architect (auto-generates from code), IntelliJ IDEA (class diagram generation)</li>
+      <li>Dynamic Analysis: Java Flight Recorder, Dynatrace, AppDynamics, Wireshark (for protocol reverse engineering)</li>
+      <li>Binary/Legacy: IDA Pro, Ghidra (for binary analysis), Micro Focus Enterprise Analyzer (for COBOL)</li>
+    </ul>
+
+    <p><strong>Limitations and Challenges:</strong></p>
+    <ul>
+      <li>Obfuscated or minified code (deliberately hard to reverse engineer) requires significant manual effort</li>
+      <li>Higher-level domain knowledge cannot be automatically recovered — human expertise is irreplaceable</li>
+      <li>Reverse-engineered documentation can be incorrect if business rules are misunderstood without domain expert validation</li>
+      <li>Legal/ethical boundaries: Reverse engineering commercial software may violate license agreements in certain jurisdictions</li>
+    </ul>
+
+    <p><strong>Modern Applications:</strong> Today, reverse engineering is used in: microservice extraction from monoliths, API documentation generation, technical debt quantification, supply chain security (analyzing third-party components), and AI-assisted code understanding tools like GitHub Copilot's codebase understanding features.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q25</span><span class="q-text">DESIGN QUESTION: Design a complete software maintenance plan for a 5-year-old e-commerce platform with 50,000 daily users. The platform needs: (a) a critical payment gateway bug fixed, (b) upgrade from Python 2.7 to Python 3.11, (c) addition of AI-based product recommendations, (d) performance optimization. Classify each by maintenance type, assign maintenance models, estimate effort, and justify your decisions.</span><span class="q-mark mark-10">10 Marks</span></div>
+  <div class="q-answer">
+    <h4 style="color:var(--accent);margin-bottom:8px;">E-Commerce Platform Maintenance Plan</h4>
+
+    <p><strong>Platform Context:</strong> 50,000 daily users, 5-year-old Python/Django e-commerce platform with MySQL database, hosted on AWS. Revenue at risk from payment bug; technical modernization needed; market competitive pressure from AI features.</p>
+
+    <p><strong>(a) Critical Payment Gateway Bug — Corrective Maintenance</strong></p>
+    <p><em>Classification:</em> Corrective Maintenance (Emergency Priority — P0)</p>
+    <p><em>Problem:</em> A bug in the payment processing module causes ~0.3% of transactions to fail silently — money is debited from customer accounts but orders are not confirmed. At 50,000 daily users with an average of 2,000 transactions/day, this means ~6 failed transactions daily, each requiring manual resolution and causing customer dissatisfaction.</p>
+    <p><em>Maintenance Model:</em> Quick Fix Model immediately, followed by Iterative Enhancement for permanent fix.</p>
+    <p><em>Quick Fix (Week 1):</em> Implement a database transaction rollback trigger: if order confirmation fails after payment debit, automatically issue a refund API call. Log all such incidents for analysis. This stops the bleeding without fully solving the root cause.</p>
+    <p><em>Permanent Fix (Iteration 1, Weeks 2–3):</em> Trace the bug to a race condition in the asynchronous payment callback handler. Rewrite the payment processing module using database transactions with proper ACID guarantees. Implement idempotency keys to prevent duplicate processing.</p>
+    <p><em>Testing:</em> Regression test all payment flows; load test with simulated peak traffic (3× normal). Payment testing in sandbox environment with 10,000 simulated transactions.</p>
+    <p><em>Effort Estimate:</em> Quick Fix: 2 engineers × 3 days = 48 hours. Permanent Fix: 2 engineers × 2 weeks = 320 hours. Total: 368 person-hours.</p>
+    <p><em>Justification:</em> Zero tolerance for payment bugs. Quick Fix is justified only as a stopgap because the permanent fix requires deeper analysis. Revenue protection (6 failed transactions/day × ₹2,000 avg. order value = ₹12,000/day prevented loss) justifies priority allocation.</p>
+
+    <p><strong>(b) Python 2.7 to Python 3.11 Upgrade — Adaptive Maintenance</strong></p>
+    <p><em>Classification:</em> Adaptive Maintenance (High Priority — Python 2.7 reached end-of-life in January 2020)</p>
+    <p><em>Problem:</em> Python 2.7 receives no security patches. The platform is running on an officially unsupported, increasingly vulnerable runtime. Several AWS-managed services have also deprecated Python 2.7 support.</p>
+    <p><em>Maintenance Model:</em> Boehm's Model (due to high complexity and risk of breaking changes between Python 2 and 3).</p>
+    <p><em>Understanding Phase (2 weeks):</em> Run 2to3 tool across entire codebase to identify all Python 2-specific code patterns (print statements, unicode/str handling, integer division, dict methods). Audit all third-party packages for Python 3 compatibility. Generate a compatibility report: ~340 code locations need modification, 5 packages need replacement.</p>
+    <p><em>Risk Assessment:</em> High risk in: string handling throughout the codebase (Python 3 strict unicode vs. Python 2 implicit bytes), Celery async task configurations, and legacy payment library that must be replaced with a Python 3 equivalent.</p>
+    <p><em>Migration Strategy (8 weeks):</em> Module-by-module migration using the strangler fig pattern. First, upgrade utility modules with no dependencies. Then business logic modules. Finally, the web framework and external integrations. Run Python 2 and Python 3 versions in parallel during transition using feature flags.</p>
+    <p><em>Effort Estimate:</em> 4 engineers × 10 weeks = 1,600 person-hours. Plus 1 week regression testing: 320 person-hours. Total: 1,920 person-hours.</p>
+
+    <p><strong>(c) AI-Based Product Recommendations — Perfective Maintenance</strong></p>
+    <p><em>Classification:</em> Perfective Maintenance (Medium Priority — Strategic Feature)</p>
+    <p><em>Reuse Strategy:</em> Component-Based + Framework-Based reuse. Use AWS Personalize (managed ML recommendation service) rather than building a custom ML model. This reuses Amazon's pre-built and continuously improved recommendation algorithms, saving 6+ months of ML engineering work.</p>
+    <p><em>Integration Plan:</em> Build a Recommendation Service microservice (Python 3.11, FastAPI) that calls AWS Personalize APIs and returns personalized product lists. Integrate with the product catalog via an event-driven architecture (AWS Kinesis streams user interaction events to Personalize for real-time model updates).</p>
+    <p><em>Maintenance Model:</em> Iterative Enhancement — 4 sprints of 2 weeks each:</p>
+    <ul>
+      <li>Sprint 1: AWS Personalize setup, data pipeline for historical purchase data ingestion</li>
+      <li>Sprint 2: Recommendation Service API, integration with product catalog</li>
+      <li>Sprint 3: Frontend integration — "Recommended for You" section on homepage and product pages</li>
+      <li>Sprint 4: A/B testing framework, performance tuning, analytics dashboard</li>
+    </ul>
+    <p><em>Effort Estimate:</em> 3 engineers × 8 weeks = 960 person-hours.</p>
+    <p><em>Expected Business Value:</em> Industry data shows AI recommendations increase average order value by 15–25%. For this platform: 2,000 transactions/day × ₹2,000 avg. order × 20% increase = ₹800,000/day additional revenue potential.</p>
+
+    <p><strong>(d) Performance Optimization — Perfective + Preventive Maintenance</strong></p>
+    <p><em>Classification:</em> Primarily Perfective (improving performance for users) + Preventive (restructuring to prevent future degradation).</p>
+    <p><em>Performance Profiling Phase (1 week):</em> Use AWS X-Ray and Django Debug Toolbar to profile the top 20 slowest API endpoints. Findings: (1) Product search takes 4.2 seconds due to full-table scan on 2M product rows; (2) Homepage loads in 8 seconds due to 47 sequential database queries (N+1 query problem); (3) Image delivery is unoptimized — no CDN, serving 4K images to mobile users.</p>
+    <p><em>Perfective Actions:</em></p>
+    <ul>
+      <li>Add Elasticsearch for product search (reduce from 4.2s to 200ms)</li>
+      <li>Fix N+1 queries using Django's select_related() and prefetch_related() (reduce homepage from 47 queries to 3)</li>
+      <li>Integrate AWS CloudFront CDN for images with automatic resizing (Lazy Facade pattern)</li>
+      <li>Implement Redis caching for product catalog, category listings, and session data</li>
+    </ul>
+    <p><em>Preventive Actions:</em></p>
+    <ul>
+      <li>Set up automated performance regression testing in CI/CD pipeline (fail build if response times exceed thresholds)</li>
+      <li>Implement Application Performance Monitoring (APM) with alerting</li>
+      <li>Refactor the 3 largest "God Object" models into focused, testable classes</li>
+    </ul>
+    <p><em>Maintenance Model:</em> Iterative Enhancement (3 sprints) for structured delivery of performance improvements.</p>
+    <p><em>Effort Estimate:</em> 3 engineers × 6 weeks = 720 person-hours.</p>
+
+    <p><strong>Consolidated Maintenance Timeline:</strong></p>
+    <ul>
+      <li>Weeks 1–3: Corrective (payment bug) — 368 hrs</li>
+      <li>Weeks 2–11: Adaptive (Python upgrade) — 1,920 hrs [overlaps with corrective]</li>
+      <li>Weeks 8–15: Perfective (AI recommendations) — 960 hrs [starts after Python upgrade stable]</li>
+      <li>Weeks 12–17: Perfective + Preventive (performance) — 720 hrs</li>
+      <li><strong>Total: ~3,968 person-hours over ~17 weeks with a team of 5–6 engineers</strong></li>
+    </ul>
+    <p>This plan balances urgency (payment fix now), necessity (Python upgrade), strategic value (AI features), and sustainability (performance optimization). The maintenance models chosen match each task's risk and complexity profile.</p>
+  </div>
+</div>
+
+<!-- Additional shorter medium/hard questions -->
+<div class="q-category q-medium">🔵 More Medium Questions</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q26</span><span class="q-text">What is technical debt? How does preventive maintenance address it?</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p><strong>Technical Debt</strong> is a metaphor coined by Ward Cunningham to describe the implied cost of future rework caused by choosing a quick, easy solution now instead of a better, cleaner approach that would take longer. Like financial debt, technical debt accumulates "interest" — the longer it remains unaddressed, the more expensive it becomes to fix because subsequent code is built on top of the flawed foundation.</p>
+    <p>Technical debt arises from: rushed development to meet deadlines, copy-paste programming, lack of code reviews, skipped unit tests, poor naming and documentation, and outdated libraries and frameworks.</p>
+    <p><strong>How Preventive Maintenance Addresses Technical Debt:</strong></p>
+    <ul>
+      <li><strong>Code Refactoring:</strong> Restructuring existing code without changing its external behavior. Example: Splitting a 5,000-line "God Function" into 20 focused, single-responsibility functions. Improves readability, testability, and maintainability without breaking functionality.</li>
+      <li><strong>Architecture Improvement:</strong> Removing circular dependencies between modules; enforcing proper layering (presentation, business logic, data access). Prevents cascading failures when one module changes.</li>
+      <li><strong>Documentation Updates:</strong> Bringing inline comments, API documentation, and architecture diagrams into alignment with the actual code. Reduces the time future maintainers spend understanding the system before modifying it.</li>
+      <li><strong>Test Suite Development:</strong> Adding automated unit and integration tests to code that lacks them. A system with 80% test coverage can be modified with confidence; one with 5% coverage is modified with fear.</li>
+      <li><strong>Dependency Updates:</strong> Upgrading libraries and frameworks before they become outdated enough to cause compatibility crises. A proactive quarterly upgrade is far cheaper than a forced emergency upgrade when a critical security patch requires a major version jump.</li>
+    </ul>
+    <p>Although preventive maintenance represents only ~5% of average maintenance effort, organizations that invest in it consistently show lower long-term maintenance costs and higher developer productivity.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q27</span><span class="q-text">Explain component-based software development (CBSD) as a reuse approach. What are its advantages and limitations?</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p><strong>Component-Based Software Development (CBSD)</strong> is a reuse approach that constructs software systems by assembling pre-built, independently deployable, and interchangeable software components rather than writing everything from scratch. Each component is a self-contained unit with a well-defined interface that specifies how it interacts with other components, hiding internal implementation details.</p>
+    <p><strong>Key Characteristics of a Component:</strong></p>
+    <ul>
+      <li>Has a clearly defined interface (API specification)</li>
+      <li>Is independently deployable without modifying other components</li>
+      <li>Can be composed with other components to build larger systems</li>
+      <li>Encapsulates implementation details (black box from consumer perspective)</li>
+    </ul>
+    <p><strong>Examples of CBSD in Practice:</strong> React/Vue/Angular components in frontend; JAR libraries in Java; npm packages in Node.js; pip packages in Python; Docker containers for deployment; REST microservices as runtime components.</p>
+    <p><strong>Advantages:</strong></p>
+    <ul>
+      <li>Reduced development time — use proven components instead of rebuilding</li>
+      <li>Higher reliability — components are pre-tested in multiple real-world contexts</li>
+      <li>Maintainability — components can be updated independently without rebuilding the entire system</li>
+      <li>Parallel development — teams can work on different components simultaneously using agreed interfaces</li>
+      <li>Technology diversity — different components can use different technologies as long as their interfaces are compatible</li>
+    </ul>
+    <p><strong>Limitations:</strong></p>
+    <ul>
+      <li>Integration complexity — combining components from different sources may require adaptation layers ("glue code")</li>
+      <li>Interface mismatch — a component may provide 90% of needed functionality; the remaining 10% requires workarounds or custom code</li>
+      <li>Version compatibility — when a component releases a new version, dependent systems may break (DLL hell, dependency hell)</li>
+      <li>Black-box limitations — cannot easily fix a bug inside a third-party component; must wait for the vendor's patch</li>
+      <li>Performance overhead — component boundaries add communication overhead, especially in distributed (microservices) architectures</li>
+    </ul>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q28</span><span class="q-text">Differentiate between software maintenance and software re-engineering.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p><strong>Software Maintenance</strong> and <strong>Software Re-engineering</strong> are both activities applied to existing software systems, but they differ fundamentally in scope, intent, and outcome.</p>
+    <p><strong>Software Maintenance:</strong> Involves making incremental, targeted modifications to an existing system while preserving its overall structure, architecture, and technology stack. The system remains essentially the same — it is improved, repaired, or adapted, but not rebuilt. Maintenance does not involve recreating the system from first principles. Example: Fixing a bug in a payroll system's overtime calculation.</p>
+    <p><strong>Software Re-engineering:</strong> Involves completely reconstituting a software system to improve its overall quality, often using modern technologies, architectures, and methodologies. It begins with reverse engineering (understanding the existing system) and proceeds with forward engineering (rebuilding it). The result is a new system that performs the same functions but with a fundamentally different internal structure. Example: Converting a COBOL monolith to Java microservices.</p>
+    <p><strong>Key Differences:</strong></p>
+    <ul>
+      <li>Scope: Maintenance = targeted changes; Re-engineering = system-wide transformation</li>
+      <li>Technology: Maintenance preserves existing technology; Re-engineering adopts new technology</li>
+      <li>Architecture: Maintenance works within existing architecture; Re-engineering redesigns architecture</li>
+      <li>Cost: Maintenance is incremental and less expensive; Re-engineering requires major investment</li>
+      <li>Risk: Maintenance has low risk; Re-engineering carries high risk of behavioral divergence</li>
+      <li>Duration: Maintenance is ongoing; Re-engineering is a defined, time-bounded project</li>
+      <li>Trigger: Maintenance is triggered by bugs, changes, enhancements; Re-engineering by architectural obsolescence or platform end-of-life</li>
+    </ul>
+    <p>In practice, large-scale maintenance projects sometimes evolve into re-engineering projects as the scope of change required becomes clear during the analysis phase.</p>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q29</span><span class="q-text">What is the "Not Invented Here" (NIH) syndrome? How does it affect software reuse programs?</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p>The <strong>"Not Invented Here" (NIH) Syndrome</strong> is a cultural phenomenon in software development organizations where engineers or teams display a systematic bias against adopting solutions developed outside their own group. They prefer to build new tools, libraries, and components from scratch rather than reusing existing, often superior, alternatives created by others — whether internally by different teams or externally by the open-source community or vendors.</p>
+    <p><strong>Manifestations of NIH Syndrome:</strong></p>
+    <ul>
+      <li>"We can build it better ourselves" — dismissing well-established libraries in favor of custom implementations</li>
+      <li>Not searching the component repository before developing new modules</li>
+      <li>Rewriting existing utilities because the developer "doesn't trust" code they didn't write</li>
+      <li>Avoiding open-source components due to unfamiliarity with their licensing or quality</li>
+    </ul>
+    <p><strong>Impact on Reuse Programs:</strong></p>
+    <ul>
+      <li>Directly undermines reuse program ROI — investment in the repository yields no return if developers don't use it</li>
+      <li>Increases development costs — duplicate implementations are built and maintained in parallel</li>
+      <li>Reduces software quality — custom implementations lack the battle-testing that mature, widely-used components have</li>
+      <li>Fragments the codebase — multiple implementations of the same functionality cause inconsistent behavior across products</li>
+      <li>Demoralizes the CST (Component Stewardship Team) — investing in components that no one reuses is demoralizing</li>
+    </ul>
+    <p><strong>Countermeasures:</strong></p>
+    <ul>
+      <li>Leadership mandate requiring reuse-first search before new development is approved</li>
+      <li>Incentive systems that reward reuse (e.g., counting component consumption in performance reviews)</li>
+      <li>Engineering culture initiatives: "Reuse Pride" programs, internal conference talks about successful reuse cases</li>
+      <li>Making the repository easy to use — great search, clear documentation, quick certification — removes the friction that drives NIH behavior</li>
+    </ul>
+  </div>
+</div>
+
+<div class="q-item">
+  <div class="q-header"><span class="q-num">Q30</span><span class="q-text">A company has 4 maintenance requests pending: (i) Critical login crash for 10% of users (ii) Upgrade server OS (iii) Add dark mode UI (iv) Refactor database access layer. Classify each by type, prioritize them, select the appropriate maintenance model for each, and justify your choices.</span><span class="q-mark mark-5">5 Marks</span></div>
+  <div class="q-answer">
+    <p><strong>Classification and Prioritization:</strong></p>
+    <p><strong>Priority 1 — (i) Critical Login Crash (Corrective Maintenance):</strong> This is the highest priority because it directly prevents 10% of users — potentially thousands of people — from accessing the system. It is Corrective Maintenance: reactive, triggered by a critical production failure. <em>Model: Quick Fix first</em> — implement an emergency workaround (e.g., redirect affected users to a legacy login path while the root cause is debugged). Then use Iterative Enhancement for the permanent fix in the next sprint, ensuring thorough root cause analysis, unit tests, and documentation update.</p>
+    <p><strong>Priority 2 — (ii) Server OS Upgrade (Adaptive Maintenance):</strong> Adapts software environment to new infrastructure. Security risk escalates as the current OS approaches end-of-life — unpatched vulnerabilities expose all users. <em>Model: Boehm's Model</em> — risk-based planning is essential for OS upgrades. The team must analyze compatibility of all installed software with the new OS version, test in a staging environment that mirrors production exactly, plan a rollback strategy, and schedule the upgrade during low-traffic hours with a tested rollback plan ready.</p>
+    <p><strong>Priority 3 — (iv) Database Access Layer Refactoring (Preventive Maintenance):</strong> Prioritized above dark mode because a poorly structured database access layer silently affects every feature in the system — it causes performance degradation, makes future maintenance harder, and is a source of latent bugs. <em>Model: Iterative Enhancement</em> — refactor in sprints, module by module, with comprehensive regression testing after each sprint to verify that behavior is preserved. Use the strangler fig pattern: build the new data access objects alongside the old ones and gradually migrate callers.</p>
+    <p><strong>Priority 4 — (iii) Dark Mode UI (Perfective Maintenance):</strong> Lowest priority because it is purely a user experience enhancement with no impact on system reliability or security. It adds business value (user satisfaction, accessibility) but can be safely deferred. <em>Model: Iterative Enhancement</em> — deliver in 2 sprints: Sprint 1 implements CSS variable system and dark/light theme toggle; Sprint 2 refines color choices based on user feedback from beta testing.</p>
+    <p><em>Summary:</em> Priority order (1→4): Corrective → Adaptive → Preventive → Perfective. This ordering follows the principle of "first do no harm" — fix what is broken, secure the environment, strengthen the foundation, then enhance features.</p>
+  </div>
+</div>
+
+</div><!-- end questions -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  CHEAT SHEET                                            -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="cheatsheet">
+  <h2>⚡ Quick Revision Cheat Sheet</h2>
+  <p class="cs-sub">Software Maintenance &amp; Reuse — Chapter 3.3 · All key concepts at a glance</p>
+
+  <div class="cs-grid">
+
+    <div class="cs-card">
+      <h4>📌 Definition Snapshot</h4>
+      <ul>
+        <li><strong>Maintenance:</strong> Modifying delivered software to correct faults, improve performance, or adapt to changed environment (IEEE)</li>
+        <li><strong>Cost:</strong> 60–70% of total lifecycle cost</li>
+        <li><strong>Reverse Eng.:</strong> Code → Design → Requirements → Domain</li>
+        <li><strong>Reuse:</strong> Using existing artifacts in new development</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>🔧 4 Types of Maintenance</h4>
+      <ul>
+        <li><code>Corrective</code> — Fix bugs → 20% — REACTIVE</li>
+        <li><code>Adaptive</code> — Env changes → 25% — PLANNED</li>
+        <li><code>Perfective</code> — New features → 50% — PROACTIVE</li>
+        <li><code>Preventive</code> — Avoid future bugs → 5% — PROACTIVE</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>📐 Maintenance Models</h4>
+      <ul>
+        <li><code>Quick Fix</code> — Fast, risky, emergency only</li>
+        <li><code>Iterative</code> — Planned sprints, good quality</li>
+        <li><code>Reuse-Oriented</code> — Components from repo</li>
+        <li><code>Boehm's</code> — Risk-based, safest, slowest</li>
+        <li><code>Osborne's</code> — ID→Understand→Modify→Revalidate</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>🔄 Reverse Eng. Levels</h4>
+      <ul>
+        <li><code>Implementation</code> → Code structure docs</li>
+        <li><code>Design</code> → Architecture/UML diagrams</li>
+        <li><code>Requirements</code> → Functional specs</li>
+        <li><code>Domain</code> → Business knowledge base</li>
+        <li>Direction: Bottom-Up (concrete → abstract)</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>🔁 Rev. Eng. Process (5 Steps)</h4>
+      <ul>
+        <li>1. Acquire source code</li>
+        <li>2. Analyze &amp; parse structure</li>
+        <li>3. Extract dependencies/logic</li>
+        <li>4. Generate abstractions (UML, DFD)</li>
+        <li>5. Create documentation</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>♻️ Reuse Approaches (Least→Most)</h4>
+      <ul>
+        <li><code>Ad-hoc</code> — Copy-paste, unstructured</li>
+        <li><code>Systematic</code> — Repository + process</li>
+        <li><code>Component-Based (CBSD)</code> — Standard interfaces</li>
+        <li><code>App Family</code> — Shared core architecture</li>
+        <li><code>Framework-Based</code> — Max long-term value</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>⚠️ Reuse Issues (TOELQ)</h4>
+      <ul>
+        <li><code>T</code>echnical — Integration compatibility</li>
+        <li><code>O</code>rganizational — Cultural resistance (NIH)</li>
+        <li><code>E</code>conomic — High initial investment</li>
+        <li><code>L</code>egal — Licensing &amp; ownership</li>
+        <li><code>Q</code>uality — Component reliability</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>⚙️ Maintenance Process (6 Steps)</h4>
+      <ul>
+        <li>1. Receive maintenance request</li>
+        <li>2. Impact &amp; feasibility analysis</li>
+        <li>3. Design solution</li>
+        <li>4. Implement code changes</li>
+        <li>5. Test &amp; QA (regression!)</li>
+        <li>6. Deploy to production</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>📊 Model Comparison</h4>
+      <ul>
+        <li>Speed: Quick Fix > Reuse > Iterative > Boehm</li>
+        <li>Quality: Boehm > Reuse > Iterative > Quick Fix</li>
+        <li>Cost: Quick Fix &lt; Reuse &lt; Iterative &lt; Boehm</li>
+        <li>Docs: Boehm = Reuse = Excellent | Quick Fix = Poor</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>🔑 Key Formulas</h4>
+      <ul>
+        <li>Maintenance Cost = 60–70% of lifecycle cost</li>
+        <li>Perfective effort = 50% of maintenance</li>
+        <li>If project cost = ₹X, maintenance ≈ ₹0.65X minimum</li>
+        <li>NIH = cultural barrier to reuse programs</li>
+        <li>Technical Debt grows if preventive maintenance is skipped</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>🎯 Exam Keywords</h4>
+      <ul>
+        <li>Corrective = reactive = bug = crash fix</li>
+        <li>Adaptive = environment = OS/DB upgrade</li>
+        <li>Perfective = feature = enhancement = optimize</li>
+        <li>Preventive = proactive = refactor = technical debt</li>
+        <li>Reverse Eng. = legacy = no docs = recover design</li>
+      </ul>
+    </div>
+
+    <div class="cs-card">
+      <h4>🔗 Reuse vs. Maintenance Link</h4>
+      <ul>
+        <li>Reuse reduces maintenance effort</li>
+        <li>Certified components = fewer corrective fixes</li>
+        <li>Framework reuse = consistent architecture = easier adaptive</li>
+        <li>Component-based = modular = faster perfective changes</li>
+        <li>High reuse → lower total lifecycle cost</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- end container -->
+</body>
+</html>
