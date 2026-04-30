@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quality Management — Study Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FDFAF5;
+    --bg2: #F5F0E8;
+    --bg3: #EDE8DC;
+    --ink: #1A1208;
+    --ink2: #3D3020;
+    --ink3: #6B5B40;
+    --accent: #B5451B;
+    --accent2: #D4882A;
+    --accent3: #2A6B4F;
+    --accent4: #1B4B8A;
+    --border: #D4C8B0;
+    --highlight: #FFF3CD;
+    --green-bg: #EAF5F0;
+    --blue-bg: #EAF0F8;
+    --red-bg: #FAF0ED;
+    --yellow-bg: #FFFBF0;
+    --shadow: 0 2px 12px rgba(26,18,8,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,18,8,0.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    text-align: center;
+    padding: 60px 0 50px;
+    border-bottom: 3px double var(--border);
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    display: block;
+    width: 80px; height: 4px;
+    background: var(--accent);
+    margin: 0 auto 24px;
+    border-radius: 2px;
+  }
+  .cover-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .cover h1 span { color: var(--accent); }
+  .cover-sub {
+    font-size: 15px;
+    color: var(--ink3);
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .cover-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .pill {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 14px;
+    color: var(--ink2);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent2);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 56px;
+  }
+  .toc h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .toc ol { list-style: none; padding: 0; }
+  .toc li { 
+    padding: 4px 0;
+    display: flex; 
+    align-items: baseline;
+    gap: 8px;
+  }
+  .toc li::before {
+    content: attr(data-n);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 28px;
+  }
+  .toc a {
+    color: var(--ink2);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent); }
+
+  /* ── SECTION HEADERS ── */
+  .chapter-header {
+    margin: 64px 0 32px;
+    position: relative;
+    padding-left: 20px;
+  }
+  .chapter-header::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .chapter-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .chapter-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 32px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent2);
+    margin: 20px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 13px;
+  }
+  p { margin-bottom: 14px; color: var(--ink2); }
+  
+  strong { color: var(--ink); font-weight: 600; }
+
+  /* ── DEFINITION BOX ── */
+  .def-box {
+    background: var(--blue-bg);
+    border: 1px solid #B8CDE8;
+    border-left: 4px solid var(--accent4);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin: 16px 0 20px;
+  }
+  .def-box .def-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent4);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .def-box p { margin: 0; color: var(--ink); font-style: italic; font-size: 15px; }
+
+  /* ── EXAMPLE BOX ── */
+  .example-box {
+    background: var(--green-bg);
+    border: 1px solid #B0D8C8;
+    border-left: 4px solid var(--accent3);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 14px 0 20px;
+  }
+  .example-box .ex-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .example-box p { margin: 0; color: var(--ink); font-size: 14.5px; }
+
+  /* ── NUMERICAL BOX ── */
+  .num-box {
+    background: var(--yellow-bg);
+    border: 1px solid #E8D8A0;
+    border-left: 4px solid var(--accent2);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin: 16px 0 20px;
+  }
+  .num-box .num-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .num-box p, .num-box li { color: var(--ink); font-size: 14.5px; }
+  .formula {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    margin: 10px 0;
+    display: inline-block;
+  }
+
+  /* ── WARN BOX ── */
+  .warn-box {
+    background: var(--red-bg);
+    border: 1px solid #E8C0B0;
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0 18px;
+  }
+  .warn-box p { margin: 0; font-size: 14px; color: var(--ink); }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    box-shadow: var(--shadow);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  thead tr { background: var(--ink); color: #FFF; }
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  tbody tr:nth-child(even) { background: var(--bg2); }
+  tbody tr:nth-child(odd) { background: var(--bg); }
+  tbody tr:hover { background: var(--bg3); transition: background 0.15s; }
+  td { padding: 11px 16px; color: var(--ink2); vertical-align: top; border-bottom: 1px solid var(--border); }
+  td:first-child { font-weight: 600; color: var(--ink); }
+
+  /* ── LISTS ── */
+  ul, ol {
+    padding-left: 24px;
+    margin: 10px 0 16px;
+  }
+  li {
+    margin-bottom: 6px;
+    color: var(--ink2);
+    font-size: 15px;
+  }
+  li::marker { color: var(--accent); }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 20px 0 28px;
+  }
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .card-icon { font-size: 22px; margin-bottom: 8px; }
+  .card h4 { 
+    font-size: 13px; 
+    text-transform: uppercase; 
+    letter-spacing: 0.8px;
+    color: var(--accent); 
+    margin: 0 0 6px; 
+    border: none; padding: 0;
+  }
+  .card p { font-size: 13.5px; color: var(--ink3); margin: 0; }
+
+  /* ── CMM LEVELS ── */
+  .cmm-levels {
+    margin: 20px 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .cmm-level {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--border);
+  }
+  .cmm-level:last-child { border-bottom: none; }
+  .cmm-num {
+    min-width: 60px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: #FFF;
+    padding: 16px;
+  }
+  .l1 .cmm-num { background: #C0392B; }
+  .l2 .cmm-num { background: #E67E22; }
+  .l3 .cmm-num { background: #F1C40F; color: var(--ink); }
+  .l4 .cmm-num { background: #27AE60; }
+  .l5 .cmm-num { background: #2980B9; }
+  .cmm-content { padding: 14px 18px; flex: 1; }
+  .cmm-title { font-weight: 700; font-size: 15px; color: var(--ink); margin-bottom: 4px; }
+  .cmm-desc { font-size: 13.5px; color: var(--ink3); margin: 0; }
+
+  /* ── DIVIDERS ── */
+  hr.section-div {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── Q&A SECTION ── */
+  .qa-section {
+    margin: 56px 0 0;
+  }
+  .qa-header {
+    text-align: center;
+    padding: 40px 0 32px;
+    border-top: 3px double var(--border);
+  }
+  .qa-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .qa-header p { color: var(--ink3); font-style: italic; }
+
+  .difficulty-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+  .badge-easy { background: #D4EDDA; color: #155724; border: 1px solid #C3E6CB; }
+  .badge-medium { background: #FFF3CD; color: #856404; border: 1px solid #FFEEBA; }
+  .badge-hard { background: #F8D7DA; color: #721C24; border: 1px solid #F5C6CB; }
+
+  .difficulty-section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 40px 0 24px;
+  }
+  .difficulty-section-label h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    border: none; padding: 0; margin: 0;
+  }
+  .diff-line { flex: 1; height: 1px; background: var(--border); }
+
+  .q-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+  .q-card:hover { box-shadow: var(--shadow-lg); }
+  .q-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    cursor: pointer;
+  }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 28px;
+    padding-top: 2px;
+    font-weight: 600;
+  }
+  .q-text {
+    flex: 1;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .q-marks {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink3);
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+  .q-ans {
+    padding: 16px 20px 18px;
+    font-size: 14.5px;
+    color: var(--ink2);
+    line-height: 1.8;
+  }
+  .q-ans p { margin-bottom: 8px; }
+  .q-ans p:last-child { margin: 0; }
+  .q-ans strong { color: var(--ink); }
+  .q-ans ul { margin: 8px 0; }
+  .q-ans li { font-size: 14px; }
+
+  /* ── CHEAT SHEET ── */
+  .cheatsheet {
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 3px double var(--border);
+  }
+  .cheatsheet-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .cheatsheet-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .cs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .cs-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .cs-card-head {
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #FFF;
+  }
+  .cs-h-blue { background: var(--accent4); }
+  .cs-h-green { background: var(--accent3); }
+  .cs-h-orange { background: var(--accent2); }
+  .cs-h-red { background: var(--accent); }
+  .cs-h-dark { background: var(--ink); }
+  .cs-card-body {
+    padding: 14px 16px;
+  }
+  .cs-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .cs-item:last-child { margin: 0; }
+  .cs-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .cs-item span { color: var(--ink2); }
+  .cs-item strong { color: var(--ink); }
+
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 20px 0 32px;
+  }
+  .formula-card {
+    background: var(--ink);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: #FFF;
+  }
+  .formula-card .f-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .formula-card .f-eq {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #FFF;
+    margin-bottom: 4px;
+  }
+  .formula-card .f-desc { font-size: 12px; color: rgba(255,255,255,0.6); margin: 0; }
+
+  /* Print niceties */
+  @media print {
+    body { max-width: 100%; padding: 20px; }
+    .q-card, .cs-card { break-inside: avoid; }
+  }
+
+  /* Scroll indicator */
+  .back-top {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--ink);
+    color: #FFF;
+    border: none;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 100;
+  }
+  .back-top:hover { background: var(--accent); transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">Software Engineering · Unit 3 · Chapter 3.2</div>
+  <h1>Quality <span>Management</span></h1>
+  <p class="cover-sub">Comprehensive Study Notes — BE CSE/IT 4th Semester · 24CST-208 / 24ITT-208</p>
+  <div class="cover-pills">
+    <span class="pill">Software Quality</span>
+    <span class="pill">Reliability</span>
+    <span class="pill">Reviews &amp; FTR</span>
+    <span class="pill">SQA</span>
+    <span class="pill">ISO 9000</span>
+    <span class="pill">SEI-CMM</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>📋 Table of Contents</h2>
+  <ol>
+    <li data-n="01"><a href="#s1">Software Quality — Definitions & Dimensions</a></li>
+    <li data-n="02"><a href="#s2">Quality Management System & Evolution</a></li>
+    <li data-n="03"><a href="#s3">McCall's Quality Model</a></li>
+    <li data-n="04"><a href="#s4">Software Reliability</a></li>
+    <li data-n="05"><a href="#s5">Reliability Metrics &amp; Numericals</a></li>
+    <li data-n="06"><a href="#s6">Reliability Models</a></li>
+    <li data-n="07"><a href="#s7">Software Reviews</a></li>
+    <li data-n="08"><a href="#s8">Formal Technical Review (FTR)</a></li>
+    <li data-n="09"><a href="#s9">Software Quality Assurance (SQA)</a></li>
+    <li data-n="10"><a href="#s10">Statistical SQA</a></li>
+    <li data-n="11"><a href="#s11">ISO 9000 Certification</a></li>
+    <li data-n="12"><a href="#s12">SEI-CMM Framework</a></li>
+    <li data-n="13"><a href="#qa">30 Questions &amp; Answers</a></li>
+    <li data-n="14"><a href="#cheatsheet">⚡ Cheat Sheet</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1: SOFTWARE QUALITY
+═══════════════════════════════════════════ -->
+<div id="s1" class="chapter-header">
+  <div class="chapter-num">Section 01</div>
+  <h2>Software Quality — Definitions & Dimensions</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Core Definition</div>
+  <p><strong>Software Quality</strong> is defined in terms of its <em>fitness of purpose</em> — a quality product does precisely what the users want it to do, meeting all requirements laid down in the SRS document.</p>
+</div>
+
+<p>However, "fitness of purpose" alone is <strong>not sufficient</strong> for software. A product may be functionally correct yet still fail as a quality product if it has a poor user interface, excessive bugs, or is impossible to maintain.</p>
+
+<div class="example-box">
+  <div class="ex-label">Illustrative Example</div>
+  <p>Consider software that performs all tasks specified in the SRS but has an <strong>almost unusable user interface</strong>. Even though it is functionally correct, it cannot be considered a quality product. This shows why modern quality goes beyond mere correctness.</p>
+</div>
+
+<h3>Quality Attributes (Dimensions)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Attribute</th><th>Definition</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>Correctness</td><td>All requirements of the SRS have been correctly implemented</td><td>A calculator returning accurate results</td></tr>
+    <tr><td>Reliability</td><td>System performs consistently over extended time without unexpected failures</td><td>A bank server with 99.99% uptime</td></tr>
+    <tr><td>Efficiency</td><td>Optimal use of system resources — memory, CPU, bandwidth</td><td>App loading in under 2 seconds</td></tr>
+    <tr><td>Integrity</td><td>Strong security and complete data protection against threats</td><td>Encrypted user data storage</td></tr>
+    <tr><td>Usability</td><td>Various categories of users can easily invoke the functions</td><td>Intuitive mobile app UI</td></tr>
+    <tr><td>Maintainability</td><td>Bugs can be corrected easily; new functions added without side effects</td><td>Modular code that's easy to update</td></tr>
+    <tr><td>Flexibility</td><td>Software can adapt easily to changing requirements</td><td>Configurable business rule engine</td></tr>
+    <tr><td>Portability</td><td>Can work in various OS environments and multiple machines</td><td>Java-based cross-platform app</td></tr>
+    <tr><td>Reusability</td><td>Different modules can be quickly reused to develop new products</td><td>A login module reused across projects</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 2: QUALITY MANAGEMENT SYSTEM
+═══════════════════════════════════════════ -->
+<div id="s2" class="chapter-header">
+  <div class="chapter-num">Section 02</div>
+  <h2>Quality Management System &amp; Evolution</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p>A <strong>Quality Management System (QMS)</strong> is the principal method used by organizations to ensure that products they develop have the desired quality.</p>
+</div>
+
+<h3>Components of a QMS</h3>
+<ul>
+  <li><strong>Managerial Structure &amp; Individual Responsibilities:</strong> Quality is an organization-wide responsibility. A dedicated quality department exists, and support from top management is essential — without it, staff won't take quality seriously.</li>
+  <li><strong>Quality System Activities:</strong> Includes auditing of projects, review of the QMS, development of standards/methods/guidelines, and production of effectiveness reports for top management.</li>
+</ul>
+
+<h3>Evolution of Quality Management</h3>
+<p>Quality systems have evolved through <strong>four stages</strong> over the last five decades:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Stage</th><th>Name</th><th>Focus</th></tr></thead>
+  <tbody>
+    <tr><td>1st</td><td>Product Inspection</td><td>Inspect finished products; remove defective ones. No root-cause analysis.</td></tr>
+    <tr><td>2nd</td><td>Quality Control (QC)</td><td>Detect defects AND determine causes behind them. Corrects root causes, not just outcomes.</td></tr>
+    <tr><td>3rd</td><td>Quality Assurance (QA)</td><td>"If processes are proper and rigorously followed, products will be of good quality." Focus shifts to process.</td></tr>
+    <tr><td>4th</td><td>Total Quality Management (TQM)</td><td>Continuously improve processes through measurement. Goes beyond documenting to optimizing (reengineering).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example-box">
+  <div class="ex-label">Key Insight</div>
+  <p>The quality paradigm has shifted from <strong>product assurance → process assurance</strong>. TQM is linked to <strong>Business Process Reengineering (BPR)</strong>, which re-engineers how business is carried out in an organization.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 3: McCALL'S MODEL
+═══════════════════════════════════════════ -->
+<div id="s3" class="chapter-header">
+  <div class="chapter-num">Section 03</div>
+  <h2>McCall's Quality Model</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Model Overview</div>
+  <p><strong>McCall's Model</strong> categorizes software quality factors into three perspectives: Product <em>Operation</em>, Product <em>Revision</em>, and Product <em>Transition</em>.</p>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon">🖥️</div>
+    <h4>Product Operation</h4>
+    <p>Correctness, Reliability, Efficiency, Integrity, Usability — how well the software runs day-to-day.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">🔧</div>
+    <h4>Product Revision</h4>
+    <p>Maintainability, Flexibility, Testability — how easily the software can be changed or tested.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">🚀</div>
+    <h4>Product Transition</h4>
+    <p>Portability, Reusability, Interoperability — how well the software moves to new environments or integrates with others.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4: SOFTWARE RELIABILITY
+═══════════════════════════════════════════ -->
+<div id="s4" class="chapter-header">
+  <div class="chapter-num">Section 04</div>
+  <h2>Software Reliability</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition 1</div>
+  <p><strong>Software Reliability</strong> (Operational Reliability) is the ability of a system or component to perform its required functions under stated conditions for a specified period of time.</p>
+</div>
+<div class="def-box">
+  <div class="def-label">Definition 2 (Probabilistic)</div>
+  <p>The <strong>probability</strong> that a software system fulfills its assigned task in a given environment for a predefined number of input cases, assuming hardware and input are error-free.</p>
+</div>
+
+<h3>Key Characteristics</h3>
+<ul>
+  <li>An essential component of software quality, alongside functionality, usability, performance, and maintainability.</li>
+  <li>Hard to achieve because software complexity is high.</li>
+  <li><strong>Unlike hardware</strong>, software has no physical wear — it fails due to design/specification errors.</li>
+  <li>Complexity is <em>inversely</em> proportional to reliability but <em>directly</em> proportional to functionality.</li>
+</ul>
+
+<div class="example-box">
+  <div class="ex-label">Real-world Scale Example</div>
+  <p><strong>Next-gen aircraft:</strong> over 1 million source lines of software (SLOC). <strong>Air Traffic Control:</strong> 1–2 million lines. <strong>International Space Station:</strong> 2 million on-board + 10 million ground support. <strong>Defense systems:</strong> 5+ million SLOC. These illustrate why reliability is mission-critical.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 5: RELIABILITY METRICS & NUMERICALS
+═══════════════════════════════════════════ -->
+<div id="s5" class="chapter-header">
+  <div class="chapter-num">Section 05</div>
+  <h2>Reliability Metrics &amp; Numericals</h2>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Metric</th><th>Formula</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>MTBF</td><td>Total Operating Time ÷ Number of Failures</td><td>Average time between consecutive failures</td></tr>
+    <tr><td>MTTF</td><td>Total Operating Time ÷ Total Failures</td><td>Mean time to first failure (new systems)</td></tr>
+    <tr><td>MTTR</td><td>Total Repair Time ÷ Number of Repairs</td><td>Average time to repair and restore system</td></tr>
+    <tr><td>Availability</td><td>MTBF ÷ (MTBF + MTTR)</td><td>System uptime percentage</td></tr>
+    <tr><td>Failure Rate (λ)</td><td>Number of Failures ÷ Operating Time</td><td>Frequency of failures per unit time</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="num-box">
+  <div class="num-label">📐 Numerical Problem 1</div>
+  <p><strong>Problem:</strong> A software system operates for <strong>1000 hours</strong> and experiences <strong>5 failures</strong>. Total repair time is <strong>10 hours</strong>. Calculate MTBF, MTTF, MTTR, Availability, and Failure Rate.</p>
+  <br>
+  <div class="formula">MTTF = 1000 / 5 = 200 hours</div><br>
+  <div class="formula">MTTR = 10 / 5 = 2 hours</div><br>
+  <div class="formula">MTBF = MTTF + MTTR = 200 + 2 = 202 hours</div><br>
+  <div class="formula">Availability = 202 / (202 + 2) = 202/204 ≈ 0.9902 = 99.02%</div><br>
+  <div class="formula">Failure Rate λ = 5 / 1000 = 0.005 failures/hour</div>
+</div>
+
+<div class="num-box">
+  <div class="num-label">📐 Numerical Problem 2</div>
+  <p><strong>Problem:</strong> A system has MTBF = 500 hours and MTTR = 5 hours. Find availability and failure rate.</p>
+  <br>
+  <div class="formula">Availability = 500 / (500 + 5) = 500/505 ≈ 0.9901 = 99.01%</div><br>
+  <div class="formula">Failure Rate = 1 / MTBF = 1/500 = 0.002 failures/hour</div>
+</div>
+
+<div class="num-box">
+  <div class="num-label">📐 Numerical Problem 3 — High Availability Requirement</div>
+  <p><strong>Problem:</strong> A safety-critical system must have <strong>99.9% availability</strong>. If MTTR = 1 hour, what is the minimum required MTBF?</p>
+  <br>
+  <p>Let MTBF = x. Then: <strong>x / (x + 1) ≥ 0.999</strong></p>
+  <div class="formula">x ≥ 0.999x + 0.999</div>
+  <div class="formula">0.001x ≥ 0.999</div>
+  <div class="formula">x ≥ 999 hours</div>
+  <p style="margin-top:10px;">Therefore, the system must have <strong>MTBF ≥ 999 hours</strong> to meet the 99.9% availability requirement.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 6: RELIABILITY MODELS
+═══════════════════════════════════════════ -->
+<div id="s6" class="chapter-header">
+  <div class="chapter-num">Section 06</div>
+  <h2>Software Reliability Models</h2>
+</div>
+
+<p>Reliability models predict future reliability based on observed failure data. They help engineers estimate how reliable software will be as it evolves.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>Assumption</th><th>Key Feature</th></tr></thead>
+  <tbody>
+    <tr><td>Jelinski–Moranda</td><td>Constant failure rate per remaining defect</td><td>Simplest model; each defect equally likely to cause failure</td></tr>
+    <tr><td>Goel–Okumoto</td><td>Non-Homogeneous Poisson Process (NHPP)</td><td>Failure rate changes over time; widely used in practice</td></tr>
+    <tr><td>Musa's Basic Execution Time</td><td>Failures relate directly to execution time</td><td>Uses CPU execution time (not calendar time) as basis</td></tr>
+    <tr><td>Schneidewind</td><td>Least squares estimation</td><td>Divides test time into intervals; predicts failure counts</td></tr>
+    <tr><td>Littlewood–Verrall</td><td>Variable failure rate per defect</td><td>More realistic than Jelinski–Moranda; assumes non-uniform defects</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 7: SOFTWARE REVIEWS
+═══════════════════════════════════════════ -->
+<div id="s7" class="chapter-header">
+  <div class="chapter-num">Section 07</div>
+  <h2>Software Reviews</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p><strong>Software Review</strong> is a systematic inspection of software by one or more individuals working together to find and resolve errors and defects during the early stages of the SDLC.</p>
+</div>
+
+<h4>Objectives of Software Review</h4>
+<ul>
+  <li>Improve productivity of the development team</li>
+  <li>Make testing time- and cost-effective</li>
+  <li>Deliver final software with fewer defects</li>
+  <li>Eliminate inadequacies in the software</li>
+</ul>
+
+<h3>Types of Software Reviews</h3>
+
+<h4>1. Software Peer Review</h4>
+<p>Assesses technical content and quality; conducted by the author along with developers. Sub-types:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Sub-type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>Code Review</td><td>Systematic examination of source code for defects</td></tr>
+    <tr><td>Pair Programming</td><td>Two developers code together on the same platform simultaneously</td></tr>
+    <tr><td>Walkthrough</td><td>Author guides team; participants ask questions and comment on defects</td></tr>
+    <tr><td>Technical Review</td><td>Highly qualified team examines product against client use &amp; standards</td></tr>
+    <tr><td>Inspection</td><td>Reviewers follow a well-defined process systematically to find defects</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h4>2. Software Management Review</h4>
+<p>Evaluates work status. Decisions regarding downstream activities are taken based on the findings.</p>
+
+<h4>3. Software Audit Review</h4>
+<p>External review by critics <em>not</em> part of the development team. They conduct an independent inspection to assess compliance with specifications and standards. Performed by managerial-level personnel.</p>
+
+<h3>Advantages of Software Reviews</h3>
+<ul>
+  <li>Defects identified at an earlier stage of development (especially in formal reviews)</li>
+  <li>Earlier inspection reduces maintenance cost significantly</li>
+  <li>Can be used to train technical authors</li>
+  <li>Helps remove process inadequacies that encourage defects</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 8: FTR
+═══════════════════════════════════════════ -->
+<div id="s8" class="chapter-header">
+  <div class="chapter-num">Section 08</div>
+  <h2>Formal Technical Review (FTR)</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p><strong>Formal Technical Review (FTR)</strong> is a software quality control activity performed by software engineers. It includes walkthroughs, inspections, round-robin reviews, and other small-group technical assessments conducted as structured meetings.</p>
+</div>
+
+<h3>Objectives of FTR</h3>
+<ul>
+  <li>Uncover errors in logic, function, and implementation</li>
+  <li>Verify software meets specified requirements</li>
+  <li>Ensure software follows predefined standards</li>
+  <li>Promote uniform development style</li>
+  <li>Make the project more manageable</li>
+  <li>Enable junior engineers to observe approach of senior engineers</li>
+</ul>
+
+<h3>FTR Roles &amp; Responsibilities</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
+  <tbody>
+    <tr><td>Moderator</td><td>Plans, facilitates, and controls the entire review meeting process</td></tr>
+    <tr><td>Author</td><td>Creates the work product; explains technical details to reviewers</td></tr>
+    <tr><td>Reviewer</td><td>Examines product carefully; identifies defects and suggests improvements</td></tr>
+    <tr><td>Recorder</td><td>Documents all issues, defects, and action items during the meeting</td></tr>
+    <tr><td>Manager</td><td>Ensures adequate resources are available; has no evaluation role</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>The Review Meeting — Constraints</h3>
+<ul>
+  <li>Between <strong>3–5 people</strong> should be involved</li>
+  <li>Advance preparation: at most <strong>2 hours per person</strong></li>
+  <li>Meeting duration: <strong>less than 2 hours</strong></li>
+  <li>Focuses on a specific and small part of the overall software</li>
+</ul>
+
+<h3>Meeting Outcomes (Decision)</h3>
+<ul>
+  <li><strong>Accept</strong> without any modification</li>
+  <li><strong>Reject</strong> due to serious error (another review required after correction)</li>
+  <li><strong>Conditional Accept</strong> — minor errors to be corrected, no additional review needed</li>
+</ul>
+
+<h3>FTR Guidelines</h3>
+<ul>
+  <li>Review the <em>product</em>, not the producer</li>
+  <li>Take written notes</li>
+  <li>Limit number of participants; insist on advance preparation</li>
+  <li>Develop a checklist for each product</li>
+  <li>Set an agenda and maintain it</li>
+  <li>Separate problem areas but don't attempt to solve every problem noted during the meeting</li>
+  <li>Limit debate and rebuttal</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 9: SQA
+═══════════════════════════════════════════ -->
+<div id="s9" class="chapter-header">
+  <div class="chapter-num">Section 09</div>
+  <h2>Software Quality Assurance (SQA)</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p><strong>Software Quality Assurance (SQA)</strong> is a set of activities for ensuring quality in software engineering processes. It ensures that developed software meets and complies with defined or standardized quality specifications throughout the SDLC.</p>
+</div>
+
+<p>SQA is an <strong>ongoing process</strong> — unlike testing which checks quality after coding, SQA checks for quality in <em>each phase</em> of development.</p>
+
+<h3>SQA Activities Include:</h3>
+<ul>
+  <li>Process definition and implementation</li>
+  <li>Auditing</li>
+  <li>Training</li>
+</ul>
+
+<h3>SQA Responsibilities</h3>
+<ul>
+  <li>Identify weaknesses in processes</li>
+  <li>Correct those weaknesses to continually improve</li>
+</ul>
+
+<h3>Components of the SQA System</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Component Class</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>Pre-project Components</td><td>Contract review; development &amp; quality plans established before project starts</td></tr>
+    <tr><td>Project Life Cycle Assessment</td><td>Development stage (reviews, expert opinions, testing) + operation-maintenance stage</td></tr>
+    <tr><td>Infrastructure Error Prevention</td><td>Organization-wide components to eliminate/reduce error rates based on accumulated SQA experience</td></tr>
+    <tr><td>Software Quality Management</td><td>Control of development &amp; maintenance activities; prevent schedule and budget failures</td></tr>
+    <tr><td>Standardization &amp; Certification</td><td>Implement international standards; coordinate quality systems; assess achievements</td></tr>
+    <tr><td>Human Components (Organizing)</td><td>Managers, testing personnel, SQA unit, SQA trustees, committee &amp; forum members</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Pre-Project SQA Components</h3>
+<h4>Contract Review — Activities:</h4>
+<ul>
+  <li>Clarification of customer's requirements</li>
+  <li>Review of project schedule and resource estimates</li>
+  <li>Evaluation of customer's capacity to fulfil obligations</li>
+  <li>Evaluation of development risks</li>
+</ul>
+
+<h4>Quality Plan — Key Issues:</h4>
+<ul>
+  <li>Quality goals (in measurable terms)</li>
+  <li>Criteria for starting and ending each project stage</li>
+  <li>Lists of reviews, tests, and other scheduled verification &amp; validation activities</li>
+</ul>
+
+<h3>SQA Plan — Components</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Section</th><th>Content</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>Management</td><td>Organization, roles, responsibilities, reporting structure</td><td>Defines quality team accountability</td></tr>
+    <tr><td>Standards &amp; Practices</td><td>Conventions, methodologies, best practices</td><td>Ensures consistent development approaches</td></tr>
+    <tr><td>Reviews &amp; Audits</td><td>Schedule, procedures, and criteria for reviews</td><td>Systematic evaluation of processes and products</td></tr>
+    <tr><td>Testing</td><td>Approach, strategy, tools, acceptance criteria</td><td>Validates software meets quality requirements</td></tr>
+    <tr><td>Configuration Management</td><td>Version control, code control, media control</td><td>Maintains integrity of work products</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 10: STATISTICAL SQA
+═══════════════════════════════════════════ -->
+<div id="s10" class="chapter-header">
+  <div class="chapter-num">Section 10</div>
+  <h2>Statistical SQA</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p><strong>Statistical SQA</strong> uses quantitative and statistical methods to measure and control software quality. It enables data-driven decision-making and provides objective evidence of achieved quality levels.</p>
+</div>
+
+<h3>Statistical Techniques</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Technique</th><th>Application</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>Pareto Analysis (80-20 Rule)</td><td>Defect categorization</td><td>Identify the ~20% causes responsible for ~80% of defects</td></tr>
+    <tr><td>Control Charts (SPC)</td><td>Process monitoring</td><td>Detect process variations; identify out-of-control conditions</td></tr>
+    <tr><td>Histogram</td><td>Data distribution</td><td>Visualize frequency patterns across different data ranges</td></tr>
+    <tr><td>Scatter Diagram</td><td>Correlation analysis</td><td>Identify relationships between two quality-related variables</td></tr>
+    <tr><td>Run Charts</td><td>Trend analysis</td><td>Monitor changes over time; identify emerging trends early</td></tr>
+    <tr><td>Fishbone (Ishikawa) Diagram</td><td>Root cause analysis</td><td>Identify root causes of defects (used at CMM Level 4)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Statistical Process Control (SPC)</h3>
+<ul>
+  <li><strong>Control Limits:</strong> Define acceptable process variation using capability baselines (UCL = Upper, LCL = Lower, CL = Center Line)</li>
+  <li>Charts distinguish <em>common cause</em> variation from <em>special cause</em> variation</li>
+  <li>Corrective actions trigger when processes exceed defined limits</li>
+  <li>Goal: maintain consistent long-term process stability</li>
+</ul>
+
+<div class="example-box">
+  <div class="ex-label">Pareto Example</div>
+  <p>After analyzing 100 bugs in a software project: <strong>Requirement errors = 40</strong>, Design errors = 25, Coding errors = 20, Testing gaps = 15. A Pareto chart reveals that requirement and design errors (65%) are the vital few to address first for maximum defect reduction.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 11: ISO 9000
+═══════════════════════════════════════════ -->
+<div id="s11" class="chapter-header">
+  <div class="chapter-num">Section 11</div>
+  <h2>ISO 9000 Certification</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p><strong>ISO (International Standards Organization)</strong> is a consortium of 63 countries established to promote standardization. The ISO 9000 series, declared in 1987, determines guidelines for maintaining a quality system — focusing on organizational and operational methods.</p>
+</div>
+
+<p>Key premise: <em>"If a proper process is followed for production, good quality products will automatically follow."</em></p>
+
+<h3>ISO 9000 Standards — Types</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Standard</th><th>Applies To</th><th>Relevant to Software?</th></tr></thead>
+  <tbody>
+    <tr><td>ISO 9000</td><td>Fundamentals and vocabulary</td><td>Reference/vocabulary</td></tr>
+    <tr><td>ISO 9001</td><td>Design, development, production, and servicing of goods</td><td>✅ YES — applies to most software orgs</td></tr>
+    <tr><td>ISO 9002</td><td>Organizations that only produce (no design) — e.g., steel/car manufacturing</td><td>❌ No — doesn't apply to software</td></tr>
+    <tr><td>ISO 9003</td><td>Only installation and testing — e.g., gas companies</td><td>❌ Limited applicability</td></tr>
+    <tr><td>ISO 9004</td><td>Guidelines for performance improvement</td><td>Reference for improvement</td></tr>
+    <tr><td>ISO 19011</td><td>Auditing management systems</td><td>Used by auditors</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>ISO 9000 Certification Process</h3>
+<ol>
+  <li><strong>Application:</strong> Organization applies to the registrar for registration</li>
+  <li><strong>Pre-Assessment:</strong> Registrar makes a rough assessment of the organization</li>
+  <li><strong>Document Review &amp; Adequacy Audit:</strong> Registrar reviews documents and suggests improvements</li>
+  <li><strong>Compliance Audit:</strong> Registrar checks if suggestions have been implemented</li>
+  <li><strong>Registration:</strong> ISO certification awarded after all phases pass</li>
+  <li><strong>Continued Inspection:</strong> Registrar monitors the organization periodically</li>
+</ol>
+
+<h3>7 Quality Management Principles (ISO 9000:2015)</h3>
+<div class="card-grid">
+  <div class="card"><div class="card-icon">👥</div><h4>Customer Focus</h4><p>Understand current &amp; future needs; meet requirements; exceed expectations.</p></div>
+  <div class="card"><div class="card-icon">🎯</div><h4>Leadership</h4><p>Establish vision, direction, challenging goals; build trust; empower employees.</p></div>
+  <div class="card"><div class="card-icon">🤝</div><h4>Engagement of People</h4><p>Use and value people's abilities; make accountable; enable participation in improvement.</p></div>
+  <div class="card"><div class="card-icon">⚙️</div><h4>Process Approach</h4><p>Manage activities as processes; measure capability; identify linkages; deploy resources effectively.</p></div>
+  <div class="card"><div class="card-icon">📈</div><h4>Improvement</h4><p>Continuously improve performance; align improvement activities; celebrate improvements.</p></div>
+  <div class="card"><div class="card-icon">📊</div><h4>Evidence-Based Decisions</h4><p>Ensure accessible, accurate data; use appropriate analysis methods; make fact-based decisions.</p></div>
+  <div class="card"><div class="card-icon">🔗</div><h4>Relationship Management</h4><p>Manage supplier relationships; share expertise; collaborate on improvement activities.</p></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 12: SEI-CMM
+═══════════════════════════════════════════ -->
+<div id="s12" class="chapter-header">
+  <div class="chapter-num">Section 12</div>
+  <h2>SEI-CMM Framework</h2>
+</div>
+
+<div class="def-box">
+  <div class="def-label">Definition</div>
+  <p>The <strong>Capability Maturity Model (CMM)</strong>, developed by the Software Engineering Institute (SEI) at Carnegie Mellon University, is a framework used to analyze approaches and techniques followed by organizations to develop software, and to provide guidelines for enhancing process maturity.</p>
+</div>
+
+<p>CMM is <strong>NOT a software process model</strong> — it is a <em>framework for process assessment and improvement</em>. It defines 5 levels of process maturity. All levels except Level 1 have <strong>Key Process Areas (KPAs)</strong>.</p>
+
+<h3>The 5 Maturity Levels</h3>
+<div class="cmm-levels">
+  <div class="cmm-level l1">
+    <div class="cmm-num">1</div>
+    <div class="cmm-content">
+      <div class="cmm-title">Initial (Chaotic)</div>
+      <div class="cmm-desc">Ad hoc, unpredictable processes. No defined process. Different engineers follow different methods. Success depends on individual heroics. Also called the "chaotic level." No KPAs.</div>
+    </div>
+  </div>
+  <div class="cmm-level l2">
+    <div class="cmm-num">2</div>
+    <div class="cmm-content">
+      <div class="cmm-title">Repeatable</div>
+      <div class="cmm-desc">Basic project management practices established. Cost and schedule tracking implemented. Size &amp; cost estimation methods used (Function Point Analysis, COCOMO, etc.). Results are repeatable across similar projects.</div>
+    </div>
+  </div>
+  <div class="cmm-level l3">
+    <div class="cmm-num">3</div>
+    <div class="cmm-content">
+      <div class="cmm-title">Defined</div>
+      <div class="cmm-desc">Both management and development processes are defined, documented, and standardized organization-wide. Common understanding of roles and responsibilities. <strong>ISO 9000 certification targets this level.</strong> Process and product quality not yet measured quantitatively.</div>
+    </div>
+  </div>
+  <div class="cmm-level l4">
+    <div class="cmm-num">4</div>
+    <div class="cmm-content">
+      <div class="cmm-title">Managed</div>
+      <div class="cmm-desc">Focus on software metrics. <strong>Product metrics</strong> (size, reliability, complexity) and <strong>Process metrics</strong> (defect correction time, productivity, defects per LOC) are collected. Tools: Pareto charts, fishbone diagrams. Quantitative quality requirements are met. Metrics used to evaluate project performance.</div>
+    </div>
+  </div>
+  <div class="cmm-level l5">
+    <div class="cmm-num">5</div>
+    <div class="cmm-content">
+      <div class="cmm-title">Optimizing</div>
+      <div class="cmm-desc">Continuous process improvement based on process and product measurement data. Defect prevention. Technology change management. Process change management. Innovation-driven quality improvement.</div>
+    </div>
+  </div>
+</div>
+
+<h3>Key Process Areas (KPAs) by Level</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Level</th><th>Key Process Areas</th></tr></thead>
+  <tbody>
+    <tr><td>Level 2</td><td>Requirements Management, Project Planning, Tracking &amp; Oversight, Subcontract Management, Software Quality Assurance, Configuration Management</td></tr>
+    <tr><td>Level 3</td><td>Org. Process Focus, Org. Process Definition, Training Program, Integrated Software Management, Software Product Engineering, Intergroup Coordination, Peer Reviews</td></tr>
+    <tr><td>Level 4</td><td>Quantitative Process Management, Software Quality Management</td></tr>
+    <tr><td>Level 5</td><td>Defect Prevention, Technology Change Management, Process Change Management</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example-box">
+  <div class="ex-label">Key Relationship</div>
+  <p>Each CMM level <strong>builds on the previous</strong>. An organization cannot skip levels. ISO 9000 targets <strong>Level 3 (Defined)</strong>. CMM provides a roadmap from Level 1 to Level 5 through gradual, step-by-step process improvement.</p>
+</div>
+
+<hr class="section-div">
+
+<!-- ═══════════════════════════════════════════
+     Q & A SECTION
+═══════════════════════════════════════════ -->
+<div id="qa" class="qa-section">
+  <div class="qa-header">
+    <h2>30 Questions &amp; Answers</h2>
+    <p>Categorized by difficulty — Easy (2 marks), Medium (5 marks), Hard/Scenario (30+ lines)</p>
+  </div>
+
+  <!-- EASY -->
+  <div class="difficulty-section-label">
+    <div class="diff-line"></div>
+    <span class="difficulty-badge badge-easy">🟢 Easy — 2 Marks (3–4 Lines)</span>
+    <div class="diff-line"></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q01</div><div class="q-text">Define software quality. What is "fitness of purpose"?</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>Software quality</strong> is defined in terms of its fitness of purpose — a quality product does precisely what users want it to do. It measures how well the software meets the requirements specified in the SRS document. "Fitness of purpose" means the software correctly performs all tasks for which it was designed, satisfying user needs.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q02</div><div class="q-text">What is MTBF? Give its formula.</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>MTBF (Mean Time Between Failures)</strong> is the average time elapsed between consecutive failures in a repairable system. It is a key reliability metric.</p><p><strong>Formula:</strong> MTBF = Total Operating Time ÷ Number of Failures. A higher MTBF indicates a more reliable system.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q03</div><div class="q-text">What is a Formal Technical Review (FTR)?</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>FTR</strong> is a software quality control activity performed by software engineers. It is a class of reviews including walkthroughs, inspections, and round-robin reviews. Conducted as structured meetings, FTR uncovers errors in logic, function, and implementation and verifies that software meets specified requirements.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q04</div><div class="q-text">What does CMM stand for, and who developed it?</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>CMM stands for Capability Maturity Model.</strong> It was developed by the <strong>Software Engineering Institute (SEI)</strong> at Carnegie Mellon University. It is a framework used to assess and improve an organization's software development processes across five maturity levels.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q05</div><div class="q-text">What is software portability?</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>Portability</strong> is a software quality attribute that indicates how freely a software product can be made to work in various operating system environments, on multiple machines, and with other software products. A highly portable program (e.g., a Java application) requires minimal modification when moved to a different platform.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q06</div><div class="q-text">What is software availability? Give its formula.</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>Availability</strong> measures the percentage of time a system is operational and accessible to users. It is calculated as:</p><p><strong>Availability = MTBF / (MTBF + MTTR)</strong></p><p>For example, if MTBF = 100 hours and MTTR = 1 hour, Availability = 100/101 ≈ 99.01%.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q07</div><div class="q-text">Name the three perspectives of McCall's Quality Model.</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p>McCall's Model categorizes software quality into three perspectives: (1) <strong>Product Operation</strong> — factors related to running the software (correctness, reliability, efficiency, integrity, usability); (2) <strong>Product Revision</strong> — factors for changing the software (maintainability, flexibility, testability); and (3) <strong>Product Transition</strong> — factors for moving software to new environments (portability, reusability, interoperability).</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q08</div><div class="q-text">What is ISO 9001, and why does it apply to software?</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>ISO 9001</strong> is the quality management standard that applies to organizations engaged in <strong>design, development, production, and servicing</strong> of goods. It applies to software development organizations because they design and develop software products. It is the most relevant ISO 9000 series standard for the software industry.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q09</div><div class="q-text">What is a software walkthrough?</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p>A <strong>walkthrough</strong> is a type of peer review where the author of the work product guides team members through the software artifact. Participants ask questions and make comments about potential defects. It is primarily educational in purpose, helping team members understand the code/design and identify issues collaboratively.</p></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q10</div><div class="q-text">What is Total Quality Management (TQM)?</div><div class="q-marks">2 marks</div></div>
+    <div class="q-ans"><p><strong>TQM (Total Quality Management)</strong> advocates that the procedures followed by an organization must be <strong>continuously improved</strong> through process measurements. It goes beyond quality assurance by aiming to optimize and reengineer processes rather than just documenting them. TQM is closely linked to <strong>Business Process Reengineering (BPR)</strong>.</p></div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="difficulty-section-label">
+    <div class="diff-line"></div>
+    <span class="difficulty-badge badge-medium">🟡 Medium — 5 Marks (10–15 Lines)</span>
+    <div class="diff-line"></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q11</div><div class="q-text">Explain the evolution of Quality Management Systems through four stages.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p>Quality management systems have evolved through four stages over the last five decades:</p>
+      <p><strong>Stage 1 — Product Inspection (Pre-WWII):</strong> The only quality function was to inspect finished products and remove defective ones. There was no analysis of why defects occurred — just binary accept/reject.</p>
+      <p><strong>Stage 2 — Quality Control (QC):</strong> QC went beyond detection to determining the root causes of defects. The goal became correcting the reasons for bugs, not just rejecting products. This introduced cause-effect analysis into quality processes.</p>
+      <p><strong>Stage 3 — Quality Assurance (QA):</strong> The primary premise of QA is that if an organization's processes are properly defined and rigorously followed, products will be of good quality. QA focuses on process definition, process analysis, and process improvement rather than end-product inspection. ISO 9000 embodies this philosophy.</p>
+      <p><strong>Stage 4 — Total Quality Management (TQM):</strong> TQM advocates continuous process improvement through measurement. It goes beyond documenting processes to actively optimizing them through redesign (Business Process Reengineering). TQM closes the loop: measure → analyze → improve → repeat.</p>
+      <p>The overarching trend is a shift from <strong>product assurance to process assurance</strong>.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q12</div><div class="q-text">Describe the five maturity levels of SEI-CMM with their key characteristics.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p>The SEI-CMM defines five maturity levels:</p>
+      <p><strong>Level 1 — Initial (Chaotic):</strong> Processes are ad hoc and undisciplined. No defined process exists. Engineers follow their own methods, making development unpredictable and chaotic. Success depends on individual effort and heroics.</p>
+      <p><strong>Level 2 — Repeatable:</strong> Basic project management practices (cost tracking, schedule tracking) are established. Estimation methods like Function Point Analysis and COCOMO are used. Results are repeatable for similar projects due to disciplined procedures.</p>
+      <p><strong>Level 3 — Defined:</strong> Both management and development processes are defined, documented, and standardized across the organization. Everyone understands their roles and responsibilities. ISO 9000 aims at this level. However, process/product quality is not yet measured quantitatively.</p>
+      <p><strong>Level 4 — Managed:</strong> Software metrics are collected. Product metrics (size, reliability, complexity) and process metrics (defect correction time, productivity, defects per LOC) are used. Quantitative quality requirements are set and met. Tools like Pareto charts and fishbone diagrams are used.</p>
+      <p><strong>Level 5 — Optimizing:</strong> Both process and product metrics drive continuous process improvement. Focus is on defect prevention, technology change management, and process change management. Innovation is used proactively to optimize performance.</p>
+      <p>Each level builds on the previous, and organizations cannot skip levels. KPAs guide improvement from one level to the next (except Level 1, which has no KPAs).</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q13</div><div class="q-text">What are the objectives, roles, and guidelines of Formal Technical Review (FTR)?</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Objectives:</strong> FTR uncovers errors in logic, function, and implementation; verifies software meets requirements; ensures adherence to standards; promotes uniform development; and makes projects more manageable. It also helps junior engineers learn from experienced ones.</p>
+      <p><strong>Roles:</strong> The <em>Moderator</em> plans, facilitates, and controls the meeting. The <em>Author</em> explains the work product. The <em>Reviewer</em> examines the product and identifies defects. The <em>Recorder</em> documents all issues and action items. The <em>Manager</em> provides resources but doesn't evaluate.</p>
+      <p><strong>Meeting Constraints:</strong> 3–5 participants; advance preparation ≤2 hours per person; meeting ≤2 hours.</p>
+      <p><strong>Outcomes:</strong> Accept without modification; Reject with serious errors (re-review needed); Conditional Accept (minor errors to fix, no re-review).</p>
+      <p><strong>Key Guidelines:</strong> Review the product, not the producer. Take written notes. Set an agenda and maintain it. Develop checklists. Limit debate and rebuttal. Separate problem identification from problem solving.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q14</div><div class="q-text">Explain the ISO 9000 certification process with all its stages.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p>ISO 9000 certification is obtained through a structured six-stage process:</p>
+      <p><strong>1. Application:</strong> The organization decides to pursue ISO certification and submits an application to the registrar for registration. This is a formal commitment to quality improvement.</p>
+      <p><strong>2. Pre-Assessment:</strong> The registrar conducts a rough, preliminary assessment of the organization to understand its current state and readiness for full audit.</p>
+      <p><strong>3. Document Review &amp; Adequacy Audit:</strong> The registrar reviews all documentation submitted by the organization (quality manual, procedures, policies) and suggests specific improvements needed.</p>
+      <p><strong>4. Compliance Audit:</strong> The registrar checks whether the organization has actually implemented the suggested improvements. This is a thorough on-site assessment.</p>
+      <p><strong>5. Registration:</strong> If the compliance audit is successful, the registrar awards the ISO 9000 certification. The organization is officially registered.</p>
+      <p><strong>6. Continued Inspection (Surveillance):</strong> Certification is not permanent. The registrar conducts periodic follow-up audits to ensure the organization maintains its quality system. This ensures ongoing compliance.</p>
+      <p>The entire process is based on ISO 9000:2015, which is grounded in seven quality management principles: Customer Focus, Leadership, Engagement of People, Process Approach, Improvement, Evidence-Based Decision Making, and Relationship Management.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q15</div><div class="q-text">What is Software Reliability? Discuss factors that make it difficult to achieve.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Software Reliability</strong> is the probability that a software system fulfills its assigned task in a given environment for a predefined number of input cases, assuming hardware and input are error-free. Operationally, it is the ability to perform required functions under stated conditions for a specified time period.</p>
+      <p><strong>Why it is hard to achieve:</strong></p>
+      <p><em>1. High Complexity:</em> Modern software systems contain millions of lines of code, making it impossible to test every possible execution path or input combination. Complexity is inversely proportional to reliability.</p>
+      <p><em>2. No Physical Wear:</em> Unlike hardware, software doesn't wear out — but it fails due to design errors or specification mismatches that weren't detected during testing.</p>
+      <p><em>3. Scale:</em> Systems like air traffic control (1–2 million SLOC), Space Station software (2M on-board + 10M ground support), and defense systems (5M+ SLOC) have enormous potential defect surfaces.</p>
+      <p><em>4. Developer-Driven Complexity Push:</em> System developers tend to push complexity into software layers for flexibility, increasing the reliability challenge.</p>
+      <p><em>5. Environment Variability:</em> Software operates in diverse environments with different inputs, user behaviors, and hardware configurations, making exhaustive reliability testing impractical.</p>
+      <p>Reliability is an essential component of software quality alongside functionality, usability, performance, and maintainability.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q16</div><div class="q-text">Describe the components of an SQA system with their roles.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p>An SQA system combines six classes of components:</p>
+      <p><strong>1. Pre-Project Components:</strong> Ensure project commitments are clearly defined — resources, schedule, budget, and quality plans are correctly determined before work begins. Includes Contract Review and Development/Quality Plan preparation.</p>
+      <p><strong>2. Project Life Cycle Assessment Components:</strong> Cover both the development stage (reviews, expert opinions, testing to detect design and programming errors) and the operation-maintenance stage (specialized maintenance quality checks).</p>
+      <p><strong>3. Infrastructure Error Prevention Components:</strong> Applied organization-wide to eliminate or reduce error rates based on the organization's accumulated SQA experience. Focuses on systemic root-cause elimination.</p>
+      <p><strong>4. Software Quality Management Components:</strong> Control development and maintenance activities; introduce early managerial support to prevent schedule and budget failures and their consequences.</p>
+      <p><strong>5. Standardization, Certification &amp; Assessment Components:</strong> Implement international professional and managerial standards within the organization. Enable coordination with other organizations' quality systems and assess achievements against common scales (ISO 9000, CMM).</p>
+      <p><strong>6. Human Components (Organizing for SQA):</strong> Include managers, testing personnel, the SQA unit, SQA trustees, committee members, and forum members. Their role is to initiate and support SQA implementation, detect deviations, and suggest improvements.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q17</div><div class="q-text">A system operates for 2000 hours with 8 failures. Total repair time is 16 hours. Calculate MTTF, MTTR, MTBF, Availability, and Failure Rate. Comment on system reliability.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Given:</strong> Operating Time = 2000 hours, Failures = 8, Total Repair Time = 16 hours, Repairs = 8</p>
+      <p><strong>MTTF</strong> = 2000 / 8 = <strong>250 hours</strong></p>
+      <p><strong>MTTR</strong> = 16 / 8 = <strong>2 hours</strong></p>
+      <p><strong>MTBF</strong> = MTTF + MTTR = 250 + 2 = <strong>252 hours</strong></p>
+      <p><strong>Availability</strong> = 252 / (252 + 2) = 252 / 254 ≈ <strong>0.9921 = 99.21%</strong></p>
+      <p><strong>Failure Rate (λ)</strong> = 8 / 2000 = <strong>0.004 failures/hour</strong></p>
+      <p><strong>Comment on Reliability:</strong> An availability of 99.21% means the system is down approximately 0.79% of the time. For general business applications this may be acceptable, but for safety-critical systems (aircraft, medical devices) this is insufficient — they require ≥99.999% ("five nines") availability. To improve reliability, the organization should focus on defect prevention, better testing, and reducing repair time (MTTR).</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q18</div><div class="q-text">Explain Statistical SQA techniques with the Pareto principle and Control Charts.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Statistical SQA</strong> applies quantitative and statistical methods to measure and control software quality, enabling data-driven decision-making.</p>
+      <p><strong>Pareto Analysis (80-20 Rule):</strong> Based on the observation that roughly 80% of defects are caused by 20% of the causes. In SQA, defects are categorized by type, and a Pareto chart displays them in descending order of frequency. Quality teams focus on the "vital few" causes responsible for the majority of defects. Example: if 65 of 100 bugs come from requirement and design errors, addressing these two categories eliminates most defects.</p>
+      <p><strong>Control Charts (Statistical Process Control):</strong> Monitor process behavior over time. Three reference lines are plotted — the Center Line (CL, process average), Upper Control Limit (UCL), and Lower Control Limit (LCL). As long as process measurements fall within UCL and LCL, the process exhibits only <em>common cause variation</em> (acceptable). When a data point exceeds limits, it signals <em>special cause variation</em> (a problem) requiring investigation and corrective action.</p>
+      <p><strong>Other Techniques:</strong> Histograms (visualize defect distribution), Scatter Diagrams (identify variable correlations), Run Charts (trend over time), and Fishbone/Ishikawa Diagrams (root cause analysis — heavily used at CMM Level 4).</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q19</div><div class="q-text">Compare ISO 9001, ISO 9002, and ISO 9003. Which applies to software development and why?</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p>The ISO 9000 series includes three standards that apply to different types of organizations based on their activities:</p>
+      <p><strong>ISO 9001:</strong> Applies to organizations engaged in design, development, production, and servicing of goods. This is the most comprehensive standard and directly applies to software development organizations because software development involves all four activities — requirements design, system architecture design, code production, and after-sale servicing/maintenance.</p>
+      <p><strong>ISO 9002:</strong> Applies to organizations that only produce — they don't design products themselves but buy designs from external sources and manufacture. Examples: steel mills, car manufacturing plants that use externally sourced designs. ISO 9002 does <strong>not apply</strong> to software development organizations because they always design their own products.</p>
+      <p><strong>ISO 9003:</strong> Applies to organizations involved only in installation and testing — not design or production. Example: gas supply companies. This has very limited applicability to software.</p>
+      <p><strong>Conclusion:</strong> For software development organizations, <strong>ISO 9001</strong> is the only applicable standard from this series. It is the standard organizations pursue for certification to demonstrate quality in their design, development, and service delivery activities.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q20</div><div class="q-text">What are Key Process Areas (KPAs)? Explain KPAs at CMM Levels 2, 3, 4, and 5.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Key Process Areas (KPAs)</strong> are clusters of related activities that, when performed collectively, achieve a set of goals that improve process capability. Each CMM level (except Level 1) is defined by its KPAs. An organization must satisfy all KPAs at a given level before moving to the next.</p>
+      <p><strong>Level 2 KPAs (Focus: Basic Management):</strong> Requirements Management, Software Project Planning, Software Project Tracking and Oversight, Software Subcontract Management, Software Quality Assurance, Software Configuration Management. Goal: establish disciplined tracking and basic management controls.</p>
+      <p><strong>Level 3 KPAs (Focus: Organizational Standardization):</strong> Organization Process Focus, Organization Process Definition, Training Program, Integrated Software Management, Software Product Engineering, Intergroup Coordination, Peer Reviews. Goal: standardize processes organization-wide.</p>
+      <p><strong>Level 4 KPAs (Focus: Quantitative Control):</strong> Quantitative Process Management, Software Quality Management. Goal: use metrics to predict and control process and product quality statistically.</p>
+      <p><strong>Level 5 KPAs (Focus: Continuous Improvement):</strong> Defect Prevention, Technology Change Management, Process Change Management. Goal: institutionalize proactive improvement and innovation into everyday development practice.</p>
+    </div>
+  </div>
+
+  <!-- HARD / SCENARIO-BASED -->
+  <div class="difficulty-section-label">
+    <div class="diff-line"></div>
+    <span class="difficulty-badge badge-hard">🔴 Hard / Scenario-Based (30+ Lines)</span>
+    <div class="diff-line"></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q21</div><div class="q-text">SCENARIO: A fintech startup is developing a payment gateway handling ₹50 crore/day. They have no documented processes, engineers use their own coding styles, releases are often delayed, and bugs reach production. The CEO wants to achieve ISO 9001 certification within 18 months and eventually reach CMM Level 4. Design a comprehensive quality improvement roadmap.</div><div class="q-marks">15 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Current State Analysis:</strong> The organization is at <strong>CMM Level 1 (Initial/Chaotic)</strong>. Characteristics: no defined processes, individual-dependent outcomes, unpredictable releases, bugs in production. Given the financial sensitivity (₹50 crore/day), this represents extreme risk. A single production bug could trigger regulatory action, financial loss, and reputational damage.</p>
+      <p><strong>Phase 1 — Foundation (Months 1–3): CMM Level 1 → Level 2</strong></p>
+      <p>The startup must establish basic project management practices. Begin by implementing <em>Requirements Management</em>: all payment gateway requirements must be formally documented in SRS documents with traceability. Introduce <em>Software Project Planning</em> using estimation models (COCOMO or Function Points) to create realistic schedules. Set up <em>Software Configuration Management</em> — all code must be version-controlled (Git), with branching strategies and release tagging. Establish <em>Software Quality Assurance</em> processes: define coding standards (PCI-DSS compliance for payment software), review checklists, and mandatory code reviews before merging. Implement <em>Project Tracking and Oversight</em>: weekly status reports, defect tracking (e.g., Jira), burndown charts. Outcome: repeatable, trackable results for similar projects.</p>
+      <p><strong>Phase 2 — Standardization (Months 4–9): CMM Level 2 → Level 3 + ISO 9001 Preparation</strong></p>
+      <p>This phase directly targets ISO 9001 certification. Define an <em>Organization Process Definition</em>: create a Software Development Methodology document covering all phases from requirements to deployment. Establish a <em>Training Program</em>: all engineers receive training in defined processes, security coding practices, and review procedures. Implement <em>Peer Reviews</em>: mandatory FTRs for all critical payment processing modules. Define <em>Software Product Engineering</em> standards: API contracts, testing protocols, deployment checklists. For ISO 9001 specifically: prepare a quality manual, define the quality policy, document all processes with SIPOC diagrams. Engage an ISO registrar for pre-assessment. Address gaps identified in the document review stage. Undergo compliance audit. Key deliverable: <strong>ISO 9001 certification by Month 9</strong>. This meets the CEO's 18-month target with comfortable margin.</p>
+      <p><strong>Phase 3 — Measurement Infrastructure (Months 10–15): Level 3 → Level 4</strong></p>
+      <p>Introduce a <em>Software Metrics Program</em>. Product Metrics to collect: defect density (defects/KLOC), code complexity (cyclomatic complexity), test coverage, response time, transaction error rate. Process Metrics: average defect correction time, defect removal efficiency (DRE), code review effectiveness, deployment frequency, mean time between production incidents. Tools: implement Pareto Analysis to identify which module categories generate most bugs (e.g., authentication module vs. payment routing). Deploy Control Charts to monitor defect rates over sprints — if defects spike above UCL, trigger root-cause analysis using Fishbone diagrams. Set <em>Quantitative Quality Goals</em>: e.g., defect density &lt;0.5 defects/KLOC, production bug rate &lt;1/month, transaction success rate &gt;99.95%.</p>
+      <p><strong>Continuous SQA Activities Throughout:</strong></p>
+      <p>Conduct monthly <em>Contract Reviews</em> before new feature commitments to assess risks and resource needs. Maintain <em>SQA Plan</em> with sections on: Management structure, Standards and Practices (PCI-DSS, OWASP), Reviews and Audits schedule, Testing strategy (unit, integration, security, performance, pen-testing), and Configuration Management. Form an <em>SQA Committee</em> with representatives from development, operations, security, and management. Schedule quarterly <em>Software Audit Reviews</em> by external auditors to assess compliance with PCI-DSS and internal standards.</p>
+      <p><strong>Reliability Targets for Payment Gateway:</strong> Since this is a financial system, set targets: MTBF ≥ 8760 hours (1 year), MTTR ≤ 1 hour, Availability ≥ 99.99% ("four nines"). Monitor via reliability metrics dashboard.</p>
+      <p><strong>Risks and Mitigations:</strong> Risk: engineers resist process changes (cultural resistance). Mitigation: leadership commitment, celebrate process wins, show data that proves quality improvement. Risk: ISO audit failures. Mitigation: run mock audits at Month 6 and Month 8 using the same criteria.</p>
+      <p><strong>Outcome by Month 18:</strong> ISO 9001 certified (achieved by Month 9). At or approaching CMM Level 4 with a robust metrics program. Production bugs reduced significantly. Releases are predictable. Customer trust in the payment gateway is measurably higher. The organization is on a clear roadmap toward CMM Level 5.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q22</div><div class="q-text">Explain in detail the complete Formal Technical Review process — from planning to follow-up — for reviewing a critical banking transaction module. Include roles, meeting protocol, documentation, and decision outcomes.</div><div class="q-marks">10 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Context:</strong> The banking transaction module handles fund transfers. Errors here have direct financial consequences. FTR is applied to verify correctness and completeness before integration testing.</p>
+      <p><strong>Step 1 — Review Scheduling and Planning:</strong> The Moderator schedules the FTR meeting at least 3 days in advance. The Author (transaction module developer) prepares and distributes the review package: source code, design documents, SRS section for transaction handling, and a specific review checklist covering boundary conditions, exception handling, concurrency, and security. Reviewers are given a maximum of 2 hours to prepare individually.</p>
+      <p><strong>Step 2 — Participant Selection:</strong> Between 3–5 people are selected. For this module: the Author (transaction developer), a Senior Developer Reviewer (checks logic/algorithms), a Security Reviewer (checks auth and injection vulnerabilities), a Test Engineer (checks testability), and the Moderator (facilitates). The Manager ensures resources are available but does not attend in an evaluative role. The Recorder is assigned (often one of the reviewers).</p>
+      <p><strong>Step 3 — Pre-Meeting Individual Review:</strong> Each reviewer studies the distributed material independently, marking issues, questions, and defects against the checklist. Issues are classified: Major (would cause functional failure), Minor (style, documentation, potential future issue), Query (clarification needed). The Moderator collects issue lists and prepares a consolidated agenda.</p>
+      <p><strong>Step 4 — The Review Meeting (Max 2 Hours):</strong> Moderator opens by setting agenda and rules: review the product, not the developer; issues are logged, not solved; no defensive behavior. Author walks through the module section-by-section (not line-by-line). Reviewers raise pre-identified issues. The Recorder documents each issue with: issue ID, location in code, type (logic/security/etc.), severity (major/minor), and assigned owner. Moderator controls pace and prevents side debates. If an issue leads to extended technical debate, it is "parked" — noted, assigned to the Author for offline investigation, and not resolved during the meeting.</p>
+      <p><strong>Step 5 — Meeting Outcome Decision:</strong> At the end of the meeting, all attendees decide collectively on one of three outcomes: (a) <strong>Accept:</strong> Module is functionally correct with no significant issues found — proceed to integration testing. (b) <strong>Conditional Accept:</strong> Minor issues found (e.g., missing null checks, unclear variable names) — Author corrects them; no second review needed; Moderator verifies corrections. (c) <strong>Reject:</strong> Major issues found (e.g., race condition in concurrent transactions, incorrect interest calculation formula) — Author must fix and the module must undergo a full re-review. All attendees sign a "sign-off sheet" indicating participation and agreement with findings.</p>
+      <p><strong>Step 6 — Review Documentation:</strong> The Recorder prepares a <em>Formal Technical Review Summary Report</em> containing: list of attendees, work product reviewed, review date/duration, consolidated issue list with severities and owners, decision reached, and corrective action due dates. This report becomes part of the project's quality records and SQA audit trail.</p>
+      <p><strong>Step 7 — Follow-Up:</strong> If Conditional Accept: Author corrects items within agreed deadline. Moderator performs a desk-check to confirm corrections. If Reject: Author performs corrections; new FTR is scheduled and the entire process repeats. Closure of all review issues is tracked in the defect management system.</p>
+      <p><strong>Outcome for Banking Module:</strong> Typical FTR findings might include unchecked integer overflow in transaction amount calculations, missing rollback logic on failed transfers, or insufficient logging for audit trails. All critical findings discovered here prevent production incidents that would be far more expensive to fix post-deployment.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q23</div><div class="q-text">SCENARIO: You are the SQA manager for a hospital management software that handles patient records and billing. During an audit, you discover: (1) no reliability data is tracked, (2) defects are only found in production, (3) no formal review processes exist, (4) there is no quality plan. Design a comprehensive SQA system for this organization.</div><div class="q-marks">10 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Situation Assessment:</strong> This organization is at <strong>CMM Level 1</strong>. Given the safety-critical nature of hospital software (patient records, billing, medication management), this is unacceptable. Software failures can directly harm patients. Regulatory requirements (health data privacy, medical device standards) demand a robust SQA system immediately.</p>
+      <p><strong>1. Establish Pre-Project SQA Components:</strong> Before any new development begins, introduce mandatory <em>Contract Reviews</em>. Every new feature or system must have: written requirements signed off by clinical stakeholders, resource and schedule estimates reviewed for feasibility, development risk assessment (especially for patient safety and data privacy), and a clearly defined quality plan. The quality plan must specify measurable quality goals (e.g., defect density &lt;1 defect/KLOC before release, system availability ≥99.5%), entry/exit criteria for each development phase, and scheduled review and testing activities.</p>
+      <p><strong>2. Implement a Review Process:</strong> Introduce <em>Formal Technical Reviews (FTRs)</em> for all critical modules — patient record management, billing engine, and medication tracking. Each review will follow the standard FTR process: 3–5 participants, 2-hour limit, Moderator-controlled, with formal documentation. Introduce <em>Code Reviews</em> as mandatory gates before code integration. For complex algorithms (e.g., billing calculations), require <em>Technical Reviews</em> by senior engineers. This directly addresses the problem of defects only being found in production.</p>
+      <p><strong>3. Reliability Tracking Program:</strong> Set up a reliability metrics system immediately. Deploy logging in production to capture failure events with timestamps. Calculate and track MTBF, MTTF, MTTR, and Availability monthly. Set targets: Availability ≥99.9% for patient records system; MTTR ≤30 minutes for critical failures. Use run charts to visualize reliability trends. Alert the SQA team when failure rate exceeds baseline.</p>
+      <p><strong>4. Statistical SQA Implementation:</strong> Begin defect tracking in a formal system (e.g., Jira). Categorize defects by origin (requirements, design, coding, testing), severity, and module. Apply <em>Pareto Analysis</em> monthly to identify the top defect-causing categories. Use <em>Control Charts</em> to monitor defect injection rates per sprint. Create <em>Fishbone Diagrams</em> for every critical production defect to prevent recurrence.</p>
+      <p><strong>5. SQA Plan Documentation:</strong> Create a formal SQA Plan with these sections: Management (SQA team structure, roles, reporting lines — an SQA unit reporting directly to CTO); Standards and Practices (coding standards, documentation standards, healthcare data standards); Reviews and Audits (monthly code reviews, quarterly external audits for regulatory compliance); Testing (test strategy: unit, integration, UAT with clinical staff, regression, security/penetration testing for patient data); Configuration Management (version control, change control board for production changes).</p>
+      <p><strong>6. Training:</strong> SQA cannot work without people who understand it. Conduct mandatory training: all developers on defined coding standards and review process; clinical stakeholders on how to write effective requirements; management on interpreting quality metrics and making quality-driven decisions.</p>
+      <p><strong>7. Audit and Certification Path:</strong> Begin working toward ISO 9001 certification (achievable within 12–18 months) and eventually CMM Level 3. Conduct quarterly <em>Software Audit Reviews</em> — ideally with external reviewers — to assess compliance with the SQA plan and healthcare regulations (HIPAA-equivalent standards in India).</p>
+      <p><strong>Expected Outcomes:</strong> Within 6 months: defects caught in reviews rather than production; baseline reliability data established. Within 12 months: measurable reduction in production defects; ISO 9001 pre-assessment ready. Within 18 months: ISO 9001 certification; CMM Level 2/3 achievable; patient safety risks from software significantly reduced.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q24</div><div class="q-text">A software system fails 3 times in 900 hours with repair times of 2, 4, and 6 hours. A new requirement demands 99.95% availability. Analyze current availability, identify the gap, and recommend two specific engineering approaches to meet the target. Show all calculations.</div><div class="q-marks">8 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Step 1 — Current Reliability Metrics:</strong></p>
+      <p>Number of Failures = 3 | Total Operating Time = 900 hours | Total Repair Time = 2 + 4 + 6 = 12 hours</p>
+      <p><strong>MTTF</strong> = 900 / 3 = 300 hours</p>
+      <p><strong>MTTR</strong> = 12 / 3 = 4 hours</p>
+      <p><strong>MTBF</strong> = 300 + 4 = 304 hours</p>
+      <p><strong>Current Availability</strong> = 304 / (304 + 4) = 304 / 308 = <strong>0.98701 = 98.70%</strong></p>
+      <p><strong>Step 2 — Gap Analysis:</strong></p>
+      <p>Required Availability = 99.95% = 0.9995</p>
+      <p>Current Availability = 98.70% = 0.9870</p>
+      <p><strong>Gap = 99.95% − 98.70% = 1.25%</strong></p>
+      <p>This may seem small, but in a 1000-hour period, current system is down ~13 hours vs. only 0.5 hours allowed at 99.95%. That is a 26× reduction in permitted downtime.</p>
+      <p><strong>Step 3 — What MTBF/MTTR are needed for 99.95%?</strong></p>
+      <p>With MTTR = 4 hours: MTBF / (MTBF + 4) = 0.9995 → MTBF = 0.9995 × MTBF + 3.998 → 0.0005 MTBF = 3.998 → MTBF = <strong>7996 hours</strong>. This requires a ~26× increase in MTBF — very difficult.</p>
+      <p>Alternatively, with MTBF = 304: 304 / (304 + MTTR) = 0.9995 → MTTR = 304 / 0.9995 − 304 = <strong>0.152 hours ≈ 9 minutes</strong>. This requires reducing MTTR from 4 hours to 9 minutes — aggressive but potentially feasible.</p>
+      <p><strong>Engineering Approach 1 — Automated Failover / Redundancy:</strong> Deploy active-passive redundancy. When the primary system fails, a standby automatically takes over in &lt;1 minute (hot standby). This reduces effective MTTR from 4 hours (manual repair) to minutes, potentially achieving the 9-minute MTTR target. Cloud auto-scaling groups and Kubernetes pod restarts implement this automatically.</p>
+      <p><strong>Engineering Approach 2 — Defect Prevention (Increase MTBF):</strong> Invest in CMM Level 5 practices — defect prevention through root-cause analysis of all 3 failures. If failures were caused by memory leaks (identified via Fishbone), introduce memory management reviews, static analysis tools, and stress testing. Goal: reduce failure rate from 3 per 900 hours toward 1 per 900 hours, tripling MTBF to ~900 hours. Combined with automated failover, the combined effect can meet the 99.95% target.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q25</div><div class="q-text">Critically compare ISO 9000 and SEI-CMM as quality frameworks. When should an organization choose one over the other? Use examples.</div><div class="q-marks">10 marks</div></div>
+    <div class="q-ans">
+      <p>Both ISO 9000 and SEI-CMM are quality improvement frameworks, but they differ fundamentally in scope, approach, and applicability.</p>
+      <p><strong>ISO 9000 — Overview:</strong> An international standard (declared 1987) developed by a consortium of 63 countries. It provides a requirements-based framework for establishing a quality management system. ISO 9001 (the certifiable standard) defines what an organization <em>must do</em> to ensure quality. Certification is a binary result — either certified or not. The focus is on documentation, process definition, and customer satisfaction across any industry.</p>
+      <p><strong>SEI-CMM — Overview:</strong> Developed specifically for software by Carnegie Mellon's SEI. It provides a staged, evolutionary roadmap from Level 1 (chaotic) to Level 5 (optimizing). Rather than binary certification, CMM provides a continuous improvement scale. It is prescriptive about <em>how</em> to improve software processes through specific Key Process Areas.</p>
+      <p><strong>Key Differences:</strong></p>
+      <p><em>Scope:</em> ISO 9000 applies to any industry (manufacturing, service, software). CMM is software-specific. A bakery can get ISO 9001; only a software organization pursues CMM.</p>
+      <p><em>Assessment:</em> ISO 9000 results in a pass/fail certification. CMM produces a maturity level rating (1–5), giving a much richer picture of organizational capability and improvement trajectory.</p>
+      <p><em>Prescription:</em> ISO 9001 defines what to achieve (document processes, meet customer requirements, continually improve) but not how. CMM prescribes specific KPAs and practices to follow at each level, making it more actionable for software organizations.</p>
+      <p><em>Continuity:</em> ISO 9001 certification requires periodic re-audits to maintain. CMM improvement is continuous and does not expire — but typically organizations seek periodic re-assessments for benchmarking.</p>
+      <p><em>Level Correspondence:</em> ISO 9001 certification roughly corresponds to CMM <strong>Level 3 (Defined)</strong> — where processes are documented and standardized. CMM Levels 4 and 5 go significantly beyond ISO 9001 in quantitative measurement and continuous innovation.</p>
+      <p><strong>When to Choose ISO 9000:</strong> (1) A software company that also serves non-software clients or operates in regulated industries where ISO certification is contractually required. (2) When entering international markets where ISO certification is a procurement requirement. (3) When the organization wants a universally recognized quality badge that applies across departments (HR, procurement, development). Example: a software company bidding for a government supply contract where ISO 9001 is mandatory.</p>
+      <p><strong>When to Choose CMM:</strong> (1) When the organization is purely software-focused and wants a detailed, actionable roadmap for process improvement. (2) When bidding for US DoD contracts or other defense/aerospace contracts where CMM Level 3 or higher is required. (3) When the organization wants to mature from Level 1 chaos to disciplined, metric-driven development. Example: an Indian IT services company (like Infosys or TCS) seeking CMMI Level 5 to demonstrate world-class software processes to multinational clients.</p>
+      <p><strong>Best Practice:</strong> Leading organizations pursue both. ISO 9001 provides the external, universally recognized certification. CMM provides the internal improvement roadmap. An organization achieves ISO 9001 at CMM Level 3 and continues CMM improvement toward Levels 4 and 5 beyond ISO requirements.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q26</div><div class="q-text">Explain all five software reliability models. Under what conditions would you recommend Goel-Okumoto over Jelinski-Moranda? Use a comparative scenario.</div><div class="q-marks">8 marks</div></div>
+    <div class="q-ans">
+      <p><strong>1. Jelinski–Moranda Model:</strong> This is the oldest and simplest reliability model. It assumes that the software contains N initial defects, each contributing an equal and constant hazard (failure rate) to the overall system. When a defect is discovered and removed, the failure rate drops by exactly 1/N. Assumption: all defects are equally likely to be triggered and equally simple to fix. Limitation: unrealistic in practice — some defects are much harder to find and some contribute far more to failures than others.</p>
+      <p><strong>2. Goel–Okumoto (NHPP) Model:</strong> Uses a Non-Homogeneous Poisson Process. The key assumption is that the failure rate changes over time (not constant). The expected number of failures by time t follows a concave, S-shaped or exponential growth curve. More flexible than Jelinski–Moranda because it models the reality that defect detection rates vary across testing phases. Widely used in industry for predicting cumulative failures over time.</p>
+      <p><strong>3. Musa's Basic Execution Time Model:</strong> Instead of calendar time, this model uses CPU execution time as the basis for measurement. Failure rate is proportional to execution intensity (how actively the program is used). The model links reliability to actual usage — a program that runs rarely will show fewer failures than one running 24/7. Very practical for embedded and mission-critical software.</p>
+      <p><strong>4. Schneidewind Model:</strong> Divides the testing period into intervals and applies least squares regression to observed failure data to predict future failure counts. It is particularly useful when you have historical failure data from multiple testing phases and want to forecast remaining defects.</p>
+      <p><strong>5. Littlewood–Verrall Model:</strong> Assumes a <em>variable</em> failure rate per defect — unlike Jelinski–Moranda's constant rate. Each defect has its own difficulty level, so some defects trigger failures more frequently than others. This is more realistic and statistically sound, though more complex to parameterize.</p>
+      <p><strong>Jelinski–Moranda vs. Goel–Okumoto — Comparison:</strong></p>
+      <p><em>Scenario:</em> You are testing an e-commerce platform. In the first week, failures occur frequently (10/day). In the third week, failures drop to 2/day. In week 5, only 0.3/day. This is a classic <em>decreasing failure rate pattern</em> — exactly what NHPP models like Goel–Okumoto capture elegantly. Jelinski–Moranda would predict a linear, uniform decrease (proportional to defects removed), which doesn't match this real-world S-curve behavior.</p>
+      <p><strong>Recommendation:</strong> Use <strong>Goel–Okumoto</strong> when: the failure rate is non-constant (varies over testing phases), you have enough historical data to fit the NHPP curve, and you need to predict the remaining number of failures and optimal software release time. Use Jelinski–Moranda only for quick, rough estimates when minimal data is available and uniform defect characteristics can be assumed.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q27</div><div class="q-text">Define and differentiate: Quality Control vs. Quality Assurance vs. Total Quality Management. Provide a real-world software example for each.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Quality Control (QC):</strong> QC is a reactive process that identifies and removes defects from a finished or near-finished product. It focuses on product inspection and defect detection. Additionally, QC determines the causes of defects so they can be corrected — not just rejected. It is a step up from pure inspection. <em>Software Example:</em> Running a comprehensive regression test suite against build v2.1 and finding 15 bugs. Fixing those bugs and re-testing. The testing activity itself is QC.</p>
+      <p><strong>Quality Assurance (QA):</strong> QA is proactive and process-focused. The premise is: if the development process is properly defined and followed, quality products will naturally result. QA defines the processes, standards, and procedures that the development team must follow — before and during development, not just at the end. <em>Software Example:</em> Defining a mandatory code review checklist, a testing policy, and a change management procedure. Auditing projects to confirm these policies are followed. ISO 9000 embodies QA philosophy.</p>
+      <p><strong>Total Quality Management (TQM):</strong> TQM takes QA further by requiring continuous process improvement through measurement and optimization. It doesn't just document good processes — it actively optimizes them using metrics and data. Linked to Business Process Reengineering (BPR). Involves all employees in quality improvement. <em>Software Example:</em> Using monthly Pareto analysis of defect data to identify that requirement-phase errors cause 60% of all bugs. Redesigning the requirements workshop process to include structured review and user story validation. Measuring the improvement. Then repeating the cycle. This is TQM in software.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q28</div><div class="q-text">What are the types of software reviews? Compare Walkthrough, Technical Review, and Inspection on the basis of purpose, rigor, participants, and documentation.</div><div class="q-marks">5 marks</div></div>
+    <div class="q-ans">
+      <p>Software reviews are systematic inspections of software work products to detect defects early in the SDLC. The three main peer review types differ significantly in structure and purpose:</p>
+      <p><strong>Walkthrough:</strong> An author-led review where the author guides team members through the software artifact (design, code, or document). The primary purpose is <em>educational</em> — team members learn the author's approach while also providing defect feedback. Participants ask questions and comment on defects. Rigor is low to moderate — no strict agenda is required. Documentation is informal. Best used early in development for knowledge transfer and high-level issue discovery.</p>
+      <p><strong>Technical Review:</strong> A team of highly qualified individuals (domain experts, architects, security specialists) examines the software against client use cases and established technical standards. Purpose is to <em>identify technical defects</em> from a standards/compliance perspective. Rigor is high. Participants are selected for specific technical expertise. Documentation includes a formal technical issues list. Best used for critical architectural decisions, security review, or standards compliance verification.</p>
+      <p><strong>Inspection:</strong> The most rigorous and formal review type. Reviewers follow a <em>well-defined, documented inspection process</em> with specific checklists, entry/exit criteria, and defined roles (Moderator, Author, Reviewer, Recorder). Purpose is systematic, disciplined defect detection. Documentation is comprehensive and becomes part of the project quality record. Historically shown to find the highest defect density of any review technique. Best used for critical modules before integration testing.</p>
+      <p><strong>Summary:</strong> Walkthrough (low formality, educational) → Technical Review (medium-high formality, expertise-driven) → Inspection (highest formality, defect-focused). FTR encompasses all three, with Inspection being the FTR ideal.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q29</div><div class="q-text">SCENARIO: Two students debate CMM. Student A says: "CMM Level 3 is sufficient — once processes are documented, we're done." Student B says: "Level 3 is just the beginning — Levels 4 and 5 deliver the real competitive advantage." Who is correct? Justify with technical detail and industry examples.</div><div class="q-marks">10 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Position:</strong> Student B is correct. CMM Level 3, while representing a significant achievement, is foundational — not the destination. Levels 4 and 5 deliver qualitatively different and measurably superior outcomes.</p>
+      <p><strong>Why Level 3 is "Just the Beginning":</strong></p>
+      <p>At CMM Level 3 (Defined), processes are documented, standardized, and consistently followed. This eliminates the chaos of Level 1 and the management gaps of Level 2. However, Level 3 has a critical weakness: process and product quality are <em>not quantitatively measured</em>. Engineers know what process to follow but cannot answer: "Is our process working well? By how much did our defect rate improve? Will this release meet our quality targets?" At Level 3, decision-making is still largely intuition-based, not data-driven. This is exactly what ISO 9000 achieves — and while ISO 9001 is valuable, world-class software organizations don't stop there.</p>
+      <p><strong>CMM Level 4 — The Power of Measurement:</strong> At Level 4 (Managed), the organization deploys comprehensive software metrics. Product metrics (defect density, code complexity, reliability) and Process metrics (defect removal efficiency, productivity per phase, review effectiveness) are collected and analyzed. This enables true process control: if the defect rate in code reviews exceeds the Upper Control Limit on a control chart, engineers know immediately and investigate the cause. Decisions are evidence-based, not opinion-based. Example: a Level 4 organization can calculate their Defect Removal Efficiency (DRE) — if they find 90% of all defects before release, they know 10% reach customers and can calculate expected field failure rates. They can make a quantitative release decision: "Based on current DRE and defect density, release will have ≤0.3 defects/KLOC." A Level 3 organization simply cannot make this statement.</p>
+      <p><strong>CMM Level 5 — The Innovation Edge:</strong> At Level 5 (Optimizing), the organization uses collected measurement data to drive <em>continuous process improvement and defect prevention</em>. Rather than reacting to defects, they analyze root causes of defect classes and redesign the process to prevent the entire class from occurring. Technology Change Management means new tools (AI-assisted code review, static analysis) are adopted in a managed way that enhances quality. Process Change Management ensures improvements propagate organization-wide. This is the competitive differentiator in the global software market.</p>
+      <p><strong>Industry Examples:</strong> Companies like <strong>NASA's Software Engineering Division</strong> achieved CMM Level 5 and reported defect densities of 0.1 defects per KLOC — compared to industry averages of 1–10 defects/KLOC. Indian IT giants like <strong>TCS, Infosys, and Wipro</strong> have maintained CMMI Level 5 (the modern evolution of CMM) because their enterprise clients — Boeing, Goldman Sachs, healthcare providers — contractually require it as proof of process maturity. These organizations don't just document processes (Level 3) — they measure, analyze, and optimize them continuously.</p>
+      <p><strong>To Student A:</strong> Documentation is necessary but not sufficient. Documented processes that aren't measured can silently degrade. Without Level 4 measurement, you don't know if your Level 3 processes are actually effective. Without Level 5 innovation, you don't improve them. Level 3 is the foundation; Levels 4 and 5 build the competitive advantage.</p>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-head"><div class="q-num">Q30</div><div class="q-text">COMPREHENSIVE SCENARIO: A software company is assessed at CMM Level 2. They want to achieve CMM Level 4 and ISO 9001 simultaneously within 2 years. Their metrics show: 500 bugs/release, 8 failures in 2000 hours (MTTR = 3 hr), and their top defect categories are: Requirements (45%), Design (30%), Code (20%), Testing (5%). Design a complete quality improvement plan covering: (a) a step-by-step CMM progression, (b) reliability improvement targets with calculations, (c) Pareto-based defect reduction strategy, (d) FTR implementation plan, and (e) ISO 9001 roadmap.</div><div class="q-marks">15 marks</div></div>
+    <div class="q-ans">
+      <p><strong>Current State Baseline:</strong></p>
+      <p>CMM Level: 2 | Defect rate: 500 bugs/release | Failures: 8 in 2000 hours | MTTR: 3 hours</p>
+      <p>MTTF = 2000/8 = 250 hr | MTBF = 250 + 3 = 253 hr | Availability = 253/256 = 98.83%</p>
+      <p>Defect distribution: Requirements 45% (225 bugs), Design 30% (150 bugs), Code 20% (100 bugs), Testing 5% (25 bugs)</p>
+
+      <p><strong>(a) CMM Level 2 → Level 3 → Level 4 Progression Plan:</strong></p>
+      <p><em>Months 1–6: Strengthening Level 2 Foundation:</em> Audit all Level 2 KPAs — Requirements Management, Project Planning, Tracking, SQA, Configuration Management. Many Level 2 organizations have these in name only. Rigorously implement: requirements traceability matrix (every design/code element traces to a requirement), formal project tracking dashboards (earned value management), mandatory SQA participation in all phases. This sets a solid platform.</p>
+      <p><em>Months 7–14: Achieving Level 3 (Organization-Wide Standardization):</em> Implement Organization Process Definition — create a defined Software Development Methodology tailored to the company. Establish Organization Process Focus — a process group (SEPG: Software Engineering Process Group) responsible for defining, maintaining, and improving all processes. Launch a Training Program ensuring all engineers are certified in defined processes. Implement Integrated Software Management — every project uses the standard process (with tailoring where justified). Deploy mandatory Peer Reviews for all work products. Establish Intergroup Coordination protocols between requirements, design, dev, and test teams.</p>
+      <p><em>Months 15–24: Achieving Level 4 (Quantitative Management):</em> Implement Quantitative Process Management — define process capability baselines for key metrics. Implement Software Quality Management — set quantitative quality targets per project. Deploy measurement infrastructure (metrics collection tools, dashboards). This is where the company begins managing by data, not intuition.</p>
+
+      <p><strong>(b) Reliability Improvement Targets:</strong></p>
+      <p>Current: MTBF = 253 hr, Availability = 98.83%</p>
+      <p>Target Availability: 99.5% (reasonable improvement for a non-safety-critical system over 2 years)</p>
+      <p>With MTTR = 3 hr: x/(x+3) = 0.995 → x = 0.995x + 2.985 → 0.005x = 2.985 → x = 597 hr</p>
+      <p>Required MTBF = <strong>597 hours</strong> (vs. current 253). This requires reducing failure rate by ~2.4×.</p>
+      <p>Strategy to achieve: (1) Defect prevention (Pareto-driven) will reduce failures from requirements/design defects. (2) Improved testing (from FTR implementation) will catch coding defects before release. (3) Automated monitoring + runbook will reduce MTTR from 3 hours to 1.5 hours. With MTTR = 1.5 hr: required MTBF = 298 hr — much more achievable.</p>
+      <p>New target with reduced MTTR: MTBF = 300 hr → Availability = 300/301.5 = 99.5%. Achievable.</p>
+
+      <p><strong>(c) Pareto-Based Defect Reduction Strategy:</strong></p>
+      <p>The 80-20 rule applies here: Requirements (45%) and Design (30%) = 75% of all defects = the "vital few." Eliminating these two categories would reduce bugs from 500 to ~125 per release (a 75% reduction).</p>
+      <p><em>Requirements defects (225/release):</em> Root causes (via Fishbone analysis): ambiguous requirements, unreviewed requirements, missing non-functional requirements. Solution: Implement mandatory Requirements Review sessions with customers, introduce requirements quality checklist (measurable, unambiguous, complete, verifiable), use use-case scenarios and acceptance criteria. Expected: 60% reduction in requirements defects → 90 instead of 225.</p>
+      <p><em>Design defects (150/release):</em> Root causes: no design review, no architecture standards, inconsistent data modeling. Solution: Mandatory Technical Reviews for all high-level and detailed designs, design patterns library, architecture review board for major decisions. Expected: 50% reduction → 75 instead of 150.</p>
+      <p><em>After Pareto intervention:</em> Requirements: 90, Design: 75, Code: 100, Testing: 25 = ~290 bugs/release (42% total reduction in Year 1).</p>
+      <p><em>Year 2 — Deeper Root Cause Work:</em> Use Control Charts to monitor defect rates by category sprint-over-sprint. When requirements defects show a spike (above UCL), trigger an immediate requirements process review. Continuously apply the Pareto → root cause → process fix → measure cycle.</p>
+
+      <p><strong>(d) FTR Implementation Plan:</strong></p>
+      <p><em>Month 1–2:</em> Select and train Moderators — at least 3 senior engineers certified in FTR facilitation. Create review checklists for: requirements documents, design specifications, and code modules. Define FTR procedure document and disseminate to all teams.</p>
+      <p><em>Month 3 onward:</em> Mandatory FTR for: all requirements documents before design begins, all architectural design documents before detailed design, all critical modules (payment, authentication, data processing) before integration. Optional (but encouraged) for: all code before merge via lightweight code review. Track FTR metrics: issues found per review, major vs. minor ratio, correction turnaround time.</p>
+      <p><em>FTR meeting protocol:</em> 3–5 people, ≤2 hours, formal sign-off, Recorder documents all issues. Three-tier outcome: Accept, Conditional Accept, Reject. All FTR reports archived for audit trail.</p>
+
+      <p><strong>(e) ISO 9001 Roadmap:</strong></p>
+      <p><em>Month 1–3:</em> Gap analysis against ISO 9001:2015 requirements. Identify non-conformances. Appoint Management Representative (MR) responsible for ISO.</p>
+      <p><em>Month 4–8:</em> Develop Quality Manual and all required procedures. Implement the 7 quality management principles. Establish customer feedback mechanisms. Conduct internal audits against ISO requirements.</p>
+      <p><em>Month 9:</em> Apply to ISO registrar. Undergo pre-assessment.</p>
+      <p><em>Month 10–11:</em> Address pre-assessment findings. Undergo document review and adequacy audit.</p>
+      <p><em>Month 12:</em> Compliance audit. Address findings.</p>
+      <p><em>Month 13–14:</em> Registration — ISO 9001 certification achieved.</p>
+      <p><em>Ongoing:</em> Annual surveillance audits by registrar. Monthly internal audits. Continued improvement aligned with CMM Level 4 metrics program.</p>
+      <p><strong>Final State (Month 24):</strong> CMM Level 4 | ISO 9001 Certified | Bugs/release ≤ 150 (from 500) | Availability ≥ 99.5% (from 98.83%) | Data-driven quality decisions across all teams. The organization is positioned for CMM Level 5 in the following 2-year cycle.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHEAT SHEET
+═══════════════════════════════════════════ -->
+<div id="cheatsheet" class="cheatsheet">
+  <div class="cheatsheet-header">
+    <h2>⚡ Quick Revision Cheat Sheet</h2>
+    <p style="color:var(--ink3);font-style:italic;">All key concepts, formulas, and mnemonics at a glance</p>
+  </div>
+
+  <h3>🔢 Key Formulas — Reliability Metrics</h3>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="f-name">MTTF</div>
+      <div class="f-eq">= Total Operating Time / #Failures</div>
+      <div class="f-desc">Mean Time To First Failure</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">MTTR</div>
+      <div class="f-eq">= Total Repair Time / #Repairs</div>
+      <div class="f-desc">Mean Time To Repair</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">MTBF</div>
+      <div class="f-eq">= MTTF + MTTR</div>
+      <div class="f-desc">Mean Time Between Failures</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Availability</div>
+      <div class="f-eq">= MTBF / (MTBF + MTTR)</div>
+      <div class="f-desc">System uptime percentage</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-name">Failure Rate (λ)</div>
+      <div class="f-eq">= #Failures / Operating Time</div>
+      <div class="f-desc">Also = 1/MTBF</div>
+    </div>
+  </div>
+
+  <h3>📦 Concept Summary Cards</h3>
+  <div class="cs-grid">
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-blue">Software Quality</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Fitness of Purpose</strong> — does what users want</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>Attributes: Correctness, Reliability, Efficiency, Integrity, Usability, Maintainability, Portability, Reusability, Flexibility</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>McCall's Model:</strong> Operation + Revision + Transition</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>Functional correctness ≠ Quality (bad UI example)</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-green">QMS Evolution (4 Stages)</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>1. Inspection</strong> — find &amp; remove defective products</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>2. QC</strong> — find defects + root cause analysis</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>3. QA</strong> — good process → good product (ISO 9000)</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>4. TQM</strong> — continuous improvement + BPR</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>Shift: Product Assurance → Process Assurance</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-orange">FTR Quick Facts</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Participants:</strong> 3–5 people</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Prep:</strong> ≤2 hours per person</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Duration:</strong> &lt;2 hours</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Roles:</strong> Moderator, Author, Reviewer, Recorder, Manager</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Outcomes:</strong> Accept / Conditional Accept / Reject</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>Review the PRODUCT, not the PRODUCER</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-red">CMM 5 Levels</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>L1 Initial</strong> — Chaotic, ad hoc (no KPAs)</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>L2 Repeatable</strong> — Basic PM, COCOMO, FP estimation</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>L3 Defined</strong> — Documented org-wide; ISO 9000 level</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>L4 Managed</strong> — Metrics, Pareto, control charts</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>L5 Optimizing</strong> — Continuous improvement, defect prevention</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-dark">ISO 9000 Key Points</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>9001</strong> — Design+Dev+Production+Service (software ✅)</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>9002</strong> — Production only (no software design ❌)</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>9003</strong> — Installation &amp; testing only ❌</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>7 Principles: Customer Focus, Leadership, People, Process, Improvement, Evidence, Relationships</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>Steps: Apply → Pre-assess → Doc Review → Compliance → Register → Continued inspection</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-blue">SQA System</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span>Ongoing process — quality in EVERY phase</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>6 Component Classes: Pre-project, Lifecycle Assessment, Error Prevention, Quality Mgmt, Standardization, Human</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>Pre-project: Contract Review + Quality Plan</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span>SQA Plan: Management, Standards, Reviews, Testing, Config Mgmt</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-green">Statistical SQA</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Pareto (80-20):</strong> 20% causes → 80% defects</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Control Charts:</strong> UCL / CL / LCL — detect special cause variation</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Histogram:</strong> visualize defect distribution</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Scatter Diagram:</strong> correlation between variables</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Fishbone:</strong> root cause analysis (Level 4)</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-orange">Review Types Comparison</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Walkthrough:</strong> Author-led, educational, informal</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Technical Review:</strong> Expert-led, standards compliance</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Inspection:</strong> Most rigorous, defined process, checklists</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Code Review:</strong> Source code examination</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Pair Programming:</strong> 2 devs, 1 workstation, simultaneous</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Audit:</strong> External reviewers, compliance check</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head cs-h-red">Reliability Models (5)</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Jelinski–Moranda:</strong> Constant failure rate / defect</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Goel–Okumoto:</strong> NHPP, variable rate over time ⭐</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Musa:</strong> Based on CPU execution time</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Schneidewind:</strong> Least squares, interval-based</span></div>
+        <div class="cs-item"><div class="cs-dot"></div><span><strong>Littlewood–Verrall:</strong> Variable rate per defect (most realistic)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>🧠 Quick Mnemonics</h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Concept</th><th>Mnemonic / Trick</th></tr></thead>
+    <tbody>
+      <tr><td>QMS Evolution (4 stages)</td><td><strong>I-Q-A-T:</strong> Inspection → QC → QA → TQM (or "I Quickly Assure Total")</td></tr>
+      <tr><td>CMM 5 Levels</td><td><strong>I R D M O:</strong> Initial, Repeatable, Defined, Managed, Optimizing ("I Really Do More Often")</td></tr>
+      <tr><td>FTR Roles (5)</td><td><strong>M-A-R-R-M:</strong> Moderator, Author, Reviewer, Recorder, Manager ("MARRy a Manager")</td></tr>
+      <tr><td>ISO 7 Principles</td><td><strong>CL E P I E R:</strong> Customer, Leadership, Engagement, Process, Improvement, Evidence, Relationships ("CLEPI ER")</td></tr>
+      <tr><td>McCall's 3 Perspectives</td><td><strong>ORT:</strong> Operation, Revision, Transition ("ORT-hopaedic")</td></tr>
+      <tr><td>Reliability formula</td><td>MTBF = MTTF + MTTR ("Between = To + To Repair")</td></tr>
+      <tr><td>ISO 9001 vs 9002</td><td>9001 = Design+Dev (software ✅) | 9002 = Production only (no design) | 9003 = Testing only</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>⚖️ Key Comparisons at a Glance</h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Aspect</th><th>ISO 9000</th><th>SEI-CMM</th></tr></thead>
+    <tbody>
+      <tr><td>Origin</td><td>International consortium (63 countries)</td><td>Carnegie Mellon SEI</td></tr>
+      <tr><td>Scope</td><td>Any industry</td><td>Software-specific</td></tr>
+      <tr><td>Result</td><td>Binary: Certified / Not</td><td>Maturity Level 1–5</td></tr>
+      <tr><td>Focus</td><td>What to achieve (requirements)</td><td>How to improve (prescriptive KPAs)</td></tr>
+      <tr><td>CMM Equivalent</td><td>≈ CMM Level 3</td><td>Levels 1–5</td></tr>
+      <tr><td>Maintenance</td><td>Periodic re-audits</td><td>Continuous improvement</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="warn-box">
+    <p>⚠️ <strong>Exam Traps:</strong> (1) CMM is NOT a software process model — it's an assessment framework. (2) ISO 9000 does NOT apply to the product directly — it applies to the process. (3) ISO 9002 does NOT apply to software development. (4) MTBF = MTTF + MTTR (not just operating time ÷ failures). (5) CMM cannot skip levels. (6) FTR focuses on the product, never the producer/developer personally.</p>
+  </div>
+
+</div>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+</body>
+</html>
