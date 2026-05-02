@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java OOP — Complete Pseudocode & Algorithm Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Nunito:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #f8f6f0;
+    --surface: #ffffff;
+    --surface2: #f0ede4;
+    --border: #e0dbd0;
+    --text: #1a1714;
+    --text2: #5a5550;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --accent3: #27ae60;
+    --accent4: #2980b9;
+    --accent5: #8e44ad;
+    --code-bg: #1e1e2e;
+    --code-text: #cdd6f4;
+    --code-keyword: #cba6f7;
+    --code-string: #a6e3a1;
+    --code-comment: #6c7086;
+    --code-number: #fab387;
+    --code-class: #89dceb;
+    --tag-bg: #fdecea;
+    --tag-text: #c0392b;
+    --hint-bg: #eaf4fb;
+    --hint-text: #1a5276;
+    --warn-bg: #fef9e7;
+    --warn-text: #7d6608;
+    --ok-bg: #eafaf1;
+    --ok-text: #1e8449;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* ─── Header ─── */
+  .main-header {
+    background: var(--text);
+    color: #fff;
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .main-header::before {
+    content: "JAVA";
+    position: absolute;
+    right: -20px;
+    top: -30px;
+    font-family: 'Syne', sans-serif;
+    font-size: 180px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+  }
+  .main-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .main-header h1 span { color: #f39c12; }
+  .main-header p {
+    font-size: 20px;
+    color: rgba(255,255,255,0.75);
+    max-width: 700px;
+  }
+  .badge {
+    display: inline-block;
+    background: #f39c12;
+    color: #1a1714;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── TOC ─── */
+  .toc {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin: 32px 40px;
+  }
+  .toc h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 20px; }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 8px;
+  }
+  .toc a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 600;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+  }
+  .toc a:hover { background: var(--surface2); border-color: var(--border); }
+  .toc-num {
+    background: var(--text);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ─── Layout ─── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
+
+  /* ─── Section ─── */
+  .section {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .section-header .sub { font-size: 15px; color: var(--text2); margin-top: 2px; }
+  .section-body { padding: 32px; }
+
+  /* ─── Sub-topics ─── */
+  .topic { margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1.5px dashed var(--border); }
+  .topic:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .topic-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topic-title::before {
+    content: '';
+    display: inline-block;
+    width: 5px; height: 22px;
+    border-radius: 3px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ─── Explanation box ─── */
+  .explain {
+    background: var(--surface2);
+    border-left: 4px solid var(--accent2);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+  .explain strong { color: var(--accent); }
+  .hin { color: #8B4513; font-style: italic; }
+
+  /* ─── Callout boxes ─── */
+  .callout {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .callout.exam { background: var(--tag-bg); color: var(--tag-text); border: 1.5px solid #f5b7b1; }
+  .callout.tip  { background: var(--hint-bg); color: var(--hint-text); border: 1.5px solid #aed6f1; }
+  .callout.warn { background: var(--warn-bg); color: var(--warn-text); border: 1.5px solid #f9e79f; }
+  .callout.ok   { background: var(--ok-bg);   color: var(--ok-text);   border: 1.5px solid #a9dfbf; }
+
+  /* ─── Code blocks ─── */
+  .code-wrap {
+    background: var(--code-bg);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 16px 0;
+    border: 1.5px solid #313244;
+  }
+  .code-header {
+    background: #181825;
+    padding: 10px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .code-lang {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #6c7086;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .code-dots { display: flex; gap: 6px; }
+  .code-dots span { width: 12px; height: 12px; border-radius: 50%; }
+  .code-dots .r { background: #f38ba8; }
+  .code-dots .y { background: #f9e2af; }
+  .code-dots .g { background: #a6e3a1; }
+  pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: var(--code-text);
+    padding: 22px 24px;
+    overflow-x: auto;
+    line-height: 1.7;
+  }
+  .kw  { color: var(--code-keyword); font-weight: 700; }
+  .st  { color: var(--code-string); }
+  .cm  { color: var(--code-comment); font-style: italic; }
+  .nm  { color: var(--code-number); }
+  .cl  { color: var(--code-class); }
+  .fn  { color: #89b4fa; }
+
+  /* ─── Pseudo-algo box ─── */
+  .algo {
+    background: #f5f5f5;
+    border: 2px solid #d5d5d5;
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #2c2c2c;
+  }
+  .algo .a-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .al  { color: #16a085; font-weight: 700; }
+  .ac  { color: #8e44ad; }
+
+  /* ─── Syntax box ─── */
+  .syntax {
+    background: #fffdf5;
+    border: 2px dashed #f0c040;
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin: 14px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: #3d3100;
+  }
+  .syntax-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a0870a;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* ─── Scenario Questions ─── */
+  .scenario-section {
+    background: linear-gradient(135deg, #fff9f2, #fef5ec);
+    border: 2px solid #f0c080;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .scenario-header {
+    background: var(--accent2);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .scenario-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .scenario-header p { color: rgba(255,255,255,0.85); font-size: 16px; }
+  .scenario-body { padding: 32px; }
+
+  .q-card {
+    background: #fff;
+    border: 2px solid #f0c080;
+    border-radius: 16px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .q-head {
+    background: #fef3e2;
+    padding: 16px 24px;
+    border-bottom: 1.5px solid #f0c080;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .q-num {
+    background: var(--accent2);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .q-text { font-size: 17px; font-weight: 700; line-height: 1.5; }
+  .q-scenario { font-size: 15px; color: var(--text2); margin-top: 4px; font-style: italic; }
+  .q-body { padding: 20px 24px; }
+  .q-body .q-hint { 
+    font-size: 15px; color: #7d6608;
+    background: var(--warn-bg);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+  }
+
+  .ans-toggle {
+    background: var(--text);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    transition: background 0.2s;
+  }
+  .ans-toggle:hover { background: var(--accent); }
+  .ans-box { display: none; }
+  .ans-box.open { display: block; }
+
+  /* ─── Diff table ─── */
+  .diff-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin: 16px 0;
+  }
+  .diff-table th {
+    background: var(--text);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  .diff-table td {
+    padding: 12px 16px;
+    border-bottom: 1.5px solid var(--border);
+    vertical-align: top;
+  }
+  .diff-table tr:nth-child(even) td { background: var(--surface2); }
+
+  /* ─── Lifecycle visual ─── */
+  .lifecycle {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .lc-state {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    min-width: 100px;
+  }
+  .lc-arrow {
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 700;
+    padding: 0 6px;
+  }
+  .lc-state.active { background: #1a1714; color: #fff; border-color: #1a1714; }
+
+  /* ─── Pill tags ─── */
+  .pill {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 3px;
+  }
+  .pill.red   { background: #fdecea; border-color: #f5b7b1; color: var(--accent); }
+  .pill.blue  { background: var(--hint-bg); border-color: #aed6f1; color: var(--accent4); }
+  .pill.green { background: var(--ok-bg); border-color: #a9dfbf; color: var(--accent3); }
+  .pill.purple{ background: #f5eef8; border-color: #d2b4de; color: var(--accent5); }
+
+  /* ─── scrollbar ─── */
+  pre::-webkit-scrollbar { height: 6px; }
+  pre::-webkit-scrollbar-thumb { background: #45475a; border-radius: 3px; }
+
+  /* ─── responsive ─── */
+  @media(max-width:700px) {
+    .main-header { padding: 32px 20px; }
+    .main-header h1 { font-size: 30px; }
+    .container { padding: 0 16px 60px; }
+    .section-body, .scenario-body { padding: 20px 16px; }
+    .toc { margin: 16px; padding: 20px; }
+    .toc-grid { grid-template-columns: 1fr; }
+    pre { font-size: 13px; }
+    .lifecycle { gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<div class="main-header">
+  <div class="badge">OOP Using Java — 24CSH-207</div>
+  <h1>Complete Java <span>Pseudocode</span><br>& Algorithm Guide</h1>
+  <p>Unit 1 & Unit 2 — Sab topics covered with Hinglish explanation, pseudocode, syntax, algorithms & scenario-based questions</p>
+</div>
+
+<!-- ════════ TOC ════════ -->
+<div class="toc">
+  <h2>📋 Table of Contents</h2>
+  <div class="toc-grid">
+    <a href="#s1"><span class="toc-num">1</span> Java Basics & Architecture</a>
+    <a href="#s2"><span class="toc-num">2</span> OOP Concepts (Class, Object, Encap, Poly)</a>
+    <a href="#s3"><span class="toc-num">3</span> Control Flow & Loops</a>
+    <a href="#s4"><span class="toc-num">4</span> Scanner — User Input</a>
+    <a href="#s5"><span class="toc-num">5</span> Abstract Class & Static</a>
+    <a href="#s6"><span class="toc-num">6</span> Inner Class & Packages</a>
+    <a href="#s7"><span class="toc-num">7</span> Constructors, this & super</a>
+    <a href="#s8"><span class="toc-num">8</span> Exception Handling</a>
+    <a href="#s9"><span class="toc-num">9</span> Java IO Streams (Byte + Character)</a>
+    <a href="#s10"><span class="toc-num">10</span> Serialization & Filter Streams</a>
+    <a href="#s11"><span class="toc-num">11</span> Piped I/O</a>
+    <a href="#s12"><span class="toc-num">12</span> Multithreading</a>
+    <a href="#s13"><span class="toc-num">13</span> Thread Synchronization</a>
+    <a href="#sq"><span class="toc-num">Q</span> Scenario-Based Code Questions</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ════════════════════════════════════
+     SECTION 1 — JAVA BASICS
+════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fdecea;">☕</div>
+    <div>
+      <h2>Java Basics & Architecture</h2>
+      <div class="sub">JVM, JRE, JDK, Compilation Flow, First Program</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Java Execution Pseudocode</div>
+      <div class="explain">
+        <strong>Samjho yaar:</strong> Java ka code seedha machine pe nahi chalta.
+        Pehle <span class="hin">.java → .class (bytecode)</span> banta hai, phir JVM isko machine-specific code mein convert karta hai.
+        Isi wajah se Java <em>"Write Once, Run Anywhere"</em> hai!
+      </div>
+      <div class="algo">
+        <span class="a-title">Algorithm — Java Program Execution</span>
+<span class="al">BEGIN</span>
+  STEP 1: Write Java Source Code  → <span class="ac">Sample.java</span>
+  STEP 2: Compile using javac     → <span class="ac">Sample.class</span>  (Bytecode)
+  STEP 3: Class Loader loads .class file into JVM
+  STEP 4: Bytecode Verifier checks rules/validity
+  STEP 5: JIT Compiler / Interpreter converts bytecode → Machine Code
+  STEP 6: Execute on OS
+<span class="al">END</span>
+      </div>
+      <div class="callout exam"><div class="callout-icon">🎯</div><div><b>Exam Alert:</b> Correct order: Java Source → Compilation → Class Loader → Byte Code Verification → Interpretation → Execution.</div></div>
+
+      <div class="syntax"><span class="syntax-label">Syntax — First Java Program</span>
+<span class="kw">public class</span> <span class="cl">HelloWorld</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        System.out.println(<span class="st">"Hello, World!"</span>);
+    }
+}
+      </div>
+      <div class="explain">
+        <strong>Breakdown (Hinglish):</strong><br>
+        🔹 <code>public class HelloWorld</code> — Class ka naam file ke naam se same hona chahiye<br>
+        🔹 <code>public static void main(String[] args)</code> — Yahi entry point hai Java program ka<br>
+        🔹 <code>System.out.println()</code> — Console pe print karta hai + newline add karta hai<br>
+        🔹 <code>System.out.print()</code> — Newline add nahi karta
+      </div>
+
+      <div class="callout tip"><div class="callout-icon">💡</div><div><b>JVM vs JRE vs JDK:</b><br>
+      JVM (Virtual Machine) → Bytecode run karta hai<br>
+      JRE (Runtime Env) → JVM + Libraries — sirf run karne ke liye<br>
+      JDK (Dev Kit) → JRE + Compiler (javac) + Tools — development ke liye
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 2 — OOP
+════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-icon" style="background:#eaf4fb;">🧱</div>
+    <div>
+      <h2>OOP Concepts</h2>
+      <div class="sub">Class, Object, Encapsulation, Abstraction, Inheritance, Polymorphism</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Class & Object</div>
+      <div class="explain">
+        <strong>Class</strong> = Blueprint / Template. Jaise <span class="hin">Car ka design</span>.<br>
+        <strong>Object</strong> = Blueprint se bana actual cheez. Jaise <span class="hin">woh specific red Honda Civic</span>.
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Class & Object</span>
+<span class="al">DEFINE</span> class Rectangle {
+    <span class="ac">DECLARE</span> int length, width        <span class="cm">// Instance Variables</span>
+    
+    <span class="al">METHOD</span> getData(int x, int y) {
+        length = x
+        width  = y
+    }
+    
+    <span class="al">METHOD</span> rectArea() {
+        <span class="al">RETURN</span> length * width
+    }
+}
+
+<span class="al">IN MAIN</span>:
+    Rectangle rect1 = <span class="al">NEW</span> Rectangle()  <span class="cm">// Object creation</span>
+    rect1.getData(20, 12)               <span class="cm">// Method call</span>
+    area = rect1.rectArea()             <span class="cm">// Returns 240</span>
+    <span class="al">PRINT</span> area
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Class & Object</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">Rectangle</span> {
+    <span class="kw">int</span> length, width;           <span class="cm">// instance variables</span>
+
+    <span class="kw">void</span> <span class="fn">getData</span>(<span class="kw">int</span> x, <span class="kw">int</span> y) {
+        length = x;
+        width  = y;
+    }
+
+    <span class="kw">int</span> <span class="fn">rectArea</span>() {
+        <span class="kw">return</span> length * width;
+    }
+}
+
+<span class="kw">class</span> <span class="cl">RectArea</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Rectangle rect1 = <span class="kw">new</span> Rectangle();  <span class="cm">// Object creation</span>
+        rect1.getData(<span class="nm">20</span>, <span class="nm">12</span>);
+        <span class="kw">int</span> area = rect1.rectArea();        <span class="cm">// 240</span>
+        System.out.println(<span class="st">"Area = "</span> + area);
+    }
+}
+</pre>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Encapsulation (Data Hiding)</div>
+      <div class="explain">
+        <strong>Encapsulation</strong> = Private variables + Public getters/setters.<br>
+        <span class="hin">Matlab: bahar se direct access mat karo, methods ke through karo.</span>
+      </div>
+      <div class="syntax"><span class="syntax-label">Syntax — Encapsulation</span>
+<span class="kw">class</span> <span class="cl">BankAccount</span> {
+    <span class="kw">private double</span> balance;      <span class="cm">// private → bahar access nahi</span>
+
+    <span class="kw">public double</span> <span class="fn">getBalance</span>() {   <span class="cm">// getter</span>
+        <span class="kw">return</span> balance;
+    }
+    <span class="kw">public void</span> <span class="fn">setBalance</span>(<span class="kw">double</span> b) {  <span class="cm">// setter</span>
+        <span class="kw">if</span>(b >= <span class="nm">0</span>) balance = b;
+    }
+}
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Abstraction (Abstract Class)</div>
+      <div class="explain">
+        <strong>Abstraction</strong> = Sirf essential cheezein dikhao, implementation hide karo.<br>
+        <span class="hin">Jaise Car chalana: accelerator/brake pata hai, engine internal kaise kaam karta hai nahi pata.</span><br>
+        Abstract class: 0–100% abstraction. Interface: 100%.
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Abstract Class</span>
+<span class="al">ABSTRACT CLASS</span> Animal {
+    <span class="al">ABSTRACT METHOD</span> sound()   <span class="cm">// body nahi → subclass must implement</span>
+    <span class="al">METHOD</span> breathe() {
+        <span class="al">PRINT</span> "Inhale... Exhale..."
+    }
+}
+
+<span class="al">CLASS</span> Dog <span class="al">EXTENDS</span> Animal {
+    <span class="al">METHOD</span> sound() {
+        <span class="al">PRINT</span> "Woof!"
+    }
+}
+
+<span class="al">MAIN</span>:
+    Animal a = <span class="al">NEW</span> Dog()
+    a.sound()    <span class="cm">→ "Woof!"</span>
+    a.breathe()  <span class="cm">→ "Inhale... Exhale..."</span>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Abstract Class (Bank Example)</span></div>
+<pre>
+<span class="kw">abstract class</span> <span class="cl">Bank</span> {
+    <span class="kw">abstract int</span> <span class="fn">getRateOfInterest</span>();   <span class="cm">// no body!</span>
+}
+<span class="kw">class</span> <span class="cl">SBI</span> <span class="kw">extends</span> <span class="cl">Bank</span> {
+    <span class="kw">int</span> <span class="fn">getRateOfInterest</span>() { <span class="kw">return</span> <span class="nm">7</span>; }
+}
+<span class="kw">class</span> <span class="cl">PNB</span> <span class="kw">extends</span> <span class="cl">Bank</span> {
+    <span class="kw">int</span> <span class="fn">getRateOfInterest</span>() { <span class="kw">return</span> <span class="nm">8</span>; }
+}
+<span class="kw">class</span> <span class="cl">TestBank</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Bank b = <span class="kw">new</span> SBI();
+        System.out.println(<span class="st">"SBI: "</span> + b.getRateOfInterest()); <span class="cm">// 7</span>
+        b = <span class="kw">new</span> PNB();
+        System.out.println(<span class="st">"PNB: "</span> + b.getRateOfInterest()); <span class="cm">// 8</span>
+    }
+}
+</pre>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Inheritance</div>
+      <div class="explain">
+        <strong>Inheritance</strong> = Ek class doosri class ki properties aur methods inherit kare.<br>
+        <span class="hin">Jaise Beta apne Baap ki properties inherit karta hai.</span><br>
+        Keyword: <code>extends</code>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Inheritance</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">Animal</span> {                    <span class="cm">// Parent class</span>
+    String name;
+    <span class="cl">Animal</span>(String name) { <span class="kw">this</span>.name = name; }
+    <span class="kw">void</span> <span class="fn">sound</span>() { System.out.println(<span class="st">"Animals make sounds"</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {       <span class="cm">// Child class</span>
+    <span class="cl">Dog</span>(String name) { <span class="kw">super</span>(name); }   <span class="cm">// calls parent constructor</span>
+    <span class="kw">void</span> <span class="fn">sound</span>() { System.out.println(name + <span class="st">" says: Woof!"</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Dog d = <span class="kw">new</span> Dog(<span class="st">"Bruno"</span>);
+        d.sound();   <span class="cm">// "Bruno says: Woof!"</span>
+    }
+}
+</pre>
+      </div>
+      <div class="callout warn"><div class="callout-icon">⚠️</div><div><b>Java mein multiple inheritance classes se nahi hoti</b> (diamond problem hoga). Sirf Interfaces se multiple inheritance possible hai.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 3 — CONTROL FLOW
+════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-icon" style="background:#eafaf1;">🔀</div>
+    <div>
+      <h2>Control Flow & Loops</h2>
+      <div class="sub">if-else, for, while, do-while, break, continue, enhanced-for</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">All Loop Types — Pseudocode + Syntax</div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — All Loops</span>
+<span class="cm">// FOR loop — jab iterations ki count pata ho</span>
+<span class="al">FOR</span> i = 1 <span class="al">TO</span> n {
+    process(i)
+}
+
+<span class="cm">// WHILE loop — jab condition-based iteration chahiye</span>
+<span class="al">WHILE</span> (condition is TRUE) {
+    process()
+    update condition
+}
+
+<span class="cm">// DO-WHILE — body pehle ek baar zaroor chalti hai</span>
+<span class="al">DO</span> {
+    process()
+} <span class="al">WHILE</span> (condition)
+
+<span class="cm">// ENHANCED FOR — arrays/collections ke liye</span>
+<span class="al">FOR EACH</span> element <span class="al">IN</span> collection {
+    process(element)
+}
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Loop</th><th>Condition Check</th><th>Use When</th></tr>
+        <tr><td><code>for</code></td><td>Loop start pe</td><td>Iterations ki count pata ho</td></tr>
+        <tr><td><code>while</code></td><td>Loop start pe</td><td>Condition-based, count unknown</td></tr>
+        <tr><td><code>do-while</code></td><td>Loop end pe</td><td>Body ek baar zaroor chalani ho</td></tr>
+        <tr><td><code>for-each</code></td><td>Internally</td><td>Array/Collection traverse karna ho</td></tr>
+      </table>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — All Loops</span></div>
+<pre>
+<span class="cm">// Enhanced For Loop</span>
+<span class="kw">int</span>[] numbers = {<span class="nm">10</span>, <span class="nm">20</span>, <span class="nm">30</span>, <span class="nm">40</span>, <span class="nm">50</span>};
+<span class="kw">for</span>(<span class="kw">int</span> i : numbers) {
+    System.out.println(<span class="st">"Value: "</span> + i);
+}
+
+<span class="cm">// Infinite For Loop</span>
+<span class="kw">for</span>(;;) {
+    System.out.println(<span class="st">"Infinite!"</span>);  <span class="cm">// Use break to exit</span>
+}
+
+<span class="cm">// Break Example — search karo array mein</span>
+<span class="kw">int</span>[] arr = {<span class="nm">5</span>, <span class="nm">10</span>, <span class="nm">15</span>, <span class="nm">20</span>};
+<span class="kw">int</span> search = <span class="nm">15</span>;
+<span class="kw">for</span>(<span class="kw">int</span> n = <span class="nm">0</span>; n &lt; arr.length; n++) {
+    <span class="kw">if</span>(arr[n] == search) {
+        System.out.println(<span class="st">"Found at index: "</span> + n);
+        <span class="kw">break</span>;   <span class="cm">// loop se bahar niklo</span>
+    }
+}
+
+<span class="cm">// Continue Example — skip odd numbers</span>
+<span class="kw">for</span>(<span class="kw">int</span> j = <span class="nm">1</span>; j &lt;= <span class="nm">10</span>; j++) {
+    <span class="kw">if</span>(j % <span class="nm">2</span> != <span class="nm">0</span>) <span class="kw">continue</span>;  <span class="cm">// odd skip</span>
+    System.out.println(j);    <span class="cm">// only even: 2,4,6,8,10</span>
+}
+</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 4 — SCANNER
+════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-icon" style="background:#f5eef8;">⌨️</div>
+    <div>
+      <h2>Scanner — User Input</h2>
+      <div class="sub">Keyboard se input lena, Scanner class methods</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="topic">
+      <div class="topic-title">Scanner Pseudocode</div>
+      <div class="explain">
+        <strong>Concept:</strong> Information keyboard se stream ke through program mein aata hai.<br>
+        <span class="hin">System.in = keyboard stream. Scanner isse meaningful data (int, String, etc.) mein convert karta hai.</span>
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Scanner Input</span>
+<span class="al">IMPORT</span> java.util.Scanner
+
+<span class="al">IN MAIN</span>:
+    Scanner sc = <span class="al">NEW</span> Scanner(System.in)  <span class="cm">// keyboard se stream connect karo</span>
+    
+    <span class="al">PRINT</span> "Enter first number: "
+    int a = sc.nextInt()                  <span class="cm">// int input lo</span>
+    
+    <span class="al">PRINT</span> "Enter your name: "
+    String name = sc.nextLine()           <span class="cm">// String input lo</span>
+    
+    <span class="al">PRINT</span> "Enter salary: "
+    double sal = sc.nextDouble()          <span class="cm">// double input lo</span>
+    
+    <span class="al">PROCESS</span> data...
+    sc.close()                            <span class="cm">// resource free karo</span>
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Method</th><th>Data Type</th><th>Use</th></tr>
+        <tr><td><code>nextInt()</code></td><td>int</td><td>Integer input</td></tr>
+        <tr><td><code>nextDouble()</code></td><td>double</td><td>Decimal input</td></tr>
+        <tr><td><code>nextLine()</code></td><td>String</td><td>Full line input (spaces bhi)</td></tr>
+        <tr><td><code>next()</code></td><td>String</td><td>Single word (space tak)</td></tr>
+        <tr><td><code>nextBoolean()</code></td><td>boolean</td><td>true/false input</td></tr>
+        <tr><td><code>nextFloat()</code></td><td>float</td><td>Float input</td></tr>
+      </table>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Scanner Addition Program</span></div>
+<pre>
+<span class="kw">import</span> java.util.Scanner;
+
+<span class="kw">public class</span> <span class="cl">Addition</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Scanner s = <span class="kw">new</span> Scanner(System.in);
+
+        System.out.print(<span class="st">"Enter first number: "</span>);
+        <span class="kw">int</span> a = s.nextInt();
+
+        System.out.print(<span class="st">"Enter second number: "</span>);
+        <span class="kw">int</span> b = s.nextInt();
+
+        System.out.println(<span class="st">"Sum = "</span> + (a + b));
+        s.close();
+    }
+}
+</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 5 — ABSTRACT + STATIC
+════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fef9e7;">🏗️</div>
+    <div>
+      <h2>Abstract Class & Static</h2>
+      <div class="sub">abstract keyword, static variable/method/block/nested class</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Static — Variable, Method, Block</div>
+      <div class="explain">
+        <strong>Static</strong> = Class ka member, object ka nahi.<br>
+        <span class="hin">Matlab: ek baar memory mein — saare objects share karte hain. Object banaye bina access kar sakte ho.</span>
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Static</span>
+<span class="al">CLASS</span> Student {
+    <span class="al">STATIC VAR</span> collegeName = "CU"   <span class="cm">// shared by all objects</span>
+    String name
+
+    <span class="al">STATIC METHOD</span> getCollege() {
+        <span class="al">RETURN</span> collegeName
+    }
+
+    <span class="al">STATIC BLOCK</span> {           <span class="cm">// runs BEFORE main(), at class loading</span>
+        collegeName = "Chandigarh University"
+    }
+}
+
+<span class="cm">// Access without object:</span>
+Student.getCollege()
+Student.collegeName
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Static Method & Variable</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">SimpleStaticExample</span> {
+    <span class="kw">static int</span> count = <span class="nm">0</span>;         <span class="cm">// static variable</span>
+
+    <span class="kw">static void</span> <span class="fn">myMethod</span>() {      <span class="cm">// static method</span>
+        count++;
+        System.out.println(<span class="st">"Count = "</span> + count);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="cl">SimpleStaticExample</span>.myMethod();  <span class="cm">// Count = 1</span>
+        <span class="cl">SimpleStaticExample</span>.myMethod();  <span class="cm">// Count = 2</span>
+    }
+}
+</pre>
+      </div>
+      <div class="callout exam"><div class="callout-icon">🎯</div><div><b>Key Differences:</b> Static variable → class level (shared). Instance variable → object level (unique per object). Static method → can't use <code>this</code> keyword.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 6 — INNER CLASS + PACKAGES
+════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-icon" style="background:#eafaf1;">📦</div>
+    <div>
+      <h2>Inner Class & Packages</h2>
+      <div class="sub">Nested, Method-Local, Anonymous, Static Nested | Packages, import</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Types of Inner Classes — Pseudocode</div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Inner Class Types</span>
+<span class="cm">// 1. NESTED INNER CLASS — private access bhi milti hai outer class ki</span>
+<span class="al">CLASS</span> Outer {
+    <span class="al">CLASS</span> Inner {
+        <span class="al">METHOD</span> show() { print "Inner class" }
+    }
+}
+<span class="cm">// Access: Outer.Inner obj = new Outer().new Inner()</span>
+
+<span class="cm">// 2. METHOD-LOCAL INNER CLASS — method ke andar define hoti hai</span>
+<span class="al">CLASS</span> Outer {
+    <span class="al">METHOD</span> outerMethod() {
+        <span class="al">CLASS</span> Inner {  <span class="cm">// only inside this method</span>
+            <span class="al">METHOD</span> innerMethod() { print "Local" }
+        }
+        Inner y = <span class="al">NEW</span> Inner()
+        y.innerMethod()
+    }
+}
+
+<span class="cm">// 3. ANONYMOUS INNER CLASS — name nahi hota</span>
+Interface/Class obj = <span class="al">NEW</span> BaseClass() {
+    <span class="cm">// override method here on the fly</span>
+}
+
+<span class="cm">// 4. STATIC NESTED CLASS — outer object ki zaroorat nahi</span>
+<span class="al">CLASS</span> Outer {
+    <span class="al">STATIC CLASS</span> Inner {
+        <span class="al">STATIC METHOD</span> msg() { print "Static nested" }
+    }
+}
+<span class="cm">// Access: Outer.Inner.msg()</span>
+      </div>
+
+      <div class="callout tip"><div class="callout-icon">💡</div><div><b>Package Imports:</b><br>
+      <code>import package.*</code> → Sab classes import<br>
+      <code>import package.ClassName</code> → Specific class<br>
+      <code>fully.qualified.ClassName obj</code> → Import bhi nahi chahiye
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 7 — CONSTRUCTORS
+════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fdecea;">🔧</div>
+    <div>
+      <h2>Constructors, <code>this</code> & <code>super</code></h2>
+      <div class="sub">Default, Parameterized, this(), super(), Access Control</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Constructors Pseudocode</div>
+      <div class="explain">
+        <strong>Constructor</strong> = Object create hone pe automatically call hone wala special method.<br>
+        <span class="hin">Same name as class, no return type. Constructor overload kar sakte hain.</span>
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Constructor</span>
+<span class="al">CLASS</span> Geek {
+    String name
+    int id
+
+    <span class="cm">// Default Constructor (no args)</span>
+    <span class="al">CONSTRUCTOR</span> Geek() {
+        print "Default constructor called"
+    }
+
+    <span class="cm">// Parameterized Constructor</span>
+    <span class="al">CONSTRUCTOR</span> Geek(String name, int id) {
+        <span class="al">this</span>.name = name      <span class="cm">// this = current object</span>
+        <span class="al">this</span>.id   = id
+    }
+
+    <span class="cm">// Constructor Chaining with this()</span>
+    <span class="al">CONSTRUCTOR</span> Geek(String name) {
+        <span class="al">this</span>(name, 0)           <span class="cm">// calls parameterized constructor</span>
+    }
+}
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — this & super Keywords</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">Vehicle</span> {
+    <span class="kw">int</span> maxSpeed = <span class="nm">120</span>;
+}
+<span class="kw">class</span> <span class="cl">Car</span> <span class="kw">extends</span> <span class="cl">Vehicle</span> {
+    <span class="kw">int</span> maxSpeed = <span class="nm">180</span>;
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        System.out.println(<span class="st">"Car max: "</span> + maxSpeed);       <span class="cm">// 180</span>
+        System.out.println(<span class="st">"Vehicle max: "</span> + <span class="kw">super</span>.maxSpeed); <span class="cm">// 120</span>
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Test</span> {
+    <span class="kw">int</span> a, b;
+    <span class="cl">Test</span>(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+        <span class="kw">this</span>.a = a;   <span class="cm">// this → current object ka a</span>
+        <span class="kw">this</span>.b = b;
+    }
+    <span class="cl">Test</span>() {
+        <span class="kw">this</span>(<span class="nm">10</span>, <span class="nm">20</span>);  <span class="cm">// constructor chaining</span>
+    }
+}
+</pre>
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Keyword</th><th>Refer karta hai</th><th>Use</th></tr>
+        <tr><td><code>this</code></td><td>Current object</td><td>Instance variables, constructor chaining</td></tr>
+        <tr><td><code>super</code></td><td>Parent class object</td><td>Parent method/variable access, parent constructor call</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 8 — EXCEPTION HANDLING
+════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fdecea;">⚠️</div>
+    <div>
+      <h2>Exception Handling</h2>
+      <div class="sub">try-catch-finally, throw, throws, Custom Exception, final/finally/finalize</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Exception Handling — Full Pseudocode</div>
+      <div class="explain">
+        <strong>Exception</strong> = Program runtime pe kuch galat ho gaya.<br>
+        <span class="hin">Jaise file nahi mili, divide by zero, array out of bounds. Normal flow rok deta hai — isliye handle karo!</span>
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — try-catch-finally</span>
+<span class="al">TRY</span> {
+    risky_statement_1
+    risky_statement_2    <span class="cm">← exception yahan hua</span>
+    risky_statement_3    <span class="cm">← yeh execute nahi hoga</span>
+}
+<span class="al">CATCH</span> (ArithmeticException e) {
+    handle divide-by-zero
+}
+<span class="al">CATCH</span> (ArrayIndexOutOfBoundsException e) {
+    handle array access
+}
+<span class="al">CATCH</span> (Exception e) {         <span class="cm">// Generic handler — ALWAYS LAST</span>
+    handle any exception
+}
+<span class="al">FINALLY</span> {
+    <span class="cm">// HAMESHA execute hoga — exception ho ya na ho</span>
+    close resources, cleanup
+}
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — try-catch-finally + throw + throws</span></div>
+<pre>
+<span class="cm">// --- Basic try-catch ---</span>
+<span class="kw">try</span> {
+    <span class="kw">int</span> result = <span class="nm">10</span> / <span class="nm">0</span>;        <span class="cm">// ArithmeticException!</span>
+} <span class="kw">catch</span> (ArithmeticException e) {
+    System.out.println(<span class="st">"Can't divide by zero: "</span> + e.getMessage());
+} <span class="kw">finally</span> {
+    System.out.println(<span class="st">"This always runs!"</span>);
+}
+
+<span class="cm">// --- throw keyword ---</span>
+<span class="kw">void</span> <span class="fn">checkAge</span>(<span class="kw">int</span> age) {
+    <span class="kw">if</span>(age &lt; <span class="nm">18</span>)
+        <span class="kw">throw new</span> <span class="cl">ArithmeticException</span>(<span class="st">"Not eligible!"</span>);
+}
+
+<span class="cm">// --- throws keyword ---</span>
+<span class="kw">void</span> <span class="fn">readFile</span>(String path) <span class="kw">throws</span> IOException {
+    FileReader fr = <span class="kw">new</span> FileReader(path);  <span class="cm">// may throw IOException</span>
+}
+
+<span class="cm">// --- Custom Exception ---</span>
+<span class="kw">class</span> <span class="cl">AgeException</span> <span class="kw">extends</span> <span class="cl">Exception</span> {
+    <span class="cl">AgeException</span>(String msg) { <span class="kw">super</span>(msg); }
+}
+</pre>
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Keyword</th><th>Kya karta hai</th><th>Where used</th></tr>
+        <tr><td><code>throw</code></td><td>Exception manually throw karta hai</td><td>Method body mein</td></tr>
+        <tr><td><code>throws</code></td><td>Caller ko batata hai ki exception aa sakta hai</td><td>Method signature mein</td></tr>
+        <tr><td><code>final</code></td><td>Variable/method/class ko restrict karta hai</td><td>Keyword</td></tr>
+        <tr><td><code>finally</code></td><td>Hamesha execute hota hai</td><td>Block (after try-catch)</td></tr>
+        <tr><td><code>finalize()</code></td><td>Garbage collection se pehle call hota hai</td><td>Method (Object class)</td></tr>
+      </table>
+
+      <div class="callout exam"><div class="callout-icon">🎯</div><div><b>Exception Types:</b><br>
+      <b>Checked</b> = Compile time (FileNotFoundException, IOException) — handle karna mandatory<br>
+      <b>Unchecked</b> = Runtime (NullPointerException, ArrayIndexOutOfBoundsException) — optional handling<br>
+      <b>Error</b> = System level (StackOverflowError) — handle mat karo usually
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 9 — IO STREAMS
+════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-icon" style="background:#eaf4fb;">📂</div>
+    <div>
+      <h2>Java IO Streams</h2>
+      <div class="sub">OutputStream, InputStream, FileOutputStream, FileInputStream, ByteArray, Char Streams, FileWriter/Reader</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Stream Types — Overview</div>
+      <div class="explain">
+        <strong>Stream</strong> = Data ka flow — ek jagah se doosri jagah.<br>
+        <span class="hin">Jaise paani pipe mein flow karta hai, stream mein data flow karta hai.</span><br>
+        <b>Byte Streams</b> = Binary data (images, raw bytes). <b>Character Streams</b> = Text data (Unicode).
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Stream Type</th><th>Base Class</th><th>Use</th><th>Example Classes</th></tr>
+        <tr><td><span class="pill blue">Byte Input</span></td><td>InputStream</td><td>File/binary read</td><td>FileInputStream, ByteArrayInputStream</td></tr>
+        <tr><td><span class="pill red">Byte Output</span></td><td>OutputStream</td><td>File/binary write</td><td>FileOutputStream, ByteArrayOutputStream</td></tr>
+        <tr><td><span class="pill green">Char Input</span></td><td>Reader</td><td>Text read</td><td>FileReader, CharArrayReader, FilterReader</td></tr>
+        <tr><td><span class="pill purple">Char Output</span></td><td>Writer</td><td>Text write</td><td>FileWriter, CharArrayWriter, FilterWriter</td></tr>
+      </table>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">FileOutputStream & FileInputStream — Pseudocode</div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Write to File (FileOutputStream)</span>
+<span class="al">ALGORITHM WriteToFile</span>:
+  STEP 1: <span class="al">CREATE</span> FileOutputStream(filePath)  → opens file for writing
+  STEP 2: <span class="al">CALL</span>   fos.write(byte or byte[])      → data likho
+  STEP 3: <span class="al">CALL</span>   fos.flush()                    → buffer clear karo
+  STEP 4: <span class="al">CALL</span>   fos.close()                    → resource release karo
+  STEP 5: Handle IOException in try-catch
+
+<span class="a-title">Pseudocode — Read from File (FileInputStream)</span>
+<span class="al">ALGORITHM ReadFromFile</span>:
+  STEP 1: <span class="al">CREATE</span> FileInputStream(filePath)   → opens file for reading
+  STEP 2: <span class="al">DECLARE</span> int i = 0
+  STEP 3: <span class="al">WHILE</span> (i = fis.read()) != -1 {    → -1 means end of file
+              PRINT (char)i
+          }
+  STEP 4: <span class="al">CALL</span>   fis.close()
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — FileOutputStream (Write)</span></div>
+<pre>
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cl">WriteDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            FileOutputStream fout = <span class="kw">new</span> FileOutputStream(<span class="st">"output.txt"</span>);
+            String msg = <span class="st">"Hello, Java IO!"</span>;
+            <span class="kw">byte</span>[] b = msg.getBytes();
+            fout.write(b);
+            fout.close();
+            System.out.println(<span class="st">"Written successfully!"</span>);
+        } <span class="kw">catch</span> (IOException e) {
+            System.out.println(e);
+        }
+    }
+}
+</pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — FileInputStream (Read All)</span></div>
+<pre>
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cl">ReadDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            FileInputStream fin = <span class="kw">new</span> FileInputStream(<span class="st">"output.txt"</span>);
+            <span class="kw">int</span> i;
+            <span class="kw">while</span>((i = fin.read()) != -<span class="nm">1</span>) {  <span class="cm">// -1 = end of file</span>
+                System.out.print((<span class="kw">char</span>)i);
+            }
+            fin.close();
+        } <span class="kw">catch</span> (IOException e) {
+            System.out.println(e);
+        }
+    }
+}
+</pre>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">ByteArrayOutputStream & CharArrayWriter</div>
+      <div class="explain">
+        <strong>ByteArrayOutputStream</strong> = Memory mein byte array mein write karo (file nahi, RAM mein).<br>
+        <strong>CharArrayWriter</strong> = Same concept, but characters ke liye.
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — ByteArrayOutputStream</span>
+<span class="al">CREATE</span> ByteArrayOutputStream baos = <span class="al">NEW</span> ByteArrayOutputStream()
+<span class="al">WRITE</span> string.getBytes() → baos.write(bytes)
+<span class="al">PRINT</span> baos.toString()          <span class="cm">// String of written data</span>
+<span class="al">GET ARRAY</span> b[] = baos.toByteArray()  <span class="cm">// byte array nikalo</span>
+<span class="al">RESET</span> baos.reset()             <span class="cm">// buffer clear</span>
+<span class="al">COPY TO FILE</span> baos.writeTo(fileOutputStream)
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">FileWriter & FileReader (Character Streams)</div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — FileWriter</span>
+<span class="al">CREATE</span> FileWriter fw = <span class="al">NEW</span> FileWriter("file.txt")  <span class="cm">// overwrite</span>
+<span class="cm">OR</span>
+<span class="al">CREATE</span> FileWriter fw = <span class="al">NEW</span> FileWriter("file.txt", <span class="al">true</span>)  <span class="cm">// append mode</span>
+
+<span class="al">WRITE</span> fw.write(charArray)    → write char array
+<span class="al">WRITE</span> fw.write("string")     → write string directly
+<span class="al">CLOSE</span> fw.close()
+
+<span class="a-title">Pseudocode — FileReader with BufferedReader</span>
+<span class="al">CREATE</span> FileReader fr = <span class="al">NEW</span> FileReader("file.txt")
+<span class="al">CREATE</span> BufferedReader br = <span class="al">NEW</span> BufferedReader(fr)  <span class="cm">// efficient line read</span>
+<span class="al">WHILE</span> line = br.readLine() <span class="al">NOT NULL</span> {
+    <span class="al">PRINT</span> line
+}
+<span class="al">CLOSE</span> br, fr
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 10 — SERIALIZATION + FILTER
+════════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-icon" style="background:#f5eef8;">💾</div>
+    <div>
+      <h2>Serialization & Filter Streams</h2>
+      <div class="sub">Object Serialization/Deserialization, FilterWriter, FilterReader</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Object Serialization — Pseudocode</div>
+      <div class="explain">
+        <strong>Serialization</strong> = Object ko bytes mein convert karo (disk/network pe save ke liye).<br>
+        <strong>Deserialization</strong> = Bytes se wapas object banao.<br>
+        <span class="hin">Jaise freeze karna aur thaw karna!</span><br>
+        Requirement: Class must implement <code>Serializable</code> interface.
+      </div>
+      <div class="algo">
+        <span class="a-title">Algorithm — Serialization</span>
+<span class="al">SERIALIZE (Save Object)</span>:
+  1. Class <span class="al">IMPLEMENTS</span> Serializable
+  2. <span class="al">CREATE</span> FileOutputStream("filename")
+  3. <span class="al">CREATE</span> ObjectOutputStream(fileOutputStream)
+  4. <span class="al">CALL</span>   oos.writeObject(myObject)
+  5. <span class="al">FLUSH</span>  and CLOSE
+
+<span class="a-title">Algorithm — Deserialization</span>
+<span class="al">DESERIALIZE (Load Object)</span>:
+  1. <span class="al">CREATE</span> FileInputStream("filename")
+  2. <span class="al">CREATE</span> ObjectInputStream(fileInputStream)
+  3. <span class="al">CAST</span>   MyClass obj = (MyClass) ois.readObject()
+  4. <span class="al">CLOSE</span>  streams
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Serialization & Deserialization</span></div>
+<pre>
+<span class="kw">import</span> java.io.*;
+
+<span class="cm">// Class must implement Serializable</span>
+<span class="kw">class</span> <span class="cl">MyClass</span> <span class="kw">implements</span> <span class="cl">Serializable</span> {
+    String s;
+    <span class="kw">int</span> i;
+    <span class="kw">double</span> d;
+    <span class="cl">MyClass</span>(String s, <span class="kw">int</span> i, <span class="kw">double</span> d) { <span class="kw">this</span>.s=s; <span class="kw">this</span>.i=i; <span class="kw">this</span>.d=d; }
+}
+
+<span class="cm">// SERIALIZE</span>
+<span class="kw">try</span> {
+    MyClass obj1 = <span class="kw">new</span> MyClass(<span class="st">"Hello"</span>, <span class="nm">-7</span>, <span class="nm">2.7e10</span>);
+    FileOutputStream fos = <span class="kw">new</span> FileOutputStream(<span class="st">"serial.dat"</span>);
+    ObjectOutputStream oos = <span class="kw">new</span> ObjectOutputStream(fos);
+    oos.writeObject(obj1);
+    oos.close();
+} <span class="kw">catch</span>(Exception e) { e.printStackTrace(); }
+
+<span class="cm">// DESERIALIZE</span>
+<span class="kw">try</span> {
+    FileInputStream fis = <span class="kw">new</span> FileInputStream(<span class="st">"serial.dat"</span>);
+    ObjectInputStream ois = <span class="kw">new</span> ObjectInputStream(fis);
+    MyClass obj2 = (<span class="cl">MyClass</span>) ois.readObject();  <span class="cm">// Casting required!</span>
+    System.out.println(obj2.s + <span class="st">" "</span> + obj2.i);
+    ois.close();
+} <span class="kw">catch</span>(Exception e) { e.printStackTrace(); }
+</pre>
+      </div>
+
+      <div class="callout exam"><div class="callout-icon">🎯</div><div><b>Key Points:</b> Serialization JVM-independent hai — ek platform pe serialize, doosre pe deserialize. <code>transient</code> keyword wale fields serialize nahi hote.</div></div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">FilterWriter & FilterReader</div>
+      <div class="explain">
+        <strong>FilterWriter/FilterReader</strong> = Data ko filter ya process karte hue pass karo.<br>
+        <span class="hin">Jaise paani filter — andar jaata hai, process hota hai, bahar aata hai processed form mein.</span>
+      </div>
+      <div class="syntax"><span class="syntax-label">Syntax — FilterWriter</span>
+<span class="kw">Writer</span> wr = <span class="kw">new</span> StringWriter();
+FilterWriter fr = <span class="kw">new</span> FilterWriter(wr) {};  <span class="cm">// anonymous subclass</span>
+fr.write(<span class="st">"Hello"</span>);   <span class="cm">// write string</span>
+fr.flush();           <span class="cm">// buffer flush</span>
+fr.close();           <span class="cm">// close</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 11 — PIPED I/O
+════════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <div class="section-icon" style="background:#eafaf1;">🔗</div>
+    <div>
+      <h2>Piped I/O</h2>
+      <div class="sub">PipedWriter, PipedReader — Thread-to-Thread Communication</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">PipedWriter & PipedReader — Pseudocode</div>
+      <div class="explain">
+        <strong>Pipes</strong> = Ek thread data likhta hai, doosra padhta hai. Producer-Consumer pattern.<br>
+        <span class="hin">Jaise ek banda pipe mein paani daal raha hai, doosra doosre end pe pa raha hai.</span>
+      </div>
+      <div class="algo">
+        <span class="a-title">Algorithm — PipedWriter + PipedReader</span>
+<span class="al">STEP 1</span>: CREATE PipedReader read
+<span class="al">STEP 2</span>: CREATE PipedWriter write = <span class="al">NEW</span> PipedWriter(read)   <span class="cm">// connect karo</span>
+
+<span class="al">THREAD 1 (Reader)</span>:
+    <span class="al">WHILE</span> (data = read.read()) != -1 {
+        PRINT (char)data
+    }
+
+<span class="al">THREAD 2 (Writer)</span>:
+    write.write("Hello from Writer!".toCharArray())
+
+<span class="al">STEP 3</span>: START both threads
+<span class="cm">// Data writer se nikalta hai, reader ko milta hai</span>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — PipedReader & PipedWriter</span></div>
+<pre>
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cl">PipeDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> Exception {
+        <span class="kw">final</span> PipedReader read  = <span class="kw">new</span> PipedReader();
+        <span class="kw">final</span> PipedWriter write = <span class="kw">new</span> PipedWriter(read); <span class="cm">// connected!</span>
+
+        Thread readerThread = <span class="kw">new</span> Thread(() -> {
+            <span class="kw">try</span> {
+                <span class="kw">int</span> data;
+                <span class="kw">while</span>((data = read.read()) != -<span class="nm">1</span>)
+                    System.out.print((<span class="kw">char</span>)data);
+            } <span class="kw">catch</span>(Exception ex) {}
+        });
+
+        Thread writerThread = <span class="kw">new</span> Thread(() -> {
+            <span class="kw">try</span> {
+                write.write(<span class="st">"My name is Saksham"</span>.toCharArray());
+                write.close();
+            } <span class="kw">catch</span>(Exception ex) {}
+        });
+
+        readerThread.start();
+        writerThread.start();
+    }
+}
+</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 12 — MULTITHREADING
+════════════════════════════════════ -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fef9e7;">🧵</div>
+    <div>
+      <h2>Multithreading</h2>
+      <div class="sub">Thread Lifecycle, Creating Threads (Thread class & Runnable), Methods</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Thread Lifecycle</div>
+      <div class="explain">
+        <strong>Thread</strong> = Ek program ka lightweight sub-process.<br>
+        <span class="hin">Jaise ek hi time pe YouTube chalana + download bhi karna — dono alag threads hain!</span>
+      </div>
+
+      <div class="lifecycle">
+        <div class="lc-state">NEW<br><small>born</small></div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state active">RUNNABLE<br><small>start()</small></div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state">RUNNING<br><small>CPU mila</small></div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state">WAITING/<br>TIMED WAIT</div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state">TERMINATED<br><small>dead</small></div>
+      </div>
+
+      <div class="algo">
+        <span class="a-title">Algorithm — Thread Lifecycle</span>
+<span class="al">NEW</span>        → Thread object banaya, start() nahi hua
+<span class="al">RUNNABLE</span>   → start() call hua, JVM ko execute karne ke liye ready
+<span class="al">RUNNING</span>    → CPU mila, run() method execute ho rahi hai
+<span class="al">WAITING</span>    → wait()/join() call hua — doosre thread ka wait
+<span class="al">TIMED WAIT</span> → sleep(ms) call hua — fixed time wait
+<span class="al">TERMINATED</span> → run() complete ya stop() → thread dead
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Creating Threads — 2 Ways</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Way 1 — Extending Thread Class</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">MyThread</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    <span class="kw">public void</span> <span class="fn">run</span>() {           <span class="cm">// override run()</span>
+        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">5</span>; i++) {
+            System.out.println(<span class="st">"Thread: "</span> + i);
+            <span class="kw">try</span> { Thread.sleep(<span class="nm">500</span>); } <span class="cm">// 500ms wait</span>
+            <span class="kw">catch</span>(InterruptedException e) {}
+        }
+    }
+}
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        MyThread t = <span class="kw">new</span> MyThread();
+        t.start();   <span class="cm">// start() → JVM calls run()</span>
+    }
+}
+</pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Way 2 — Implementing Runnable Interface (PREFERRED)</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">MyRunnable</span> <span class="kw">implements</span> <span class="cl">Runnable</span> {
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        System.out.println(<span class="st">"Runnable thread is running!"</span>);
+    }
+}
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        MyRunnable r  = <span class="kw">new</span> MyRunnable();
+        Thread t      = <span class="kw">new</span> Thread(r);  <span class="cm">// wrap in Thread object</span>
+        t.start();
+    }
+}
+</pre>
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Method</th><th>What it does</th></tr>
+        <tr><td><code>start()</code></td><td>New thread start karta hai, JVM run() call karta hai</td></tr>
+        <tr><td><code>run()</code></td><td>Thread ka actual work — override karo</td></tr>
+        <tr><td><code>sleep(ms)</code></td><td>Thread ko ms milliseconds ke liye rokta hai</td></tr>
+        <tr><td><code>join()</code></td><td>Dusre thread ke khatam hone ka wait</td></tr>
+        <tr><td><code>getPriority()</code></td><td>Thread ki priority return karta hai (1-10)</td></tr>
+        <tr><td><code>setName()</code></td><td>Thread ka naam set karo</td></tr>
+        <tr><td><code>isAlive()</code></td><td>Thread abhi bhi chal rahi hai?</td></tr>
+      </table>
+
+      <div class="callout exam"><div class="callout-icon">🎯</div><div><b>Runnable preferred kyun?</b> Kyunki agar Thread extend kiya to aur koi class extend nahi kar sakte (Java single inheritance). Runnable implement karte ho to other class bhi extend kar sakte ho!</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 13 — SYNCHRONIZATION
+════════════════════════════════════ -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fdecea;">🔒</div>
+    <div>
+      <h2>Thread Synchronization</h2>
+      <div class="sub">synchronized method, synchronized block, static synchronization, monitor/lock</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="topic">
+      <div class="topic-title">Why Synchronization? — The Race Condition Problem</div>
+      <div class="explain">
+        <strong>Problem:</strong> Multiple threads ek hi resource access karein to data corrupt ho sakta hai.<br>
+        <span class="hin">Jaise do log ek hi bank account se simultaneously paise nikalein — disaster!</span><br>
+        <strong>Solution:</strong> <code>synchronized</code> — ek waqt mein sirf ek thread resource use kare.
+      </div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Synchronization (Monitor/Lock)</span>
+<span class="al">CONCEPT</span>:
+  Every Java object has an internal LOCK (monitor)
+  
+<span class="al">WITHOUT SYNC</span>:
+  Thread1 reads balance = 1000
+  Thread2 reads balance = 1000    ← race condition!
+  Thread1 withdraws 500 → writes 500
+  Thread2 withdraws 500 → writes 500
+  Final balance = 500 (WRONG! should be 0)
+
+<span class="al">WITH SYNC</span>:
+  Thread1 ACQUIRES lock → reads, modifies → RELEASES lock
+  Thread2 WAITS for lock → then runs
+  Final balance = 0 (CORRECT!)
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Synchronized Method</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Synchronized Method (Full Example)</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">Table</span> {
+    <span class="kw">synchronized void</span> <span class="fn">printTable</span>(<span class="kw">int</span> n) {  <span class="cm">// lock on this object</span>
+        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">5</span>; i++) {
+            System.out.println(n * i);
+            <span class="kw">try</span> { Thread.sleep(<span class="nm">400</span>); } <span class="kw">catch</span>(Exception e) {}
+        }
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Thread1</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    Table t;
+    <span class="cl">Thread1</span>(Table t) { <span class="kw">this</span>.t = t; }
+    <span class="kw">public void</span> <span class="fn">run</span>() { t.printTable(<span class="nm">5</span>); }
+}
+<span class="kw">class</span> <span class="cl">Thread2</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    Table t;
+    <span class="cl">Thread2</span>(Table t) { <span class="kw">this</span>.t = t; }
+    <span class="kw">public void</span> <span class="fn">run</span>() { t.printTable(<span class="nm">100</span>); }
+}
+
+<span class="kw">public class</span> <span class="cl">SyncDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Table obj = <span class="kw">new</span> Table();   <span class="cm">// ONE shared object</span>
+        Thread1 t1 = <span class="kw">new</span> Thread1(obj);
+        Thread2 t2 = <span class="kw">new</span> Thread2(obj);
+        t1.start();
+        t2.start();
+        <span class="cm">// Output: 5,10,15,20,25 THEN 100,200,300,400,500 (orderly)</span>
+    }
+}
+</pre>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Synchronized Block vs Static Synchronization</div>
+      <div class="algo">
+        <span class="a-title">Pseudocode — Synchronized Block</span>
+<span class="kw">void</span> doSomething() {
+    <span class="cm">// 45 lines of non-critical code here...</span>
+
+    <span class="kw">synchronized</span>(<span class="kw">this</span>) {         <span class="cm">// sirf ye 5 lines lock hain</span>
+        criticalCode_line1
+        criticalCode_line2
+        criticalCode_line3
+    }
+
+    <span class="cm">// more non-critical code...</span>
+}
+<span class="cm">// Block method se better jab sirf kuch lines critical hain</span>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Static Synchronization</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">Display</span> {
+    <span class="cm">// Lock on CLASS object (not instance) → prevents cross-object race</span>
+    <span class="kw">public static synchronized void</span> <span class="fn">displayMessage</span>(String msg) {
+        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++) {
+            System.out.println(msg);
+            <span class="kw">try</span> { Thread.sleep(<span class="nm">500</span>); } <span class="kw">catch</span>(Exception e) {}
+        }
+    }
+}
+
+<span class="kw">class</span> <span class="cl">MyThread</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    String message;
+    <span class="cl">MyThread</span>(String msg) { <span class="kw">this</span>.message = msg; }
+    <span class="kw">public void</span> <span class="fn">run</span>() { Display.displayMessage(message); }
+}
+</pre>
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Type</th><th>Lock on</th><th>Scope</th></tr>
+        <tr><td>Synchronized Method</td><td>Object (this)</td><td>Whole method</td></tr>
+        <tr><td>Synchronized Block</td><td>Specific object/this</td><td>Specific block of code</td></tr>
+        <tr><td>Static Synchronization</td><td>Class (.class)</td><td>Class-level, across all objects</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCENARIO QUESTIONS
+════════════════════════════════════ -->
+<div class="scenario-section" id="sq">
+  <div class="scenario-header">
+    <div>
+      <h2>🎯 Scenario-Based Code Questions</h2>
+      <p>Real-world situations + code answers — exam mein yahi types aate hain!</p>
+    </div>
+  </div>
+  <div class="scenario-body">
+
+    <!-- Q1 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">1</div>
+        <div>
+          <div class="q-text">Library Book System — Encapsulation & OOP</div>
+          <div class="q-scenario">🏛️ Scenario: A library wants to manage books. Each book has a title, author, and availability status. Only valid status changes should be allowed.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <div class="q-hint">💡 Hint: Use private fields + getters/setters. Validate in setter.</div>
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Library System (Encapsulation)</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">Book</span> {
+    <span class="kw">private</span> String title;
+    <span class="kw">private</span> String author;
+    <span class="kw">private boolean</span> isAvailable;
+
+    <span class="kw">public</span> <span class="cl">Book</span>(String title, String author) {
+        <span class="kw">this</span>.title  = title;
+        <span class="kw">this</span>.author = author;
+        <span class="kw">this</span>.isAvailable = <span class="kw">true</span>;
+    }
+
+    <span class="kw">public</span> String <span class="fn">getTitle</span>()  { <span class="kw">return</span> title; }
+    <span class="kw">public</span> String <span class="fn">getAuthor</span>() { <span class="kw">return</span> author; }
+    <span class="kw">public boolean</span> <span class="fn">isAvailable</span>() { <span class="kw">return</span> isAvailable; }
+
+    <span class="kw">public void</span> <span class="fn">borrowBook</span>() {
+        <span class="kw">if</span>(isAvailable) { isAvailable = <span class="kw">false</span>; System.out.println(title + <span class="st">" borrowed!"</span>); }
+        <span class="kw">else</span>            System.out.println(title + <span class="st">" already borrowed!"</span>);
+    }
+    <span class="kw">public void</span> <span class="fn">returnBook</span>() {
+        isAvailable = <span class="kw">true</span>;
+        System.out.println(title + <span class="st">" returned!"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Library</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Book b = <span class="kw">new</span> Book(<span class="st">"Java OOP"</span>, <span class="st">"Balaguruswamy"</span>);
+        b.borrowBook();   <span class="cm">// Java OOP borrowed!</span>
+        b.borrowBook();   <span class="cm">// Java OOP already borrowed!</span>
+        b.returnBook();   <span class="cm">// Java OOP returned!</span>
+        System.out.println(<span class="st">"Available: "</span> + b.isAvailable()); <span class="cm">// true</span>
+    }
+}
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">2</div>
+        <div>
+          <div class="q-text">Bank Interest Calculator — Inheritance + Abstract Class</div>
+          <div class="q-scenario">🏦 Scenario: Different banks (SBI, HDFC) have different interest rates. Design a system using abstract class so each bank can define its own rate.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <div class="q-hint">💡 Hint: Abstract class with abstract method getRateOfInterest(). Each bank class overrides it.</div>
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Bank System (Abstract + Inheritance)</span></div>
+<pre>
+<span class="kw">abstract class</span> <span class="cl">Bank</span> {
+    String bankName;
+    <span class="cl">Bank</span>(String name) { <span class="kw">this</span>.bankName = name; }
+
+    <span class="kw">abstract double</span> <span class="fn">getRateOfInterest</span>();   <span class="cm">// every bank MUST define</span>
+
+    <span class="kw">double</span> <span class="fn">calculateInterest</span>(<span class="kw">double</span> principal, <span class="kw">int</span> years) {
+        <span class="kw">return</span> (principal * getRateOfInterest() * years) / <span class="nm">100</span>;
+    }
+}
+<span class="kw">class</span> <span class="cl">SBI</span> <span class="kw">extends</span> <span class="cl">Bank</span> {
+    <span class="cl">SBI</span>() { <span class="kw">super</span>(<span class="st">"SBI"</span>); }
+    <span class="kw">double</span> <span class="fn">getRateOfInterest</span>() { <span class="kw">return</span> <span class="nm">7.5</span>; }
+}
+<span class="kw">class</span> <span class="cl">HDFC</span> <span class="kw">extends</span> <span class="cl">Bank</span> {
+    <span class="cl">HDFC</span>() { <span class="kw">super</span>(<span class="st">"HDFC"</span>); }
+    <span class="kw">double</span> <span class="fn">getRateOfInterest</span>() { <span class="kw">return</span> <span class="nm">8.2</span>; }
+}
+
+<span class="kw">public class</span> <span class="cl">BankMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Bank b1 = <span class="kw">new</span> SBI();
+        Bank b2 = <span class="kw">new</span> HDFC();
+        System.out.printf(<span class="st">"%s Interest: %.2f%n"</span>, b1.bankName, b1.calculateInterest(<span class="nm">10000</span>, <span class="nm">3</span>));
+        System.out.printf(<span class="st">"%s Interest: %.2f%n"</span>, b2.bankName, b2.calculateInterest(<span class="nm">10000</span>, <span class="nm">3</span>));
+    }
+}
+<span class="cm">// Output:
+// SBI Interest: 2250.00
+// HDFC Interest: 2460.00</span>
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">3</div>
+        <div>
+          <div class="q-text">File Copy Program — FileInputStream + FileOutputStream</div>
+          <div class="q-scenario">📁 Scenario: You need to copy the contents of "source.txt" to "destination.txt" byte by byte using Java IO streams.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <div class="q-hint">💡 Hint: Read using FileInputStream, write using FileOutputStream. Loop till read() returns -1.</div>
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — File Copy (IO Streams)</span></div>
+<pre>
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cl">FileCopy</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        FileInputStream  fis = <span class="kw">null</span>;
+        FileOutputStream fos = <span class="kw">null</span>;
+
+        <span class="kw">try</span> {
+            fis = <span class="kw">new</span> FileInputStream(<span class="st">"source.txt"</span>);
+            fos = <span class="kw">new</span> FileOutputStream(<span class="st">"destination.txt"</span>);
+
+            <span class="kw">int</span> byteData;
+            <span class="kw">while</span>((byteData = fis.read()) != -<span class="nm">1</span>) {  <span class="cm">// -1 = EOF</span>
+                fos.write(byteData);
+            }
+            System.out.println(<span class="st">"File copied successfully!"</span>);
+
+        } <span class="kw">catch</span>(FileNotFoundException e) {
+            System.out.println(<span class="st">"File not found: "</span> + e.getMessage());
+        } <span class="kw">catch</span>(IOException e) {
+            System.out.println(<span class="st">"IO error: "</span> + e.getMessage());
+        } <span class="kw">finally</span> {
+            <span class="kw">try</span> { <span class="kw">if</span>(fis != <span class="kw">null</span>) fis.close(); } <span class="kw">catch</span>(IOException e) {}
+            <span class="kw">try</span> { <span class="kw">if</span>(fos != <span class="kw">null</span>) fos.close(); } <span class="kw">catch</span>(IOException e) {}
+        }
+    }
+}
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">4</div>
+        <div>
+          <div class="q-text">Ticket Counter — Thread Synchronization</div>
+          <div class="q-scenario">🎟️ Scenario: A railway ticket counter has 5 tickets. Three agents (threads) simultaneously try to sell tickets. Ensure no double-booking occurs.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <div class="q-hint">💡 Hint: Shared tickets variable, synchronized method to sell tickets, check before decrement.</div>
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Ticket Booking (Thread Sync)</span></div>
+<pre>
+<span class="kw">class</span> <span class="cl">TicketCounter</span> {
+    <span class="kw">private int</span> tickets = <span class="nm">5</span>;  <span class="cm">// shared resource</span>
+
+    <span class="kw">synchronized void</span> <span class="fn">sellTicket</span>(String agentName) {
+        <span class="kw">if</span>(tickets > <span class="nm">0</span>) {
+            System.out.println(agentName + <span class="st">" selling ticket #"</span> + tickets);
+            <span class="kw">try</span> { Thread.sleep(<span class="nm">100</span>); } <span class="kw">catch</span>(Exception e) {}
+            tickets--;
+            System.out.println(<span class="st">"Remaining: "</span> + tickets);
+        } <span class="kw">else</span> {
+            System.out.println(agentName + <span class="st">": SOLD OUT!"</span>);
+        }
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Agent</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    TicketCounter counter;
+    <span class="cl">Agent</span>(String name, TicketCounter c) { <span class="kw">super</span>(name); counter = c; }
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">3</span>; i++)
+            counter.sellTicket(getName());
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">TicketMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        TicketCounter c = <span class="kw">new</span> TicketCounter();
+        <span class="kw">new</span> Agent(<span class="st">"Agent-A"</span>, c).start();
+        <span class="kw">new</span> Agent(<span class="st">"Agent-B"</span>, c).start();
+        <span class="kw">new</span> Agent(<span class="st">"Agent-C"</span>, c).start();
+    }
+}
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">5</div>
+        <div>
+          <div class="q-text">Age Validator — Custom Exception</div>
+          <div class="q-scenario">🎂 Scenario: An app must ensure users are 18+. If age is invalid, throw a custom exception called InvalidAgeException with a meaningful message.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <div class="q-hint">💡 Hint: Create class extending Exception. Use throw to trigger it. Catch with specific exception handler.</div>
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Custom Exception (Age Validator)</span></div>
+<pre>
+<span class="cm">// Custom Exception Class</span>
+<span class="kw">class</span> <span class="cl">InvalidAgeException</span> <span class="kw">extends</span> <span class="cl">Exception</span> {
+    <span class="cl">InvalidAgeException</span>(String message) {
+        <span class="kw">super</span>(message);    <span class="cm">// pass to Exception parent</span>
+    }
+}
+
+<span class="kw">class</span> <span class="cl">AgeValidator</span> {
+    <span class="kw">static void</span> <span class="fn">validate</span>(<span class="kw">int</span> age) <span class="kw">throws</span> <span class="cl">InvalidAgeException</span> {
+        <span class="kw">if</span>(age &lt; <span class="nm">18</span>)
+            <span class="kw">throw new</span> <span class="cl">InvalidAgeException</span>(<span class="st">"Age "</span> + age + <span class="st">" is below 18!"</span>);
+        <span class="kw">else</span>
+            System.out.println(<span class="st">"Age "</span> + age + <span class="st">" is valid. Welcome!"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">AgeMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">int</span>[] ages = {<span class="nm">25</span>, <span class="nm">15</span>, <span class="nm">18</span>, <span class="nm">10</span>};
+        <span class="kw">for</span>(<span class="kw">int</span> age : ages) {
+            <span class="kw">try</span> {
+                AgeValidator.validate(age);
+            } <span class="kw">catch</span> (InvalidAgeException e) {
+                System.out.println(<span class="st">"REJECTED: "</span> + e.getMessage());
+            }
+        }
+    }
+}
+<span class="cm">// Output:
+// Age 25 is valid. Welcome!
+// REJECTED: Age 15 is below 18!
+// Age 18 is valid. Welcome!
+// REJECTED: Age 10 is below 18!</span>
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">6</div>
+        <div>
+          <div class="q-text">Producer-Consumer — PipedWriter + PipedReader</div>
+          <div class="q-scenario">🏭 Scenario: One thread (producer) generates messages, another thread (consumer) reads and prints them using Java Piped streams.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Producer-Consumer (PipedWriter/Reader)</span></div>
+<pre>
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cl">ProducerConsumer</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> Exception {
+        <span class="kw">final</span> PipedReader reader = <span class="kw">new</span> PipedReader();
+        <span class="kw">final</span> PipedWriter writer = <span class="kw">new</span> PipedWriter(reader); <span class="cm">// connected</span>
+
+        <span class="cm">// Consumer Thread — reads from pipe</span>
+        Thread consumer = <span class="kw">new</span> Thread(() -> {
+            <span class="kw">try</span> {
+                <span class="kw">int</span> ch;
+                System.out.print(<span class="st">"Consumer received: "</span>);
+                <span class="kw">while</span>((ch = reader.read()) != -<span class="nm">1</span>)
+                    System.out.print((<span class="kw">char</span>)ch);
+                System.out.println();
+            } <span class="kw">catch</span>(IOException e) {}
+        });
+
+        <span class="cm">// Producer Thread — writes to pipe</span>
+        Thread producer = <span class="kw">new</span> Thread(() -> {
+            <span class="kw">try</span> {
+                String[] messages = {<span class="st">"MSG1: Hello"</span>, <span class="st">"MSG2: World"</span>};
+                <span class="kw">for</span>(String msg : messages)
+                    writer.write((msg + <span class="st">"\n"</span>).toCharArray());
+                writer.close();
+            } <span class="kw">catch</span>(IOException e) {}
+        });
+
+        consumer.start();
+        producer.start();
+    }
+}
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">7</div>
+        <div>
+          <div class="q-text">Student Serialization — Save & Load Object</div>
+          <div class="q-scenario">🎓 Scenario: A student management system needs to save a Student object to a file and reload it later without losing any data.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Student Serialization/Deserialization</span></div>
+<pre>
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">class</span> <span class="cl">Student</span> <span class="kw">implements</span> <span class="cl">Serializable</span> {  <span class="cm">// MUST implement Serializable</span>
+    String name;
+    <span class="kw">int</span>    roll;
+    <span class="kw">double</span> cgpa;
+    <span class="cl">Student</span>(String name, <span class="kw">int</span> roll, <span class="kw">double</span> cgpa) {
+        <span class="kw">this</span>.name = name; <span class="kw">this</span>.roll = roll; <span class="kw">this</span>.cgpa = cgpa;
+    }
+    <span class="kw">public</span> String <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="st">"Name:"</span> + name + <span class="st">", Roll:"</span> + roll + <span class="st">", CGPA:"</span> + cgpa;
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">StudentDB</span> {
+    <span class="kw">static void</span> <span class="fn">saveStudent</span>(Student s) <span class="kw">throws</span> Exception {
+        ObjectOutputStream oos = <span class="kw">new</span> ObjectOutputStream(
+                                  <span class="kw">new</span> FileOutputStream(<span class="st">"student.dat"</span>));
+        oos.writeObject(s);
+        oos.close();
+        System.out.println(<span class="st">"Student saved!"</span>);
+    }
+    <span class="kw">static</span> Student <span class="fn">loadStudent</span>() <span class="kw">throws</span> Exception {
+        ObjectInputStream ois = <span class="kw">new</span> ObjectInputStream(
+                                 <span class="kw">new</span> FileInputStream(<span class="st">"student.dat"</span>));
+        Student s = (Student) ois.readObject();
+        ois.close();
+        <span class="kw">return</span> s;
+    }
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> Exception {
+        Student s1 = <span class="kw">new</span> Student(<span class="st">"Saksham"</span>, <span class="nm">101</span>, <span class="nm">8.7</span>);
+        saveStudent(s1);
+        Student s2 = loadStudent();
+        System.out.println(<span class="st">"Loaded: "</span> + s2);
+    }
+}
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="q-card">
+      <div class="q-head">
+        <div class="q-num">8</div>
+        <div>
+          <div class="q-text">Shape Area Calculator — Polymorphism + Inheritance</div>
+          <div class="q-scenario">🔷 Scenario: Design a system that calculates area for Circle, Rectangle, and Triangle using method overriding. Process them through a common reference.</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▲ Hide Answer' : '▼ Show Answer'">▼ Show Answer</button>
+        <div class="ans-box">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="code-lang">Java — Polymorphism (Shape Calculator)</span></div>
+<pre>
+<span class="kw">abstract class</span> <span class="cl">Shape</span> {
+    <span class="kw">abstract double</span> <span class="fn">area</span>();
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        System.out.printf(<span class="st">"%s area = %.2f%n"</span>, getClass().getSimpleName(), area());
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+    <span class="kw">double</span> r;
+    <span class="cl">Circle</span>(<span class="kw">double</span> r) { <span class="kw">this</span>.r = r; }
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> Math.PI * r * r; }
+}
+<span class="kw">class</span> <span class="cl">Rectangle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+    <span class="kw">double</span> l, w;
+    <span class="cl">Rectangle</span>(<span class="kw">double</span> l, <span class="kw">double</span> w) { <span class="kw">this</span>.l=l; <span class="kw">this</span>.w=w; }
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> l * w; }
+}
+<span class="kw">class</span> <span class="cl">Triangle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+    <span class="kw">double</span> b, h;
+    <span class="cl">Triangle</span>(<span class="kw">double</span> b, <span class="kw">double</span> h) { <span class="kw">this</span>.b=b; <span class="kw">this</span>.h=h; }
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> <span class="nm">0.5</span> * b * h; }
+}
+
+<span class="kw">public class</span> <span class="cl">ShapeMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Shape[] shapes = {
+            <span class="kw">new</span> Circle(<span class="nm">5</span>),
+            <span class="kw">new</span> Rectangle(<span class="nm">4</span>, <span class="nm">6</span>),
+            <span class="kw">new</span> Triangle(<span class="nm">3</span>, <span class="nm">8</span>)
+        };
+        <span class="kw">for</span>(Shape s : shapes) s.display();  <span class="cm">// Runtime Polymorphism!</span>
+    }
+}
+<span class="cm">// Circle area = 78.54
+// Rectangle area = 24.00
+// Triangle area = 12.00</span>
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════ QUICK REFERENCE ════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fdecea;">📌</div>
+    <div>
+      <h2>Last-Minute Quick Reference</h2>
+      <div class="sub">Viva & Exam ke liye important points</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="callout exam"><div class="callout-icon">🎯</div><div>
+      <b>Must Remember — Buzzwords:</b><br>
+      🔹 <b>Encapsulation</b> = private + getters/setters<br>
+      🔹 <b>Abstraction</b> = abstract class / interface — implementation hide karo<br>
+      🔹 <b>Inheritance</b> = extends keyword, super() for parent constructor<br>
+      🔹 <b>Polymorphism</b> = same method, different behaviour (override/overload)<br>
+      🔹 <b>Serialization</b> = implements Serializable → ObjectOutputStream.writeObject()<br>
+      🔹 <b>Thread creation</b> = extends Thread OR implements Runnable → start() → run()<br>
+      🔹 <b>Synchronization</b> = synchronized keyword → lock on object/class<br>
+      🔹 <b>Checked Exception</b> = compile time → handle mandatory (IOException)<br>
+      🔹 <b>Unchecked Exception</b> = runtime → optional (NullPointerException)<br>
+      🔹 <b>finally block</b> = hamesha runs (exception ho ya na ho)<br>
+      🔹 <b>Byte Stream</b> = InputStream/OutputStream → raw bytes<br>
+      🔹 <b>Char Stream</b> = Reader/Writer → Unicode text
+    </div></div>
+    <div class="callout tip"><div class="callout-icon">💡</div><div>
+      <b>Common Mistakes (Galti mat karna):</b><br>
+      ❌ Abstract class ka object ban nahi sakta<br>
+      ❌ Static method mein <code>this</code> use nahi kar sakte<br>
+      ❌ <code>throw</code> = manually throw, <code>throws</code> = declaration in signature<br>
+      ❌ Multiple inheritance from classes nahi hoti (only through interfaces)<br>
+      ❌ <code>start()</code> call karte hain <code>run()</code> nahi — warna same thread pe chalega!<br>
+      ❌ Generic catch block (Exception e) hamesha LAST mein rakhna
+    </div></div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// Smooth scroll for TOC links
+document.querySelectorAll('.toc a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>
