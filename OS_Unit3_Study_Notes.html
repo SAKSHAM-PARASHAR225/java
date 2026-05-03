@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operating System — Unit 3 Complete Study Notes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --bg: #F8F7F3;
+  --surface: #FFFFFF;
+  --surface2: #F2F0EA;
+  --border: #E4E1D6;
+  --text: #1C1B18;
+  --text2: #45443E;
+  --muted: #888580;
+  --blue: #1A5C8C;
+  --blue-light: #EBF3FA;
+  --green: #1D6B47;
+  --green-light: #EAF5EE;
+  --red: #A63228;
+  --red-light: #FAECEA;
+  --orange: #B55A10;
+  --orange-light: #FBF1E6;
+  --purple: #5C3D8F;
+  --purple-light: #F2EEFA;
+  --teal: #166070;
+  --teal-light: #E6F3F5;
+  --yellow: #8A6A00;
+  --yellow-light: #FBF6E0;
+  --r: 10px;
+  --shadow: 0 2px 14px rgba(0,0,0,.07);
+  --shadow2: 0 6px 28px rgba(0,0,0,.11);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.8; }
+
+/* HERO */
+.hero { background:linear-gradient(135deg,#10192E 0%,#1C2E50 55%,#122840 100%); color:#fff; padding:52px 44px 44px; position:relative; overflow:hidden; }
+.hero::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(60deg,transparent,transparent 28px,rgba(255,255,255,.018) 28px,rgba(255,255,255,.018) 29px); pointer-events:none; }
+.hero-pill { display:inline-block; background:#A63228; color:#fff; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:4px 14px; border-radius:100px; margin-bottom:14px; }
+.hero h1 { font-family:'Lora',serif; font-size:clamp(1.9rem,4.5vw,3rem); font-weight:700; line-height:1.15; margin-bottom:10px; }
+.hero h1 em { color:#F5C842; font-style:normal; }
+.hero-sub { color:rgba(255,255,255,.6); font-size:14.5px; max-width:660px; margin-bottom:26px; }
+.hero-chips { display:flex; flex-wrap:wrap; gap:10px; }
+.chip { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.82); font-size:13px; padding:5px 15px; border-radius:100px; }
+
+/* LAYOUT */
+.wrap { max-width:1080px; margin:0 auto; padding:0 28px 80px; }
+
+/* TOC */
+.toc { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:26px 30px; margin:34px 0; box-shadow:var(--shadow); }
+.toc-hd { font-family:'Lora',serif; font-size:17px; font-weight:700; margin-bottom:16px; }
+.toc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:7px; }
+.toc-a { display:flex; align-items:center; gap:9px; padding:7px 11px; border-radius:7px; text-decoration:none; color:var(--text2); font-size:13.5px; font-weight:600; border:1px solid transparent; transition:.15s; }
+.toc-a:hover { background:var(--blue-light); border-color:#c0d8ed; color:var(--blue); }
+.toc-n { background:var(--surface2); color:var(--muted); font-size:11px; font-weight:700; font-family:'Fira Code',monospace; width:24px; height:24px; border-radius:5px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* SECTION */
+.unit-tag { display:inline-flex; align-items:center; gap:7px; background:var(--red); color:#fff; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:4px 14px; border-radius:100px; margin-top:46px; margin-bottom:9px; }
+h2.sec { font-family:'Lora',serif; font-size:1.85rem; font-weight:700; color:var(--text); border-bottom:3px solid var(--red); padding-bottom:8px; display:inline-block; margin-bottom:4px; }
+h3.top { font-family:'Lora',serif; font-size:1.2rem; font-weight:700; color:var(--blue); margin:24px 0 10px; display:flex; align-items:center; gap:8px; }
+h3.top::before { content:'◆'; font-size:9px; color:var(--red); }
+h4.sub { font-size:14px; font-weight:700; color:var(--text); margin:16px 0 7px; display:flex; align-items:center; gap:5px; }
+h4.sub::before { content:'›'; color:var(--red); font-size:17px; }
+p { margin-bottom:9px; color:var(--text2); }
+a { color:var(--blue); }
+
+/* DEF BOX */
+.def { background:linear-gradient(135deg,var(--blue-light),#F6FBFF); border-left:4px solid var(--blue); border-radius:0 var(--r) var(--r) 0; padding:13px 17px; margin:11px 0; }
+.def strong { color:var(--blue); display:block; font-size:11px; letter-spacing:.5px; text-transform:uppercase; margin-bottom:3px; }
+
+/* CARDS */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:16px 20px; margin:13px 0; box-shadow:var(--shadow); }
+.card.note { border-left:4px solid var(--yellow); background:var(--yellow-light); }
+.card.tip  { border-left:4px solid var(--green); background:var(--green-light); }
+.card.warn { border-left:4px solid var(--red); background:var(--red-light); }
+.card.info { border-left:4px solid var(--blue); background:var(--blue-light); }
+.lbl { font-size:11px; font-weight:800; letter-spacing:.9px; text-transform:uppercase; margin-bottom:5px; }
+.card.note .lbl{color:var(--yellow)} .card.tip .lbl{color:var(--green)} .card.warn .lbl{color:var(--red)} .card.info .lbl{color:var(--blue)}
+
+/* CODE */
+pre { background:#1A1A1A; color:#D4D4D4; font-family:'Fira Code',monospace; font-size:12.5px; line-height:1.65; padding:18px 22px; border-radius:var(--r); overflow-x:auto; margin:12px 0; box-shadow:var(--shadow2); position:relative; }
+pre .cmt{color:#6A9955} pre .kw{color:#569CD6} pre .str{color:#CE9178} pre .tp{color:#4EC9B0} pre .fn{color:#DCDCAA} pre .num{color:#B5CEA8}
+pre .lbl2{position:absolute;top:7px;right:12px;font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase}
+code { font-family:'Fira Code',monospace; font-size:12.5px; background:#EDEBE5; color:var(--red); padding:2px 7px; border-radius:4px; }
+
+/* TABLE */
+.tw { overflow-x:auto; margin:14px 0; }
+table { width:100%; border-collapse:collapse; font-size:13.5px; }
+thead th { background:var(--text); color:#fff; padding:9px 13px; text-align:left; font-weight:700; font-size:12.5px; }
+tbody tr:nth-child(even){background:var(--surface2)}
+tbody td { padding:8px 13px; border-bottom:1px solid var(--border); vertical-align:top; }
+tbody tr:hover{background:var(--blue-light)}
+
+/* DIAGRAM */
+.diag { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:22px; margin:14px 0; text-align:center; }
+.flow { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:6px; margin:8px 0; }
+.fbox { border:2px solid; border-radius:8px; font-size:12.5px; font-weight:700; padding:7px 14px; white-space:nowrap; }
+.fbox.b { background:var(--blue-light); border-color:var(--blue); color:var(--blue); }
+.fbox.g { background:var(--green-light); border-color:var(--green); color:var(--green); }
+.fbox.r { background:var(--red-light); border-color:var(--red); color:var(--red); }
+.fbox.o { background:var(--orange-light); border-color:var(--orange); color:var(--orange); }
+.fbox.p { background:var(--purple-light); border-color:var(--purple); color:var(--purple); }
+.fbox.t { background:var(--teal-light); border-color:var(--teal); color:var(--teal); }
+.fbox.dark { background:var(--text); color:#fff; border-color:var(--text); }
+.arr { color:var(--muted); font-size:18px; font-weight:700; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:13px 0; }
+@media(max-width:640px){.two{grid-template-columns:1fr}}
+.three { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:13px 0; }
+@media(max-width:720px){.three{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.three{grid-template-columns:1fr}}
+
+/* METHOD LIST */
+.ml { list-style:none; padding:0; }
+.ml li { display:flex; align-items:flex-start; gap:11px; padding:8px 0; border-bottom:1px solid var(--border); font-size:13.5px; }
+.ml li:last-child{border:none}
+.mn { font-family:'Fira Code',monospace; font-size:12px; background:var(--surface2); color:var(--blue); padding:2px 8px; border-radius:4px; white-space:nowrap; flex-shrink:0; }
+
+/* RAID Visual */
+.raid-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:10px 0; }
+.disk { border:2px solid var(--border); border-radius:7px; padding:8px 6px; text-align:center; font-size:12px; font-weight:700; }
+.disk span { display:block; padding:3px; margin:2px 0; border-radius:4px; font-size:11px; font-weight:600; }
+.disk .d0{background:#DBEAFE;color:#1E40AF}
+.disk .d1{background:#D1FAE5;color:#065F46}
+.disk .d2{background:#FDE68A;color:#92400E}
+.disk .d3{background:#FCE7F3;color:#9D174D}
+.disk .par{background:#E5E7EB;color:#374151}
+
+/* Q&A */
+.qcat { display:flex; align-items:center; gap:14px; margin:34px 0 16px; padding-bottom:10px; border-bottom:2px dashed var(--border); }
+.qbadge { font-size:12px; font-weight:800; letter-spacing:1px; text-transform:uppercase; padding:5px 16px; border-radius:100px; }
+.qbadge.easy{background:var(--green-light);color:var(--green)}
+.qbadge.med{background:var(--orange-light);color:var(--orange)}
+.qbadge.hard{background:var(--red-light);color:var(--red)}
+.qcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); margin-bottom:14px; overflow:hidden; box-shadow:var(--shadow); }
+.qhdr { display:flex; align-items:flex-start; gap:13px; padding:15px 18px; }
+.qno { color:#fff; font-family:'Fira Code',monospace; font-size:12px; font-weight:700; width:30px; height:30px; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.qno.easy{background:var(--green)} .qno.med{background:var(--orange)} .qno.hard{background:var(--red)}
+.qtxt { font-weight:700; font-size:14.5px; line-height:1.5; flex:1; }
+.qmk { font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:100px; white-space:nowrap; margin-left:auto; flex-shrink:0; }
+.qmk.easy{background:var(--green-light);color:var(--green)}
+.qmk.med{background:var(--orange-light);color:var(--orange)}
+.qmk.hard{background:var(--red-light);color:var(--red)}
+.qans { padding:0 18px 15px 61px; border-top:1px solid var(--border); padding-top:12px; color:var(--text2); font-size:14px; line-height:1.82; }
+.qans .al { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--green); margin-bottom:7px; }
+.qans ul,.qans ol{padding-left:20px;margin:7px 0}
+.qans li{margin-bottom:5px}
+
+/* CHEAT SHEET */
+.cs { background:linear-gradient(135deg,#0E1C30,#1A2E1A,#0A1A28); color:#fff; border-radius:14px; padding:38px; margin-top:46px; position:relative; overflow:hidden; }
+.cs::before{content:'CHEAT SHEET';position:absolute;top:16px;right:24px;font-size:76px;font-weight:900;color:rgba(255,255,255,.03);letter-spacing:-2px;font-family:'Lora',serif;pointer-events:none}
+.cs-t { font-family:'Lora',serif; font-size:1.9rem; font-weight:700; margin-bottom:4px; }
+.cs-t em{color:#F5C842;font-style:normal}
+.cs-sub { color:rgba(255,255,255,.5); font-size:13.5px; margin-bottom:28px; }
+.cs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+.csp { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:17px 19px; }
+.csp-t { font-size:12px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#F5C842; margin-bottom:11px; display:flex; align-items:center; gap:6px; }
+.csp-t::before{content:'';display:block;width:4px;height:4px;background:#F5C842;border-radius:50%}
+.csr { display:flex; gap:8px; align-items:flex-start; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.07); font-size:12.5px; }
+.csr:last-child{border:none}
+.csk { font-family:'Fira Code',monospace; font-size:11px; color:#4EC9B0; background:rgba(78,201,176,.1); padding:1px 7px; border-radius:3px; flex-shrink:0; white-space:nowrap; }
+.csv { color:rgba(255,255,255,.72); line-height:1.5; }
+
+hr.div { border:none; border-top:2px dashed var(--border); margin:38px 0; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div style="max-width:1080px;margin:0 auto;">
+    <div class="hero-pill">OS · 24CST-205 / 24ITT-205</div>
+    <h1>Unit 3 — <em>Complete Study Notes</em></h1>
+    <p class="hero-sub">RAID · File Systems · Directory Structure · Allocation Methods · Protection · Security · Distributed Operating Systems</p>
+    <div class="hero-chips">
+      <span class="chip">📚 16 Lectures Covered</span>
+      <span class="chip">🗂 8 Major Topics</span>
+      <span class="chip">❓ 30 Q&amp;A (Easy/Medium/Hard)</span>
+      <span class="chip">⚡ Cheat Sheet</span>
+      <span class="chip">Dr. Anu Kaushik · CSE 4th Sem</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-hd">📋 Table of Contents</div>
+  <div class="toc-grid">
+    <a href="#raid" class="toc-a"><div class="toc-n">01</div>RAID Structure &amp; Levels</a>
+    <a href="#file" class="toc-a"><div class="toc-n">02</div>File Concepts &amp; Access Methods</a>
+    <a href="#dir" class="toc-a"><div class="toc-n">03</div>Directory Structures</a>
+    <a href="#alloc" class="toc-a"><div class="toc-n">04</div>Allocation Methods</a>
+    <a href="#freespace" class="toc-a"><div class="toc-n">05</div>Free Space Management</a>
+    <a href="#prot" class="toc-a"><div class="toc-n">06</div>Protection &amp; Access Matrix</a>
+    <a href="#sec" class="toc-a"><div class="toc-n">07</div>Security &amp; Threats</a>
+    <a href="#dist" class="toc-a"><div class="toc-n">08</div>Distributed OS &amp; Networks</a>
+    <a href="#qna" class="toc-a"><div class="toc-n">09</div>30 Questions &amp; Answers</a>
+    <a href="#cs" class="toc-a"><div class="toc-n">10</div>Cheat Sheet</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 1. RAID -->
+<!-- ════════════════════════════════════════ -->
+<div id="raid">
+  <div class="unit-tag">Lectures 31–32 · Chapter 3</div>
+  <h2 class="sec">RAID Structure &amp; Levels</h2>
+
+  <div class="def">
+    <strong>Definition — RAID</strong>
+    <strong>RAID (Redundant Array of Independent Disks)</strong> combines multiple small, inexpensive disk drives into an array that appears to the OS as one single logical storage unit. It improves performance, fault tolerance, and storage capacity. This is an example of <em>storage virtualization</em>.
+  </div>
+
+  <h3 class="top">Why RAID?</h3>
+  <div class="three">
+    <div class="card tip"><div class="lbl">Performance</div>Overlapping I/O operations across disks increases data throughput. Multiple disks serve read requests simultaneously.</div>
+    <div class="card info"><div class="lbl">Fault Tolerance</div>Redundant data means one disk can fail without data loss. Increases MTBF (Mean Time Between Failures).</div>
+    <div class="card note"><div class="lbl">Capacity</div>Logical volume appears larger than any single physical disk. Scales by adding drives to the array.</div>
+  </div>
+
+  <h3 class="top">Key Techniques</h3>
+  <div class="two">
+    <div class="card">
+      <h4 class="sub">Striping (RAID 0)</h4>
+      <p>Data is partitioned across multiple drives into <strong>stripes</strong> (512 bytes to several MB). All stripes written simultaneously → high throughput. <strong>No redundancy</strong> — any single disk failure = total data loss.</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Mirroring (RAID 1)</h4>
+      <p>Every write goes to <strong>two or more disks</strong> simultaneously (100% duplication). Excellent fault tolerance — if one disk fails, the mirror continues. High cost: 50% of storage is redundancy overhead.</p>
+    </div>
+  </div>
+
+  <h3 class="top">RAID Levels — Complete Reference</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Level</th><th>Name</th><th>Min Disks</th><th>Technique</th><th>Fault Tolerance</th><th>Read Perf</th><th>Write Perf</th><th>Use Case</th></tr></thead>
+      <tbody>
+        <tr><td><strong>RAID 0</strong></td><td>Striping</td><td>2</td><td>Block striping, no parity</td><td>❌ None</td><td>⬆⬆ Excellent</td><td>⬆⬆ Excellent</td><td>Video editing, temp files</td></tr>
+        <tr><td><strong>RAID 1</strong></td><td>Mirroring</td><td>2</td><td>Full duplication</td><td>✅ 1 disk</td><td>⬆⬆ Excellent</td><td>➡ Moderate</td><td>OS drives, critical data</td></tr>
+        <tr><td><strong>RAID 2</strong></td><td>Hamming ECC</td><td>39</td><td>Bit-level striping + Hamming code</td><td>✅ 1 disk</td><td>⬆ Good</td><td>⬇ Poor</td><td>Obsolete (rarely used)</td></tr>
+        <tr><td><strong>RAID 3</strong></td><td>Byte Parity</td><td>3</td><td>Byte-level striping + dedicated parity</td><td>✅ 1 disk</td><td>⬆ Good</td><td>➡ Moderate</td><td>Sequential large files</td></tr>
+        <tr><td><strong>RAID 4</strong></td><td>Block Parity</td><td>3</td><td>Block-level striping + dedicated parity</td><td>✅ 1 disk</td><td>⬆⬆ Good</td><td>⬇ Slow (parity bottleneck)</td><td>Rarely used</td></tr>
+        <tr><td><strong>RAID 5</strong></td><td>Distributed Parity</td><td>3</td><td>Block striping + distributed parity</td><td>✅ 1 disk</td><td>⬆⬆ Excellent</td><td>⬆ Good</td><td>Most popular: file servers</td></tr>
+        <tr><td><strong>RAID 6</strong></td><td>Double Parity</td><td>4</td><td>Block striping + double distributed parity</td><td>✅ 2 disks</td><td>⬆⬆ Excellent</td><td>➡ Moderate</td><td>High-availability enterprise</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="top">RAID Visual Diagrams</h3>
+  <div class="two">
+    <div class="diag">
+      <p style="font-weight:700;font-size:13px;margin-bottom:10px;">RAID 0 — Pure Striping (3 Disks, 12 blocks)</p>
+      <div class="raid-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="disk">Disk 0<span class="d0">Block 0</span><span class="d1">Block 3</span><span class="d2">Block 6</span><span class="d3">Block 9</span></div>
+        <div class="disk">Disk 1<span class="d0">Block 1</span><span class="d1">Block 4</span><span class="d2">Block 7</span><span class="d3">Block 10</span></div>
+        <div class="disk">Disk 2<span class="d0">Block 2</span><span class="d1">Block 5</span><span class="d2">Block 8</span><span class="d3">Block 11</span></div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px;">No parity. High performance. No fault tolerance.</p>
+    </div>
+    <div class="diag">
+      <p style="font-weight:700;font-size:13px;margin-bottom:10px;">RAID 5 — Distributed Parity (4 Disks)</p>
+      <div class="raid-grid">
+        <div class="disk">Disk 0<span class="d0">A0</span><span class="d1">B0</span><span class="par">P(C)</span><span class="d3">D0</span></div>
+        <div class="disk">Disk 1<span class="d0">A1</span><span class="par">P(B)</span><span class="d2">C0</span><span class="d3">D1</span></div>
+        <div class="disk">Disk 2<span class="par">P(A)</span><span class="d1">B1</span><span class="d2">C1</span><span class="d3">D2</span></div>
+        <div class="disk">Disk 3<span class="d0">A2</span><span class="d1">B2</span><span class="d2">C2</span><span class="par">P(D)</span></div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px;">Parity (P) rotates across disks. Tolerates 1 disk failure.</p>
+    </div>
+  </div>
+
+  <div class="card warn">
+    <div class="lbl">⚠️ Problems with RAID</div>
+    <ul style="padding-left:18px;">
+      <li><strong>RAID 0:</strong> Zero fault tolerance — single disk failure = total data loss.</li>
+      <li><strong>RAID 5 rebuild risk:</strong> While rebuilding after a failure, if a second disk fails, all data is lost.</li>
+      <li><strong>RAID 1 cost:</strong> 50% of total disk capacity is used for redundancy.</li>
+      <li><strong>RAID ≠ Backup:</strong> RAID protects against hardware failure but NOT accidental deletion, corruption, or ransomware.</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 2. FILE SYSTEM -->
+<!-- ════════════════════════════════════════ -->
+<div id="file">
+  <div class="unit-tag">Lecture 33 · Chapter 3</div>
+  <h2 class="sec">File Concepts &amp; Access Methods</h2>
+
+  <div class="def">
+    <strong>Definition — File</strong>
+    A <strong>file</strong> is a named collection of related information stored on secondary storage. It is the <em>smallest unit of logical secondary storage</em>. The OS abstracts physical storage media into logical files and provides a uniform interface to access them.
+  </div>
+
+  <h3 class="top">File Attributes</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Attribute</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Name</strong></td><td>Human-readable string identifier (e.g., <code>example.c</code>). Once named, file is independent of process/user/system.</td></tr>
+        <tr><td><strong>Identifier</strong></td><td>Unique tag/number identifying the file within the file system (inode number in Unix).</td></tr>
+        <tr><td><strong>Type</strong></td><td>File type indicator (.txt, .exe, .jpg). Needed by OS that supports multiple types.</td></tr>
+        <tr><td><strong>Location</strong></td><td>Pointer to device and location of file on that device.</td></tr>
+        <tr><td><strong>Size</strong></td><td>Current size in bytes/words/blocks; maximum allowed size.</td></tr>
+        <tr><td><strong>Protection</strong></td><td>Access-control info: who can read, write, execute.</td></tr>
+        <tr><td><strong>Time &amp; User ID</strong></td><td>Creation, last modification, last use timestamps; owner identification.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="top">File Operations</h3>
+  <ul class="ml">
+    <li><span class="mn">Create</span>Allocate space in file system, make directory entry.</li>
+    <li><span class="mn">Write</span>OS searches file by name, maintains write pointer; writes data.</li>
+    <li><span class="mn">Read</span>Searches file, maintains read pointer; reads data into buffer.</li>
+    <li><span class="mn">Reposition</span>Repositions file pointer to a given value (seek). No I/O needed.</li>
+    <li><span class="mn">Delete</span>Searches directory, releases file space, erases directory entry.</li>
+    <li><span class="mn">Truncate</span>Erases file contents but keeps attributes. Resets file length to 0.</li>
+  </ul>
+
+  <h3 class="top">File System Layered Architecture</h3>
+  <div class="diag">
+    <div class="flow" style="flex-direction:column;gap:3px;">
+      <div class="fbox dark" style="width:280px;">Application Programs</div>
+      <div class="arr">↕</div>
+      <div class="fbox p" style="width:280px;">Logical File System (metadata, inodes, directory)</div>
+      <div class="arr">↕</div>
+      <div class="fbox b" style="width:280px;">File-Organization Module (logical ↔ physical blocks)</div>
+      <div class="arr">↕</div>
+      <div class="fbox g" style="width:280px;">Basic File System (buffers, caches, block I/O)</div>
+      <div class="arr">↕</div>
+      <div class="fbox o" style="width:280px;">I/O Control (device drivers)</div>
+      <div class="arr">↕</div>
+      <div class="fbox r" style="width:280px;">Physical Device (Disk Hardware)</div>
+    </div>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px;">Each layer uses services of the layer below it; reduces complexity but adds overhead.</p>
+  </div>
+
+  <h3 class="top">Access Methods</h3>
+  <div class="three">
+    <div class="card">
+      <h4 class="sub">Sequential Access</h4>
+      <p>Simplest method. Reads records <strong>one after another in order</strong>. File pointer advances automatically. Typical for compilers, batch jobs.</p>
+      <code>read_next() → advances pointer<br>write_next() → appends to end</code>
+    </div>
+    <div class="card">
+      <h4 class="sub">Direct (Relative) Access</h4>
+      <p>File is a numbered sequence of <strong>fixed-length logical records</strong>. Programs can read/write in <em>any order</em>. Based on disk model (random access). Used in databases.</p>
+      <code>read(n) → read block n<br>write(n) → write to block n</code>
+    </div>
+    <div class="card">
+      <h4 class="sub">Index Access</h4>
+      <p>Built on top of direct access. An <strong>index holds pointers</strong> to various blocks. To find a record: search index → use pointer to access block. Used for very large files.</p>
+      <code>search_index(key)<br>→ pointer → read_block(ptr)</code>
+    </div>
+  </div>
+
+  <h3 class="top">File Systems in Practice</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>OS / Medium</th><th>File System</th></tr></thead>
+      <tbody>
+        <tr><td>Windows</td><td>FAT, FAT32, NTFS, exFAT</td></tr>
+        <tr><td>Linux</td><td>ext2, ext3, ext4, Btrfs, XFS (40+ types)</td></tr>
+        <tr><td>Unix</td><td>UFS, FFS</td></tr>
+        <tr><td>CD-ROM</td><td>ISO 9660</td></tr>
+        <tr><td>Modern / Cloud</td><td>ZFS, GoogleFS, Oracle ASM, FUSE</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 3. DIRECTORY STRUCTURE -->
+<!-- ════════════════════════════════════════ -->
+<div id="dir">
+  <div class="unit-tag">Lecture 34 · Chapter 2</div>
+  <h2 class="sec">Directory Structures</h2>
+
+  <div class="def">
+    <strong>Definition — Directory</strong>
+    A <strong>directory</strong> is a file system structure that maps file names to their metadata (inode / location). It organizes millions/billions of files stored on random-access storage for efficient retrieval.
+  </div>
+
+  <h3 class="top">Directory Operations</h3>
+  <div class="flow">
+    <div class="fbox b">Search File</div><div class="arr">·</div>
+    <div class="fbox g">Create File</div><div class="arr">·</div>
+    <div class="fbox r">Delete File</div><div class="arr">·</div>
+    <div class="fbox o">List Directory</div><div class="arr">·</div>
+    <div class="fbox p">Rename File</div><div class="arr">·</div>
+    <div class="fbox t">Traverse FS</div>
+  </div>
+
+  <h3 class="top">Types of Directory Structures</h3>
+
+  <h4 class="sub">1. Single-Level Directory</h4>
+  <div class="two">
+    <div class="card info">
+      <p><strong>Structure:</strong> One directory containing ALL files from ALL users on the entire disk.</p>
+      <p><strong>Limitation:</strong> All files must have unique names. No grouping. Not suitable for multi-user systems.</p>
+    </div>
+    <div class="diag" style="text-align:left;">
+      <div class="flow" style="justify-content:flex-start;">
+        <div class="fbox dark">Root Dir</div><div class="arr">→</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div class="fbox b" style="font-size:11px;">file1.txt</div>
+          <div class="fbox b" style="font-size:11px;">file2.c</div>
+          <div class="fbox b" style="font-size:11px;">file3.exe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="sub">2. Two-Level Directory</h4>
+  <div class="two">
+    <div class="card info">
+      <p><strong>Structure:</strong> Master directory (MFD) at top, each user gets a separate User File Directory (UFD). Users isolated from each other.</p>
+      <p><strong>Limitation:</strong> No sub-grouping within a user's directory. Limited structure.</p>
+    </div>
+    <div class="diag">
+      <div class="flow" style="flex-direction:column;gap:4px;">
+        <div class="fbox dark">Master File Directory (MFD)</div>
+        <div style="display:flex;gap:16px;">
+          <div class="fbox b">User A (UFD)</div>
+          <div class="fbox g">User B (UFD)</div>
+          <div class="fbox r">User C (UFD)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="sub">3. Tree-Structured (Hierarchical) Directory</h4>
+  <div class="card">
+    <p><strong>Structure:</strong> Each directory entry can be a file OR a subdirectory. Enables unlimited nesting. Users have separate directories. Root is read-only for non-admins.</p>
+    <p><strong>Benefits:</strong> Grouping of related files; resolves naming conflicts (same name in different directories); supports absolute and relative paths.</p>
+  </div>
+<pre>
+/root
+├── /home
+│   ├── /user1
+│   │   ├── project.c
+│   │   └── readme.txt
+│   └── /user2
+│       └── data.csv
+└── /etc
+    ├── passwd
+    └── hostname
+<span class="lbl2">Tree Directory</span></pre>
+
+  <h3 class="top">Directory Implementation</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Method</th><th>How it Works</th><th>Pros</th><th>Cons</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Linear List</strong></td><td>Simple list of file names + pointers to data blocks. Can be sorted alphabetically or a linked list.</td><td>Simple to code</td><td>O(n) linear search time; slow for large dirs</td></tr>
+        <tr><td><strong>Hash Table</strong></td><td>Hash function maps file name → table position; table holds pointer to data blocks.</td><td>O(1) average search; much faster</td><td>Collisions; fixed size unless chained overflow used</td></tr>
+        <tr><td><strong>B+ Tree</strong></td><td>Balanced tree structure keeps entries sorted; used in modern FSes (NTFS, ext4).</td><td>O(log n) search; ordered traversal</td><td>Complex implementation</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 4 & 5. ALLOCATION & FREE SPACE -->
+<!-- ════════════════════════════════════════ -->
+<div id="alloc">
+  <div class="unit-tag">Lecture 35 · Chapter 2</div>
+  <h2 class="sec">File Allocation Methods</h2>
+
+  <div class="def">
+    <strong>Definition — Allocation Method</strong>
+    Defines <strong>how disk blocks are assigned to files</strong>. The choice affects disk utilization, file access time, and susceptibility to fragmentation.
+  </div>
+
+  <h3 class="top">1. Contiguous Allocation</h3>
+  <div class="two">
+    <div class="card">
+      <p>Each file occupies a <strong>set of contiguous (adjacent) blocks</strong> on disk. Requires only the starting block number and the length.</p>
+      <p><strong>Pros:</strong> Simple, excellent sequential AND random access performance (best I/O). Easy to implement.</p>
+      <p><strong>Cons:</strong> External fragmentation over time. Must know file size in advance. Compaction needed (expensive downtime).</p>
+    </div>
+    <div class="diag">
+      <table style="width:100%;font-size:12px;border-collapse:collapse;">
+        <tr style="background:#1A1A1A;color:#fff;"><td style="padding:4px 8px;font-weight:700;">File</td><td>Start</td><td>Length</td></tr>
+        <tr><td><span style="background:#DBEAFE;padding:2px 6px;border-radius:3px;font-weight:700;">mail</span></td><td>19</td><td>6</td></tr>
+        <tr><td><span style="background:#D1FAE5;padding:2px 6px;border-radius:3px;font-weight:700;">list</span></td><td>28</td><td>4</td></tr>
+        <tr><td><span style="background:#FDE68A;padding:2px 6px;border-radius:3px;font-weight:700;">prog</span></td><td>6</td><td>3</td></tr>
+      </table>
+      <p style="font-size:11px;color:var(--muted);margin-top:7px;">Mapping: block[i] = start + i (direct calculation)</p>
+    </div>
+  </div>
+
+  <h3 class="top">2. Linked Allocation</h3>
+  <div class="two">
+    <div class="card">
+      <p>Each file is a <strong>linked list of disk blocks</strong> scattered anywhere on disk. Each block contains a pointer to the next block. Last block has nil pointer.</p>
+      <p><strong>Pros:</strong> No external fragmentation. Files can grow dynamically. Simple free-space management.</p>
+      <p><strong>Cons:</strong> Only sequential access (to reach block n, must traverse n−1 blocks). Pointer overhead per block. Reliability issues (broken pointer = lost data).</p>
+    </div>
+    <div class="diag">
+      <div class="flow">
+        <div class="fbox b" style="font-size:11px;">Dir Entry<br>start: 9</div>
+        <div class="arr">→</div>
+        <div class="fbox g" style="font-size:11px;">Block 9<br>next→16</div>
+        <div class="arr">→</div>
+        <div class="fbox o" style="font-size:11px;">Block 16<br>next→1</div>
+        <div class="arr">→</div>
+        <div class="fbox r" style="font-size:11px;">Block 1<br>next→nil</div>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:8px;"><strong>FAT Variation:</strong> File Allocation Table at volume start — indexed by block#. Same linked structure but table is memory-cacheable → much faster.</p>
+    </div>
+  </div>
+
+  <h3 class="top">3. Indexed Allocation</h3>
+  <div class="two">
+    <div class="card">
+      <p>Each file has an <strong>index block</strong> containing an array of disk block pointers. Directory entry points to the index block, not the data directly.</p>
+      <p><strong>Pros:</strong> Supports both sequential and direct access. No external fragmentation. Dynamic file growth.</p>
+      <p><strong>Cons:</strong> Index block overhead (wasted space for small files). Large files may need multi-level index.</p>
+    </div>
+    <div class="diag">
+      <div class="flow">
+        <div class="fbox dark" style="font-size:11px;">Dir Entry<br>→ idx block 19</div>
+        <div class="arr">→</div>
+        <div style="background:var(--purple-light);border:2px solid var(--purple);border-radius:8px;padding:8px 12px;font-size:11px;font-weight:700;color:var(--purple);">
+          Index Block 19<br>
+          [0]→9 [1]→16<br>[2]→1 [3]→10<br>[4]→25 ...
+        </div>
+        <div class="arr">→</div>
+        <div class="fbox b" style="font-size:11px;">Data<br>Blocks</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Feature</th><th>Contiguous</th><th>Linked</th><th>Indexed</th></tr></thead>
+      <tbody>
+        <tr><td>Sequential Access</td><td>✅ Excellent</td><td>✅ Good</td><td>✅ Good</td></tr>
+        <tr><td>Direct/Random Access</td><td>✅ Excellent</td><td>❌ Very Poor</td><td>✅ Good</td></tr>
+        <tr><td>External Fragmentation</td><td>❌ Yes</td><td>✅ None</td><td>✅ None</td></tr>
+        <tr><td>File Size Known?</td><td>Must know in advance</td><td>Not needed</td><td>Not needed</td></tr>
+        <tr><td>Space Efficiency</td><td>Best (no overhead)</td><td>Pointer per block overhead</td><td>Index block overhead</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="freespace">
+  <h3 class="top" style="margin-top:30px;">Free Space Management</h3>
+  <div class="def">
+    <strong>Definition</strong>
+    The OS must track which disk blocks are free so they can be allocated to new files. Several techniques exist, each with different time/space trade-offs.
+  </div>
+
+  <div class="three">
+    <div class="card">
+      <h4 class="sub">Bit Map (Bit Vector)</h4>
+      <p>One bit per block. <code>0</code> = free, <code>1</code> = occupied (or vice versa). Easy to find contiguous free blocks using bitwise operations. Requires extra space (e.g., 1 GB disk with 4KB blocks → 32,768 bit = 4 KB bitmap).</p>
+<pre style="font-size:11px;padding:8px 10px;">
+00111100 10000011 ...
+<span class="cmt">↑ free blocks at position 0,1,6,7...</span></pre>
+    </div>
+    <div class="card">
+      <h4 class="sub">Linked List</h4>
+      <p>All free blocks linked together. First free block contains a pointer to the next free block, etc. Simple but traversal is expensive — must read each block to find the next free one. Not efficient for finding contiguous blocks.</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Grouping &amp; Counting</h4>
+      <p><strong>Grouping:</strong> First free block stores addresses of next n−1 free blocks + pointer to next such group.<br><strong>Counting:</strong> Store (address, count) pairs — "n contiguous free blocks starting at address X." Efficient when files are contiguously allocated.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 6. PROTECTION -->
+<!-- ════════════════════════════════════════ -->
+<div id="prot">
+  <div class="unit-tag">Lectures 38–39 · Chapter 3</div>
+  <h2 class="sec">Protection &amp; Access Matrix</h2>
+
+  <div class="def">
+    <strong>Definition — Protection</strong>
+    Protection ensures that each object (hardware or software resource) is <strong>accessed correctly and only by authorized processes</strong>. The OS enforces protection through mechanisms that separate <em>policy</em> (who can access what) from <em>mechanism</em> (how access is controlled).
+  </div>
+
+  <h3 class="top">Goals of Protection</h3>
+  <ul class="ml">
+    <li><span class="mn">Controlled Access</span>Ensure each resource is accessed only by processes authorized to use it.</li>
+    <li><span class="mn">Data Integrity</span>Prevent unauthorized modification of critical data and OS structures.</li>
+    <li><span class="mn">System Reliability</span>Protect the system from accidental or malicious misuse by users or programs.</li>
+    <li><span class="mn">Isolation</span>Ensure one process/user cannot interfere with another.</li>
+  </ul>
+
+  <h3 class="top">Principle of Least Privilege</h3>
+  <div class="card tip">
+    <div class="lbl">💡 Core Principle</div>
+    Programs, users, and systems should be given <strong>just enough privilege</strong> to perform their tasks — no more. This limits damage if an entity has a bug or is compromised.
+    <ul style="margin-top:8px;padding-left:18px;">
+      <li><strong>Static:</strong> Fixed privileges for the entire life of the system or process.</li>
+      <li><strong>Dynamic:</strong> Privileges change as needed (domain switching, privilege escalation).</li>
+      <li><strong>Coarse-grained:</strong> Unix-style (user or root). Simple but less precise.</li>
+      <li><strong>Fine-grained:</strong> ACLs, RBAC. More complex but more secure.</li>
+    </ul>
+  </div>
+
+  <h3 class="top">Domain of Protection</h3>
+  <div class="def">
+    <strong>Access Right</strong> = &lt;object-name, rights-set&gt; where rights-set ⊆ all valid operations on that object.<br>
+    <strong>Domain</strong> = a set of access rights. Can be a user, process, or procedure.
+  </div>
+
+  <h3 class="top">Access Matrix</h3>
+  <div class="def">
+    <strong>Definition — Access Matrix</strong>
+    A 2D matrix where <strong>rows = domains (subjects/users)</strong> and <strong>columns = objects (resources)</strong>. Cell Access(i,j) = set of operations domain Dᵢ can invoke on object Oⱼ.
+  </div>
+
+  <div class="diag">
+    <p style="font-weight:700;font-size:13px;margin-bottom:12px;">Access Matrix Example</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th></th><th>File F1</th><th>File F2</th><th>File F3</th><th>Printer</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Domain D1</strong></td><td>read, write</td><td>read</td><td>—</td><td>print</td></tr>
+          <tr><td><strong>Domain D2</strong></td><td>—</td><td>read, write</td><td>execute</td><td>—</td></tr>
+          <tr><td><strong>Domain D3</strong></td><td>read</td><td>—</td><td>read, write</td><td>print</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:8px;">If D1 process tries to write F3 → not in Access(D1,F3) → OS denies the operation.</p>
+  </div>
+
+  <h3 class="top">Access Matrix Special Rights</h3>
+  <ul class="ml">
+    <li><span class="mn">owner</span>User who owns Oᵢ can define/change its access column.</li>
+    <li><span class="mn">copy (*)</span>Copy the access right from one object to another domain.</li>
+    <li><span class="mn">control</span>Domain Dᵢ can modify the access rights of domain Dⱼ.</li>
+    <li><span class="mn">transfer</span>Allows switching/transferring from domain Dᵢ to Dⱼ.</li>
+  </ul>
+
+  <h3 class="top">Implementation of Access Matrix</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Method</th><th>Description</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Global Table</strong></td><td>Triplets: (domain, object, rights)</td><td>Simple</td><td>Large; no grouping</td></tr>
+        <tr><td><strong>Access Control Lists (ACL)</strong></td><td>Each <em>object</em> has a list of (domain, rights)</td><td>Easy to revoke per-object</td><td>Expensive to find all objects for a domain</td></tr>
+        <tr><td><strong>Capability Lists</strong></td><td>Each <em>domain</em> holds list of (object, rights) — capability tickets</td><td>Easy to enumerate domain's rights</td><td>Difficult to revoke rights for specific object</td></tr>
+        <tr><td><strong>Lock-Key</strong></td><td>Each object has locks; each domain has keys. Match → access granted.</td><td>Flexible</td><td>Key management complexity</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 7. SECURITY -->
+<!-- ════════════════════════════════════════ -->
+<div id="sec">
+  <div class="unit-tag">Lectures 40–42 · Chapter 3–4</div>
+  <h2 class="sec">Security &amp; Threats</h2>
+
+  <div class="def">
+    <strong>Definition — Security</strong>
+    A system is secure if its resources are <strong>used and accessed as intended under all circumstances</strong>. True security is theoretically unachievable; the goal is to make breaches sufficiently difficult and detectable. An <em>attack</em> is an attempt to breach security; a <em>threat</em> is a potential violation.
+  </div>
+
+  <h3 class="top">Security Violation Categories</h3>
+  <div class="three">
+    <div class="card warn"><div class="lbl">Breach of Confidentiality</div><p>Unauthorized <strong>reading</strong> of data. E.g., intercepting private messages.</p></div>
+    <div class="card warn"><div class="lbl">Breach of Integrity</div><p>Unauthorized <strong>modification</strong> of data. E.g., altering financial records.</p></div>
+    <div class="card warn"><div class="lbl">Breach of Availability</div><p>Unauthorized <strong>destruction</strong> of data or services (DoS attacks).</p></div>
+    <div class="card warn"><div class="lbl">Theft of Service</div><p>Unauthorized <strong>use of resources</strong>. E.g., crypto-mining via compromised servers.</p></div>
+    <div class="card warn"><div class="lbl">Denial of Service (DoS)</div><p><strong>Prevents legitimate use</strong> by flooding server with requests.</p></div>
+  </div>
+
+  <h3 class="top">Security Attack Methods</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Attack</th><th>Description</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Masquerading</strong></td><td>Pretending to be an authorized user to escalate privileges (breach authentication)</td><td>Using stolen credentials</td></tr>
+        <tr><td><strong>Replay Attack</strong></td><td>Capturing valid authentication data and replaying it later (with or without modification)</td><td>Replaying a login token</td></tr>
+        <tr><td><strong>Man-in-the-Middle</strong></td><td>Intruder sits between sender and receiver, masquerading as both sides</td><td>ARP spoofing, SSL stripping</td></tr>
+        <tr><td><strong>Session Hijacking</strong></td><td>Intercepts an already established session to bypass authentication entirely</td><td>Stealing session cookies</td></tr>
+        <tr><td><strong>Denial of Service</strong></td><td>Floods resources to prevent legitimate use</td><td>UDP flood, SYN flood, DDoS</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="top">Program Threats (Software-Level)</h3>
+  <div class="three">
+    <div class="card">
+      <h4 class="sub">Trojan Horse</h4>
+      <p>A program that appears <strong>useful or legitimate but secretly performs malicious actions</strong> in the background. Exploits user trust to execute harmful code.</p>
+      <code>e.g. game.exe → secretly logs keystrokes</code>
+    </div>
+    <div class="card">
+      <h4 class="sub">Logic Bomb</h4>
+      <p>Malicious code that is <strong>dormant until a specific condition or event</strong> triggers it (date, user action, system state). Difficult to detect before triggering.</p>
+      <code>if(date == "2024-01-01") delete_all()</code>
+    </div>
+    <div class="card">
+      <h4 class="sub">Trapdoor / Backdoor</h4>
+      <p>A <strong>secret undocumented entry point</strong> into a program, left by a developer for debugging or maliciously. Bypasses normal authentication.</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Stack Overflow / Buffer Overflow</h4>
+      <p>Writing data <strong>beyond the allocated buffer boundary</strong> on the stack. Overwrites return address to execute attacker's code. Classic exploitation technique.</p>
+<pre style="font-size:11px;padding:8px 10px;">
+char buf[8];          <span class="cmt">// only 8 bytes</span>
+strcpy(buf, input);   <span class="cmt">// no bounds check!</span>
+<span class="cmt">// If input > 8 bytes → overflow!</span></pre>
+    </div>
+    <div class="card">
+      <h4 class="sub">Virus</h4>
+      <p>Self-replicating code that <strong>attaches to legitimate programs</strong>. Spreads when infected programs are executed. Requires human interaction to propagate.</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Worm</h4>
+      <p>Self-replicating program that <strong>spreads independently over networks</strong> without needing a host file. Famous example: Morris Internet Worm (1988).</p>
+    </div>
+  </div>
+
+  <h3 class="top">The Morris Internet Worm (1988)</h3>
+  <div class="card note">
+    <div class="lbl">📌 Historic Case Study</div>
+    Released by Robert Morris in 1988 — the first major Internet worm. Exploited three vulnerabilities: (1) <strong>sendmail debug</strong> — debug mode allowed remote command execution. (2) <strong>fingerd buffer overflow</strong> — used stack overflow to gain shell. (3) <strong>rsh/rexec trust</strong> — exploited trusted host relationships. The worm replicated so aggressively that it caused the first major Internet slowdown, infecting ~6,000 machines (10% of the Internet at the time).
+  </div>
+
+  <h3 class="top">Security Measure Levels</h3>
+  <div class="flow">
+    <div class="fbox r">Physical Security</div><div class="arr">→</div>
+    <div class="fbox o">Human (Social Engineering Prevention)</div><div class="arr">→</div>
+    <div class="fbox b">OS Security</div><div class="arr">→</div>
+    <div class="fbox g">Network Security</div><div class="arr">→</div>
+    <div class="fbox p">Application Security</div>
+  </div>
+  <p style="font-size:12.5px;color:var(--muted);margin-top:5px;">Security must be enforced at every level — weakest link determines overall security.</p>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 8. DISTRIBUTED OS -->
+<!-- ════════════════════════════════════════ -->
+<div id="dist">
+  <div class="unit-tag">Lectures 43–45 · L-3.2.2 · Chapter 4</div>
+  <h2 class="sec">Distributed Operating Systems &amp; Networks</h2>
+
+  <div class="def">
+    <strong>Definition — Distributed System</strong>
+    A <strong>distributed system</strong> is a collection of loosely coupled processors interconnected by a communications network. Processors are called nodes/computers/machines/hosts; their physical location is called a <em>site</em>.
+  </div>
+
+  <h3 class="top">Reasons for Distributed Systems</h3>
+  <div class="three">
+    <div class="card tip"><div class="lbl">Resource Sharing</div><p>Share files, printers, databases, and specialized hardware across remote sites.</p></div>
+    <div class="card tip"><div class="lbl">Computation Speedup</div><p>Load sharing — distribute work across multiple processors for parallelism.</p></div>
+    <div class="card tip"><div class="lbl">Reliability</div><p>Detect and recover from site failures; transfer functions to surviving nodes. Higher availability.</p></div>
+    <div class="card tip"><div class="lbl">Communication</div><p>Message passing between geographically distributed sites.</p></div>
+  </div>
+
+  <h3 class="top">Network OS vs Distributed OS</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Feature</th><th>Network Operating System (NOS)</th><th>Distributed Operating System (DOS)</th></tr></thead>
+      <tbody>
+        <tr><td>User Awareness</td><td>Users <strong>know</strong> they are using multiple machines</td><td>Users are <strong>unaware</strong> of multiple machines</td></tr>
+        <tr><td>Resource Access</td><td>Explicit: login via <code>telnet</code>/<code>ssh</code>, transfer via <code>FTP</code></td><td>Transparent: remote ≈ local access</td></tr>
+        <tr><td>Examples</td><td>Traditional Unix networks, Windows Server</td><td>Clusters, Cloud systems (Google, Azure)</td></tr>
+        <tr><td>Migration</td><td>User manually moves data/tasks</td><td>OS auto-migrates data/computation/processes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="top">Process Migration in Distributed OS</h3>
+  <ul class="ml">
+    <li><span class="mn">Load Balancing</span>Distribute processes across the network to even the workload.</li>
+    <li><span class="mn">Computation Speedup</span>Subprocesses run concurrently on different sites.</li>
+    <li><span class="mn">Hardware Preference</span>Process execution may require specialized hardware at a specific site.</li>
+    <li><span class="mn">Software Preference</span>Required software may only be available at a particular site.</li>
+    <li><span class="mn">Data Access</span>Run process remotely rather than transfer all data locally.</li>
+  </ul>
+
+  <h3 class="top">Network Topologies</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Topology</th><th>Structure</th><th>Installation Cost</th><th>Comm Cost</th><th>Reliability</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Star</strong></td><td>All nodes connect to central hub</td><td>Medium</td><td>Low (1 hop)</td><td>Low (hub = single point of failure)</td></tr>
+        <tr><td><strong>Ring</strong></td><td>Each node connects to exactly 2 neighbors</td><td>Low</td><td>Medium</td><td>Medium (break = split)</td></tr>
+        <tr><td><strong>Bus</strong></td><td>All nodes share a single cable</td><td>Very Low</td><td>Low</td><td>Low (break = entire segment down)</td></tr>
+        <tr><td><strong>Tree</strong></td><td>Hierarchical star topology</td><td>Medium</td><td>Medium</td><td>Medium</td></tr>
+        <tr><td><strong>Mesh</strong></td><td>Every node connected to every other node</td><td>Very High</td><td>Very Low</td><td>Very High (multiple paths)</td></tr>
+        <tr><td><strong>Fully Connected</strong></td><td>Complete graph — n(n-1)/2 links</td><td>Highest</td><td>Lowest</td><td>Highest</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="top">Connection Strategies</h3>
+  <div class="three">
+    <div class="card">
+      <h4 class="sub">Circuit Switching</h4>
+      <p>A <strong>permanent physical link established for the duration</strong> of the entire communication session. Requires setup time. Less per-message overhead. May waste bandwidth when idle.</p>
+      <p style="font-size:12px;color:var(--muted);">Example: Telephone system</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Message Switching</h4>
+      <p>A <strong>temporary link established for the duration of one message</strong>. Like mail — store-and-forward. No dedicated path. Messages may be large.</p>
+      <p style="font-size:12px;color:var(--muted);">Example: Post-office mailing system</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Packet Switching</h4>
+      <p>Messages of <strong>variable length divided into fixed-length packets</strong>. Each packet may take a different path. Packets reassembled at destination. High overhead but efficient.</p>
+      <p style="font-size:12px;color:var(--muted);">Example: Internet (TCP/IP)</p>
+    </div>
+  </div>
+
+  <h3 class="top">Routing Strategies</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Strategy</th><th>How it Works</th><th>Adapts to Load</th><th>Message Order</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Fixed Routing</strong></td><td>Path A→B specified in advance; changes only on hardware failure. Shortest path chosen.</td><td>❌ No</td><td>✅ In order</td></tr>
+        <tr><td><strong>Virtual Circuit</strong></td><td>Path fixed for the duration of one session; different sessions may use different paths.</td><td>🟡 Partial</td><td>✅ In order</td></tr>
+        <tr><td><strong>Dynamic Routing</strong></td><td>Path chosen per-message; uses least-loaded link at time of sending.</td><td>✅ Yes</td><td>❌ May be out of order (sequence numbers added)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="top">Contention Resolution</h3>
+  <div class="two">
+    <div class="card">
+      <h4 class="sub">CSMA/CD (Ethernet)</h4>
+      <p>Before transmitting: <strong>sense the carrier</strong> (check if link is busy). If collision detected: stop, wait random time, retry. Used in Ethernet (IEEE 802.3). Degrades under heavy load.</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Token Passing (Token Ring)</h4>
+      <p>A special <strong>token message circulates</strong> in a ring. A site must possess the token before transmitting. After transmission, the token is re-released. Deterministic — no collisions. Used in IBM Token Ring.</p>
+    </div>
+  </div>
+
+  <h3 class="top">Client-Server vs Peer-to-Peer Networks</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Feature</th><th>Client-Server</th><th>Peer-to-Peer (P2P)</th></tr></thead>
+      <tbody>
+        <tr><td>Architecture</td><td>Central server manages most processes and data</td><td>Each node is both client and server for its own files</td></tr>
+        <tr><td>Data Location</td><td>Centralized on server</td><td>Distributed across all peers</td></tr>
+        <tr><td>Scalability</td><td>Limited by server capacity</td><td>Scales well — more peers = more capacity</td></tr>
+        <tr><td>Failure Risk</td><td>Server failure = service down (SPOF)</td><td>High resilience — no single point of failure</td></tr>
+        <tr><td>Security</td><td>Easier to secure (centralized)</td><td>Harder to secure (no central control)</td></tr>
+        <tr><td>Examples</td><td>Web, Email, Databases</td><td>BitTorrent, Kazaa, Napster (early)</td></tr>
+        <tr><td>Weakness</td><td>DDoS can take down server</td><td>Piracy, uncontrolled content</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="top">Message Passing in Distributed Systems</h3>
+  <div class="two">
+    <div class="card">
+      <h4 class="sub">Synchronous Message Passing</h4>
+      <p>Both sender and receiver must be <strong>synchronized</strong>. Sender blocks until receiver accepts the message. Analogous to a phone call — both parties must be active simultaneously.</p>
+    </div>
+    <div class="card">
+      <h4 class="sub">Asynchronous Message Passing</h4>
+      <p>Sender sends message and <strong>continues without waiting</strong>. Messages buffered until receiver reads them. Enables concurrent execution. Higher throughput. Like email — sender doesn't wait for reply.</p>
+    </div>
+  </div>
+
+  <h4 class="sub">Types of Message Passing</h4>
+  <div class="flow">
+    <div class="fbox b">Unicast<br><small>1 → 1</small></div><div class="arr">·</div>
+    <div class="fbox g">Multicast<br><small>1 → group</small></div><div class="arr">·</div>
+    <div class="fbox r">Broadcast<br><small>1 → all</small></div><div class="arr">·</div>
+    <div class="fbox p">Synchronous<br><small>blocking</small></div><div class="arr">·</div>
+    <div class="fbox o">Asynchronous<br><small>non-blocking</small></div>
+  </div>
+
+  <h3 class="top">OSI Reference Model — 7 Layers</h3>
+  <div class="diag">
+    <div class="flow" style="flex-direction:column;gap:3px;">
+      <div class="fbox r" style="width:320px;text-align:left;justify-content:flex-start;">7 · Application — user interface (FTP, HTTP, email)</div>
+      <div class="fbox o" style="width:320px;text-align:left;justify-content:flex-start;">6 · Presentation — format, encryption, character conversion</div>
+      <div class="fbox p" style="width:320px;text-align:left;justify-content:flex-start;">5 · Session — process-to-process communication sessions</div>
+      <div class="fbox b" style="width:320px;text-align:left;justify-content:flex-start;">4 · Transport — packet ordering, flow control, physical addresses</div>
+      <div class="fbox g" style="width:320px;text-align:left;justify-content:flex-start;">3 · Network — routing, addressing (source → destination)</div>
+      <div class="fbox t" style="width:320px;text-align:left;justify-content:flex-start;">2 · Data Link — frames, error detection/recovery (point-to-point)</div>
+      <div class="fbox dark" style="width:320px;text-align:left;justify-content:flex-start;">1 · Physical — bit transmission over physical medium</div>
+    </div>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px;">TCP/IP simplifies to 4 layers: Application · Transport · Internet · Network Access</p>
+  </div>
+
+  <h3 class="top">Communication Structure — 4 Core Issues</h3>
+  <ul class="ml">
+    <li><span class="mn">Naming</span>How do two processes locate each other? Use process-id, &lt;host,id&gt; pair, or DNS for Internet resolution.</li>
+    <li><span class="mn">Routing</span>How are messages sent through the network? Fixed, virtual circuit, or dynamic routing.</li>
+    <li><span class="mn">Connection</span>How are sequences of messages sent? Circuit switching, message switching, or packet switching.</li>
+    <li><span class="mn">Contention</span>How to resolve conflicting simultaneous network access? CSMA/CD or Token Passing.</li>
+  </ul>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- Q&A SECTION -->
+<!-- ════════════════════════════════════════ -->
+<div id="qna">
+  <div class="unit-tag">Exam Preparation</div>
+  <h2 class="sec">30 Questions &amp; Answers</h2>
+
+  <!-- EASY -->
+  <div class="qcat">
+    <span class="qbadge easy">Easy</span>
+    <h3 style="font-family:'Lora',serif;font-size:1.3rem;font-weight:700;">2 Mark Questions — Short Answer (3–4 lines)</h3>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">1</div><div class="qtxt">What is RAID? What does the acronym stand for?</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>RAID stands for <strong>Redundant Array of Independent Disks</strong>. It combines multiple physical disk drives into a single logical unit to improve performance, fault tolerance, and/or storage capacity. The OS sees the array as one disk. It is an example of storage virtualization.</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">2</div><div class="qtxt">Differentiate between RAID 0 and RAID 1.</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div><strong>RAID 0 (Striping):</strong> Data is split across all drives for maximum throughput. No redundancy — any disk failure causes total data loss. <strong>RAID 1 (Mirroring):</strong> All data is duplicated on two or more drives simultaneously. Provides full fault tolerance (1 disk can fail without data loss) but uses 50% of capacity for redundancy.</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">3</div><div class="qtxt">What is a file? List any three file attributes.</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>A <strong>file</strong> is a named collection of related information stored on secondary storage. It is the smallest unit of logical secondary storage in an OS. Three file attributes: (1) <strong>Name</strong> — human-readable identifier. (2) <strong>Type</strong> — kind of data the file contains. (3) <strong>Protection</strong> — access control (who can read/write/execute).</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">4</div><div class="qtxt">What are the three access methods for files?</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>(1) <strong>Sequential Access:</strong> Reads records one after another in order; file pointer advances automatically. (2) <strong>Direct (Relative) Access:</strong> Any record can be accessed directly by its block number; no ordering required. (3) <strong>Index Access:</strong> An index table holds pointers to blocks; search index first, then access the block directly.</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">5</div><div class="qtxt">What is a single-level directory? What is its main limitation?</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>A <strong>single-level directory</strong> maintains one directory containing all files from all users on the disk. It is the simplest directory structure. Its main limitation is that all file names must be <strong>globally unique</strong> — two users cannot have files with the same name. It is not suitable for multi-user systems with large numbers of files.</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">6</div><div class="qtxt">State the Principle of Least Privilege.</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>The <strong>Principle of Least Privilege</strong> states that programs, users, and systems should be given <strong>just enough privileges to perform their tasks</strong> — and nothing more. This limits the damage that can be done if an entity has a bug or is compromised. It can be static (fixed privileges) or dynamic (changed as needed via domain switching).</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">7</div><div class="qtxt">Define an Access Matrix. What do its rows and columns represent?</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>An <strong>Access Matrix</strong> is a protection model represented as a 2D matrix. <strong>Rows represent domains</strong> (subjects — users or processes), and <strong>columns represent objects</strong> (resources — files, devices). Cell Access(i,j) contains the set of operations that a process in domain Dᵢ is permitted to invoke on object Oⱼ.</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">8</div><div class="qtxt">What is a Trojan Horse in the context of OS security?</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>A <strong>Trojan Horse</strong> is a program that appears useful, legitimate, or harmless to the user but secretly performs malicious actions in the background. It exploits user trust to execute harmful code. Unlike a virus, it does not replicate itself. Example: a game application that secretly logs keystrokes and sends them to an attacker.</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">9</div><div class="qtxt">What is a distributed system? Give two reasons for using one.</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>A <strong>distributed system</strong> is a collection of loosely coupled processors interconnected by a communications network, appearing as a single unified system to users. Two reasons: (1) <strong>Resource sharing</strong> — share files, printers, and specialized hardware across sites. (2) <strong>Reliability</strong> — if one site fails, others continue; the system can detect failures and transfer functions.</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno easy">10</div><div class="qtxt">Differentiate between circuit switching and packet switching.</div><span class="qmk easy">2 marks</span></div>
+    <div class="qans"><div class="al">Answer</div><strong>Circuit Switching:</strong> A permanent physical link is established for the entire duration of communication. Low per-message overhead but requires setup time and may waste bandwidth when idle (e.g., telephone system). <strong>Packet Switching:</strong> Messages are divided into fixed-length packets, each potentially taking a different path. Efficient use of bandwidth but higher per-packet overhead; packets must be reassembled at the destination (e.g., Internet).</div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="qcat">
+    <span class="qbadge med">Medium</span>
+    <h3 style="font-family:'Lora',serif;font-size:1.3rem;font-weight:700;">5 Mark Questions — Detailed Answers (10–15 lines)</h3>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">11</div><div class="qtxt">Compare RAID 0, RAID 1, RAID 5, and RAID 6 with respect to performance, fault tolerance, and storage efficiency.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <ul>
+        <li><strong>RAID 0 (Striping):</strong> Best read/write performance — data striped across all disks simultaneously. Zero fault tolerance — one disk failure = total data loss. Storage efficiency = 100% (no overhead). Used for temporary/performance-critical data.</li>
+        <li><strong>RAID 1 (Mirroring):</strong> Excellent read performance (can read from either mirror); slower writes (must write to both). Tolerates 1 disk failure. Storage efficiency = 50% (half used for duplication). Used for OS drives and critical data.</li>
+        <li><strong>RAID 5 (Distributed Parity):</strong> Good read performance; moderate write (parity must be recalculated). Tolerates exactly 1 disk failure. Storage efficiency = (n−1)/n. Parity is distributed across all disks (no parity disk bottleneck). Most popular RAID for file servers.</li>
+        <li><strong>RAID 6 (Double Distributed Parity):</strong> Good read; slower writes (two parity calculations). Tolerates 2 simultaneous disk failures. Storage efficiency = (n−2)/n. Ideal for large-capacity arrays where rebuild time creates high risk of second failure. Best for high-availability enterprise systems.</li>
+      </ul>
+      Key insight: RAID 5 vs 6 trade-off is write performance vs. additional fault tolerance. As drive capacities grow, rebuild times lengthen, making RAID 6's double parity increasingly valuable.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">12</div><div class="qtxt">Explain the three file allocation methods with their advantages and disadvantages.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>1. Contiguous Allocation:</strong> Each file occupies a set of adjacent disk blocks. Requires only start block and length. Pros: Best performance for sequential and random access; simple disk head movement. Cons: External fragmentation over time; must know file size in advance; compaction needed periodically (expensive).
+      <br><br>
+      <strong>2. Linked Allocation:</strong> Each file is a linked list of disk blocks scattered anywhere on disk; each block contains a pointer to the next. Pros: No external fragmentation; files can grow dynamically; simple free-space management. Cons: Only sequential access supported (must traverse chain to reach block n); pointer overhead in every block; reliability issues (one broken pointer = lost file tail). FAT is an optimized variation.
+      <br><br>
+      <strong>3. Indexed Allocation:</strong> Each file has a dedicated index block containing an array of pointers to all data blocks. Directory entry points to the index block. Pros: Supports both sequential and direct access; no external fragmentation; dynamic growth. Cons: Index block overhead (wastes space for small files); large files need multi-level or combined index schemes.
+      <br><br>
+      Summary: Contiguous = best performance but fragmentation; Linked = no fragmentation but poor random access; Indexed = best general-purpose solution used by most modern filesystems (Unix inodes use a combined index scheme).
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">13</div><div class="qtxt">Explain the layered architecture of a file system. What is the role of each layer?</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      File system is organized in layers, each providing services to the layer above using services from the layer below:
+      <ol>
+        <li><strong>Application Programs:</strong> Top level; user programs make system calls for file operations (open, read, write).</li>
+        <li><strong>Logical File System:</strong> Manages metadata (file control blocks/inodes). Translates file name → file number → location. Handles directory management and protection.</li>
+        <li><strong>File-Organization Module:</strong> Understands logical and physical file blocks. Translates logical block numbers to physical block addresses. Manages free space and disk allocation.</li>
+        <li><strong>Basic File System:</strong> Manages memory buffers and caches. Buffers hold data in transit; caches hold frequently used data. Sends generic commands like "read block 123."</li>
+        <li><strong>I/O Control (Device Drivers):</strong> Translates high-level commands into low-level hardware-specific instructions for the disk controller (e.g., "read drive1, cylinder 72, track 2, sector 10").</li>
+        <li><strong>Physical Device:</strong> Actual disk hardware performing the I/O.</li>
+      </ol>
+      Layering reduces complexity and redundancy but adds overhead and may decrease performance. Each layer's boundaries can be implemented differently by different OS designers.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">14</div><div class="qtxt">Describe the types of directory structures used in operating systems.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>1. Single-Level Directory:</strong> All files stored in one directory. Simple to implement. Problem: all file names must be globally unique; no organization for multi-user environments.
+      <br><br>
+      <strong>2. Two-Level Directory:</strong> One Master File Directory (MFD) at the top; each user gets their own User File Directory (UFD). Users are isolated — different users can have files with the same name in their own UFDs. Limitation: no sub-grouping within a user's directory.
+      <br><br>
+      <strong>3. Tree-Structured (Hierarchical) Directory:</strong> Most common structure. Each entry can be a file or a subdirectory, allowing unlimited nesting depth. Supports grouping of related files. Users have private directories. Paths can be absolute (from root: /home/user/file) or relative (from current directory: ./file). Only root/admin has full control of the root. Eliminates limitations of both prior structures. Used in all modern OS (Unix, Windows, macOS).
+      <br><br>
+      <strong>Implementation:</strong> Directories implemented as linear lists (simple but slow O(n) search) or hash tables (O(1) average but collision-prone) or B+ trees (O(log n), ordered). Modern filesystems like NTFS and ext4 use B-tree variants for directory lookup.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">15</div><div class="qtxt">Explain free space management techniques in operating systems.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      The OS must track which disk blocks are free for allocation. Four main techniques:
+      <ol>
+        <li><strong>Bit Map (Bit Vector):</strong> One bit per block; 0=free, 1=used. Simple bitwise operations find contiguous free blocks efficiently. Requires extra space (proportional to total blocks). Example: 1 GB disk with 4KB blocks requires 32,768 bits = 4KB bitmap. Entire bitmap can be kept in memory for speed.</li>
+        <li><strong>Linked List:</strong> All free blocks linked together; first free block holds pointer to next free block. Simple but traversal is costly — finding n free blocks requires n disk reads. Not efficient for contiguous allocation requests.</li>
+        <li><strong>Grouping:</strong> A modification of linked list. The first free block stores addresses of the next n−1 free blocks plus a pointer to the next group block. Allows retrieving multiple free block addresses in one disk read — much more efficient than simple linked list.</li>
+        <li><strong>Counting:</strong> Stores pairs of (first free block address, count of contiguous free blocks following it). Very efficient when files are often allocated and freed as contiguous extents. Free list entries are compact.</li>
+      </ol>
+      Modern filesystems like ext4 use extent-based free space management (a form of counting), while Linux uses buddy system allocation for memory-mapped regions.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">16</div><div class="qtxt">Explain the goals and principles of protection in operating systems.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Protection Goals:</strong> In a protection model, a computer consists of objects (hardware or software), each with a unique name and a defined set of operations. Protection ensures each object is accessed correctly and only by authorized processes. Goals include: controlled access to resources, data integrity (prevent unauthorized modification), system reliability, and process isolation.
+      <br><br>
+      <strong>Principle of Least Privilege:</strong> The guiding principle — programs, users, and systems should get just enough privileges to do their work. Limits damage from bugs or abuse. Can be static (fixed for life of process) or dynamic (changed as needed via domain switching).
+      <br><br>
+      <strong>Granularity:</strong> Coarse-grained privilege management (e.g., Unix: user or root) is simpler but less precise. Fine-grained management (ACLs, RBAC) is more complex and has overhead but provides better protection.
+      <br><br>
+      <strong>Domain Structure:</strong> An access right = &lt;object-name, rights-set&gt;. A domain = set of access rights. Domains can be users, processes, or procedures. The access matrix (rows=domains, columns=objects) formally represents and enforces all access rights in the system.
+      <br><br>
+      <strong>Mechanism vs. Policy:</strong> The OS provides the mechanism (access matrix + enforcement rules). Policy (who can access what) is user-defined. This separation allows flexible security models.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">17</div><div class="qtxt">Describe the security violation categories and methods of attack.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Security Violation Categories:</strong>
+      <ul>
+        <li><strong>Breach of Confidentiality:</strong> Unauthorized reading of data (e.g., eavesdropping on network traffic).</li>
+        <li><strong>Breach of Integrity:</strong> Unauthorized modification of data (e.g., altering database records).</li>
+        <li><strong>Breach of Availability:</strong> Unauthorized destruction of data or services (e.g., deleting critical files).</li>
+        <li><strong>Theft of Service:</strong> Unauthorized use of compute resources (e.g., unauthorized crypto-mining).</li>
+        <li><strong>Denial of Service (DoS):</strong> Prevention of legitimate use by flooding resources.</li>
+      </ul>
+      <strong>Attack Methods:</strong>
+      <ul>
+        <li><strong>Masquerading:</strong> Pretending to be an authorized user to gain elevated privileges.</li>
+        <li><strong>Replay Attack:</strong> Capturing valid authentication credentials and replaying them.</li>
+        <li><strong>Man-in-the-Middle:</strong> Intruder intercepts communication between two parties, masquerading as both.</li>
+        <li><strong>Session Hijacking:</strong> Intercepts an already-established authenticated session.</li>
+      </ul>
+      Security must be enforced at all levels: physical, human/social, OS, network, and application — weakness at any level compromises the whole system.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">18</div><div class="qtxt">Compare Network Operating Systems with Distributed Operating Systems.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Network Operating System (NOS):</strong> Users are fully <em>aware</em> of the multiple machines. Access to remote resources must be done explicitly: remote login via telnet/ssh, file transfer via FTP, or using Remote Desktop. Each machine runs its own independent OS; the NOS just provides networking services. Simpler to build but less transparent. Example: Traditional Unix network environment.
+      <br><br>
+      <strong>Distributed Operating System (DOS):</strong> Users are <em>unaware</em> of multiple machines. Access to remote resources is transparent — appears identical to local resource access. The distributed OS handles: <strong>Data Migration</strong> (transfer full file or only needed portions), <strong>Computation Migration</strong> (transfer computation to where data is), and <strong>Process Migration</strong> (move entire process for load balancing, speedup, hardware preference, or data access).
+      <br><br>
+      <strong>Key Difference:</strong> In NOS, the user manually coordinates across machines. In DOS, the OS automatically manages distribution, migration, and resource allocation across all nodes transparently. DOS is more powerful but significantly more complex to implement.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">19</div><div class="qtxt">Explain the OSI model layers and their functions.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      The OSI (Open Systems Interconnection) Reference Model has 7 layers:
+      <ol>
+        <li><strong>Physical Layer:</strong> Handles mechanical and electrical details of transmitting raw bits over the physical medium (cables, radio waves).</li>
+        <li><strong>Data Link Layer:</strong> Organizes bits into frames; handles error detection and recovery for point-to-point links.</li>
+        <li><strong>Network Layer:</strong> Provides end-to-end packet routing; handles addressing of outgoing packets and decoding of incoming ones; maintains routing information for source-to-destination delivery.</li>
+        <li><strong>Transport Layer:</strong> Partitions messages into packets; maintains packet order; controls flow; generates physical addresses; responsible for low-level network access.</li>
+        <li><strong>Session Layer:</strong> Implements sessions (process-to-process communication protocols); manages connection establishment and teardown.</li>
+        <li><strong>Presentation Layer:</strong> Resolves format differences between sites; handles character conversions, encryption, compression, half/full duplex.</li>
+        <li><strong>Application Layer:</strong> Interacts directly with users; handles file transfer (FTP), remote login (Telnet), email, and distributed database schemas.</li>
+      </ol>
+      TCP/IP simplifies this to 4 layers: Application, Transport, Internet (Network), and Network Access (Data Link + Physical).
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno med">20</div><div class="qtxt">Explain synchronous vs asynchronous message passing in distributed systems.</div><span class="qmk med">5 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      In distributed systems, processes on different nodes communicate by exchanging messages through communication channels. Two fundamental models:
+      <br><br>
+      <strong>Synchronous Message Passing:</strong> Both sender and receiver must be synchronized at the moment of communication. The <em>sender blocks</em> (waits) until the receiver actively accepts the message. Communication fails if receiver never accepts. Analogous to a phone call — both parties must be active simultaneously. Simpler to reason about (no buffering needed) but reduces concurrency since sender is blocked.
+      <br><br>
+      <strong>Asynchronous Message Passing:</strong> The <em>sender sends and immediately continues</em> without waiting. Messages are buffered in communication channels until the receiver is ready to accept them. Analogous to email. Enables concurrent execution — sender and receiver operate independently. Higher throughput but requires message buffering infrastructure. Out-of-order delivery may be an issue.
+      <br><br>
+      <strong>Message Types by Scope:</strong> Unicast (1→1), Multicast (1→group), Broadcast (1→all nodes).
+      <br><br>
+      Communication is complete only when receiver accepts the message. In the message-passing model for distributed systems, channels are typically private between communicating processes, and successful communication requires active participation from both sides.
+    </div>
+  </div>
+
+  <!-- HARD -->
+  <div class="qcat">
+    <span class="qbadge hard">Hard / Scenario</span>
+    <h3 style="font-family:'Lora',serif;font-size:1.3rem;font-weight:700;">Difficult Questions — 10 Marks (30+ lines, Scenario-Based)</h3>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">21</div><div class="qtxt">Scenario: A hospital wants to store critical patient records on a disk array. Disk failures could be life-threatening. Design the most suitable RAID configuration, justifying every decision. Also, analyze what happens when one disk fails and how the system recovers.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Requirements Analysis:</strong> Hospital patient records demand (1) zero tolerance for data loss, (2) high read performance for multiple concurrent doctors accessing records, (3) ability to survive at least one, preferably two disk failures, (4) acceptable write performance for updates.
+      <br><br>
+      <strong>Recommended Configuration: RAID 6</strong>
+      <br><br>
+      RAID 6 uses block-level striping with <strong>double distributed parity</strong>. It can tolerate the <strong>simultaneous failure of any two disks</strong> without data loss. This is critical in a hospital where rebuild times for large capacity drives (4–16 TB) can take 12–48 hours — during which a second disk failure in RAID 5 would be catastrophic.
+      <br><br>
+      <strong>How RAID 6 works:</strong>
+      <ul>
+        <li>Data blocks are striped across all disks (like RAID 5).</li>
+        <li>Two independent parity values (P and Q, using Reed-Solomon codes) are calculated per stripe and stored on different disks.</li>
+        <li>No single disk holds all parity — it is distributed, eliminating the write bottleneck of RAID 4.</li>
+        <li>With n disks, usable capacity = (n−2) disks worth of data.</li>
+      </ul>
+      <strong>Failure Scenario (1 disk fails):</strong>
+      <ul>
+        <li>System immediately enters <em>degraded mode</em> — continues serving all read/write requests.</li>
+        <li>Any read of data on the failed disk is reconstructed on-the-fly using the P parity: missing_block = XOR of all other blocks in the stripe including P.</li>
+        <li>Performance degrades somewhat (reconstruction adds CPU overhead).</li>
+        <li>Admin is alerted; replacement disk installed (hot-swap in enterprise arrays).</li>
+        <li>RAID controller begins <em>rebuild</em>: reconstructing all data from the failed disk onto the new disk using parity — may take hours for large disks.</li>
+        <li>During rebuild, a second disk failure would still be recoverable (using Q parity) — a key RAID 6 advantage.</li>
+      </ul>
+      <strong>Additional Recommendations for Hospital:</strong>
+      <ul>
+        <li>Use RAID 6 within a <strong>RAID 10</strong> nested configuration (RAID 1+0) for critical records requiring extreme performance — mirror pairs of RAID 6 arrays.</li>
+        <li>Combine with regular off-site <strong>backups</strong> — RAID is NOT a backup (doesn't protect against accidental deletion, ransomware, fire).</li>
+        <li>Use enterprise-grade drives with high MTBF ratings.</li>
+        <li>Deploy hot-spare disks to reduce rebuild time.</li>
+        <li>UPS (Uninterruptible Power Supply) to protect against power failures during writes.</li>
+      </ul>
+      <strong>Conclusion:</strong> RAID 6 provides the optimal balance of fault tolerance (2-disk failure), performance, and manageable storage overhead ((n−2)/n efficiency) for life-critical hospital data. Supplemented with regular backups, it meets all hospital requirements.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">22</div><div class="qtxt">Design a complete file system for a multi-user university database system. Justify your choice of directory structure, file allocation method, and free space management. Analyze the impact of your choices on performance and security.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>System Requirements:</strong> Multi-user (students, faculty, admin), large number of files (thousands per user), need for access control, efficient file operations, support for large database files, and scalability.
+      <br><br>
+      <strong>1. Directory Structure: Tree-Structured (Hierarchical)</strong>
+      <br>
+      Chosen over single-level (no grouping, naming conflicts) and two-level (no subdirectory support). Tree structure provides:
+      <ul>
+        <li>Separate directories per user (<code>/home/student_id/</code>, <code>/home/faculty_id/</code>)</li>
+        <li>Grouping of related files (courses, assignments, research)</li>
+        <li>Absolute paths prevent ambiguity</li>
+        <li>Admin controls <code>/root</code>; users isolated from each other</li>
+        <li>Department-level directories (<code>/dept/cs/</code>) for shared resources</li>
+      </ul>
+      Implementation: Hash table within each directory for O(1) average lookup; fall back to B+ tree for very large directories (faculty research folders with thousands of files).
+      <br><br>
+      <strong>2. File Allocation: Indexed Allocation (Multi-level Index — Unix inode style)</strong>
+      <br>
+      Chosen because:
+      <ul>
+        <li>Database files require efficient <strong>random/direct access</strong> — linked allocation fails here.</li>
+        <li>No external fragmentation — important for a long-running system.</li>
+        <li>Files can grow dynamically — student submissions vary in size unpredictably.</li>
+        <li>Multi-level index (direct, single-indirect, double-indirect, triple-indirect blocks) supports very large files (GB-scale database files) efficiently.</li>
+        <li>Contiguous allocation rejected because file sizes are unknown in advance and compaction downtime is unacceptable for a production university system.</li>
+      </ul>
+      <strong>3. Free Space Management: Bitmap + Counting (Hybrid)</strong>
+      <br>
+      <ul>
+        <li>Bitmap for overall tracking — 1 bit per block, kept partially in memory, allows fast contiguous-block search using bitwise AND operations.</li>
+        <li>Counting (extent-based) for actual allocation — records (start, count) pairs for runs of free blocks, efficient when files are allocated/freed in large chunks (database transactions).</li>
+        <li>Together: bitmap gives O(1) free/allocate; counting enables large contiguous allocations for sequential scans.</li>
+      </ul>
+      <strong>Security Considerations:</strong>
+      <ul>
+        <li>Access control enforced at directory level: each user's <code>/home</code> directory has mode 700 (owner-only access).</li>
+        <li>Shared directories (<code>/dept/cs/shared/</code>) have mode 755 (read for all, write for owner).</li>
+        <li>Access Matrix implemented via Unix permission bits + supplementary ACLs for fine-grained control (faculty can read student submissions but not modify).</li>
+        <li>Principle of Least Privilege: students cannot access system directories; faculty cannot access admin data.</li>
+      </ul>
+      <strong>Performance Analysis:</strong>
+      <ul>
+        <li>Hash table directories: O(1) file lookup — efficient for large directories.</li>
+        <li>Indexed allocation: O(1) direct access for small files (direct blocks in inode); O(2-3) disk accesses for large files (indirect blocks). Acceptable.</li>
+        <li>Bitmap in memory: free block allocation is fast without disk access for small requests.</li>
+        <li>Buffer cache reduces repeated disk accesses for frequently accessed files (course notes, shared databases).</li>
+      </ul>
+      <strong>Conclusion:</strong> This design mirrors the architecture of modern Unix/Linux filesystems (ext4, XFS) which use tree directories, inode-based indexed allocation, and extent-based free space management — proven at scale for exactly these requirements.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">23</div><div class="qtxt">A company's server was compromised. Forensic analysis reveals: (a) a program running as root that shouldn't be, (b) a file modified at 3 AM when no legitimate user was active, (c) network traffic to an unknown IP. Identify all security violations, classify the threats, and propose a comprehensive protection mechanism.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Forensic Analysis of Each Indicator:</strong>
+      <br><br>
+      <strong>(a) Unauthorized root-level process:</strong>
+      <ul>
+        <li><strong>Violation:</strong> Breach of Integrity + Breach of Confidentiality (root access = full system control)</li>
+        <li><strong>Likely Threat:</strong> Privilege Escalation via one of: (1) <em>Trojan Horse</em> — legitimate-looking program carrying hidden malicious payload that escalates privileges. (2) <em>Buffer Overflow exploit</em> — overflowing a privileged process's buffer to inject and execute shellcode with root privileges. (3) <em>Trapdoor/Backdoor</em> — left by insider or attacker to gain persistent root access.</li>
+        <li>The process violates the <strong>Principle of Least Privilege</strong> — it has more privileges than needed.</li>
+      </ul>
+      <strong>(b) File modified at 3 AM:</strong>
+      <ul>
+        <li><strong>Violation:</strong> Breach of Integrity — unauthorized modification of data.</li>
+        <li><strong>Likely Threat:</strong> (1) <em>Logic Bomb</em> — triggered at a specific time (3 AM schedule). (2) <em>Malware with scheduler</em> — cron job planted by attacker. (3) <em>Insider threat</em> — legitimate user with delayed/automated script.</li>
+        <li>The 3 AM timing is a classic indicator of <em>time-triggered malicious code</em> designed to avoid detection by operating when no admins are watching.</li>
+      </ul>
+      <strong>(c) Traffic to unknown IP:</strong>
+      <ul>
+        <li><strong>Violation:</strong> Theft of Service (data exfiltration using company bandwidth) + Breach of Confidentiality (data being sent out).</li>
+        <li><strong>Likely Threat:</strong> (1) <em>Worm</em> — self-propagating malware using the server as a command-and-control node or replication source. (2) <em>Botnet</em> — server enrolled in a botnet, receiving commands and exfiltrating data. (3) <em>Man-in-the-Middle relay</em> — server used as a proxy in an attack chain.</li>
+      </ul>
+      <strong>Comprehensive Protection Mechanisms:</strong>
+      <br><br>
+      <strong>Immediate Response (Incident Response):</strong>
+      <ul>
+        <li>Isolate the server from the network immediately to prevent further exfiltration.</li>
+        <li>Take a forensic image of memory and disk before any changes.</li>
+        <li>Identify and terminate the unauthorized root process; find its origin.</li>
+        <li>Block the unknown IP at the firewall level.</li>
+      </ul>
+      <strong>Long-term Protection at Each Layer:</strong>
+      <ul>
+        <li><strong>Principle of Least Privilege:</strong> Run all services as non-root users with only necessary capabilities. Use Linux capabilities (CAP_NET_BIND_SERVICE instead of full root). Implement mandatory access control (SELinux/AppArmor).</li>
+        <li><strong>Access Matrix/ACL:</strong> Deploy granular file ACLs. Files should only be writable by their specific service accounts — not universally writable. Audit all SUID/SGID binaries.</li>
+        <li><strong>Intrusion Detection System (IDS):</strong> Deploy HIDS (host-based, e.g., OSSEC) to alert on file modifications at unexpected times and new outbound connections.</li>
+        <li><strong>File Integrity Monitoring (FIM):</strong> Tools like Tripwire or AIDE create cryptographic hashes of critical files; alert on any unauthorized changes.</li>
+        <li><strong>Network Segmentation + Firewall:</strong> Default-deny outbound rules; whitelist only necessary outbound traffic. Deep packet inspection for anomalies.</li>
+        <li><strong>Buffer Overflow Prevention:</strong> Enable ASLR (Address Space Layout Randomization), NX/DEP (Non-Executable stack), and Stack Canaries at compile time. Keep all software patched.</li>
+        <li><strong>Audit Logging:</strong> Comprehensive audit logs with off-system storage (send to remote syslog server attacker cannot modify). Log all privilege escalations, root logins, cron jobs.</li>
+        <li><strong>Multi-Factor Authentication:</strong> Prevent masquerading even with stolen credentials.</li>
+      </ul>
+      <strong>Conclusion:</strong> This attack represents a sophisticated multi-vector breach combining program threats (buffer overflow/trojan), time-triggered malware (logic bomb), and network exfiltration (worm/botnet). Effective defense requires layered security at physical, OS, network, and application levels simultaneously — no single mechanism is sufficient.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">24</div><div class="qtxt">Explain the Access Matrix model in detail. Discuss all four implementation methods (Global Table, ACL, Capability Lists, Lock-Key), comparing their efficiency for different operations (revocation, enumeration, delegation). Give a complete example.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Access Matrix Model:</strong>
+      An access matrix is a 2D table: rows = protection domains (users/processes), columns = objects (files, devices, programs). Cell Access(i,j) = set of permitted operations domain Dᵢ can perform on object Oⱼ. A process in domain Dᵢ trying to do operation "op" on Oⱼ is permitted only if "op" ∈ Access(i,j).
+      <br><br>
+      <strong>Example Matrix:</strong>
+      <br>
+      Domains: D1=student, D2=faculty, D3=admin
+      Objects: F1=lecture_notes, F2=grade_db, Printer
+      <ul>
+        <li>Access(D1, F1) = {read}</li>
+        <li>Access(D1, F2) = {} (no access)</li>
+        <li>Access(D2, F1) = {read, write, owner}</li>
+        <li>Access(D2, F2) = {read, write}</li>
+        <li>Access(D3, F2) = {read, write, owner}</li>
+        <li>Access(D1, Printer) = {print}</li>
+        <li>Access(D2, Printer) = {print}</li>
+      </ul>
+      <strong>Implementation 1 — Global Table:</strong>
+      List of triplets: (domain, object, rights). Every access check requires scanning the entire table. Large tables (many domains × many objects) are expensive. No natural grouping by domain or object. Rarely used in practice.
+      <br><br>
+      <strong>Implementation 2 — Access Control Lists (ACL):</strong>
+      Each <em>object</em> maintains its own list of (domain, rights) pairs. Unix implements a simplified ACL as owner/group/other permission bits (rwx). Full ACLs (POSIX ACLs, Windows NTFS ACLs) allow per-user/group entries.
+      <ul>
+        <li>✅ Easy to determine all domains with access to a specific object</li>
+        <li>✅ Easy to revoke all access to a specific object (clear its ACL)</li>
+        <li>❌ Expensive to determine all objects accessible by a domain (must scan all object ACLs)</li>
+        <li>✅ Used in: Unix, Windows, macOS, NTFS</li>
+      </ul>
+      <strong>Implementation 3 — Capability Lists:</strong>
+      Each <em>domain</em> holds a list of capability tickets: (object, rights). A capability is an unforgeable token — possessing it grants the specified rights. Like a concert ticket.
+      <ul>
+        <li>✅ Easy to determine all resources a domain can access (just enumerate its capability list)</li>
+        <li>✅ Fast access check (present capability → access granted)</li>
+        <li>❌ Difficult to revoke access to a specific object (must find and destroy all capabilities for that object across all domains)</li>
+        <li>Used in: Hydra OS, some microkernel designs</li>
+      </ul>
+      <strong>Implementation 4 — Lock-Key Mechanism:</strong>
+      Each object has a set of "locks" (bit patterns); each domain has a set of "keys." Access is granted when a domain's key matches an object's lock. Flexible but requires careful key management. Provides a middle ground between ACLs and capabilities.
+      <br><br>
+      <strong>Comparison for Critical Operations:</strong>
+      <table style="font-size:12px;border-collapse:collapse;width:100%;margin-top:8px;">
+        <tr style="background:#1A1A1A;color:#fff;"><td style="padding:4px 8px;">Operation</td><td>Global Table</td><td>ACL</td><td>Capability</td></tr>
+        <tr><td>Check: can D access O?</td><td>O(n) scan</td><td>O(k) scan ACL of O</td><td>O(k) scan caps of D</td></tr>
+        <tr><td>Revoke access to object O</td><td>Scan all entries</td><td>✅ Easy: clear entry in O's ACL</td><td>❌ Hard: find all D's holding cap for O</td></tr>
+        <tr><td>List all objects D can access</td><td>Scan table</td><td>❌ Hard: scan all objects' ACLs</td><td>✅ Easy: enumerate D's capability list</td></tr>
+        <tr><td>Delegate access D1→D2 for O</td><td>Add entry</td><td>Add D2 to O's ACL</td><td>D1 copies cap to D2 (copy flag)</td></tr>
+      </table>
+      <br>
+      <strong>Special Rights in Access Matrix:</strong>
+      <ul>
+        <li><strong>Owner:</strong> Domain that created Oⱼ can modify its access column entirely.</li>
+        <li><strong>Copy (*):</strong> Allows copying an access right from one object's column to another domain's entry.</li>
+        <li><strong>Control:</strong> Dᵢ can modify Dⱼ's entries in the access matrix.</li>
+        <li><strong>Transfer/Switch:</strong> Allows domain switching — a process can move from Dᵢ to Dⱼ.</li>
+      </ul>
+      <strong>Conclusion:</strong> Modern OS typically use ACLs (for revocation ease) combined with capability-like tokens (for efficient delegation), e.g., Linux uses Unix permission bits + POSIX ACLs + Linux capabilities framework.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">25</div><div class="qtxt">Compare RAID 5 on 4 disks with RAID 6 on 6 disks for an e-commerce system storing 10 TB of order data. Calculate usable capacity for each. Analyze which is better when drive failure probabilities are considered, showing full reasoning.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Scenario:</strong> E-commerce order data — high read demand, moderate writes, data loss = significant financial/legal consequence. Both RAID 5 (4×4TB = 16TB raw) and RAID 6 (6×4TB = 24TB raw) are being compared (assume 4TB drives).
+      <br><br>
+      <strong>RAID 5 on 4 Disks (4 × 4TB):</strong>
+      <ul>
+        <li>Raw capacity: 4 × 4 = 16 TB</li>
+        <li>Parity overhead: 1 disk equivalent</li>
+        <li><strong>Usable capacity: (4−1) × 4 = 12 TB</strong></li>
+        <li>Storage efficiency: 12/16 = <strong>75%</strong></li>
+        <li>Fault tolerance: exactly 1 disk failure</li>
+        <li>During rebuild after 1 failure: ZERO fault tolerance until rebuild completes</li>
+      </ul>
+      <strong>RAID 6 on 6 Disks (6 × 4TB):</strong>
+      <ul>
+        <li>Raw capacity: 6 × 4 = 24 TB</li>
+        <li>Parity overhead: 2 disk equivalents</li>
+        <li><strong>Usable capacity: (6−2) × 4 = 16 TB</strong></li>
+        <li>Storage efficiency: 16/24 = <strong>67%</strong></li>
+        <li>Fault tolerance: any 2 simultaneous disk failures</li>
+        <li>During rebuild after 1 failure: still tolerates 1 more failure</li>
+      </ul>
+      <strong>Risk Analysis using Probability:</strong>
+      <br>
+      Assume each drive has 0.5% annual failure rate (AFR = 0.005). For a 4TB drive, rebuild time ≈ 24 hours at sustained 100MB/s.
+      <br>
+      Probability that a second drive fails during rebuild given first failure:
+      <br>
+      P(second failure in 24 hours) ≈ (n−1) × AFR/365 ≈ 3 × 0.005/365 ≈ <strong>0.0041%</strong> per rebuild event.
+      <br>
+      This seems small, but for a large fleet (1000 drives): expected rebuild events/year = 1000 × 0.005 = 50 rebuilds. Expected double failures = 50 × 0.0041% ≈ 0.002 — i.e., roughly once every 500 years for this array. Low risk.
+      <br><br>
+      However, with larger 16TB drives (rebuild = 96+ hours):
+      <br>
+      P(second failure) ≈ 3 × 0.005/365 × 4 (4× rebuild time) ≈ <strong>0.016%</strong>. For 1000 drives: ~0.008 expected double failures/year — once every 125 years. Still manageable but noticeably higher.
+      <br><br>
+      For 20TB drives rebuilding over 200 hours, the risk becomes significant: ~0.08% per rebuild event — once every ~25 years for large deployments. RAID 6 becomes clearly better.
+      <br><br>
+      <strong>E-commerce Specific Considerations:</strong>
+      <ul>
+        <li>Order data has legal retention requirements (7 years in many jurisdictions) — data loss = compliance violation.</li>
+        <li>Peak traffic periods (holiday sales) mean degraded-mode performance during rebuild is worse than normal times.</li>
+        <li>RAID 6 costs 8 TB more raw storage (2 extra drives × 4TB) but provides significantly better protection.</li>
+        <li>Cost of 2 extra drives (~$200) vs cost of data loss / business downtime (potentially millions) = trivially justified.</li>
+      </ul>
+      <strong>Recommendation: RAID 6</strong>
+      Despite slightly lower storage efficiency (67% vs 75%), RAID 6 is clearly superior for e-commerce order data because: (1) as drives get larger, rebuild times grow and double-failure risk increases; (2) the financial/legal consequences of data loss are severe; (3) the cost premium is negligible relative to the risk.
+      <br><br>
+      Also recommended: RAID 6 should be combined with regular off-site backups and hot-spare drives for fastest possible rebuild time.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">26</div><div class="qtxt">Design a distributed operating system architecture for a cloud computing platform. Address resource sharing, process migration, fault tolerance, and communication, explaining how each component works.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Cloud Platform Requirements:</strong> Thousands of nodes geographically distributed; users unaware of underlying infrastructure; automatic scaling; fault tolerance; efficient resource utilization; secure multi-tenant environment.
+      <br><br>
+      <strong>Architecture Overview:</strong>
+      <br>
+      The system is a <em>Distributed Operating System</em> (not merely a Network OS) — resource access is fully transparent to users/applications. Architecture consists of multiple layers:
+      <br><br>
+      <strong>1. Communication Layer (Foundation):</strong>
+      <ul>
+        <li>Uses packet switching (TCP/IP) for all inter-node communication — flexible, fault-tolerant routing.</li>
+        <li>Dynamic routing — chooses least-loaded paths at message-send time; adapts to network failures automatically.</li>
+        <li>Asynchronous message passing between nodes — non-blocking, enabling high concurrency across thousands of simultaneous operations.</li>
+        <li>CSMA/CD within data center segments (Ethernet 100GbE); packet switching between data centers.</li>
+      </ul>
+      <strong>2. Naming and Discovery Service:</strong>
+      <ul>
+        <li>Distributed naming service (like DNS but for internal resources) — maps logical resource names to physical node locations.</li>
+        <li>Location-transparent access: applications use logical resource names, the naming layer resolves to current physical location.</li>
+        <li>Dynamic updates when resources migrate — naming service updated automatically.</li>
+      </ul>
+      <strong>3. Resource Management and Process Migration:</strong>
+      <ul>
+        <li><strong>Load Balancing:</strong> Monitor CPU/memory utilization across all nodes. When node exceeds threshold (e.g., >80% CPU for 5 minutes), migrate processes to underloaded nodes. Minimizes hotspots.</li>
+        <li><strong>Computation Migration:</strong> Rather than moving large datasets, move the computation to where the data resides — reduces network traffic dramatically.</li>
+        <li><strong>Data Migration:</strong> For smaller datasets, transfer only the portions needed for immediate task (lazy migration).</li>
+        <li><strong>Hardware Preference:</strong> GPU-intensive machine learning tasks automatically routed to GPU nodes; high-memory database queries to high-RAM nodes.</li>
+      </ul>
+      <strong>4. Fault Tolerance:</strong>
+      <ul>
+        <li>All data stored with replication factor ≥ 3 across different availability zones (sites).</li>
+        <li>Heartbeat monitoring: each node sends heartbeat every 1 second; missing 3 heartbeats = node considered failed.</li>
+        <li>Automatic process restart: failed processes automatically restarted on healthy nodes using last checkpoint.</li>
+        <li>Consistent hashing for distributing workload — removing a failed node only affects its immediate neighbors in the hash ring.</li>
+      </ul>
+      <strong>5. Protection and Security:</strong>
+      <ul>
+        <li>Access Matrix enforced at hypervisor level — each tenant's VMs are completely isolated.</li>
+        <li>Principle of Least Privilege: each service runs with minimum required permissions (capabilities).</li>
+        <li>Encrypted communication between all nodes (TLS 1.3).</li>
+        <li>Authentication via tokens/certificates (not passwords) — prevents replay attacks.</li>
+      </ul>
+      <strong>6. Client-Server and P2P Hybrid Architecture:</strong>
+      <ul>
+        <li>Control plane: Client-Server model (central controller nodes manage cluster state).</li>
+        <li>Data plane: P2P model (data transferred directly between nodes without central server bottleneck).</li>
+        <li>This hybrid is used by Google (GFS/Colossus), Amazon (S3), and Kubernetes.</li>
+      </ul>
+      <strong>Conclusion:</strong> This distributed OS architecture achieves full resource transparency, automatic fault recovery, efficient process migration, and strong security by combining packet-switched networking, dynamic routing, distributed naming, load-based process migration, replication-based fault tolerance, and a hybrid client-server/P2P architecture — mirroring the design of modern cloud platforms like AWS, Google Cloud, and Azure.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">27</div><div class="qtxt">A RAID 5 system with 4 data disks (Disks 0–3) stores 16 blocks (B0–B15) with block-level striping and distributed parity. Show the complete layout of all 16 data blocks and 4 parity blocks across the 4 disks. What happens if Disk 2 fails and block B6 is requested?</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>RAID 5 Layout Rules:</strong>
+      With 4 disks (D0, D1, D2, D3), each stripe has 3 data blocks and 1 parity block. Parity rotates in reverse order across disks. Total data blocks per stripe = 3, so 16 data blocks = ceil(16/3) = 6 stripes (with 2 blocks in the last stripe).
+      <br><br>
+      <strong>Complete Block Layout (4 disks, 4 data blocks per stripe with 1 parity):</strong>
+      <table style="font-size:12px;border-collapse:collapse;width:100%;margin-top:8px;">
+        <tr style="background:#1A1A1A;color:#fff;"><td style="padding:4px 8px;">Stripe</td><td>Disk 0</td><td>Disk 1</td><td>Disk 2</td><td>Disk 3</td></tr>
+        <tr><td>Stripe 0</td><td style="background:#DBEAFE;">B0</td><td style="background:#DBEAFE;">B1</td><td style="background:#DBEAFE;">B2</td><td style="background:#E5E7EB;font-weight:700;">P0=B0⊕B1⊕B2</td></tr>
+        <tr style="background:#F9FAFB;"><td>Stripe 1</td><td style="background:#D1FAE5;">B3</td><td style="background:#D1FAE5;">B4</td><td style="background:#E5E7EB;font-weight:700;">P1=B3⊕B4⊕B5</td><td style="background:#D1FAE5;">B5</td></tr>
+        <tr><td>Stripe 2</td><td style="background:#FDE68A;">B6</td><td style="background:#E5E7EB;font-weight:700;">P2=B6⊕B7⊕B8</td><td style="background:#FDE68A;">B7</td><td style="background:#FDE68A;">B8</td></tr>
+        <tr style="background:#F9FAFB;"><td>Stripe 3</td><td style="background:#E5E7EB;font-weight:700;">P3=B9⊕B10⊕B11</td><td style="background:#FCE7F3;">B9</td><td style="background:#FCE7F3;">B10</td><td style="background:#FCE7F3;">B11</td></tr>
+        <tr><td>Stripe 4</td><td style="background:#EDE9FE;">B12</td><td style="background:#EDE9FE;">B13</td><td style="background:#EDE9FE;">B14</td><td style="background:#E5E7EB;font-weight:700;">P4=B12⊕B13⊕B14</td></tr>
+        <tr style="background:#F9FAFB;"><td>Stripe 5</td><td style="background:#ECFDF5;">B15</td><td style="background:#ECFDF5;">—</td><td style="background:#E5E7EB;font-weight:700;">P5=B15</td><td style="background:#ECFDF5;">—</td></tr>
+      </table>
+      <br>
+      <strong>Disk 2 Fails — Requesting Block B6:</strong>
+      <br>
+      B6 is in Stripe 2. The layout for Stripe 2 is:
+      <ul>
+        <li>Disk 0: B6 (DATA — on failed Disk 2? Let me recheck...)</li>
+      </ul>
+      Looking at Stripe 2: Disk 0 = B6, Disk 1 = P2, Disk 2 = B7, Disk 3 = B8.
+      <br>
+      Disk 2 failed → B7 is lost.
+      <br>
+      Wait — request is for B6 which is on Disk 0 (still alive) → B6 can be read directly. No reconstruction needed.
+      <br><br>
+      <strong>Now suppose Disk 2 fails and B7 is requested (on the failed disk):</strong>
+      <br>
+      B7 is in Stripe 2 on Disk 2 (failed). System reconstructs it:
+      <br>
+      Reconstruction formula: B7 = P2 ⊕ B6 ⊕ B8
+      <ul>
+        <li>Read P2 from Disk 1 (alive): ✅</li>
+        <li>Read B6 from Disk 0 (alive): ✅</li>
+        <li>Read B8 from Disk 3 (alive): ✅</li>
+        <li>Compute: B7_reconstructed = P2 ⊕ B6 ⊕ B8 → delivers to application</li>
+      </ul>
+      This is done <strong>transparently in real-time</strong> by the RAID controller. The application doesn't know any disk failed.
+      <br><br>
+      <strong>Rebuild Process After Failure:</strong>
+      <ol>
+        <li>Admin installs replacement Disk 2 (hot-swap or cold-replace).</li>
+        <li>RAID controller begins background rebuild: for EVERY stripe containing data on Disk 2, reconstructs the missing block using XOR of all surviving disks in that stripe (including parity).</li>
+        <li>For Stripe 2: new_B7 = P2 ⊕ B6 ⊕ B8; written to new Disk 2.</li>
+        <li>Also reconstructs P1 for Stripe 1 if parity was on Disk 2: new_P1 = B3 ⊕ B4 ⊕ B5; written to new Disk 2.</li>
+        <li>Continues for all stripes until Disk 2 is fully rebuilt.</li>
+        <li>Performance is degraded during rebuild (extra reads for reconstruction).</li>
+        <li>After rebuild: system returns to full RAID 5 protection — no data was lost.</li>
+      </ol>
+      <strong>Key Insight:</strong> RAID 5 provides fault tolerance by using parity (XOR). Since A ⊕ A = 0, and XOR is commutative/associative: any single block = XOR of all other blocks in the stripe including parity. This allows reconstruction of any single failed disk's data from all remaining disks.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">28</div><div class="qtxt">Scenario: A buffer overflow exploit is attempted on a university server. Explain how the attack works at the stack level, what data it overwrites, how it gains control, and what OS-level defenses can prevent it.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Background: Stack Frame Layout</strong>
+      <br>
+      When a function is called, the OS pushes a <em>stack frame</em> onto the program stack containing: local variables (including buffers), saved base pointer (EBP), <strong>return address</strong> (EIP/RIP), and function arguments. The stack grows downward (toward lower addresses) on most architectures.
+      <br><br>
+      <strong>Vulnerable Code Example:</strong>
+<pre style="font-size:11px;padding:8px 12px;margin:8px 0;">
+<span class="kw">void</span> <span class="fn">authenticate</span>(<span class="kw">char</span> *input) {
+    <span class="kw">char</span> buf[<span class="num">64</span>];           <span class="cmt">// 64-byte buffer on stack</span>
+    strcpy(buf, input);      <span class="cmt">// NO bounds checking!</span>
+    <span class="cmt">// if input > 64 bytes → overflow!</span>
+}
+</pre>
+      <strong>Stack Layout Before Attack:</strong>
+      <br>
+      [buf (64 bytes)] [saved EBP (4 bytes)] [return address (4 bytes)] [arguments]
+      <br>→ lower addresses ←→ higher addresses →
+      <br><br>
+      <strong>Attack Execution Steps:</strong>
+      <ol>
+        <li>Attacker sends an input larger than 64 bytes (e.g., 200 bytes).</li>
+        <li><code>strcpy()</code> copies bytes into <code>buf</code> without checking size.</li>
+        <li>After 64 bytes, the copy overflows into saved EBP, then continues into the <strong>return address</strong>.</li>
+        <li>Attacker carefully crafts the input so bytes 69–72 (at the return address position) contain the <em>address of attacker's shellcode</em>.</li>
+        <li>The shellcode (malicious instructions, e.g., <code>execve("/bin/sh", null, null)</code>) is embedded earlier in the input buffer or in an environment variable.</li>
+        <li>When <code>authenticate()</code> returns, CPU loads the overwritten return address (attacker's address) instead of the legitimate return address.</li>
+        <li>CPU jumps to attacker's shellcode and executes it — with the privileges of the vulnerable program.</li>
+        <li>If the vulnerable program runs as root (SUID), attacker gets a root shell.</li>
+      </ol>
+      <strong>Stack Layout After Attack:</strong>
+      <br>
+      [NOP sled...shellcode...] [overwritten EBP] [attacker's shellcode address] [args]
+      <br><br>
+      <strong>NOP Sled Technique:</strong>
+      Attacker doesn't know exact address of shellcode, so prepends many NOP instructions (no-operation, 0x90). CPU slides through NOPs until it hits shellcode. Increases attack reliability.
+      <br><br>
+      <strong>OS-Level Defenses:</strong>
+      <ol>
+        <li><strong>Stack Canaries:</strong> Compiler (gcc -fstack-protector) places a random "canary" value between buffer and return address. Before function returns, canary is checked — if modified, execution is aborted. Detects overflow before control is transferred.</li>
+        <li><strong>ASLR (Address Space Layout Randomization):</strong> OS randomizes base addresses of stack, heap, and libraries on each execution. Attacker cannot reliably predict address to jump to. Effective against hardcoded address attacks.</li>
+        <li><strong>NX/DEP (Non-Executable Stack/Data Execution Prevention):</strong> Memory regions marked as data (stack, heap) are flagged as non-executable (NX bit in page table). CPU refuses to execute instructions from these regions — shellcode on stack cannot run.</li>
+        <li><strong>Safe Functions:</strong> Use <code>strncpy(buf, input, 63)</code> instead of <code>strcpy()</code>; use <code>fgets()</code> instead of <code>gets()</code>. Modern C compilers warn about unsafe functions.</li>
+        <li><strong>Bounds Checking:</strong> Use safe languages (Rust, Java) or static analysis tools (Coverity, CodeQL) to detect buffer overflows before deployment.</li>
+        <li><strong>Control Flow Integrity (CFI):</strong> Modern GCC/LLVM insert runtime checks ensuring function return addresses match expected valid locations — prevents arbitrary code execution even if return address is overwritten.</li>
+        <li><strong>Principle of Least Privilege:</strong> Run servers as non-root users; even successful exploitation gives limited privilege rather than root access.</li>
+      </ol>
+      <strong>Conclusion:</strong> Buffer overflow attacks exploit the combination of unsafe string functions, contiguous stack layout, and CPU's blind trust in return addresses. Modern defense is layered: stack canaries (detect), ASLR (complicate), NX (prevent execution), bounds-safe code (eliminate vulnerability at source). No single defense is complete; all should be deployed simultaneously.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">29</div><div class="qtxt">Compare P2P and Client-Server models for building a distributed file storage system handling 100TB of data across 1000 nodes. Analyze failure scenarios, performance, consistency, and security for both models. Which would you recommend and why?</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>System Parameters:</strong> 100TB data, 1000 storage nodes, global distribution, multiple concurrent users, high availability requirement.
+      <br><br>
+      <strong>Client-Server Architecture Analysis:</strong>
+      <br>
+      One or few central metadata servers; data servers store chunks; clients communicate with metadata server for file locations, then with data servers for actual data.
+      <ul>
+        <li><strong>Performance:</strong> Metadata server is bottleneck — all namespace operations (list, create, delete) funnel through it. With 1000 nodes, if metadata server handles 10,000 operations/second, it limits overall system throughput. Data transfer goes directly to data servers (fast). Vertical scaling of metadata server expensive.</li>
+        <li><strong>Consistency:</strong> Strong consistency easy — metadata server is the single authority. All clients always see latest file list. Suitable for financial/medical data.</li>
+        <li><strong>Failure Scenario:</strong> Metadata server failure = entire system inaccessible (SPOF). With replication (primary-secondary): 30-60 second failover window — unacceptable for high-availability needs. 1000 data nodes: statistically, one fails every ~15 days at 0.5% AFR → handled by replication.</li>
+        <li><strong>Security:</strong> Centralized control makes access control straightforward. Single point to enforce authentication, authorization, encryption. Audit logging centralized. However, metadata server compromise = full system compromise.</li>
+        <li><strong>DDoS Vulnerability:</strong> Metadata server is a target — concentrated attack can take down entire system.</li>
+        <li><strong>Examples:</strong> GFS (Google File System), HDFS — use a single NameNode (client-server for metadata) + distributed DataNodes (P2P for data). Google found 1 NameNode sufficient for petabytes.</li>
+      </ul>
+      <strong>Peer-to-Peer Architecture Analysis:</strong>
+      <br>
+      All nodes are equal; no central authority. Using consistent hashing (like Amazon Dynamo, Chord protocol), each node is responsible for a portion of the key space.
+      <ul>
+        <li><strong>Performance:</strong> No central bottleneck — reads/writes distributed across all 1000 nodes simultaneously. Scales linearly: adding nodes increases total throughput proportionally. Excellent for high-volume parallel access.</li>
+        <li><strong>Consistency:</strong> Hard to maintain strong consistency — updates must propagate to all replicas. Most P2P systems use <em>eventual consistency</em> (Dynamo, Cassandra): nodes may temporarily serve stale data. Unsuitable for strict financial/medical applications without modifications.</li>
+        <li><strong>Failure Scenario:</strong> Highly resilient — no SPOF. Node failure only affects its data; other nodes reconstruct the data using redundant copies. System continues fully operational. 1000 nodes: even 10% simultaneous failures = 900 nodes still operational. DHT (Distributed Hash Table) automatically redistributes responsibility for failed nodes' data.</li>
+        <li><strong>Security:</strong> Harder to secure — no central authority to enforce policies. Sybil attacks (attacker creates many fake nodes) can compromise data availability. Requires cryptographic proof-of-identity. Each node must verify all received data — Byzantine fault tolerance is complex.</li>
+        <li><strong>Examples:</strong> BitTorrent, IPFS, Amazon Dynamo, Apache Cassandra.</li>
+      </ul>
+      <strong>Recommendation for 100TB / 1000 Nodes:</strong>
+      <br>
+      <strong>Hybrid Architecture: Client-Server for metadata, P2P for data (GFS/HDFS model)</strong>
+      <ul>
+        <li>Metadata (namespace, file locations) on replicated client-server nodes (primary + 2 secondaries for high availability).</li>
+        <li>Data blocks stored P2P across all 1000 nodes — each block replicated 3× on nodes in different racks/zones.</li>
+        <li>This gives: Strong consistency for namespace operations; High throughput for data access (parallel across 1000 nodes); No SPOF (data servers) + fast metadata failover; Manageable security (central auth server).</li>
+      </ul>
+      <br>
+      This is exactly the architecture of Google File System, Amazon S3 (with metadata databases + S3 object storage nodes), and HDFS — proven at 100TB+ and billion-file scale in production. Pure P2P introduces consistency complexity; pure client-server creates bottlenecks at 1000+ nodes. The hybrid captures the best of both.
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhdr"><div class="qno hard">30</div><div class="qtxt">A financial firm runs a multi-user OS with strict security requirements. Design a complete protection and security architecture using the Principle of Least Privilege, Access Matrix, and protection against all known program threats (Trojan, virus, worm, logic bomb, buffer overflow). Show implementation with pseudocode where appropriate.</div><span class="qmk hard">10 marks</span></div>
+    <div class="qans"><div class="al">Answer</div>
+      <strong>Security Architecture Design for Financial OS:</strong>
+      <br><br>
+      <strong>1. Domain-Based Protection Model (Principle of Least Privilege):</strong>
+      <br>
+      Define minimum-privilege domains for each role:
+<pre style="font-size:11px;padding:10px 14px;margin:8px 0;">
+Domains:
+  D_trader  = { read: market_data, write: trade_orders }
+  D_analyst = { read: market_data, read: trade_reports }
+  D_admin   = { read: all, write: system_config, NOT write: trade_orders }
+  D_auditor = { read: all_logs, NOT write: anything }
+  D_process = { execute: specific_binary, NOT network: external }
+
+Objects:
+  market_data (file), trade_orders (file), system_config (file)
+  trade_reports (file), all_logs (file), network (device)
+  printer (device), database (service)
+</pre>
+      <strong>2. Access Matrix Implementation:</strong>
+<pre style="font-size:11px;padding:10px 14px;margin:8px 0;">
+Access Matrix:
+              market_data  trade_orders  system_config  logs    network
+D_trader      [read]       [read,write]  []             [read]  [trade_API only]
+D_analyst     [read]       [read]        []             [read]  [read_only]
+D_admin       [read,write] []            [read,write]   [read]  [admin_API]
+D_auditor     [read]       [read]        []             [read]  []
+D_process     []           [execute]     []             [write] []
+
+Implementation: ACL per object + Capability tokens per session
+</pre>
+      <strong>3. Protecting Against Program Threats:</strong>
+      <br><br>
+      <strong>Against Trojan Horse:</strong>
+      <ul>
+        <li>Code signing: all executables must be signed with company's certificate. OS refuses to run unsigned binaries.</li>
+        <li>Whitelist-only execution: only approved binaries may run — no ad-hoc program execution by users.</li>
+        <li>Application sandbox: each program runs in a restricted domain with no access to other programs' data.</li>
+        <li>User education: training on phishing and social engineering (most trojans enter via user action).</li>
+      </ul>
+      <strong>Against Virus:</strong>
+      <ul>
+        <li>Read-only file system for all executables: programs stored on read-only partition → virus cannot modify them.</li>
+        <li>Real-time antivirus scanning with behavioral detection (not just signature-based).</li>
+        <li>Integrity monitoring: cryptographic hashes of all executables checked daily (SHA-256 hash database).</li>
+      </ul>
+      <strong>Against Worm:</strong>
+      <ul>
+        <li>Network segmentation: trading systems on isolated VLAN, no direct Internet access.</li>
+        <li>Strict firewall rules: default-deny inbound and outbound; whitelist specific services only.</li>
+        <li>Rate limiting on network connections: abnormal connection volume triggers alert + automatic quarantine.</li>
+        <li>Patch management: all systems patched within 24 hours of critical security update release — eliminates worm entry points.</li>
+      </ul>
+      <strong>Against Logic Bomb:</strong>
+<pre style="font-size:11px;padding:10px 14px;margin:8px 0;">
+<span class="cmt">// Static code analysis tool scans all commits</span>
+<span class="kw">function</span> <span class="fn">scan_for_logic_bombs</span>(source_code):
+    patterns = [
+        /if.*date.*==.*delete/i,      <span class="cmt">// date-triggered deletion</span>
+        /if.*user.*==.*"fired"/i,      <span class="cmt">// condition-triggered action</span>
+        /sleep.*86400.*rm -rf/i,       <span class="cmt">// delayed destructive command</span>
+    ]
+    <span class="kw">for</span> pattern <span class="kw">in</span> patterns:
+        <span class="kw">if</span> pattern.match(source_code):
+            flag_for_manual_review()
+            block_commit()
+</pre>
+      Additional: mandatory code review by two developers; no single person can approve their own commits; audit logging of all code deployments.
+      <br><br>
+      <strong>Against Buffer Overflow:</strong>
+<pre style="font-size:11px;padding:10px 14px;margin:8px 0;">
+<span class="cmt">// All code compiled with protections enabled:</span>
+gcc -o trading_app trading.c \
+    -fstack-protector-all \    <span class="cmt">// stack canaries</span>
+    -D_FORTIFY_SOURCE=2 \      <span class="cmt">// safe library functions</span>
+    -pie -fPIE                 <span class="cmt">// position-independent (aids ASLR)</span>
+
+<span class="cmt">// OS Configuration:</span>
+sysctl -w kernel.randomize_va_space=2   <span class="cmt">// full ASLR</span>
+echo 1 > /proc/sys/kernel.exec-shield   <span class="cmt">// NX bit enabled</span>
+</pre>
+      <strong>4. Runtime Monitoring:</strong>
+      <ul>
+        <li>System call auditing (auditd): log all privilege escalations, file accesses, network connections.</li>
+        <li>SIEM (Security Information and Event Management): correlate events across all systems — detect anomalies in real-time.</li>
+        <li>Canary accounts: fake user accounts that should never be logged into — any login attempt triggers immediate security alert.</li>
+        <li>Network traffic analysis: baseline normal trading traffic patterns; alert on deviations (potential exfiltration or worm spreading).</li>
+      </ul>
+      <strong>5. Incident Response Protocol:</strong>
+<pre style="font-size:11px;padding:10px 14px;margin:8px 0;">
+Detection → Isolation → Analysis → Eradication → Recovery → Lessons
+
+Detection:   IDS/SIEM alert, FIM alert, or user report
+Isolation:   Automatically quarantine affected system (block network)
+Analysis:    Forensic memory/disk capture before any cleanup
+Eradication: Remove malware, patch vulnerability, reset credentials
+Recovery:    Restore from clean backup, verify integrity
+Lessons:     Update policies, detection rules, training
+</pre>
+      <strong>Conclusion:</strong> A comprehensive financial OS security architecture layers defenses at every level: domain-based access control (Principle of Least Privilege + Access Matrix) for authorization; code signing and whitelisting against trojans; read-only executables + FIM against viruses; network segmentation + firewalling against worms; static analysis + code review against logic bombs; stack canaries + ASLR + NX against buffer overflows; plus continuous monitoring and incident response. No single measure suffices — the depth of layering determines overall security strength.
+    </div>
+  </div>
+
+</div><!-- end qna -->
+
+<hr class="div">
+
+<!-- CHEAT SHEET -->
+<div id="cs" class="cs">
+  <h2 class="cs-t">Quick <em>Cheat Sheet</em></h2>
+  <p class="cs-sub">Unit 3 OS — Everything you need for last-minute revision · 24CST-205</p>
+  <div class="cs-grid">
+
+    <div class="csp">
+      <div class="csp-t">RAID Levels Summary</div>
+      <div class="csr"><span class="csk">RAID 0</span><span class="csv">Striping only · No redundancy · Best perf · 100% efficiency</span></div>
+      <div class="csr"><span class="csk">RAID 1</span><span class="csv">Mirroring · Tolerates 1 fail · 50% efficiency · Best reliability</span></div>
+      <div class="csr"><span class="csk">RAID 2</span><span class="csv">Hamming ECC · Obsolete · 39 disks needed</span></div>
+      <div class="csr"><span class="csk">RAID 3</span><span class="csv">Byte-level striping + dedicated parity · 1 disk</span></div>
+      <div class="csr"><span class="csk">RAID 4</span><span class="csv">Block striping + dedicated parity · Parity bottleneck</span></div>
+      <div class="csr"><span class="csk">RAID 5</span><span class="csv">Distributed parity · 1 disk fail · (n-1)/n efficiency · Most used</span></div>
+      <div class="csr"><span class="csk">RAID 6</span><span class="csv">Double parity · 2 disk fails · (n-2)/n · Enterprise HA</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">File System Layers (top→bottom)</div>
+      <div class="csr"><span class="csk">Application</span><span class="csv">User programs making file syscalls</span></div>
+      <div class="csr"><span class="csk">Logical FS</span><span class="csv">Metadata · inodes · directory mgmt · protection</span></div>
+      <div class="csr"><span class="csk">File-Org Module</span><span class="csv">Logical→physical block translation · free space</span></div>
+      <div class="csr"><span class="csk">Basic FS</span><span class="csv">Buffers · caches · generic block commands</span></div>
+      <div class="csr"><span class="csk">I/O Control</span><span class="csv">Device drivers → hardware-specific commands</span></div>
+      <div class="csr"><span class="csk">Physical</span><span class="csv">Actual disk hardware</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">File Allocation Methods</div>
+      <div class="csr"><span class="csk">Contiguous</span><span class="csv">Adjacent blocks · Best perf · External fragmentation · Need size upfront</span></div>
+      <div class="csr"><span class="csk">Linked</span><span class="csv">Linked list of blocks · No ext frag · Sequential only · FAT variation</span></div>
+      <div class="csr"><span class="csk">Indexed</span><span class="csv">Index block → data blocks · Direct access · No frag · Index overhead</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Free Space Management</div>
+      <div class="csr"><span class="csk">Bitmap</span><span class="csv">1 bit/block · Fast with bitwise ops · Extra space needed</span></div>
+      <div class="csr"><span class="csk">Linked List</span><span class="csv">Free blocks linked · Simple · Slow traversal</span></div>
+      <div class="csr"><span class="csk">Grouping</span><span class="csv">n−1 addresses stored in first free block + pointer to next group</span></div>
+      <div class="csr"><span class="csk">Counting</span><span class="csv">(start_addr, count) pairs · Efficient for contiguous alloc</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Directory Types</div>
+      <div class="csr"><span class="csk">Single-Level</span><span class="csv">One dir, all files · Simple · All names must be unique · Single user</span></div>
+      <div class="csr"><span class="csk">Two-Level</span><span class="csv">MFD + per-user UFD · Isolated · No sub-dirs</span></div>
+      <div class="csr"><span class="csk">Tree (Hierarchical)</span><span class="csv">Unlimited nesting · Abs/rel paths · Modern standard</span></div>
+      <div class="csr"><span class="csk">Dir Implementation</span><span class="csv">Linear list O(n) · Hash table O(1) avg · B+ tree O(log n)</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Protection Essentials</div>
+      <div class="csr"><span class="csk">Least Privilege</span><span class="csv">Give minimum access needed to do the task</span></div>
+      <div class="csr"><span class="csk">Access Right</span><span class="csv">&lt;object-name, rights-set&gt; where rights ⊆ valid operations</span></div>
+      <div class="csr"><span class="csk">Domain</span><span class="csv">Set of access rights; can be user/process/procedure</span></div>
+      <div class="csr"><span class="csk">Access Matrix</span><span class="csv">Rows=Domains, Cols=Objects, Cell=allowed ops</span></div>
+      <div class="csr"><span class="csk">ACL</span><span class="csv">Per-object list of (domain, rights) · Easy revoke per object</span></div>
+      <div class="csr"><span class="csk">Capability</span><span class="csv">Per-domain list of (object, rights) · Easy enumerate per domain</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Security Violations</div>
+      <div class="csr"><span class="csk">Confidentiality</span><span class="csv">Unauthorized READ of data</span></div>
+      <div class="csr"><span class="csk">Integrity</span><span class="csv">Unauthorized MODIFY of data</span></div>
+      <div class="csr"><span class="csk">Availability</span><span class="csv">Unauthorized DESTROY / DoS attack</span></div>
+      <div class="csr"><span class="csk">Theft</span><span class="csv">Unauthorized USE of resources</span></div>
+      <div class="csr"><span class="csk">Masquerading</span><span class="csv">Pretending to be authorized user</span></div>
+      <div class="csr"><span class="csk">MitM</span><span class="csv">Intruder intercepts between sender and receiver</span></div>
+      <div class="csr"><span class="csk">Session Hijack</span><span class="csv">Intercepts established authenticated session</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Program Threats</div>
+      <div class="csr"><span class="csk">Trojan Horse</span><span class="csv">Appears useful but runs malicious code secretly</span></div>
+      <div class="csr"><span class="csk">Logic Bomb</span><span class="csv">Dormant until specific condition triggers it</span></div>
+      <div class="csr"><span class="csk">Trapdoor</span><span class="csv">Hidden undocumented entry point bypassing auth</span></div>
+      <div class="csr"><span class="csk">Virus</span><span class="csv">Attaches to programs · spreads on execution · needs host</span></div>
+      <div class="csr"><span class="csk">Worm</span><span class="csv">Self-replicates over network · NO host file needed</span></div>
+      <div class="csr"><span class="csk">Buffer Overflow</span><span class="csv">Overwrite return address on stack → execute shellcode</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Buffer Overflow Defenses</div>
+      <div class="csr"><span class="csk">Stack Canary</span><span class="csv">Random value between buffer and return addr; checked on return</span></div>
+      <div class="csr"><span class="csk">ASLR</span><span class="csv">Randomize stack/heap/lib addresses each execution</span></div>
+      <div class="csr"><span class="csk">NX / DEP</span><span class="csv">Mark stack non-executable; shellcode cannot run</span></div>
+      <div class="csr"><span class="csk">Safe Functions</span><span class="csv">strncpy not strcpy; fgets not gets; bounds check always</span></div>
+      <div class="csr"><span class="csk">CFI</span><span class="csv">Control Flow Integrity — validates return addresses at runtime</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Distributed Systems</div>
+      <div class="csr"><span class="csk">NOS</span><span class="csv">Users AWARE of multiple machines · explicit ssh/FTP access</span></div>
+      <div class="csr"><span class="csk">DOS</span><span class="csv">Users UNAWARE · transparent access · auto migration</span></div>
+      <div class="csr"><span class="csk">Process Migration</span><span class="csv">Load balance · speedup · hw preference · data access</span></div>
+      <div class="csr"><span class="csk">Compute Migration</span><span class="csv">Move computation to where data is (avoids data transfer)</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Connection Strategies</div>
+      <div class="csr"><span class="csk">Circuit</span><span class="csv">Permanent link for duration · Setup overhead · Telephone</span></div>
+      <div class="csr"><span class="csk">Message</span><span class="csv">Temp link per message · Store-and-forward · Post office</span></div>
+      <div class="csr"><span class="csk">Packet</span><span class="csv">Fixed packets take different paths · Reassemble · Internet</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Routing Strategies</div>
+      <div class="csr"><span class="csk">Fixed</span><span class="csv">Path pre-specified · Shortest · No load adaptation · In-order</span></div>
+      <div class="csr"><span class="csk">Virtual Circuit</span><span class="csv">Fixed for session · Partial load adapt · In-order</span></div>
+      <div class="csr"><span class="csk">Dynamic</span><span class="csv">Per-message path · Least loaded link · Adapts · Out-of-order risk</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Network Contention</div>
+      <div class="csr"><span class="csk">CSMA/CD</span><span class="csv">Sense before send · Detect collision · Retry · Ethernet</span></div>
+      <div class="csr"><span class="csk">Token Passing</span><span class="csv">Token circulates ring · Must hold to transmit · No collision</span></div>
+      <div class="csr"><span class="csk">Message Slots</span><span class="csv">Fixed-length slots circulate · Cambridge Ring system</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">OSI Layers (quick)</div>
+      <div class="csr"><span class="csk">7 App</span><span class="csv">FTP, HTTP, Email, DNS — user facing</span></div>
+      <div class="csr"><span class="csk">6 Present</span><span class="csv">Format, encryption, character conversion</span></div>
+      <div class="csr"><span class="csk">5 Session</span><span class="csv">Process-to-process communication sessions</span></div>
+      <div class="csr"><span class="csk">4 Transport</span><span class="csv">Packet order, flow control, physical addresses</span></div>
+      <div class="csr"><span class="csk">3 Network</span><span class="csv">Routing, source→destination addressing</span></div>
+      <div class="csr"><span class="csk">2 Data Link</span><span class="csv">Frames, error detection, P2P links</span></div>
+      <div class="csr"><span class="csk">1 Physical</span><span class="csv">Raw bit transmission over physical medium</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">P2P vs Client-Server</div>
+      <div class="csr"><span class="csk">C-S SPOF</span><span class="csv">Server failure = system down · DDoS vulnerable</span></div>
+      <div class="csr"><span class="csk">C-S Security</span><span class="csv">Easier to secure — centralized auth</span></div>
+      <div class="csr"><span class="csk">P2P Resilience</span><span class="csv">No SPOF · scales linearly · more fault tolerant</span></div>
+      <div class="csr"><span class="csk">P2P Consistency</span><span class="csv">Hard to enforce · usually eventual consistency</span></div>
+      <div class="csr"><span class="csk">Hybrid</span><span class="csv">C-S metadata + P2P data = GFS/HDFS/S3 model</span></div>
+    </div>
+
+    <div class="csp">
+      <div class="csp-t">Key 1-Liner Definitions</div>
+      <div class="csr"><span class="csk">Striping</span><span class="csv">Splitting data across multiple disks for throughput</span></div>
+      <div class="csr"><span class="csk">Parity</span><span class="csv">XOR of data blocks; used to reconstruct failed disk data</span></div>
+      <div class="csr"><span class="csk">Inode</span><span class="csv">Unix file control block; contains metadata + block pointers</span></div>
+      <div class="csr"><span class="csk">FAT</span><span class="csv">File Allocation Table; linked allocation variant; cacheable</span></div>
+      <div class="csr"><span class="csk">MTBF</span><span class="csv">Mean Time Between Failures; RAID increases this</span></div>
+      <div class="csr"><span class="csk">SLED</span><span class="csv">Single Large Expensive Disk; what RAID replaces</span></div>
+    </div>
+
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:44px;padding:20px;color:var(--muted);font-size:12.5px;">
+  Operating System · 24CST-205/24ITT-205 · Unit 3 Study Notes · CSE 4th Semester · UIE · Dr. Anu Kaushik · Academic Session 2025-26
+</div>
+
+</div><!-- end wrap -->
+</body>
+</html>
