@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java OOP — Unit 3 Study Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --surface2: #F4F3EE;
+    --border: #E8E5DC;
+    --text-primary: #1A1A18;
+    --text-secondary: #4A4A44;
+    --text-muted: #8A8A80;
+    --accent: #C84B31;
+    --accent2: #1D6A8C;
+    --accent3: #2D7A47;
+    --accent-light: #FFF0EC;
+    --accent2-light: #EAF4FA;
+    --accent3-light: #EAF7EF;
+    --yellow: #F5A623;
+    --yellow-light: #FFF8EC;
+    --purple: #7B4FBF;
+    --purple-light: #F5F0FF;
+    --tag-easy: #2D7A47;
+    --tag-easy-bg: #EAF7EF;
+    --tag-medium: #C07B1A;
+    --tag-medium-bg: #FFF5E0;
+    --tag-hard: #C84B31;
+    --tag-hard-bg: #FFF0EC;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    background: linear-gradient(135deg, #1A1A18 0%, #2E2E28 60%, #3A2A18 100%);
+    color: #fff;
+    padding: 56px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.02) 30px,rgba(255,255,255,0.02) 31px);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: #F5A623; }
+  .hero-sub { color: rgba(255,255,255,0.65); font-size: 15px; max-width: 640px; margin-bottom: 28px; }
+  .hero-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+  .hero-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    padding: 5px 14px;
+    border-radius: 100px;
+  }
+
+  /* ── LAYOUT ── */
+  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+
+  /* ── TOC ── */
+  .toc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin: 36px 0;
+    box-shadow: var(--shadow);
+  }
+  .toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+  .toc-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .18s;
+    border: 1px solid transparent;
+  }
+  .toc-item:hover { background: var(--accent2-light); border-color: #b8d8ea; color: var(--accent2); }
+  .toc-num {
+    background: var(--surface2); color: var(--text-muted);
+    font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+    width: 24px; height: 24px; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .unit-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 100px; margin-bottom: 10px; margin-top: 48px;
+  }
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+  h3.topic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent2);
+    margin: 28px 0 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  h3.topic-title::before { content: '◆'; font-size: 10px; color: var(--accent); }
+  h4.sub-title {
+    font-size: 15px; font-weight: 700;
+    color: var(--text-primary);
+    margin: 18px 0 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  h4.sub-title::before { content: '›'; color: var(--accent); font-size: 18px; }
+
+  p { margin-bottom: 10px; color: var(--text-secondary); }
+
+  /* ── DEFINITION BOX ── */
+  .def-box {
+    background: linear-gradient(135deg, var(--accent2-light), #FAFCFF);
+    border-left: 4px solid var(--accent2);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .def-box strong { color: var(--accent2); display: block; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 4px; }
+
+  /* ── INFO / NOTE / WARN CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 14px 0;
+    box-shadow: var(--shadow);
+  }
+  .card.note { border-left: 4px solid var(--yellow); background: var(--yellow-light); }
+  .card.warn { border-left: 4px solid var(--accent); background: var(--accent-light); }
+  .card.tip  { border-left: 4px solid var(--accent3); background: var(--accent3-light); }
+  .card-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .card.note .card-label { color: var(--yellow); }
+  .card.warn .card-label { color: var(--accent); }
+  .card.tip  .card-label { color: var(--accent3); }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: #1E1E1E;
+    color: #D4D4D4;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin: 14px 0;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+  pre .comment { color: #6A9955; }
+  pre .keyword { color: #569CD6; }
+  pre .string  { color: #CE9178; }
+  pre .type    { color: #4EC9B0; }
+  pre .method  { color: #DCDCAA; }
+  pre .num     { color: #B5CEA8; }
+  pre .code-label {
+    position: absolute; top: 8px; right: 14px;
+    font-size: 10px; color: #555; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: #F0EDE6;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th {
+    background: var(--text-primary);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .3px;
+  }
+  tbody tr:nth-child(even) { background: var(--surface2); }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover { background: var(--accent2-light); }
+
+  /* ── DIAGRAM / FLOW ── */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .flow-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .flow-box {
+    background: var(--accent2-light);
+    border: 2px solid var(--accent2);
+    color: var(--accent2);
+    font-size: 13px; font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  .flow-box.red   { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .flow-box.green { background: var(--accent3-light); border-color: var(--accent3); color: var(--accent3); }
+  .flow-box.yellow{ background: var(--yellow-light); border-color: var(--yellow); color: #B57A00; }
+  .flow-box.purple{ background: var(--purple-light); border-color: var(--purple); color: var(--purple); }
+  .flow-arrow { color: var(--text-muted); font-size: 18px; font-weight: 700; }
+  .flow-vertical { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .hierarchy { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .h-level { display: flex; gap: 12px; margin: 3px 0; }
+  .h-node {
+    font-size: 12px; font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .h-node.l0 { background:#1A1A18; color:#fff; }
+  .h-node.l1 { background:#1D6A8C; color:#fff; }
+  .h-node.l2 { background:#2D7A47; color:#fff; }
+  .h-node.l3 { background:#C84B31; color:#fff; }
+  .h-node.l4 { background:#F5A623; color:#1A1A18; }
+  .h-connector { width: 2px; height: 14px; background: var(--border); margin: 0 auto; }
+
+  /* ── LIFECYCLE DIAGRAM ── */
+  .lifecycle {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 4px; padding: 16px;
+  }
+  .lc-box {
+    padding: 10px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 700; text-align: center;
+    min-width: 90px;
+  }
+  .lc-arrow { font-size: 20px; color: var(--accent); font-weight: 900; }
+
+  /* ── METHOD LIST ── */
+  .method-list { list-style: none; padding: 0; }
+  .method-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .method-list li:last-child { border-bottom: none; }
+  .m-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    background: #F0EDE6;
+    color: var(--accent2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Q&A SECTION ── */
+  .qa-section { margin-top: 12px; }
+  .qa-category {
+    display: flex; align-items: center; gap: 14px;
+    margin: 36px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed var(--border);
+  }
+  .qa-cat-badge {
+    font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+    padding: 5px 16px; border-radius: 100px;
+  }
+  .qa-cat-badge.easy   { background: var(--tag-easy-bg); color: var(--tag-easy); }
+  .qa-cat-badge.medium { background: var(--tag-medium-bg); color: var(--tag-medium); }
+  .qa-cat-badge.hard   { background: var(--tag-hard-bg); color: var(--tag-hard); }
+  .qa-cat-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow .2s;
+  }
+  .q-card:hover { box-shadow: var(--shadow-lg); }
+  .q-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+  }
+  .q-num {
+    background: var(--text-primary);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 700;
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .q-num.easy   { background: var(--tag-easy); }
+  .q-num.medium { background: var(--tag-medium); }
+  .q-num.hard   { background: var(--tag-hard); }
+  .q-text { font-weight: 700; font-size: 15px; line-height: 1.5; flex: 1; }
+  .q-marks {
+    font-size: 12px; font-weight: 700;
+    padding: 3px 10px; border-radius: 100px;
+    white-space: nowrap;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .q-marks.easy   { background: var(--tag-easy-bg); color: var(--tag-easy); }
+  .q-marks.medium { background: var(--tag-medium-bg); color: var(--tag-medium); }
+  .q-marks.hard   { background: var(--tag-hard-bg); color: var(--tag-hard); }
+  .q-answer {
+    padding: 0 20px 16px 64px;
+    color: var(--text-secondary);
+    font-size: 14.5px;
+    line-height: 1.8;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+  .q-answer ul, .q-answer ol { padding-left: 20px; margin: 8px 0; }
+  .q-answer li { margin-bottom: 5px; }
+  .q-answer .ans-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--accent3); margin-bottom: 8px;
+  }
+
+  /* ── CHEAT SHEET ── */
+  .cheatsheet {
+    background: linear-gradient(135deg, #1A1A18, #2C1810);
+    color: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cheatsheet::before {
+    content: 'CHEAT SHEET';
+    position: absolute; top: 20px; right: 28px;
+    font-size: 80px; font-weight: 900; color: rgba(255,255,255,0.04);
+    letter-spacing: -2px;
+    font-family: 'Playfair Display', serif;
+    pointer-events: none;
+  }
+  .cs-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .cs-title span { color: #F5A623; }
+  .cs-sub { color: rgba(255,255,255,0.55); font-size: 14px; margin-bottom: 32px; }
+  .cs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+  .cs-panel {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .cs-panel-title {
+    font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+    color: #F5A623; margin-bottom: 12px; display: flex; align-items: center; gap: 7px;
+  }
+  .cs-panel-title::before { content: ''; display: block; width: 4px; height: 4px; background: #F5A623; border-radius: 50%; }
+  .cs-row {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size: 13px;
+  }
+  .cs-row:last-child { border-bottom: none; }
+  .cs-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: #4EC9B0;
+    background: rgba(78,201,176,0.1);
+    padding: 1px 7px; border-radius: 3px;
+    flex-shrink: 0; white-space: nowrap;
+  }
+  .cs-val { color: rgba(255,255,255,0.75); line-height: 1.5; }
+
+  /* ── MISC ── */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
+  .tag {
+    font-size: 12px; font-weight: 700; padding: 3px 10px;
+    border-radius: 100px; background: var(--surface2);
+    border: 1px solid var(--border); color: var(--text-secondary);
+  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 14px 0; }
+  @media(max-width:680px) { .two-col { grid-template-columns: 1fr; } }
+
+  hr.divider { border: none; border-top: 2px dashed var(--border); margin: 40px 0; }
+
+  /* ── PRINT ── */
+  @media print {
+    .hero { padding: 24px; }
+    pre { font-size: 11px; }
+    .cheatsheet { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="hero-badge">OOP with Java · 24CSH-207</div>
+    <h1>Unit 3 — <span>Complete Study Notes</span></h1>
+    <p class="hero-sub">GUI Programming (AWT · Swing · Applets) &nbsp;|&nbsp; JDBC Architecture &amp; Connectivity &nbsp;|&nbsp; Working with Statements</p>
+    <div class="hero-meta">
+      <span class="hero-chip">📚 6 Topics Covered</span>
+      <span class="hero-chip">💻 20+ Code Examples</span>
+      <span class="hero-chip">❓ 30 Q&amp;A</span>
+      <span class="hero-chip">⚡ Cheat Sheet Included</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc-card">
+  <div class="toc-title">📋 Table of Contents</div>
+  <div class="toc-grid">
+    <a href="#awt" class="toc-item"><div class="toc-num">01</div>AWT — Abstract Window Toolkit</a>
+    <a href="#event" class="toc-item"><div class="toc-num">02</div>Event Handling</a>
+    <a href="#swing" class="toc-item"><div class="toc-num">03</div>Swing Framework</a>
+    <a href="#applet" class="toc-item"><div class="toc-num">04</div>Applets</a>
+    <a href="#jdbc-arch" class="toc-item"><div class="toc-num">05</div>JDBC Architecture</a>
+    <a href="#jdbc-conn" class="toc-item"><div class="toc-num">06</div>JDBC Connectivity</a>
+    <a href="#statements" class="toc-item"><div class="toc-num">07</div>Working with Statements</a>
+    <a href="#qna" class="toc-item"><div class="toc-num">08</div>30 Questions &amp; Answers</a>
+    <a href="#cheatsheet" class="toc-item"><div class="toc-num">09</div>Cheat Sheet</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 1: AWT                              -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="awt">
+  <div class="unit-label">Unit 3 · Chapter 1.1</div>
+  <h2 class="section-title">AWT — Abstract Window Toolkit</h2>
+
+  <div class="def-box">
+    <strong>Definition</strong>
+    AWT (Abstract Window Toolkit) is a platform-dependent API provided by Java to develop GUI (Graphical User Interface) or window-based applications. It is part of the <code>java.awt</code> package and consists of 12 packages with 370+ classes.
+  </div>
+
+  <h3 class="topic-title">Key Packages</h3>
+  <div class="two-col">
+    <div class="card">
+      <h4 class="sub-title">java.awt</h4>
+      <p>Provides visual components: <code>TextField</code>, <code>Label</code>, <code>TextArea</code>, <code>CheckBox</code>, <code>Choice</code>, <code>List</code>, <code>Button</code>, <code>Frame</code>, <code>Panel</code></p>
+    </div>
+    <div class="card">
+      <h4 class="sub-title">java.awt.event</h4>
+      <p>Provides event classes and listener interfaces: <code>ActionEvent</code>, <code>MouseEvent</code>, <code>KeyEvent</code>, <code>WindowEvent</code></p>
+    </div>
+  </div>
+
+  <h3 class="topic-title">AWT Hierarchy</h3>
+  <div class="diagram">
+    <div class="hierarchy">
+      <div class="h-level"><div class="h-node l0">Object</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l1">Component (abstract)</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l2">Container</div><div class="h-node l3">Button</div><div class="h-node l3">Label</div><div class="h-node l3">TextField</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l1">Window</div><div class="h-node l2">Panel</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l3">Frame</div><div class="h-node l4">Dialog</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">AWT Component Inheritance Hierarchy</p>
+  </div>
+
+  <h3 class="topic-title">Container Types</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Container</th><th>Description</th><th>Features</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Frame</strong></td><td>Top-level window</td><td>Has title bar, can have menu bars</td></tr>
+        <tr><td><strong>Panel</strong></td><td>Intermediate container</td><td>No title bar or menu bar; holds components</td></tr>
+        <tr><td><strong>Dialog</strong></td><td>Secondary window</td><td>Depends on parent Frame; for pop-up input</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="topic-title">Component Class — Useful Methods</h3>
+  <ul class="method-list">
+    <li><span class="m-name">add(Component c)</span><span>Inserts a component inside this container</span></li>
+    <li><span class="m-name">setSize(int w, int h)</span><span>Sets width and height of the component</span></li>
+    <li><span class="m-name">setLayout(LayoutManager m)</span><span>Defines the layout manager for the container</span></li>
+    <li><span class="m-name">setVisible(boolean)</span><span>Controls visibility; default is <code>false</code></span></li>
+    <li><span class="m-name">setBounds(x, y, w, h)</span><span>Sets position and size (used with null layout)</span></li>
+    <li><span class="m-name">setTitle(String)</span><span>Sets title text of the Frame/Window</span></li>
+  </ul>
+
+  <h3 class="topic-title">Creating a Frame — Two Ways</h3>
+  <div class="two-col">
+    <div>
+      <h4 class="sub-title">By Inheritance (extends Frame)</h4>
+<pre><span class="keyword">import</span> java.awt.*;
+<span class="keyword">class</span> <span class="type">MyFrame</span> <span class="keyword">extends</span> <span class="type">Frame</span> {
+    <span class="type">MyFrame</span>() {
+        <span class="comment">// constructor code</span>
+        setSize(<span class="num">400</span>, <span class="num">400</span>);
+        setLayout(<span class="keyword">null</span>);
+        setVisible(<span class="keyword">true</span>);
+        setTitle(<span class="string">"My Frame"</span>);
+    }
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args){
+        <span class="keyword">new</span> <span class="type">MyFrame</span>();
+    }
+}<span class="code-label">Java</span></pre>
+    </div>
+    <div>
+      <h4 class="sub-title">By Association (new Frame())</h4>
+<pre><span class="keyword">import</span> java.awt.*;
+<span class="keyword">public class</span> <span class="type">SimpleGUI</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args){
+        <span class="type">Frame</span> f = <span class="keyword">new</span> <span class="type">Frame</span>(<span class="string">"AWT Example"</span>);
+        f.<span class="method">setSize</span>(<span class="num">400</span>, <span class="num">400</span>);
+        f.<span class="method">setLayout</span>(<span class="keyword">null</span>);
+        f.<span class="method">setVisible</span>(<span class="keyword">true</span>);
+    }
+}<span class="code-label">Java</span></pre>
+    </div>
+  </div>
+
+  <h3 class="topic-title">AWT Components</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Component</th><th>Class</th><th>Purpose</th><th>Example Syntax</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Button</strong></td><td><code>Button</code></td><td>Clickable button</td><td><code>Button b = new Button("OK");</code></td></tr>
+        <tr><td><strong>Label</strong></td><td><code>Label</code></td><td>Read-only text display</td><td><code>Label l = new Label("Name:");</code></td></tr>
+        <tr><td><strong>TextField</strong></td><td><code>TextField</code></td><td>Single line text input</td><td><code>TextField tf = new TextField();</code></td></tr>
+        <tr><td><strong>TextArea</strong></td><td><code>TextArea</code></td><td>Multi-line text input</td><td><code>TextArea ta = new TextArea();</code></td></tr>
+        <tr><td><strong>Checkbox</strong></td><td><code>Checkbox</code></td><td>Toggle on/off option</td><td><code>Checkbox cb = new Checkbox("Male");</code></td></tr>
+        <tr><td><strong>Choice</strong></td><td><code>Choice</code></td><td>Dropdown/popup menu</td><td><code>Choice c = new Choice();</code></td></tr>
+        <tr><td><strong>Scrollbar</strong></td><td><code>Scrollbar</code></td><td>Scrollable slider</td><td><code>Scrollbar s = new Scrollbar();</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="topic-title">Layout Managers</h3>
+  <div class="card note">
+    <div class="card-label">📌 Note</div>
+    Layout Managers automatically arrange components in a container. The <code>LayoutManager</code> is an interface implemented by all layout manager classes.
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Layout</th><th>Behaviour</th><th>Usage</th></tr></thead>
+      <tbody>
+        <tr><td><strong>BorderLayout</strong></td><td>Divides into 5 regions: NORTH, SOUTH, EAST, WEST, CENTER</td><td>Default layout for Frame/Window</td></tr>
+        <tr><td><strong>FlowLayout</strong></td><td>Arranges components left-to-right in a flow</td><td>Default layout for Panel/Applet</td></tr>
+        <tr><td><strong>GridLayout</strong></td><td>Places components in a rectangular grid</td><td>Calculator-style UIs</td></tr>
+        <tr><td><strong>CardLayout</strong></td><td>Shows one component at a time (card-flip)</td><td>Wizard-style multi-page UIs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="diagram">
+    <p style="font-size:13px;font-weight:700;margin-bottom:12px;">BorderLayout Regions</p>
+    <div style="max-width:320px;margin:0 auto;">
+      <div style="display:grid;grid-template-rows:auto auto auto;gap:4px;">
+        <div class="flow-box red" style="text-align:center;padding:8px;">NORTH</div>
+        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:4px;">
+          <div class="flow-box" style="writing-mode:vertical-rl;text-orientation:mixed;padding:20px 8px;">WEST</div>
+          <div class="flow-box green" style="text-align:center;padding:20px 8px;">CENTER</div>
+          <div class="flow-box" style="writing-mode:vertical-rl;text-orientation:mixed;padding:20px 8px;">EAST</div>
+        </div>
+        <div class="flow-box yellow" style="text-align:center;padding:8px;">SOUTH</div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="sub-title">Close Window Code (Required for AWT)</h4>
+<pre><span class="comment">// Must import java.awt.event.*</span>
+<span class="method">addWindowListener</span>(<span class="keyword">new</span> <span class="type">WindowAdapter</span>() {
+    <span class="keyword">public void</span> <span class="method">windowClosing</span>(<span class="type">WindowEvent</span> we) {
+        <span class="type">System</span>.<span class="method">exit</span>(<span class="num">0</span>);
+    }
+});<span class="code-label">Java</span></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 2: EVENT HANDLING                   -->
+<!-- ═══════════════════════════════════════════ -->
+<hr class="divider">
+<div id="event">
+  <div class="unit-label">Unit 3 · Chapter 1.1</div>
+  <h2 class="section-title">Event Handling</h2>
+
+  <div class="def-box">
+    <strong>Definition</strong>
+    An <strong>Event</strong> is a change in the state of an object (component). <strong>Event Handling</strong> is the mechanism that controls the event and decides what should happen when an event occurs. This mechanism uses <em>event handlers</em> — code executed when an event fires.
+  </div>
+
+  <h3 class="topic-title">Event Classes &amp; Listener Interfaces</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Event Class</th><th>When Generated</th><th>Listener Interface</th></tr></thead>
+      <tbody>
+        <tr><td><code>ActionEvent</code></td><td>Button pressed, menu-item selected, list-item double-clicked</td><td><code>ActionListener</code></td></tr>
+        <tr><td><code>MouseEvent</code></td><td>Mouse dragged, moved, clicked, pressed, released, entered/exited</td><td><code>MouseListener</code></td></tr>
+        <tr><td><code>KeyEvent</code></td><td>Input received from keyboard</td><td><code>KeyListener</code></td></tr>
+        <tr><td><code>ItemEvent</code></td><td>Checkbox or list item clicked</td><td><code>ItemListener</code></td></tr>
+        <tr><td><code>TextEvent</code></td><td>Value of TextArea or TextField changed</td><td><code>TextListener</code></td></tr>
+        <tr><td><code>MouseWheelEvent</code></td><td>Mouse wheel moved</td><td><code>MouseWheelListener</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="topic-title">Steps to Perform Event Handling</h3>
+  <div class="flow-row">
+    <div class="flow-box red">Step 1<br><small>Create Component</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">Step 2<br><small>Register Listener<br>addActionListener(this)</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box green">Step 3<br><small>Implement Handler<br>actionPerformed()</small></div>
+  </div>
+
+  <h3 class="topic-title">Complete Event Handling Example</h3>
+<pre><span class="keyword">import</span> java.awt.*;
+<span class="keyword">import</span> java.awt.event.*;
+
+<span class="keyword">class</span> <span class="type">EventExample</span> <span class="keyword">extends</span> <span class="type">Frame</span> <span class="keyword">implements</span> <span class="type">ActionListener</span> {
+    <span class="type">TextField</span> tf;
+
+    <span class="type">EventExample</span>() {
+        tf = <span class="keyword">new</span> <span class="type">TextField</span>();
+        tf.<span class="method">setBounds</span>(<span class="num">60</span>, <span class="num">50</span>, <span class="num">170</span>, <span class="num">20</span>);
+
+        <span class="type">Button</span> b = <span class="keyword">new</span> <span class="type">Button</span>(<span class="string">"Click Me"</span>);
+        b.<span class="method">setBounds</span>(<span class="num">100</span>, <span class="num">120</span>, <span class="num">80</span>, <span class="num">30</span>);
+
+        b.<span class="method">addActionListener</span>(<span class="keyword">this</span>); <span class="comment">// Register listener</span>
+
+        <span class="method">add</span>(b); <span class="method">add</span>(tf);
+        <span class="method">setSize</span>(<span class="num">300</span>, <span class="num">300</span>);
+        <span class="method">setLayout</span>(<span class="keyword">null</span>);
+        <span class="method">setVisible</span>(<span class="keyword">true</span>);
+    }
+
+    <span class="comment">// Event handler method</span>
+    <span class="keyword">public void</span> <span class="method">actionPerformed</span>(<span class="type">ActionEvent</span> e) {
+        tf.<span class="method">setText</span>(<span class="string">"Welcome!"</span>);
+    }
+
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+        <span class="keyword">new</span> <span class="type">EventExample</span>();
+    }
+}<span class="code-label">Java — AWT Event Handling</span></pre>
+
+  <h3 class="topic-title">MVC Architecture</h3>
+  <div class="diagram">
+    <div class="flow-row">
+      <div class="flow-box red" style="text-align:center;min-width:100px;">
+        <div style="font-size:18px;margin-bottom:4px;">👁</div>
+        <strong>View</strong><br><small>UI Components</small>
+      </div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-box" style="text-align:center;min-width:100px;">
+        <div style="font-size:18px;margin-bottom:4px;">🎮</div>
+        <strong>Controller</strong><br><small>Event Handlers</small>
+      </div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-box green" style="text-align:center;min-width:100px;">
+        <div style="font-size:18px;margin-bottom:4px;">🗄</div>
+        <strong>Model</strong><br><small>Data / Logic</small>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">MVC is supported by Swing (not by AWT)</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 3: SWING                            -->
+<!-- ═══════════════════════════════════════════ -->
+<hr class="divider">
+<div id="swing">
+  <div class="unit-label">Unit 3 · Chapter 1.1</div>
+  <h2 class="section-title">Swing Framework</h2>
+
+  <div class="def-box">
+    <strong>Definition</strong>
+    Swing is a lightweight, platform-independent GUI framework written entirely in Java. It is an advanced version of AWT and is part of the <strong>Java Foundation Classes (JFC)</strong>. Components are in the <code>javax.swing</code> package.
+  </div>
+
+  <h3 class="topic-title">AWT vs Swing Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>AWT</th><th>Swing</th></tr></thead>
+      <tbody>
+        <tr><td>Components</td><td>Platform-dependent (heavyweight)</td><td>Platform-independent (lightweight)</td></tr>
+        <tr><td>Package</td><td><code>java.awt</code></td><td><code>javax.swing</code></td></tr>
+        <tr><td>MVC Support</td><td>❌ Not supported</td><td>✅ Supported</td></tr>
+        <tr><td>Component Count</td><td>Fewer components</td><td>Richer component set</td></tr>
+        <tr><td>Look &amp; Feel</td><td>OS-native look</td><td>Pluggable look &amp; feel</td></tr>
+        <tr><td>Type</td><td>Heavy-weight</td><td>Light-weight</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="topic-title">Swing Components</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Swing Class</th><th>AWT Equivalent</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>JFrame</code></td><td>Frame</td><td>Top-level window with title &amp; borders</td></tr>
+        <tr><td><code>JButton</code></td><td>Button</td><td>Clickable labeled button</td></tr>
+        <tr><td><code>JLabel</code></td><td>Label</td><td>Read-only text display</td></tr>
+        <tr><td><code>JTextField</code></td><td>TextField</td><td>Single-line text input</td></tr>
+        <tr><td><code>JTextArea</code></td><td>TextArea</td><td>Multi-line text input/display</td></tr>
+        <tr><td><code>JCheckBox</code></td><td>Checkbox</td><td>Toggle on/off option</td></tr>
+        <tr><td><code>JRadioButton</code></td><td>—</td><td>One-of-many selection (use with ButtonGroup)</td></tr>
+        <tr><td><code>JPasswordField</code></td><td>—</td><td>Password entry (masks text)</td></tr>
+        <tr><td><code>JComboBox</code></td><td>Choice</td><td>Dropdown popup menu</td></tr>
+        <tr><td><code>JPanel</code></td><td>Panel</td><td>Lightweight container for grouping</td></tr>
+        <tr><td><code>JDialog</code></td><td>Dialog</td><td>Pop-up window (no maximize/minimize)</td></tr>
+        <tr><td><code>JTabbedPane</code></td><td>—</td><td>Tabbed multi-panel container</td></tr>
+        <tr><td><code>JMenuBar / JMenu / JMenuItem</code></td><td>Menu</td><td>Menu bar with pull-down menus</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="topic-title">Simple Swing Example</h3>
+<pre><span class="keyword">import</span> javax.swing.*;
+
+<span class="keyword">class</span> <span class="type">SwingDemo</span> <span class="keyword">extends</span> <span class="type">JFrame</span> {
+    <span class="type">SwingDemo</span>() {
+        <span class="comment">// Add a button</span>
+        <span class="type">JButton</span> b = <span class="keyword">new</span> <span class="type">JButton</span>(<span class="string">"Click Me"</span>);
+        b.<span class="method">setBounds</span>(<span class="num">100</span>, <span class="num">130</span>, <span class="num">100</span>, <span class="num">40</span>);
+        <span class="method">add</span>(b);
+
+        <span class="comment">// Add a label</span>
+        <span class="type">JLabel</span> l = <span class="keyword">new</span> <span class="type">JLabel</span>(<span class="string">"Enter Name:"</span>);
+        l.<span class="method">setBounds</span>(<span class="num">50</span>, <span class="num">50</span>, <span class="num">100</span>, <span class="num">30</span>);
+        <span class="method">add</span>(l);
+
+        <span class="comment">// Add a text field</span>
+        <span class="type">JTextField</span> tf = <span class="keyword">new</span> <span class="type">JTextField</span>();
+        tf.<span class="method">setBounds</span>(<span class="num">160</span>, <span class="num">50</span>, <span class="num">100</span>, <span class="num">30</span>);
+        <span class="method">add</span>(tf);
+
+        <span class="method">setSize</span>(<span class="num">400</span>, <span class="num">300</span>);
+        <span class="method">setLayout</span>(<span class="keyword">null</span>);
+        <span class="method">setVisible</span>(<span class="keyword">true</span>);
+        <span class="method">setDefaultCloseOperation</span>(<span class="type">JFrame</span>.EXIT_ON_CLOSE);
+    }
+
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+        <span class="keyword">new</span> <span class="type">SwingDemo</span>();
+    }
+}<span class="code-label">Java — Swing</span></pre>
+
+  <h3 class="topic-title">JRadioButton with ButtonGroup</h3>
+<pre><span class="type">ButtonGroup</span> bg = <span class="keyword">new</span> <span class="type">ButtonGroup</span>();
+<span class="type">JRadioButton</span> r1 = <span class="keyword">new</span> <span class="type">JRadioButton</span>(<span class="string">"Male"</span>);
+<span class="type">JRadioButton</span> r2 = <span class="keyword">new</span> <span class="type">JRadioButton</span>(<span class="string">"Female"</span>);
+<span class="comment">// Add to group so only one can be selected</span>
+bg.<span class="method">add</span>(r1);
+bg.<span class="method">add</span>(r2);<span class="code-label">Java</span></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 4: APPLETS                          -->
+<!-- ═══════════════════════════════════════════ -->
+<hr class="divider">
+<div id="applet">
+  <div class="unit-label">Unit 3 · Chapter 1.2</div>
+  <h2 class="section-title">Applets</h2>
+
+  <div class="def-box">
+    <strong>Definition</strong>
+    An <strong>Applet</strong> is a special type of Java program that is embedded in a webpage to generate dynamic content. It runs inside the browser (client-side) and extends the <code>java.applet.Applet</code> class.
+  </div>
+
+  <div class="two-col">
+    <div class="card tip">
+      <div class="card-label">✅ Advantages</div>
+      <ul style="padding-left:18px;">
+        <li>Runs on client side → less response time</li>
+        <li>Secured (sandboxed) execution</li>
+        <li>Cross-platform: Linux, Windows, macOS</li>
+        <li>No installation needed on client</li>
+      </ul>
+    </div>
+    <div class="card warn">
+      <div class="card-label">⚠️ Limitations</div>
+      <ul style="padding-left:18px;">
+        <li>Requires a browser with Java plugin</li>
+        <li>Deprecated in modern Java (removed in Java 11)</li>
+        <li>Cannot access local file system</li>
+        <li>Requires appletviewer or old browser</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="topic-title">Applet Hierarchy</h3>
+  <div class="diagram">
+    <div class="hierarchy">
+      <div class="h-level"><div class="h-node l0">Object</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l1">Component</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l2">Container</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l3">Panel</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l4">Applet</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l1">JApplet</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">Applet extends Panel → Container → Component → Object</p>
+  </div>
+
+  <h3 class="topic-title">Applet Lifecycle (5 Methods)</h3>
+  <div class="diagram">
+    <div class="lifecycle">
+      <div class="lc-box" style="background:#1D6A8C;color:#fff;">
+        <div>🆕</div>init()
+        <div style="font-size:10px;margin-top:2px;">Called once on load</div>
+      </div>
+      <div class="lc-arrow">→</div>
+      <div class="lc-box" style="background:#2D7A47;color:#fff;">
+        <div>▶</div>start()
+        <div style="font-size:10px;margin-top:2px;">After init / maximize</div>
+      </div>
+      <div class="lc-arrow">→</div>
+      <div class="lc-box" style="background:#C84B31;color:#fff;">
+        <div>🎨</div>paint()
+        <div style="font-size:10px;margin-top:2px;">Draws GUI elements</div>
+      </div>
+      <div class="lc-arrow">→</div>
+      <div class="lc-box" style="background:#F5A623;color:#1A1A18;">
+        <div>⏸</div>stop()
+        <div style="font-size:10px;margin-top:2px;">Browser minimized</div>
+      </div>
+      <div class="lc-arrow">→</div>
+      <div class="lc-box" style="background:#555;color:#fff;">
+        <div>🗑</div>destroy()
+        <div style="font-size:10px;margin-top:2px;">Called once on close</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card note">
+    <div class="card-label">📌 Remember</div>
+    <code>java.applet.Applet</code> provides <strong>4 methods</strong>: init, start, stop, destroy<br>
+    <code>java.awt.Graphics</code> provides <strong>1 method</strong>: paint(Graphics g)
+  </div>
+
+  <h3 class="topic-title">Simple Applet Program</h3>
+<pre><span class="comment">// First.java</span>
+<span class="keyword">import</span> java.applet.Applet;
+<span class="keyword">import</span> java.awt.Graphics;
+
+<span class="keyword">public class</span> <span class="type">First</span> <span class="keyword">extends</span> <span class="type">Applet</span> {
+    <span class="keyword">public void</span> <span class="method">paint</span>(<span class="type">Graphics</span> g) {
+        g.<span class="method">drawString</span>(<span class="string">"Welcome to Applet"</span>, <span class="num">50</span>, <span class="num">150</span>);
+    }
+}
+
+<span class="comment">/* Compile: javac First.java
+   HTML file:
+   &lt;applet code="First.class" width="300" height="300"&gt;&lt;/applet&gt;
+   Run: appletviewer First.html */</span><span class="code-label">Java — Applet</span></pre>
+
+  <h3 class="topic-title">Graphics Methods</h3>
+  <ul class="method-list">
+    <li><span class="m-name">drawString(str, x, y)</span><span>Draws text at position (x,y)</span></li>
+    <li><span class="m-name">drawRect(x, y, w, h)</span><span>Draws rectangle outline</span></li>
+    <li><span class="m-name">fillRect(x, y, w, h)</span><span>Draws filled rectangle</span></li>
+    <li><span class="m-name">drawOval(x, y, w, h)</span><span>Draws oval/circle outline</span></li>
+    <li><span class="m-name">fillOval(x, y, w, h)</span><span>Draws filled oval</span></li>
+    <li><span class="m-name">drawLine(x1, y1, x2, y2)</span><span>Draws a line between two points</span></li>
+    <li><span class="m-name">setColor(Color c)</span><span>Sets current drawing color</span></li>
+    <li><span class="m-name">setFont(Font f)</span><span>Sets current font</span></li>
+  </ul>
+
+  <h3 class="topic-title">Graphics Demo Example</h3>
+<pre><span class="keyword">import</span> java.applet.Applet;
+<span class="keyword">import</span> java.awt.*;
+
+<span class="keyword">public class</span> <span class="type">GraphicsDemo</span> <span class="keyword">extends</span> <span class="type">Applet</span> {
+    <span class="keyword">public void</span> <span class="method">paint</span>(<span class="type">Graphics</span> g) {
+        g.<span class="method">setColor</span>(<span class="type">Color</span>.red);
+        g.<span class="method">drawString</span>(<span class="string">"Welcome"</span>, <span class="num">50</span>, <span class="num">50</span>);
+        g.<span class="method">drawLine</span>(<span class="num">20</span>, <span class="num">30</span>, <span class="num">20</span>, <span class="num">300</span>);
+        g.<span class="method">drawRect</span>(<span class="num">70</span>, <span class="num">100</span>, <span class="num">30</span>, <span class="num">30</span>);
+        g.<span class="method">fillRect</span>(<span class="num">170</span>, <span class="num">100</span>, <span class="num">30</span>, <span class="num">30</span>);
+        g.<span class="method">drawOval</span>(<span class="num">70</span>, <span class="num">200</span>, <span class="num">30</span>, <span class="num">30</span>);
+        g.<span class="method">setColor</span>(<span class="type">Color</span>.pink);
+        g.<span class="method">fillOval</span>(<span class="num">170</span>, <span class="num">200</span>, <span class="num">30</span>, <span class="num">30</span>);
+    }
+}<span class="code-label">Java — Graphics Applet</span></pre>
+
+  <h3 class="topic-title">JApplet</h3>
+  <div class="card">
+    <p><code>JApplet</code> is the Swing equivalent of <code>Applet</code>. It extends <code>Applet</code> and allows the use of Swing components (<code>JButton</code>, <code>JTextField</code>, etc.) within applets. It is preferred over the plain Applet class when using Swing.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 5: JDBC ARCHITECTURE                -->
+<!-- ═══════════════════════════════════════════ -->
+<hr class="divider">
+<div id="jdbc-arch">
+  <div class="unit-label">Unit 3 · Chapter 2</div>
+  <h2 class="section-title">JDBC Architecture</h2>
+
+  <div class="def-box">
+    <strong>JDBC — Definition</strong>
+    <strong>Java Database Connectivity (JDBC)</strong> is a Java API that enables Java programs to interact with relational databases. It provides a standard set of classes and interfaces to connect, query, and update databases from Java code.
+  </div>
+
+  <h3 class="topic-title">Why JDBC over ODBC?</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>JDBC</th><th>ODBC</th></tr></thead>
+      <tbody>
+        <tr><td>Written in Java — platform independent</td><td>Written in C — platform dependent</td></tr>
+        <tr><td>Secure, no pointer issues</td><td>Uses pointers (unsafe)</td></tr>
+        <tr><td>Designed specifically for Java</td><td>Designed for C/C++ programs</td></tr>
+        <tr><td>Simple API for straightforward tasks</td><td>Complex API mixes simple and advanced</td></tr>
+        <tr><td>DBMS-independent code (same API for Oracle/MySQL)</td><td>Vendor-specific drivers differ significantly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="topic-title">JDBC Architecture</h3>
+  <div class="diagram">
+    <div class="flow-vertical">
+      <div class="flow-box red">Java Application</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">JDBC API</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box yellow">Driver Manager</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-row" style="justify-content:center;gap:10px;">
+        <div class="flow-box green">Type 1 Driver</div>
+        <div class="flow-box green">Type 2 Driver</div>
+        <div class="flow-box green">Type 3 Driver</div>
+        <div class="flow-box green">Type 4 Driver</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box purple">Database (Oracle / MySQL / DB2)</div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">Three JDBC components: Application → Driver Manager → JDBC Driver</p>
+  </div>
+
+  <h3 class="topic-title">JDBC Driver Types</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>Name</th><th>Description</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Type 1</strong></td>
+          <td>JDBC-ODBC Bridge</td>
+          <td>Translates JDBC calls to ODBC. Requires ODBC setup on every client. <em>Development only.</em></td>
+          <td>JdbcOdbcDriver (JDK 1.2)</td>
+        </tr>
+        <tr>
+          <td><strong>Type 2</strong></td>
+          <td>Native-API Driver</td>
+          <td>Converts JDBC calls to native client library (e.g., Oracle OCI). Binaries required on client.</td>
+          <td>Oracle OCI Driver</td>
+        </tr>
+        <tr>
+          <td><strong>Type 3</strong></td>
+          <td>JDBC-Net Driver</td>
+          <td>Three-tier approach. Uses middleware server. Most flexible; no client installation needed.</td>
+          <td>IDS Driver</td>
+        </tr>
+        <tr>
+          <td><strong>Type 4</strong></td>
+          <td>100% Pure Java Driver</td>
+          <td>Directly converts JDBC to native DB protocol. No installation on client (except JVM). <em>Best for production.</em></td>
+          <td>MySQL Connector/J</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card tip">
+    <div class="card-label">💡 Driver Selection Guide</div>
+    <ul style="padding-left:18px;">
+      <li><strong>Single DB (Oracle/MySQL)</strong> → Use <strong>Type 4</strong> (best performance)</li>
+      <li><strong>Multiple DBs simultaneously</strong> → Use <strong>Type 3</strong></li>
+      <li><strong>No Type 3 or 4 available</strong> → Use <strong>Type 2</strong></li>
+      <li><strong>Development/Testing only</strong> → Use <strong>Type 1</strong></li>
+    </ul>
+  </div>
+
+  <h3 class="topic-title">JDBC Driver Class Names</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Database</th><th>Driver Class</th><th>JDBC URL Format</th></tr></thead>
+      <tbody>
+        <tr><td>Oracle</td><td><code>oracle.jdbc.driver.OracleDriver</code></td><td><code>jdbc:oracle:thin:@hostname:1521:xe</code></td></tr>
+        <tr><td>MySQL</td><td><code>com.mysql.jdbc.Driver</code></td><td><code>jdbc:mysql://hostname/dbName</code></td></tr>
+        <tr><td>MS Access</td><td><code>sun.jdbc.odbc.JdbcOdbcDriver</code></td><td><code>jdbc:odbc:DSNname</code></td></tr>
+        <tr><td>DB2</td><td><code>COM.ibm.db2.jdbc.net.DB2Driver</code></td><td><code>jdbc:db2:hostname:port/dbName</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 6: JDBC CONNECTIVITY                -->
+<!-- ═══════════════════════════════════════════ -->
+<hr class="divider">
+<div id="jdbc-conn">
+  <div class="unit-label">Unit 3 · Chapter 2</div>
+  <h2 class="section-title">JDBC Connectivity — 8 Steps</h2>
+
+  <div class="diagram">
+    <div class="flow-vertical">
+      <div class="flow-box red" style="width:100%;max-width:340px;text-align:left;">Step 1 — Import Packages<br><code style="color:inherit;background:rgba(0,0,0,0.1);font-size:11px;">import java.sql.*;</code></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="width:100%;max-width:340px;text-align:left;">Step 2 — Load JDBC Driver<br><code style="color:inherit;background:rgba(0,0,0,0.1);font-size:11px;">Class.forName("oracle.jdbc.driver.OracleDriver");</code></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box green" style="width:100%;max-width:340px;text-align:left;">Step 3 — Open Connection<br><code style="color:inherit;background:rgba(0,0,0,0.1);font-size:11px;">DriverManager.getConnection(url, user, pwd);</code></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box yellow" style="width:100%;max-width:340px;text-align:left;">Step 4 — Create Statement<br><code style="color:inherit;background:rgba(0,0,0,0.1);font-size:11px;">con.createStatement();</code></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box purple" style="width:100%;max-width:340px;text-align:left;">Step 5 — Execute Query<br><code style="color:inherit;background:rgba(0,0,0,0.1);font-size:11px;">stmt.executeQuery("SELECT ...");</code></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="width:100%;max-width:340px;text-align:left;">Step 6 — Process ResultSet<br><code style="color:inherit;background:rgba(0,0,0,0.1);font-size:11px;">while(rs.next()) { ... }</code></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box red" style="width:100%;max-width:340px;text-align:left;">Step 7 — Close ResultSet &amp; Statement</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box red" style="width:100%;max-width:340px;text-align:left;">Step 8 — Close Connection<br><code style="color:inherit;background:rgba(0,0,0,0.1);font-size:11px;">con.close();</code></div>
+    </div>
+  </div>
+
+  <h3 class="topic-title">Complete JDBC Example — Oracle</h3>
+<pre><span class="keyword">import</span> java.sql.*;
+
+<span class="keyword">class</span> <span class="type">JdbcDemo</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+        <span class="keyword">try</span> {
+            <span class="comment">// Step 1: Load driver</span>
+            <span class="type">Class</span>.<span class="method">forName</span>(<span class="string">"oracle.jdbc.driver.OracleDriver"</span>);
+
+            <span class="comment">// Step 2: Establish connection</span>
+            <span class="type">Connection</span> con = <span class="type">DriverManager</span>.<span class="method">getConnection</span>(
+                <span class="string">"jdbc:oracle:thin:@localhost:1521:xe"</span>,
+                <span class="string">"system"</span>, <span class="string">"oracle"</span>
+            );
+
+            <span class="comment">// Step 3: Create statement</span>
+            <span class="type">Statement</span> stmt = con.<span class="method">createStatement</span>();
+
+            <span class="comment">// Step 4: Execute query</span>
+            <span class="type">ResultSet</span> rs = stmt.<span class="method">executeQuery</span>(<span class="string">"SELECT * FROM student"</span>);
+
+            <span class="comment">// Step 5: Process results</span>
+            <span class="keyword">while</span> (rs.<span class="method">next</span>()) {
+                <span class="type">System</span>.out.<span class="method">println</span>(
+                    rs.<span class="method">getString</span>(<span class="num">1</span>) + <span class="string">" "</span> + rs.<span class="method">getString</span>(<span class="num">2</span>)
+                );
+            }
+
+            <span class="comment">// Step 6: Close resources</span>
+            con.<span class="method">close</span>();
+        } <span class="keyword">catch</span> (<span class="type">Exception</span> e) {
+            <span class="type">System</span>.out.<span class="method">println</span>(e);
+        }
+    }
+}<span class="code-label">Java — JDBC Oracle Connection</span></pre>
+
+  <h3 class="topic-title">java.sql Package Contents</h3>
+  <div class="three-col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0;">
+    <div class="card">
+      <h4 class="sub-title">Interfaces</h4>
+      <p style="font-size:13px;"><code>Connection</code>, <code>Statement</code>, <code>PreparedStatement</code>, <code>CallableStatement</code>, <code>ResultSet</code>, <code>ResultSetMetaData</code>, <code>Driver</code></p>
+    </div>
+    <div class="card">
+      <h4 class="sub-title">Classes</h4>
+      <p style="font-size:13px;"><code>DriverManager</code>, <code>Date</code>, <code>Time</code>, <code>Timestamp</code>, <code>Types</code>, <code>DriverPropertyInfo</code></p>
+    </div>
+    <div class="card">
+      <h4 class="sub-title">Exceptions</h4>
+      <p style="font-size:13px;"><code>SQLException</code>, <code>SQLWarning</code>, <code>DataTruncation</code></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 7: WORKING WITH STATEMENTS          -->
+<!-- ═══════════════════════════════════════════ -->
+<hr class="divider">
+<div id="statements">
+  <div class="unit-label">Unit 3 · Chapter 2</div>
+  <h2 class="section-title">Working with Statements</h2>
+
+  <h3 class="topic-title">1. Statement Interface</h3>
+  <div class="def-box">
+    <strong>Definition</strong>
+    The <code>Statement</code> interface provides methods to execute SQL queries with the database. It is created from a <code>Connection</code> object. It is a <strong>factory of ResultSet</strong>.
+  </div>
+
+  <h4 class="sub-title">Key Methods</h4>
+  <ul class="method-list">
+    <li><span class="m-name">executeQuery(String sql)</span><span>Used for <strong>SELECT</strong> queries. Returns a <code>ResultSet</code> object.</span></li>
+    <li><span class="m-name">executeUpdate(String sql)</span><span>Used for <strong>INSERT, UPDATE, DELETE, CREATE, DROP</strong>. Returns int (rows affected).</span></li>
+    <li><span class="m-name">execute(String sql)</span><span>Used for queries that may return <strong>multiple results</strong> or stored procedures.</span></li>
+    <li><span class="m-name">executeBatch()</span><span>Executes a <strong>batch of commands</strong>. Returns int[].</span></li>
+  </ul>
+
+<pre><span class="comment">// INSERT using Statement</span>
+<span class="type">Statement</span> stmt = con.<span class="method">createStatement</span>();
+stmt.<span class="method">executeUpdate</span>(<span class="string">"INSERT INTO emp VALUES(33,'Irfan',50000)"</span>);
+
+<span class="comment">// UPDATE using Statement</span>
+stmt.<span class="method">executeUpdate</span>(<span class="string">"UPDATE emp SET name='Vimal' WHERE id=33"</span>);
+
+<span class="comment">// DELETE using Statement</span>
+<span class="keyword">int</span> rows = stmt.<span class="method">executeUpdate</span>(<span class="string">"DELETE FROM emp WHERE id=33"</span>);
+<span class="type">System</span>.out.<span class="method">println</span>(rows + <span class="string">" records affected"</span>);<span class="code-label">Java — Statement</span></pre>
+
+  <h3 class="topic-title">2. PreparedStatement Interface</h3>
+  <div class="def-box">
+    <strong>Definition</strong>
+    <code>PreparedStatement</code> is a sub-interface of <code>Statement</code>. It is used to execute <strong>parameterized queries</strong> using <code>?</code> placeholders. The query is compiled only once, improving performance.
+  </div>
+
+  <div class="card tip">
+    <div class="card-label">💡 Why PreparedStatement?</div>
+    <ul style="padding-left:18px;">
+      <li><strong>Performance:</strong> Query is precompiled; executed multiple times efficiently</li>
+      <li><strong>Security:</strong> Prevents SQL injection attacks</li>
+      <li><strong>Readability:</strong> Cleaner code with parameter binding</li>
+    </ul>
+  </div>
+
+<pre><span class="comment">// INSERT with PreparedStatement</span>
+<span class="type">PreparedStatement</span> pstmt = con.<span class="method">prepareStatement</span>(
+    <span class="string">"INSERT INTO emp VALUES(?,?)"</span>
+);
+pstmt.<span class="method">setInt</span>(<span class="num">1</span>, <span class="num">101</span>);           <span class="comment">// ? at position 1 = id</span>
+pstmt.<span class="method">setString</span>(<span class="num">2</span>, <span class="string">"Raj"</span>);    <span class="comment">// ? at position 2 = name</span>
+<span class="keyword">int</span> i = pstmt.<span class="method">executeUpdate</span>();
+<span class="type">System</span>.out.<span class="method">println</span>(i + <span class="string">" records inserted"</span>);
+
+<span class="comment">// UPDATE with PreparedStatement</span>
+<span class="type">PreparedStatement</span> pstmt2 = con.<span class="method">prepareStatement</span>(
+    <span class="string">"UPDATE emp SET name=? WHERE id=?"</span>
+);
+pstmt2.<span class="method">setString</span>(<span class="num">1</span>, <span class="string">"Sonoo"</span>);
+pstmt2.<span class="method">setInt</span>(<span class="num">2</span>, <span class="num">101</span>);
+pstmt2.<span class="method">executeUpdate</span>();
+
+<span class="comment">// SELECT with PreparedStatement</span>
+<span class="type">PreparedStatement</span> pstmt3 = con.<span class="method">prepareStatement</span>(
+    <span class="string">"SELECT * FROM emp"</span>
+);
+<span class="type">ResultSet</span> rs = pstmt3.<span class="method">executeQuery</span>();
+<span class="keyword">while</span> (rs.<span class="method">next</span>()) {
+    <span class="type">System</span>.out.<span class="method">println</span>(rs.<span class="method">getInt</span>(<span class="num">1</span>) + <span class="string">" "</span> + rs.<span class="method">getString</span>(<span class="num">2</span>));
+}<span class="code-label">Java — PreparedStatement</span></pre>
+
+  <h3 class="topic-title">3. CallableStatement Interface</h3>
+  <div class="def-box">
+    <strong>Definition</strong>
+    <code>CallableStatement</code> interface is used to call <strong>stored procedures and functions</strong> in the database. It extends <code>PreparedStatement</code>.
+  </div>
+
+  <h4 class="sub-title">Stored Procedures vs Functions</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stored Procedure</th><th>Function</th></tr></thead>
+      <tbody>
+        <tr><td>May or may not return a value</td><td>Must return a value</td></tr>
+        <tr><td>Called using <code>CALL</code> statement</td><td>Called using <code>SELECT</code> / expressions</td></tr>
+        <tr><td>Can have IN, OUT, INOUT parameters</td><td>Only IN parameters (usually)</td></tr>
+        <tr><td>Can perform DML operations (INSERT/UPDATE)</td><td>Generally read-only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+<pre><span class="comment">// Create stored procedure in Oracle:</span>
+<span class="comment">-- CREATE OR REPLACE PROCEDURE insertR(id IN NUMBER, name IN VARCHAR2)</span>
+<span class="comment">-- IS BEGIN INSERT INTO user12 VALUES(id,name); END;</span>
+
+<span class="comment">// Call stored procedure from Java:</span>
+<span class="type">CallableStatement</span> cstmt = con.<span class="method">prepareCall</span>(
+    <span class="string">"{call insertR(?,?)}"</span>
+);
+cstmt.<span class="method">setInt</span>(<span class="num">1</span>, <span class="num">1011</span>);
+cstmt.<span class="method">setString</span>(<span class="num">2</span>, <span class="string">"Amit"</span>);
+cstmt.<span class="method">execute</span>();
+<span class="type">System</span>.out.<span class="method">println</span>(<span class="string">"Success — record inserted via stored procedure"</span>);<span class="code-label">Java — CallableStatement</span></pre>
+
+  <h3 class="topic-title">Statement Hierarchy &amp; Comparison</h3>
+  <div class="diagram">
+    <div class="hierarchy">
+      <div class="h-level"><div class="h-node l1">Statement</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l2">PreparedStatement</div></div>
+      <div class="h-connector"></div>
+      <div class="h-level"><div class="h-node l3">CallableStatement</div></div>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>Statement</th><th>PreparedStatement</th><th>CallableStatement</th></tr></thead>
+      <tbody>
+        <tr><td>Parameters</td><td>No params</td><td>IN params (? placeholders)</td><td>IN, OUT, INOUT params</td></tr>
+        <tr><td>Performance</td><td>Compiled each run</td><td>Compiled once, faster</td><td>Pre-compiled in DB</td></tr>
+        <tr><td>Use Case</td><td>Simple, one-time SQL</td><td>Repeated SQL with params</td><td>DB stored procedures</td></tr>
+        <tr><td>SQL Injection</td><td>Vulnerable</td><td>Protected</td><td>Protected</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- Q&A SECTION                                 -->
+<!-- ═══════════════════════════════════════════ -->
+<hr class="divider">
+<div id="qna">
+  <div class="unit-label">Exam Preparation</div>
+  <h2 class="section-title">30 Questions &amp; Answers</h2>
+  <div class="qa-section">
+
+    <!-- EASY -->
+    <div class="qa-category">
+      <span class="qa-cat-badge easy">Easy</span>
+      <h3 class="qa-cat-title">2 Mark Questions (3-4 lines)</h3>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">1</div><div class="q-text">What is AWT? Name the two commonly used packages of AWT.</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>AWT (Abstract Window Toolkit) is a Java API used to create GUI or window-based applications. It is platform-dependent and part of the <code>java.awt</code> package. The two commonly used packages are: <code>java.awt</code> (contains components like Button, TextField, Label) and <code>java.awt.event</code> (contains event classes like ActionEvent and listener interfaces like ActionListener).</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">2</div><div class="q-text">What is the difference between Frame and Panel in AWT?</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>A <strong>Frame</strong> is a top-level container with a title bar and can optionally have menu bars. It is the main window of an AWT application. A <strong>Panel</strong> is an intermediate container with no title bar or menu bar — it is used to group other components and must be placed inside a Frame or Window.</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">3</div><div class="q-text">What is an Event in Java? Give two examples.</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>An <strong>Event</strong> is a change in the state of an object (a GUI component). Events are generated as a result of user interaction with components. Examples: (1) Clicking a Button generates an <code>ActionEvent</code>. (2) Moving the mouse generates a <code>MouseEvent</code>. (3) Typing on keyboard generates a <code>KeyEvent</code>.</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">4</div><div class="q-text">What is the setBounds() method used for in AWT?</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div><code>setBounds(int x, int y, int width, int height)</code> is used to declare the position and size of AWT components. The parameters <code>x</code> and <code>y</code> set the top-left corner position, while <code>width</code> and <code>height</code> set the component dimensions. It is typically used when the layout is set to <code>null</code> (absolute positioning).</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">5</div><div class="q-text">What is an Applet? List two advantages.</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>An <strong>Applet</strong> is a special Java program embedded in a webpage to produce dynamic content. It runs inside the browser on the client side and extends <code>java.applet.Applet</code>. Advantages: (1) Runs client-side — less response time. (2) Secured execution in browser sandbox. (3) Cross-platform: works on Linux, Windows, and macOS.</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">6</div><div class="q-text">What does JDBC stand for and what is its purpose?</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div><strong>JDBC</strong> stands for <strong>Java Database Connectivity</strong>. It is a Java API that allows Java programs to connect to, query, and update relational databases. JDBC is DBMS-independent — the same code works with Oracle, MySQL, or DB2 simply by changing the JDBC driver. It is defined in the <code>java.sql</code> package.</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">7</div><div class="q-text">What are the 5 lifecycle methods of an Applet?</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>The 5 Applet lifecycle methods are: (1) <code>init()</code> — called once when applet loads to initialize. (2) <code>start()</code> — called after init() or when browser is maximized. (3) <code>paint(Graphics g)</code> — called to draw GUI elements. (4) <code>stop()</code> — called when browser is minimized. (5) <code>destroy()</code> — called once when applet is destroyed.</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">8</div><div class="q-text">What is the difference between Swing and AWT?</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>Key differences: AWT components are <strong>platform-dependent (heavyweight)</strong> while Swing components are <strong>platform-independent (lightweight)</strong>. AWT uses <code>java.awt</code> package; Swing uses <code>javax.swing</code>. Swing supports the MVC architecture while AWT does not. Swing provides richer components (JButton, JComboBox, JTabbedPane, etc.) than AWT.</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">9</div><div class="q-text">What is a PreparedStatement and why is it preferred over Statement?</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>A <code>PreparedStatement</code> is a sub-interface of <code>Statement</code> that allows execution of parameterized SQL queries using <code>?</code> placeholders. It is preferred over <code>Statement</code> because: (1) <strong>Performance</strong> — it is precompiled and can be executed multiple times efficiently. (2) <strong>Security</strong> — it prevents SQL injection attacks.</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num easy">10</div><div class="q-text">What are the 4 types of JDBC drivers? Name them.</div><span class="q-marks easy">2 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>The 4 JDBC driver types are: <strong>Type 1</strong> — JDBC-ODBC Bridge Driver (translates JDBC to ODBC, development only). <strong>Type 2</strong> — Native-API / Partly-Java Driver (uses native client libraries). <strong>Type 3</strong> — JDBC-Net / Pure Java Driver (three-tier, uses middleware). <strong>Type 4</strong> — 100% Pure Java Driver (directly communicates with DBMS, best for production).</div>
+    </div>
+
+    <!-- MEDIUM -->
+    <div class="qa-category">
+      <span class="qa-cat-badge medium">Medium</span>
+      <h3 class="qa-cat-title">5 Mark Questions (10-15 lines)</h3>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">11</div><div class="q-text">Explain the Layout Managers in AWT with their use cases.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        Layout Managers in Java are interfaces/classes that control how components are arranged inside a container. They are used to make GUIs responsive and portable. There are 4 main layout managers:
+        <ul>
+          <li><strong>BorderLayout:</strong> Divides the container into 5 regions — NORTH, SOUTH, EAST, WEST, and CENTER. Each region holds one component. It is the <em>default layout for Frame</em>. Example: <code>setLayout(new BorderLayout());</code></li>
+          <li><strong>FlowLayout:</strong> Arranges components in a row, one after another (in a flow). Wraps to the next line when the row is full. It is the default layout for Panel. Supports LEFT, RIGHT, and CENTER alignment.</li>
+          <li><strong>GridLayout:</strong> Arranges components in a rectangular grid. All cells are equal in size. Useful for calculators or equal-size button grids. Example: <code>setLayout(new GridLayout(3,3));</code></li>
+          <li><strong>CardLayout:</strong> Shows only one component at a time, treating each component like a card. Useful for creating wizard-style multi-page interfaces.</li>
+        </ul>
+        When layout is set to <code>null</code>, components must be manually positioned using <code>setBounds(x, y, width, height)</code>.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">12</div><div class="q-text">Describe the steps to perform Event Handling in Java AWT with an example.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        Event Handling in AWT involves three key steps:
+        <ol>
+          <li><strong>Create the Component:</strong> Create and add the UI component (e.g., Button) to the Frame.</li>
+          <li><strong>Register the Listener:</strong> Attach an event listener to the component using <code>addActionListener(this)</code>. The class must implement the appropriate listener interface (e.g., <code>ActionListener</code>).</li>
+          <li><strong>Implement the Handler:</strong> Override the interface method (e.g., <code>actionPerformed(ActionEvent e)</code>) to define what happens when the event fires.</li>
+        </ol>
+        Example: When a Button is clicked, a TextField displays "Welcome". The class implements <code>ActionListener</code>, the button registers <code>addActionListener(this)</code>, and the <code>actionPerformed()</code> method calls <code>tf.setText("Welcome")</code>.
+        <br><br>Common event-listener pairs: <code>ActionEvent</code> → <code>ActionListener</code>; <code>MouseEvent</code> → <code>MouseListener</code>; <code>KeyEvent</code> → <code>KeyListener</code>.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">13</div><div class="q-text">Explain the Applet Lifecycle with a diagram description and the role of each method.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        An Applet goes through 5 lifecycle stages:
+        <ul>
+          <li><strong>init():</strong> Called only once when the applet is first loaded into the browser. Used for initialization (setting up variables, loading resources). Provided by <code>java.applet.Applet</code>.</li>
+          <li><strong>start():</strong> Called after <code>init()</code>, and again whenever the browser page is revisited or the window is maximized. Used to start or resume the applet's activity.</li>
+          <li><strong>paint(Graphics g):</strong> Called immediately after <code>start()</code> and whenever the applet needs to redraw its output. Used to draw graphics, strings, shapes. Provided by <code>java.awt.Graphics</code>.</li>
+          <li><strong>stop():</strong> Called when the user leaves the page or minimizes the browser. Used to suspend background tasks or threads.</li>
+          <li><strong>destroy():</strong> Called only once when the browser is closed or the applet is removed. Used to release resources and clean up.</li>
+        </ul>
+        Life cycle flow: <strong>init → start → paint → [stop ↔ start] → destroy</strong>. Note: <code>java.applet.Applet</code> provides init, start, stop, destroy. <code>java.awt.Graphics</code> provides paint.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">14</div><div class="q-text">Compare the four types of JDBC drivers with their advantages and disadvantages.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <ul>
+          <li><strong>Type 1 (JDBC-ODBC Bridge):</strong> Translates JDBC calls to ODBC. Requires ODBC setup on every client machine. Platform-dependent and slow. Used <em>only for development/testing</em>. Cannot be used for applets as ODBC must be installed on server.</li>
+          <li><strong>Type 2 (Native-API Driver):</strong> Converts JDBC calls to native client library calls (OCI for Oracle). Faster than Type 1 but requires binary installation on each client. Not suitable for large networks.</li>
+          <li><strong>Type 3 (JDBC-Net Driver):</strong> Three-tier architecture; JDBC client connects to a middleware application server. Most <em>flexible</em> — the middleware communicates with different databases. No client-side binaries needed. Suitable for internet applications.</li>
+          <li><strong>Type 4 (100% Pure Java):</strong> Directly converts JDBC calls to the native database protocol. No client installation needed (except JVM). <em>Fastest and most portable</em>. Best choice for production. Example: MySQL Connector/J.</li>
+        </ul>
+        <strong>Recommendation:</strong> Use Type 4 for single-DB apps, Type 3 for multi-DB apps, Type 2 when others unavailable, Type 1 only for testing.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">15</div><div class="q-text">Explain the 8 steps to establish a JDBC connection with a database.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <ol>
+          <li><strong>Import Packages:</strong> <code>import java.sql.*;</code> — imports all JDBC classes.</li>
+          <li><strong>Load JDBC Driver:</strong> <code>Class.forName("oracle.jdbc.driver.OracleDriver");</code> — registers the driver with DriverManager.</li>
+          <li><strong>Open Connection:</strong> <code>DriverManager.getConnection(url, user, password);</code> — returns a Connection object.</li>
+          <li><strong>Create Statement:</strong> <code>con.createStatement();</code> — creates a Statement for executing SQL.</li>
+          <li><strong>Execute Query:</strong> <code>stmt.executeQuery("SELECT * FROM emp");</code> — returns a ResultSet.</li>
+          <li><strong>Process ResultSet:</strong> Loop using <code>rs.next()</code> to iterate through rows and call <code>rs.getString()</code>, <code>rs.getInt()</code> etc.</li>
+          <li><strong>Close ResultSet &amp; Statement:</strong> Call <code>rs.close()</code> and <code>stmt.close()</code> to free resources.</li>
+          <li><strong>Close Connection:</strong> Call <code>con.close()</code> to end the database session. (Java GC will also close it but best practice is explicit close.)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">16</div><div class="q-text">What is PreparedStatement? Compare it with Statement with code examples.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <strong>Statement</strong> executes static SQL queries. It is compiled every time it is called. Vulnerable to SQL injection. Used for simple, one-time queries.<br><br>
+        <strong>PreparedStatement</strong> executes parameterized SQL queries using <code>?</code> placeholders. The query is pre-compiled once and can be run multiple times with different values. Prevents SQL injection.
+        <br><br>
+        <code>Statement</code> example:<br>
+        <code>stmt.executeUpdate("INSERT INTO emp VALUES(101, 'Raj')");</code>
+        <br><br>
+        <code>PreparedStatement</code> example:<br>
+        <code>PreparedStatement ps = con.prepareStatement("INSERT INTO emp VALUES(?,?)");</code><br>
+        <code>ps.setInt(1, 101); ps.setString(2, "Raj"); ps.executeUpdate();</code>
+        <br><br>
+        The main advantages of PreparedStatement are: (1) Better performance for repeated queries, (2) Protection from SQL injection, (3) Cleaner and more readable code with dynamic values.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">17</div><div class="q-text">Explain Swing components — JRadioButton, JComboBox, JDialog, and JTabbedPane with syntax.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <ul>
+          <li><strong>JRadioButton:</strong> Used to select one option from multiple options. Must be added to a <code>ButtonGroup</code> to ensure mutual exclusion. Widely used in quizzes and forms.<br><code>ButtonGroup bg = new ButtonGroup(); JRadioButton r1 = new JRadioButton("Male"); bg.add(r1);</code></li>
+          <li><strong>JComboBox:</strong> Creates a popup/dropdown menu. The selected item is shown at top. Similar to AWT's Choice class.<br><code>String[] arr = {"India","USA"}; JComboBox cb = new JComboBox(arr); cb.setBounds(50,50,90,20);</code></li>
+          <li><strong>JDialog:</strong> A top-level window with border and title for user input. Unlike JFrame, it lacks maximize/minimize buttons. Requires a parent JFrame.<br><code>JDialog d = new JDialog(f, "Dialog", true); d.add(new JButton("OK"));</code></li>
+          <li><strong>JTabbedPane:</strong> Allows switching between multiple panels by clicking tabs. Useful for multi-section applications.<br><code>JTabbedPane tp = new JTabbedPane(); tp.add("Tab1", panel1); tp.add("Tab2", panel2);</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">18</div><div class="q-text">What is CallableStatement? How is it used to call stored procedures?</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <code>CallableStatement</code> is a JDBC interface used to call stored procedures and functions stored in the database. It extends <code>PreparedStatement</code>. It offers better performance than regular SQL because stored procedures are pre-compiled on the database server.
+        <br><br>
+        <strong>How to use:</strong><br>
+        1. Create the stored procedure in the database (e.g., Oracle).<br>
+        2. Get a CallableStatement using <code>con.prepareCall("{call procedureName(?,?)}")</code><br>
+        3. Set parameter values using <code>setInt()</code>, <code>setString()</code> etc.<br>
+        4. Execute with <code>cstmt.execute()</code>
+        <br><br>
+        Example: <code>CallableStatement cs = con.prepareCall("{call insertR(?,?)}");</code><br>
+        <code>cs.setInt(1, 1011); cs.setString(2, "Amit"); cs.execute();</code>
+        <br><br>
+        Stored procedures can have IN, OUT, and INOUT parameters unlike functions which typically only have IN parameters.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">19</div><div class="q-text">Describe the JDBC Architecture with its three main components.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        The JDBC Architecture consists of three layers:
+        <ul>
+          <li><strong>Java Application:</strong> The top layer. It calls JDBC methods (from <code>java.sql</code> package) to send SQL statements and retrieve results. The application is DBMS-independent — same code works with different databases.</li>
+          <li><strong>Driver Manager (<code>java.sql.DriverManager</code>):</strong> The middle layer. It manages multiple JDBC drivers installed on the system. Its <code>getConnection()</code> method connects the application to the appropriate JDBC driver using the JDBC URL, username, and password.</li>
+          <li><strong>JDBC Driver:</strong> The bottom layer. It is a vendor-specific implementation that translates JDBC calls into database-specific protocol. Types include JDBC-ODBC Bridge (Type 1), Native-API (Type 2), JDBC-Net (Type 3), and Pure Java (Type 4).</li>
+        </ul>
+        Flow: Application → JDBC API → DriverManager → JDBC Driver → Database. The JDBC driver test suite verifies that installed drivers are JDBC-compliant.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num medium">20</div><div class="q-text">Explain Graphics methods in Applet with an example that uses drawRect, drawOval, drawLine, and setColor.</div><span class="q-marks medium">5 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        The <code>java.awt.Graphics</code> class provides methods for drawing shapes and text in an applet's <code>paint()</code> method:
+        <ul>
+          <li><strong>drawRect(x, y, w, h):</strong> Draws a rectangle outline at position (x,y) with given width and height.</li>
+          <li><strong>fillRect(x, y, w, h):</strong> Draws a solid/filled rectangle using current color.</li>
+          <li><strong>drawOval(x, y, w, h):</strong> Draws an ellipse outline. For a circle, use equal width and height.</li>
+          <li><strong>fillOval(x, y, w, h):</strong> Draws a solid oval.</li>
+          <li><strong>drawLine(x1, y1, x2, y2):</strong> Draws a line from (x1,y1) to (x2,y2).</li>
+          <li><strong>setColor(Color c):</strong> Sets the current drawing color. Example colors: Color.red, Color.blue, Color.pink.</li>
+        </ul>
+        Example: In <code>paint(Graphics g)</code>, call <code>g.setColor(Color.red)</code> then <code>g.drawRect(70,100,30,30)</code> to draw a red rectangle. All subsequent draws use red until color is changed again.
+      </div>
+    </div>
+
+    <!-- HARD / SCENARIO -->
+    <div class="qa-category">
+      <span class="qa-cat-badge hard">Hard / Scenario</span>
+      <h3 class="qa-cat-title">10 Mark Questions (Detailed / Scenario-Based)</h3>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">21</div><div class="q-text">Write a complete Java Swing application that creates a Login Form using JDBC. The form should validate username and password against an Oracle database table and display appropriate messages.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>Design:</strong> The application uses a <code>JFrame</code> with <code>JLabel</code>, <code>JTextField</code>, <code>JPasswordField</code>, and a <code>JButton</code>. On button click, JDBC connects to Oracle and validates credentials.</p>
+        <p><strong>Database Setup:</strong></p>
+        <code>CREATE TABLE login (username VARCHAR2(50), password VARCHAR2(50));</code><br>
+        <code>INSERT INTO login VALUES('admin','pass123');</code>
+        <br><br>
+        <strong>Key parts of the code:</strong>
+        <ul>
+          <li><strong>UI (Constructor):</strong> Create JFrame with FlowLayout. Add JLabel, JTextField (for username), JPasswordField (for password), and a JButton. Register ActionListener on button.</li>
+          <li><strong>Event Handler (<code>actionPerformed</code>):</strong>
+            <ol>
+              <li>Get username and password from text fields using <code>getText()</code>.</li>
+              <li>Load Oracle driver: <code>Class.forName("oracle.jdbc.driver.OracleDriver");</code></li>
+              <li>Create connection: <code>DriverManager.getConnection(url, user, pwd);</code></li>
+              <li>Create Statement and execute: <code>stmt.executeQuery("SELECT * FROM login WHERE username='...' AND password='...'")</code></li>
+              <li>If <code>rs.next()</code> returns true → login successful → hide current frame, show NextPage.</li>
+              <li>If false → show error via <code>JOptionPane.showMessageDialog()</code>.</li>
+              <li>Clear fields and return focus.</li>
+            </ol>
+          </li>
+          <li><strong>Next Page:</strong> A separate JFrame showing "Welcome: username" with a Logout button.</li>
+        </ul>
+        <p><strong>Security Note:</strong> In production, always use <code>PreparedStatement</code> instead of string concatenation to prevent SQL injection:</p>
+        <code>PreparedStatement ps = con.prepareStatement("SELECT * FROM login WHERE username=? AND password=?");</code><br>
+        <code>ps.setString(1, value1); ps.setString(2, value2);</code>
+        <p>This application demonstrates integration of: Swing components, Event Handling, JDBC connectivity, and database-driven authentication — all core OOP with Java concepts.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">22</div><div class="q-text">Scenario: A developer writes a JDBC program using Statement to insert 1000 records in a loop. The application is slow. How would you optimize it? Explain using PreparedStatement and batch processing.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>Problem Identification:</strong> Using a regular <code>Statement</code> in a loop to insert records is inefficient because: (1) The SQL query is compiled every single iteration (1000 compilations). (2) Each <code>executeUpdate()</code> call is a separate round-trip to the database. (3) No batching means 1000 individual network connections.</p>
+        <p><strong>Solution 1 — PreparedStatement:</strong> Replace <code>Statement</code> with <code>PreparedStatement</code>. The query is compiled only once, then executed 1000 times with different parameter values.</p>
+        <pre style="background:#F5F3EF;color:#1A1A18;padding:12px;border-radius:7px;font-size:12px;overflow-x:auto;">PreparedStatement ps = con.prepareStatement("INSERT INTO emp VALUES(?,?)");
+for(int i=1; i&lt;=1000; i++) {
+    ps.setInt(1, i);
+    ps.setString(2, "Employee"+i);
+    ps.executeUpdate();  // Still 1000 round-trips
+}</pre>
+        <p><strong>Solution 2 — PreparedStatement + Batch Processing (Best):</strong> Use <code>addBatch()</code> to accumulate statements and <code>executeBatch()</code> to send them all at once, drastically reducing network round-trips.</p>
+        <pre style="background:#F5F3EF;color:#1A1A18;padding:12px;border-radius:7px;font-size:12px;overflow-x:auto;">PreparedStatement ps = con.prepareStatement("INSERT INTO emp VALUES(?,?)");
+con.setAutoCommit(false);  // Disable auto-commit for batch
+for(int i=1; i&lt;=1000; i++) {
+    ps.setInt(1, i);
+    ps.setString(2, "Employee"+i);
+    ps.addBatch();  // Add to batch
+    if(i % 100 == 0) {  // Execute every 100 records
+        ps.executeBatch();
+        con.commit();
+        ps.clearBatch();
+    }
+}
+ps.executeBatch();
+con.commit();</pre>
+        <p><strong>Why this is better:</strong></p>
+        <ul>
+          <li>Query compiled only ONCE (vs 1000 times)</li>
+          <li>Only 10 network round-trips (vs 1000)</li>
+          <li>All records committed together → atomicity</li>
+          <li>Significantly faster — can be 10-50x improvement</li>
+        </ul>
+        <p><strong>Additional optimization:</strong> Use connection pooling (like HikariCP or C3P0) to avoid overhead of creating new connections repeatedly.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">23</div><div class="q-text">Explain the complete JDBC architecture with all 4 driver types, their working mechanism, advantages, disadvantages, and when to use each. Draw and describe the architecture diagram.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>JDBC Architecture Overview:</strong></p>
+        <p>JDBC follows a layered architecture: <code>Java Application → JDBC API → DriverManager → JDBC Driver → Database</code>.</p>
+        <p><strong>Three Core Components:</strong></p>
+        <ol>
+          <li><strong>Application Layer:</strong> Java program that uses JDBC API classes (<code>Connection</code>, <code>Statement</code>, <code>ResultSet</code>) from <code>java.sql</code>.</li>
+          <li><strong>Driver Manager:</strong> Manages all registered JDBC drivers. Selects the right driver using the JDBC URL prefix (e.g., <code>jdbc:oracle:</code> or <code>jdbc:mysql:</code>).</li>
+          <li><strong>JDBC Driver:</strong> Vendor-specific code that converts JDBC calls into database protocol calls.</li>
+        </ol>
+        <p><strong>Type 1 — JDBC-ODBC Bridge:</strong> Uses Windows' built-in ODBC infrastructure. ODBC must be configured on each client. Very slow (double translation). Not suitable for applets. Used only in development. Driver class: <code>sun.jdbc.odbc.JdbcOdbcDriver</code>.</p>
+        <p><strong>Type 2 — Native-API Driver:</strong> Converts JDBC calls into native database client library calls (e.g., Oracle's OCI calls). Faster than Type 1. Requires database-specific binary libraries on client machine. Not suitable for internet deployments. Example: Oracle OCI Driver.</p>
+        <p><strong>Type 3 — JDBC-Net Pure Java Driver:</strong> Uses a three-tier model. The JDBC client sends calls over a standard network socket to a middleware application server, which then communicates with the actual database. Client doesn't need database-specific code. Most flexible and scalable. Ideal for applets and internet applications. Middleware can translate for multiple database backends.</p>
+        <p><strong>Type 4 — Pure Java Driver (Thin Driver):</strong> The most efficient type. Directly converts JDBC calls into the native database wire protocol (e.g., Oracle's Net8 or MySQL protocol). Entirely written in Java — 100% portable. No client installation needed except JVM. Can be bundled with applets for automatic download. Best performance for direct DB connections. Example: MySQL Connector/J (<code>com.mysql.jdbc.Driver</code>).</p>
+        <p><strong>Selection Strategy:</strong></p>
+        <ul>
+          <li>Single DBMS (Oracle/MySQL) → Type 4 (best)</li>
+          <li>Multiple DBMS access → Type 3</li>
+          <li>Legacy systems → Type 2</li>
+          <li>Testing only → Type 1</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">24</div><div class="q-text">Write a Java program demonstrating all three JDBC Statement types: Statement, PreparedStatement, and CallableStatement. Explain when each is appropriate.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>1. Statement — for simple, one-time queries:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:12px;border-radius:7px;font-size:12px;overflow-x:auto;">Statement stmt = con.createStatement();
+// Execute a SELECT
+ResultSet rs = stmt.executeQuery("SELECT * FROM emp");
+while(rs.next()) System.out.println(rs.getString(1));
+// Execute a DDL/DML
+stmt.executeUpdate("CREATE TABLE test(id NUMBER, name VARCHAR2(30))");
+stmt.executeUpdate("INSERT INTO test VALUES(1, 'John')");</pre>
+        <p><strong>Use when:</strong> Simple, one-time queries with no parameters and no security concerns.</p>
+        <p><strong>2. PreparedStatement — for parameterized repeated queries:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:12px;border-radius:7px;font-size:12px;overflow-x:auto;">// Pre-compile once
+PreparedStatement ps = con.prepareStatement(
+    "INSERT INTO emp VALUES(?,?,?)"
+);
+// Execute many times with different values
+ps.setInt(1, 101); ps.setString(2, "Alice"); ps.setDouble(3, 50000);
+ps.executeUpdate();
+ps.setInt(1, 102); ps.setString(2, "Bob"); ps.setDouble(3, 60000);
+ps.executeUpdate();</pre>
+        <p><strong>Use when:</strong> Same query runs multiple times with different parameters, or when user input is involved (prevents SQL injection).</p>
+        <p><strong>3. CallableStatement — for stored procedures:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:12px;border-radius:7px;font-size:12px;overflow-x:auto;">// Stored procedure: PROCEDURE getEmpName(id IN NUMBER, name OUT VARCHAR2)
+CallableStatement cs = con.prepareCall("{call getEmpName(?,?)}");
+cs.setInt(1, 101);         // Set IN parameter
+cs.registerOutParameter(2, java.sql.Types.VARCHAR); // Register OUT
+cs.execute();
+String empName = cs.getString(2);  // Retrieve OUT parameter
+System.out.println("Employee: " + empName);</pre>
+        <p><strong>Use when:</strong> Business logic is stored in the database as stored procedures, for better performance and security.</p>
+        <p><strong>Hierarchy:</strong> <code>Statement ← PreparedStatement ← CallableStatement</code>. CallableStatement is the most specialized; it handles IN, OUT, and INOUT parameters and can execute both stored procedures and functions.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">25</div><div class="q-text">Explain the complete hierarchy and lifecycle of an Applet. Write a program that demonstrates AWT components (Button, TextField) and Event Handling within an Applet.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>Applet Hierarchy:</strong> Object → Component → Container → Panel → Applet → JApplet. Since Applet extends Panel, it inherits all AWT component support.</p>
+        <p><strong>Lifecycle:</strong></p>
+        <ol>
+          <li><code>init()</code>: Applet loaded; called once. Initialize variables, add components.</li>
+          <li><code>start()</code>: Called after init and on page revisit. Start threads.</li>
+          <li><code>paint(Graphics g)</code>: Draw applet UI. Called after start and on resize.</li>
+          <li><code>stop()</code>: Called on minimize or page leave. Pause threads.</li>
+          <li><code>destroy()</code>: Final cleanup. Called once before applet removal.</li>
+        </ol>
+        <p><strong>Applet with AWT components and Event Handling:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:12px;border-radius:7px;font-size:12px;overflow-x:auto;">import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+public class AppletDemo extends Applet implements ActionListener {
+    TextField tf;
+    Button b;
+    Label l;
+    public void init() {
+        l = new Label("Enter text:");
+        tf = new TextField(15);
+        b = new Button("Submit");
+        b.addActionListener(this);  // Register listener
+        add(l); add(tf); add(b);
+    }
+    public void actionPerformed(ActionEvent e) {
+        String text = tf.getText();
+        showStatus("You entered: " + text);  // Shows in browser status bar
+    }
+}
+/* HTML: &lt;applet code="AppletDemo.class" width="400" height="150"&gt;&lt;/applet&gt; */</pre>
+        <p><strong>Notes:</strong> Applets use FlowLayout by default. <code>showStatus()</code> displays text in the browser status bar. Components are added using <code>add()</code>. Event handling works exactly like AWT. The <code>JApplet</code> class extends Applet and allows Swing components (JButton, JTextField) to be used inside applets — preferred over the plain Applet class when using Swing.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">26</div><div class="q-text">Design a complete CRUD (Create, Read, Update, Delete) application using Java Swing and JDBC. Describe the architecture and provide code for each operation.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>Architecture:</strong> 3-Tier — Presentation (Swing), Logic (JDBC), Data (Oracle DB).</p>
+        <p><strong>Database:</strong> <code>CREATE TABLE employees(id NUMBER, name VARCHAR2(50), salary NUMBER);</code></p>
+        <p><strong>CRUD Operations:</strong></p>
+        <p><strong>CREATE (Insert):</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">PreparedStatement ps = con.prepareStatement("INSERT INTO employees VALUES(?,?,?)");
+ps.setInt(1, Integer.parseInt(idField.getText()));
+ps.setString(2, nameField.getText());
+ps.setDouble(3, Double.parseDouble(salField.getText()));
+int rows = ps.executeUpdate();
+JOptionPane.showMessageDialog(null, rows+" record inserted!");</pre>
+        <p><strong>READ (Select):</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">Statement stmt = con.createStatement();
+ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
+// Populate JTable with results
+DefaultTableModel model = new DefaultTableModel();
+model.addColumn("ID"); model.addColumn("Name"); model.addColumn("Salary");
+while(rs.next()) model.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getDouble(3)});
+table.setModel(model);</pre>
+        <p><strong>UPDATE:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">PreparedStatement ps = con.prepareStatement("UPDATE employees SET name=?,salary=? WHERE id=?");
+ps.setString(1, nameField.getText());
+ps.setDouble(2, Double.parseDouble(salField.getText()));
+ps.setInt(3, Integer.parseInt(idField.getText()));
+ps.executeUpdate();</pre>
+        <p><strong>DELETE:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">PreparedStatement ps = con.prepareStatement("DELETE FROM employees WHERE id=?");
+ps.setInt(1, Integer.parseInt(idField.getText()));
+int r = ps.executeUpdate();
+JOptionPane.showMessageDialog(null, r+" record(s) deleted");</pre>
+        <p><strong>Best Practices in this design:</strong> (1) Always use PreparedStatement to prevent SQL injection. (2) Close all resources in a <code>finally</code> block. (3) Use connection pooling for production. (4) Validate inputs before sending to DB. (5) Show meaningful error messages using JOptionPane.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">27</div><div class="q-text">Explain the MVC architecture in context of Swing applications. How does it differ from AWT? Write a Swing-based application demonstrating MVC principles.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>MVC (Model-View-Controller) Architecture:</strong></p>
+        <ul>
+          <li><strong>Model:</strong> The data and business logic layer. Represents the application state. In JDBC context — the database and data retrieval code.</li>
+          <li><strong>View:</strong> The presentation layer. In Swing — JFrame, JPanel, JButton, JTable. Displays data from the model.</li>
+          <li><strong>Controller:</strong> Handles user input and updates Model/View accordingly. In Swing — <code>ActionListener</code>, event handlers.</li>
+        </ul>
+        <p><strong>AWT vs Swing regarding MVC:</strong> AWT does NOT support MVC pattern — its components directly mix data and display. Swing is built on MVC — for example, <code>JTable</code> uses a <code>TableModel</code> (Model) + <code>TableCellRenderer</code> (View) + input handlers (Controller) as separate entities.</p>
+        <p><strong>Example — Student Grade Application:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">// MODEL
+class StudentModel {
+    private String name;
+    private int grade;
+    StudentModel(String n, int g) { name=n; grade=g; }
+    String getName() { return name; }
+    int getGrade() { return grade; }
+    String getResult() { return grade>=40 ? "PASS" : "FAIL"; }
+}
+
+// VIEW (Swing)
+class StudentView extends JFrame {
+    JTextField nameField = new JTextField(15);
+    JTextField gradeField = new JTextField(5);
+    JButton checkBtn = new JButton("Check Result");
+    JLabel resultLabel = new JLabel("Result: ");
+    // ... add components in constructor
+}
+
+// CONTROLLER
+class StudentController implements ActionListener {
+    StudentModel model;
+    StudentView view;
+    StudentController(StudentModel m, StudentView v) {
+        model=m; view=v;
+        view.checkBtn.addActionListener(this);
+    }
+    public void actionPerformed(ActionEvent e) {
+        // Get from view, update model, push back to view
+        String name = view.nameField.getText();
+        int grade = Integer.parseInt(view.gradeField.getText());
+        model = new StudentModel(name, grade);
+        view.resultLabel.setText("Result: " + model.getResult());
+    }
+}</pre>
+        <p><strong>Benefits of MVC in Swing:</strong> Separation of concerns; easy to test each layer independently; UI can change without affecting business logic; multiple Views can share same Model.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">28</div><div class="q-text">Scenario: You are building a Banking Application. Design the database schema, write the JDBC code to: (a) Create accounts table, (b) Deposit money, (c) Withdraw with balance check, (d) Show transaction history using ResultSet.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>Database Schema:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">CREATE TABLE accounts(
+    acc_no NUMBER PRIMARY KEY,
+    acc_name VARCHAR2(50),
+    balance NUMBER(10,2)
+);
+CREATE TABLE transactions(
+    txn_id NUMBER PRIMARY KEY,
+    acc_no NUMBER REFERENCES accounts(acc_no),
+    type VARCHAR2(10),
+    amount NUMBER(10,2),
+    txn_date DATE
+);</pre>
+        <p><strong>(a) Create/Insert Account:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">PreparedStatement ps = con.prepareStatement(
+    "INSERT INTO accounts VALUES(?,?,?)"
+);
+ps.setInt(1, 1001);
+ps.setString(2, "Rajesh Kumar");
+ps.setDouble(3, 10000.00);
+ps.executeUpdate();</pre>
+        <p><strong>(b) Deposit Money:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">con.setAutoCommit(false);
+try {
+    PreparedStatement dep = con.prepareStatement(
+        "UPDATE accounts SET balance=balance+? WHERE acc_no=?"
+    );
+    dep.setDouble(1, depositAmount);
+    dep.setInt(2, accNo);
+    dep.executeUpdate();
+    // Log to transactions table
+    PreparedStatement log = con.prepareStatement(
+        "INSERT INTO transactions VALUES(txn_seq.nextval,?,'CREDIT',?,SYSDATE)"
+    );
+    log.setInt(1, accNo); log.setDouble(2, depositAmount);
+    log.executeUpdate();
+    con.commit();
+} catch(Exception e) { con.rollback(); }</pre>
+        <p><strong>(c) Withdraw with Balance Check:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">con.setAutoCommit(false);
+PreparedStatement checkBal = con.prepareStatement(
+    "SELECT balance FROM accounts WHERE acc_no=?"
+);
+checkBal.setInt(1, accNo);
+ResultSet rs = checkBal.executeQuery();
+if(rs.next()) {
+    double currentBal = rs.getDouble(1);
+    if(currentBal >= withdrawAmount) {
+        PreparedStatement wdraw = con.prepareStatement(
+            "UPDATE accounts SET balance=balance-? WHERE acc_no=?"
+        );
+        wdraw.setDouble(1, withdrawAmount);
+        wdraw.setInt(2, accNo);
+        wdraw.executeUpdate();
+        con.commit();
+        System.out.println("Withdrawal successful");
+    } else {
+        System.out.println("Insufficient funds!");
+        con.rollback();
+    }
+}</pre>
+        <p><strong>(d) Transaction History:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">PreparedStatement hist = con.prepareStatement(
+    "SELECT txn_id,type,amount,txn_date FROM transactions WHERE acc_no=? ORDER BY txn_date DESC"
+);
+hist.setInt(1, accNo);
+ResultSet rs = hist.executeQuery();
+System.out.println("TXN_ID | TYPE   | AMOUNT    | DATE");
+while(rs.next()) {
+    System.out.println(rs.getInt(1)+" | "+rs.getString(2)+" | "+
+        rs.getDouble(3)+" | "+rs.getDate(4));
+}</pre>
+        <p><strong>Key JDBC concepts demonstrated:</strong> Connection management, PreparedStatement for security, Transaction control (<code>setAutoCommit(false)</code>, <code>commit()</code>, <code>rollback()</code>), ResultSet iteration, multiple table operations.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">29</div><div class="q-text">Compare AWT and Swing in depth. Write a program that recreates the same form using both AWT and Swing side by side, highlighting the differences in code and functionality.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>In-Depth Comparison:</strong></p>
+        <p><strong>1. Component Weight:</strong> AWT components are <em>heavyweight</em> — they delegate rendering to the OS's native windowing system, meaning each AWT component has a native OS peer object. Swing components are <em>lightweight</em> — they are entirely rendered by Java's own graphics system (Java2D), giving them consistent appearance across platforms.</p>
+        <p><strong>2. Platform Dependency:</strong> AWT looks different on Windows vs Linux vs Mac because it uses native widgets. Swing looks the same everywhere (unless a custom Look-and-Feel is applied).</p>
+        <p><strong>3. Component Richness:</strong> AWT lacks components like JPasswordField, JTabbedPane, JTree, JTable, JSlider. Swing provides all these and more.</p>
+        <p><strong>4. MVC Architecture:</strong> Swing's JTable uses DefaultTableModel (Model) + TableCellRenderer (View), demonstrating MVC. AWT has no such separation.</p>
+        <p><strong>AWT Version (Registration Form):</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">import java.awt.*;
+class AWTForm extends Frame {
+    AWTForm() {
+        add(new Label("Name:"));    // No 'J' prefix
+        add(new TextField(15));
+        add(new Checkbox("Accept Terms"));
+        add(new Button("Submit"));
+        setLayout(new FlowLayout());
+        setSize(300,200); setVisible(true);
+    }
+    public static void main(String[] a) { new AWTForm(); }
+}</pre>
+        <p><strong>Swing Version (Same Form):</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">import javax.swing.*;
+class SwingForm extends JFrame {
+    SwingForm() {
+        add(new JLabel("Name:"));   // All 'J' prefix
+        add(new JTextField(15));
+        add(new JCheckBox("Accept Terms"));
+        add(new JButton("Submit"));
+        // Extra Swing-only components:
+        add(new JPasswordField(15));   // Not in AWT
+        add(new JProgressBar(0,100)); // Not in AWT
+        setLayout(new FlowLayout());
+        setSize(300,250);
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // Swing has this!
+        setVisible(true);
+    }
+    public static void main(String[] a) { new SwingForm(); }
+}</pre>
+        <p><strong>Key code differences:</strong> (1) AWT: <code>Frame</code> → Swing: <code>JFrame</code>. (2) Closing: AWT needs <code>addWindowListener</code> → Swing has <code>setDefaultCloseOperation(EXIT_ON_CLOSE)</code>. (3) Swing has no AWT equivalent for <code>JPasswordField</code>, <code>JProgressBar</code>, <code>JTree</code>, <code>JTable</code>. (4) Swing requires <code>javax.swing</code> import; AWT uses <code>java.awt</code>.</p>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header"><div class="q-num hard">30</div><div class="q-text">Scenario: A company uses Oracle for HR data. Write a Java application that uses CallableStatement to call a stored procedure that calculates and returns the annual bonus of an employee based on their salary and performance rating. Handle IN and OUT parameters properly.</div><span class="q-marks hard">10 marks</span></div>
+      <div class="q-answer"><div class="ans-label">Answer</div>
+        <p><strong>Scenario Setup:</strong> The HR database has a stored procedure <code>calc_bonus</code> that takes employee ID (IN) and performance rating (IN), then returns annual bonus amount (OUT) and bonus tier (OUT — Gold/Silver/Bronze).</p>
+        <p><strong>Step 1: Create the database procedure (Oracle PL/SQL):</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">CREATE OR REPLACE PROCEDURE calc_bonus(
+    emp_id      IN  NUMBER,
+    perf_rating IN  NUMBER,     -- 1 to 5 scale
+    bonus_amt   OUT NUMBER,
+    bonus_tier  OUT VARCHAR2
+) IS
+    emp_salary NUMBER;
+BEGIN
+    SELECT salary INTO emp_salary FROM employees WHERE id = emp_id;
+    IF perf_rating >= 4 THEN
+        bonus_amt := emp_salary * 0.20;
+        bonus_tier := 'GOLD';
+    ELSIF perf_rating = 3 THEN
+        bonus_amt := emp_salary * 0.10;
+        bonus_tier := 'SILVER';
+    ELSE
+        bonus_amt := emp_salary * 0.05;
+        bonus_tier := 'BRONZE';
+    END IF;
+END;
+/</pre>
+        <p><strong>Step 2: Java application to call this procedure:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;overflow-x:auto;">import java.sql.*;
+public class BonusCalculator {
+    public static void main(String[] args) {
+        Connection con = null;
+        CallableStatement cs = null;
+        try {
+            // Load driver and connect
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            con = DriverManager.getConnection(
+                "jdbc:oracle:thin:@localhost:1521:xe",
+                "hr", "hr"
+            );
+            // Prepare callable statement with IN and OUT parameters
+            cs = con.prepareCall("{call calc_bonus(?,?,?,?)}");
+
+            // Set IN parameters
+            cs.setInt(1, 1001);      // emp_id = 1001
+            cs.setInt(2, 4);         // perf_rating = 4 (excellent)
+
+            // Register OUT parameters with their SQL types
+            cs.registerOutParameter(3, Types.NUMBER);   // bonus_amt
+            cs.registerOutParameter(4, Types.VARCHAR);  // bonus_tier
+
+            // Execute the stored procedure
+            cs.execute();
+
+            // Retrieve OUT parameter values
+            double bonusAmt = cs.getDouble(3);
+            String bonusTier = cs.getString(4);
+
+            System.out.println("Employee ID : 1001");
+            System.out.printf("Annual Bonus: Rs.%.2f%n", bonusAmt);
+            System.out.println("Bonus Tier  : " + bonusTier);
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver not found: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("SQL Error: " + e.getMessage());
+        } finally {
+            // Always close resources
+            try {
+                if (cs != null) cs.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}</pre>
+        <p><strong>Output:</strong></p>
+<pre style="background:#F5F3EF;color:#1A1A18;padding:10px;border-radius:7px;font-size:12px;">Employee ID : 1001
+Annual Bonus: Rs.12000.00
+Bonus Tier  : GOLD</pre>
+        <p><strong>Key Concepts Demonstrated:</strong></p>
+        <ul>
+          <li><code>registerOutParameter(index, Types.TYPE)</code> is required before execution to tell JDBC the type of OUT parameters.</li>
+          <li>OUT parameters are retrieved <em>after</em> <code>execute()</code> using appropriate getter methods (<code>getDouble()</code>, <code>getString()</code>).</li>
+          <li>INOUT parameters use both <code>setXxx()</code> and <code>registerOutParameter()</code> on the same index.</li>
+          <li>Using stored procedures improves performance (pre-compiled), security (no SQL injection), and maintainability (DB logic centralized).</li>
+          <li>Always use <code>finally</code> block to close connections — prevents resource leaks.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- end qa-section -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHEAT SHEET                                 -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="cheatsheet" class="cheatsheet">
+  <h2 class="cs-title">Quick <span>Cheat Sheet</span></h2>
+  <p class="cs-sub">Unit 3 — Last-minute revision reference for everything covered in this unit</p>
+  <div class="cs-grid">
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">AWT Essentials</div>
+      <div class="cs-row"><span class="cs-key">java.awt</span><span class="cs-val">Main package for AWT components</span></div>
+      <div class="cs-row"><span class="cs-key">java.awt.event</span><span class="cs-val">Event classes &amp; listener interfaces</span></div>
+      <div class="cs-row"><span class="cs-key">Frame</span><span class="cs-val">Top-level window with title bar</span></div>
+      <div class="cs-row"><span class="cs-key">Panel</span><span class="cs-val">Container without title bar</span></div>
+      <div class="cs-row"><span class="cs-key">setBounds(x,y,w,h)</span><span class="cs-val">Sets position and size of component</span></div>
+      <div class="cs-row"><span class="cs-key">setVisible(true)</span><span class="cs-val">Shows the frame/window</span></div>
+      <div class="cs-row"><span class="cs-key">setLayout(null)</span><span class="cs-val">Enables absolute positioning</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">Layout Managers</div>
+      <div class="cs-row"><span class="cs-key">BorderLayout</span><span class="cs-val">N, S, E, W, CENTER — default for Frame</span></div>
+      <div class="cs-row"><span class="cs-key">FlowLayout</span><span class="cs-val">L-to-R flow — default for Panel/Applet</span></div>
+      <div class="cs-row"><span class="cs-key">GridLayout</span><span class="cs-val">Rows &amp; columns grid</span></div>
+      <div class="cs-row"><span class="cs-key">CardLayout</span><span class="cs-val">One card visible at a time</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">Event Handling</div>
+      <div class="cs-row"><span class="cs-key">ActionEvent</span><span class="cs-val">Button click → ActionListener</span></div>
+      <div class="cs-row"><span class="cs-key">MouseEvent</span><span class="cs-val">Mouse actions → MouseListener</span></div>
+      <div class="cs-row"><span class="cs-key">KeyEvent</span><span class="cs-val">Keyboard input → KeyListener</span></div>
+      <div class="cs-row"><span class="cs-key">addActionListener(this)</span><span class="cs-val">Register listener on component</span></div>
+      <div class="cs-row"><span class="cs-key">actionPerformed(e)</span><span class="cs-val">Event handler method to override</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">AWT vs Swing</div>
+      <div class="cs-row"><span class="cs-key">AWT</span><span class="cs-val">Heavyweight, platform-dependent, java.awt</span></div>
+      <div class="cs-row"><span class="cs-key">Swing</span><span class="cs-val">Lightweight, platform-indep, javax.swing</span></div>
+      <div class="cs-row"><span class="cs-key">MVC</span><span class="cs-val">Supported by Swing, NOT by AWT</span></div>
+      <div class="cs-row"><span class="cs-key">J-prefix</span><span class="cs-val">All Swing classes: JButton, JLabel...</span></div>
+      <div class="cs-row"><span class="cs-key">EXIT_ON_CLOSE</span><span class="cs-val">Swing's built-in close; AWT needs WindowAdapter</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">Applet Lifecycle</div>
+      <div class="cs-row"><span class="cs-key">init()</span><span class="cs-val">Called ONCE on load — initialize</span></div>
+      <div class="cs-row"><span class="cs-key">start()</span><span class="cs-val">After init / browser restore</span></div>
+      <div class="cs-row"><span class="cs-key">paint(Graphics g)</span><span class="cs-val">Draw UI — from java.awt.Graphics</span></div>
+      <div class="cs-row"><span class="cs-key">stop()</span><span class="cs-val">Browser minimize/leave page</span></div>
+      <div class="cs-row"><span class="cs-key">destroy()</span><span class="cs-val">Called ONCE on close</span></div>
+      <div class="cs-row"><span class="cs-key">JApplet</span><span class="cs-val">Swing version of Applet</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">Graphics Methods</div>
+      <div class="cs-row"><span class="cs-key">drawString(s,x,y)</span><span class="cs-val">Draw text at (x,y)</span></div>
+      <div class="cs-row"><span class="cs-key">drawRect(x,y,w,h)</span><span class="cs-val">Rectangle outline</span></div>
+      <div class="cs-row"><span class="cs-key">fillRect(x,y,w,h)</span><span class="cs-val">Filled rectangle</span></div>
+      <div class="cs-row"><span class="cs-key">drawOval(x,y,w,h)</span><span class="cs-val">Oval/circle outline</span></div>
+      <div class="cs-row"><span class="cs-key">drawLine(x1,y1,x2,y2)</span><span class="cs-val">Line between two points</span></div>
+      <div class="cs-row"><span class="cs-key">setColor(Color.red)</span><span class="cs-val">Set current drawing color</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">JDBC Architecture</div>
+      <div class="cs-row"><span class="cs-key">JDBC</span><span class="cs-val">Java Database Connectivity API</span></div>
+      <div class="cs-row"><span class="cs-key">Type 1</span><span class="cs-val">JDBC-ODBC Bridge (dev/test only)</span></div>
+      <div class="cs-row"><span class="cs-key">Type 2</span><span class="cs-val">Native-API (needs client binaries)</span></div>
+      <div class="cs-row"><span class="cs-key">Type 3</span><span class="cs-val">JDBC-Net (3-tier, most flexible)</span></div>
+      <div class="cs-row"><span class="cs-key">Type 4</span><span class="cs-val">Pure Java (100% Java, BEST for prod)</span></div>
+      <div class="cs-row"><span class="cs-key">DriverManager</span><span class="cs-val">Manages and selects JDBC drivers</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">JDBC 8-Step Connection</div>
+      <div class="cs-row"><span class="cs-key">Step 1</span><span class="cs-val">import java.sql.*;</span></div>
+      <div class="cs-row"><span class="cs-key">Step 2</span><span class="cs-val">Class.forName("driver.class");</span></div>
+      <div class="cs-row"><span class="cs-key">Step 3</span><span class="cs-val">DriverManager.getConnection(url,u,p);</span></div>
+      <div class="cs-row"><span class="cs-key">Step 4</span><span class="cs-val">con.createStatement();</span></div>
+      <div class="cs-row"><span class="cs-key">Step 5</span><span class="cs-val">stmt.executeQuery("SELECT ...");</span></div>
+      <div class="cs-row"><span class="cs-key">Step 6</span><span class="cs-val">while(rs.next()) { process }</span></div>
+      <div class="cs-row"><span class="cs-key">Steps 7-8</span><span class="cs-val">rs.close(); stmt.close(); con.close();</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">Statement Types</div>
+      <div class="cs-row"><span class="cs-key">Statement</span><span class="cs-val">Simple SQL, no params, one-time</span></div>
+      <div class="cs-row"><span class="cs-key">PreparedStatement</span><span class="cs-val">Params via ?, precompiled, safe</span></div>
+      <div class="cs-row"><span class="cs-key">CallableStatement</span><span class="cs-val">Stored procedures/functions</span></div>
+      <div class="cs-row"><span class="cs-key">executeQuery()</span><span class="cs-val">SELECT → returns ResultSet</span></div>
+      <div class="cs-row"><span class="cs-key">executeUpdate()</span><span class="cs-val">INSERT/UPDATE/DELETE → returns int</span></div>
+      <div class="cs-row"><span class="cs-key">execute()</span><span class="cs-val">Stored procs / multiple results</span></div>
+      <div class="cs-row"><span class="cs-key">registerOutParam()</span><span class="cs-val">Required for OUT params in Callable</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">JDBC Driver Class Names</div>
+      <div class="cs-row"><span class="cs-key">Oracle</span><span class="cs-val">oracle.jdbc.driver.OracleDriver</span></div>
+      <div class="cs-row"><span class="cs-key">MySQL</span><span class="cs-val">com.mysql.jdbc.Driver</span></div>
+      <div class="cs-row"><span class="cs-key">Oracle URL</span><span class="cs-val">jdbc:oracle:thin:@localhost:1521:xe</span></div>
+      <div class="cs-row"><span class="cs-key">MySQL URL</span><span class="cs-val">jdbc:mysql://localhost/dbname</span></div>
+      <div class="cs-row"><span class="cs-key">ODBC</span><span class="cs-val">sun.jdbc.odbc.JdbcOdbcDriver</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">Key Definitions (1-liner)</div>
+      <div class="cs-row"><span class="cs-key">Event</span><span class="cs-val">Change in state of a component</span></div>
+      <div class="cs-row"><span class="cs-key">Applet</span><span class="cs-val">Java program embedded in webpage</span></div>
+      <div class="cs-row"><span class="cs-key">JDBC</span><span class="cs-val">API to connect Java to databases</span></div>
+      <div class="cs-row"><span class="cs-key">MVC</span><span class="cs-val">Model-View-Controller design pattern</span></div>
+      <div class="cs-row"><span class="cs-key">ResultSet</span><span class="cs-val">Table of data from DB query</span></div>
+      <div class="cs-row"><span class="cs-key">Transient</span><span class="cs-val">Field excluded from serialization</span></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-title">Common Mistakes to Avoid</div>
+      <div class="cs-row"><span class="cs-key">❌</span><span class="cs-val">Forgetting to close Connection (resource leak)</span></div>
+      <div class="cs-row"><span class="cs-key">❌</span><span class="cs-val">Using Statement with user input (SQL injection)</span></div>
+      <div class="cs-row"><span class="cs-key">❌</span><span class="cs-val">No WindowAdapter in AWT (can't close window)</span></div>
+      <div class="cs-row"><span class="cs-key">❌</span><span class="cs-val">Forgetting registerOutParameter for CallableStatement</span></div>
+      <div class="cs-row"><span class="cs-key">❌</span><span class="cs-val">Not loading driver before getConnection</span></div>
+      <div class="cs-row"><span class="cs-key">✅</span><span class="cs-val">Always use PreparedStatement for user inputs</span></div>
+    </div>
+
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:48px;padding:20px;color:var(--text-muted);font-size:13px;">
+  OOP with Java — Unit 3 Study Notes &nbsp;·&nbsp; 24CSH-207 &nbsp;·&nbsp; UIE, CSE Department &nbsp;·&nbsp; Academic Session 2025-26
+</div>
+
+</div><!-- end wrapper -->
+</body>
+</html>
