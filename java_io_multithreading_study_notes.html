@@ -1,0 +1,1727 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:#fff;color:#1a1a1a}
+:root{--blue:#1a56db;--green:#057a55;--orange:#c27803;--red:#c81e1e;--purple:#6c2bd9;--teal:#0694a2;--bg:#f8f9fc;--card:#fff;--border:#e5e7eb;--badge-blue:#dbeafe;--badge-green:#d1fae5;--badge-orange:#fef3c7;--badge-red:#fee2e2;--badge-purple:#ede9fe}
+.wrapper{max-width:860px;margin:0 auto;padding:2rem 1.5rem}
+.toc{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:2.5rem}
+.toc-title{font-size:13px;font-weight:500;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.toc-links{display:flex;flex-wrap:wrap;gap:.4rem}
+.toc-links a{font-size:13px;color:var(--blue);text-decoration:none;padding:3px 10px;border-radius:20px;background:var(--badge-blue);border:none}
+.toc-links a:hover{text-decoration:underline}
+h1{font-size:22px;font-weight:500;color:#111;margin-bottom:.3rem}
+.subtitle{font-size:14px;color:#6b7280;margin-bottom:2rem}
+h2{font-size:18px;font-weight:500;color:#111;margin:2.5rem 0 .75rem;padding-top:.5rem;border-top:2px solid var(--border)}
+h3{font-size:15px;font-weight:500;color:#1a1a1a;margin:1.25rem 0 .4rem}
+h4{font-size:13px;font-weight:500;color:#374151;margin:.8rem 0 .3rem;text-transform:uppercase;letter-spacing:.05em}
+p{font-size:14px;line-height:1.75;color:#374151;margin-bottom:.7rem}
+ul,ol{padding-left:1.25rem;margin-bottom:.7rem}
+li{font-size:14px;line-height:1.7;color:#374151}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px;margin-right:4px}
+.badge-blue{background:var(--badge-blue);color:#1e40af}
+.badge-green{background:var(--badge-green);color:#065f46}
+.badge-orange{background:var(--badge-orange);color:#92400e}
+.badge-red{background:var(--badge-red);color:#991b1b}
+.badge-purple{background:var(--badge-purple);color:#4c1d95}
+pre{background:#1e293b;color:#e2e8f0;border-radius:8px;padding:1rem 1.2rem;overflow-x:auto;font-size:12.5px;line-height:1.6;margin:.7rem 0 1rem;font-family:var(--font-mono)}
+code{font-family:var(--font-mono);font-size:12.5px;background:#f1f5f9;color:#be185d;padding:1px 5px;border-radius:4px}
+.info-box{background:#eff6ff;border-left:3px solid #3b82f6;border-radius:0 8px 8px 0;padding:.75rem 1rem;margin:.75rem 0;font-size:13.5px;line-height:1.65;color:#1e3a5f}
+.warn-box{background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:.75rem 1rem;margin:.75rem 0;font-size:13.5px;line-height:1.65;color:#78350f}
+.def-box{background:#f0fdf4;border-left:3px solid #22c55e;border-radius:0 8px 8px 0;padding:.75rem 1rem;margin:.75rem 0;font-size:13.5px;line-height:1.65;color:#14532d}
+.diagram{background:#f8f9fc;border:1px solid var(--border);border-radius:10px;padding:1rem;margin:.7rem 0 1rem;overflow-x:auto;text-align:center}
+.method-table{width:100%;border-collapse:collapse;margin:.7rem 0 1rem;font-size:13px}
+.method-table th{background:#f1f5f9;color:#374151;font-weight:500;padding:7px 10px;text-align:left;border:1px solid var(--border)}
+.method-table td{padding:6px 10px;border:1px solid var(--border);vertical-align:top;line-height:1.55}
+.method-table tr:nth-child(even){background:#fafafa}
+.q-card{border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem;margin-bottom:.9rem}
+.q-easy{border-left:4px solid #22c55e}
+.q-medium{border-left:4px solid #f59e0b}
+.q-hard{border-left:4px solid #ef4444}
+.q-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.q-text{font-size:14px;font-weight:500;color:#111;margin-bottom:.5rem}
+.q-ans{font-size:13.5px;color:#374151;line-height:1.7}
+details{margin-bottom:.3rem}
+summary{cursor:pointer;font-size:13.5px;color:#1a56db;font-weight:500;list-style:none;padding:4px 0}
+summary::before{content:"▶ Show Answer";font-size:12px}
+details[open] summary::before{content:"▼ Hide Answer"}
+.cheatsheet{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.cs-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1rem}
+.cs-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:.6rem}
+.cs-item{font-size:12.5px;color:#374151;margin-bottom:.3rem;padding-left:.8rem;position:relative}
+.cs-item::before{content:"•";position:absolute;left:0;color:#9ca3af}
+.cs-code{font-family:var(--font-mono);font-size:11.5px;background:#1e293b;color:#a5f3fc;padding:.5rem .7rem;border-radius:6px;margin:.4rem 0;display:block}
+.section-icon{display:inline-block;width:28px;height:28px;border-radius:50%;text-align:center;line-height:28px;font-size:14px;margin-right:8px;vertical-align:middle}
+.divider{height:1px;background:var(--border);margin:2rem 0}
+.lifecycle-row{display:flex;align-items:center;gap:0;margin:1rem 0;flex-wrap:wrap}
+.lc-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:500;color:#1e40af;white-space:nowrap}
+.lc-arrow{font-size:16px;color:#9ca3af;padding:0 6px}
+.hierarchy{font-family:var(--font-mono);font-size:12.5px;color:#374151;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;line-height:1.8;margin:.7rem 0}
+</style>
+
+<div class="wrapper">
+<h2 class="sr-only" style="position:absolute;left:-9999px">Java IO Streams and Multithreading — Complete Study Notes</h2>
+
+<h1>Java IO &amp; Multithreading — Study Notes</h1>
+<p class="subtitle">Object-Oriented Programming using Java (23/24CSH-207) · Unit 2 · Academic Session 2025–26</p>
+
+<div class="toc">
+  <div class="toc-title">Quick Navigation</div>
+  <div class="toc-links">
+    <a href="#s1">1. Java IO &amp; Streams</a>
+    <a href="#s2">2. FileOutputStream</a>
+    <a href="#s3">3. FileInputStream</a>
+    <a href="#s4">4. ByteArrayOutputStream</a>
+    <a href="#s5">5. ByteArrayInputStream</a>
+    <a href="#s6">6. Character Streams</a>
+    <a href="#s7">7. FileWriter &amp; FileReader</a>
+    <a href="#s8">8. CharArrayReader/Writer</a>
+    <a href="#s9">9. Serialization</a>
+    <a href="#s10">10. FilterWriter/Reader</a>
+    <a href="#s11">11. Piped I/O</a>
+    <a href="#s12">12. Multithreading</a>
+    <a href="#s13">13. Thread Creation</a>
+    <a href="#s14">14. Synchronization</a>
+    <a href="#s15">15. Q&amp;A Bank</a>
+    <a href="#s16">16. Cheat Sheet</a>
+  </div>
+</div>
+
+<!-- ======================== SECTION 1 ======================== -->
+<h2 id="s1">1. Java IO &amp; Streams — Introduction</h2>
+
+<div class="def-box"><strong>Definition:</strong> A <em>stream</em> in Java is an abstraction that either produces or consumes information. It is linked to a physical device by the Java I/O system. All streams behave in the same manner regardless of the actual physical device they are connected to.</div>
+
+<p>Java performs all I/O through streams. The java.io package contains all stream classes. A stream is a group of objects providing methods that can be piped together to get the desired outcome.</p>
+
+<h3>Types of Streams</h3>
+<p><span class="badge badge-blue">Byte Streams</span> handle input/output of raw bytes — used for binary data (images, audio). Base classes: <code>InputStream</code>, <code>OutputStream</code>.</p>
+<p><span class="badge badge-green">Character Streams</span> handle input/output of characters using Unicode — suitable for text and internationalization. Base classes: <code>Reader</code>, <code>Writer</code>.</p>
+
+<h3>Predefined Streams (System class — java.lang)</h3>
+<table class="method-table">
+  <tr><th>Stream</th><th>Default Device</th><th>Type</th></tr>
+  <tr><td><code>System.in</code></td><td>Keyboard</td><td>Standard Input</td></tr>
+  <tr><td><code>System.out</code></td><td>Console</td><td>Standard Output</td></tr>
+  <tr><td><code>System.err</code></td><td>Console</td><td>Standard Error</td></tr>
+</table>
+
+<h3>InputStream — Key Methods</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>int read()</code></td><td>Reads a single byte; returns -1 at end of stream</td></tr>
+  <tr><td><code>int read(byte[] b)</code></td><td>Reads up to b.length bytes into array b</td></tr>
+  <tr><td><code>int read(byte[] b, int off, int len)</code></td><td>Reads len bytes from offset off into b</td></tr>
+  <tr><td><code>int available()</code></td><td>Returns number of bytes that can be read without blocking</td></tr>
+  <tr><td><code>void close()</code></td><td>Closes the stream and releases resources</td></tr>
+  <tr><td><code>long skip(long n)</code></td><td>Skips n bytes of data</td></tr>
+  <tr><td><code>void mark(int limit)</code></td><td>Marks current position (if supported)</td></tr>
+  <tr><td><code>void reset()</code></td><td>Resets stream to last marked position</td></tr>
+</table>
+
+<h3>OutputStream — Key Methods</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>void write(int b)</code></td><td>Writes a single byte to the output stream</td></tr>
+  <tr><td><code>void write(byte[] b)</code></td><td>Writes the entire byte array</td></tr>
+  <tr><td><code>void write(byte[] b, int off, int len)</code></td><td>Writes len bytes from array starting at off</td></tr>
+  <tr><td><code>void flush()</code></td><td>Flushes any buffered output bytes</td></tr>
+  <tr><td><code>void close()</code></td><td>Closes the stream</td></tr>
+</table>
+
+<h3>Hierarchy Diagram</h3>
+<div class="diagram">
+  <svg width="680" height="220" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="11">
+    <!-- Byte Stream side -->
+    <rect x="10" y="10" width="130" height="28" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+    <text x="75" y="28" text-anchor="middle" fill="#1e40af" font-weight="500">InputStream (abs)</text>
+    <line x1="75" y1="38" x2="75" y2="55" stroke="#9ca3af" stroke-width="1"/>
+    <!-- Children of InputStream -->
+    <rect x="5" y="55" width="110" height="24" rx="4" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="60" y="71" text-anchor="middle" fill="#1e40af">FileInputStream</text>
+    <rect x="125" y="55" width="130" height="24" rx="4" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="190" y="71" text-anchor="middle" fill="#1e40af">ByteArrayInputStream</text>
+    <line x1="60" y1="55" x2="75" y2="38" stroke="#93c5fd"/>
+    <line x1="190" y1="55" x2="75" y2="38" stroke="#93c5fd"/>
+
+    <!-- OutputStream side -->
+    <rect x="270" y="10" width="140" height="28" rx="5" fill="#d1fae5" stroke="#22c55e" stroke-width="1"/>
+    <text x="340" y="28" text-anchor="middle" fill="#065f46" font-weight="500">OutputStream (abs)</text>
+    <line x1="340" y1="38" x2="340" y2="55" stroke="#9ca3af" stroke-width="1"/>
+    <rect x="260" y="55" width="115" height="24" rx="4" fill="#ecfdf5" stroke="#6ee7b7"/>
+    <text x="317" y="71" text-anchor="middle" fill="#065f46">FileOutputStream</text>
+    <rect x="385" y="55" width="145" height="24" rx="4" fill="#ecfdf5" stroke="#6ee7b7"/>
+    <text x="457" y="71" text-anchor="middle" fill="#065f46">ByteArrayOutputStream</text>
+    <line x1="317" y1="55" x2="340" y2="38" stroke="#6ee7b7"/>
+    <line x1="457" y1="55" x2="340" y2="38" stroke="#6ee7b7"/>
+
+    <!-- Character Stream side -->
+    <rect x="10" y="130" width="100" height="28" rx="5" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="60" y="148" text-anchor="middle" fill="#4c1d95" font-weight="500">Reader (abs)</text>
+    <rect x="120" y="130" width="110" height="28" rx="5" fill="#fce7f3" stroke="#ec4899" stroke-width="1"/>
+    <text x="175" y="148" text-anchor="middle" fill="#831843" font-weight="500">Writer (abs)</text>
+
+    <!-- Children char -->
+    <rect x="5" y="175" width="100" height="22" rx="4" fill="#f5f3ff" stroke="#c4b5fd"/>
+    <text x="55" y="190" text-anchor="middle" fill="#4c1d95" font-size="10">FileReader</text>
+    <rect x="115" y="175" width="100" height="22" rx="4" fill="#f5f3ff" stroke="#c4b5fd"/>
+    <text x="165" y="190" text-anchor="middle" fill="#4c1d95" font-size="10">CharArrayReader</text>
+    <rect x="225" y="175" width="100" height="22" rx="4" fill="#fdf2f8" stroke="#f9a8d4"/>
+    <text x="275" y="190" text-anchor="middle" fill="#831843" font-size="10">FileWriter</text>
+    <rect x="335" y="175" width="115" height="22" rx="4" fill="#fdf2f8" stroke="#f9a8d4"/>
+    <text x="392" y="190" text-anchor="middle" fill="#831843" font-size="10">CharArrayWriter</text>
+
+    <line x1="55" y1="175" x2="60" y2="158" stroke="#c4b5fd"/>
+    <line x1="165" y1="175" x2="60" y2="158" stroke="#c4b5fd"/>
+    <line x1="275" y1="175" x2="175" y2="158" stroke="#f9a8d4"/>
+    <line x1="392" y1="175" x2="175" y2="158" stroke="#f9a8d4"/>
+
+    <!-- Labels -->
+    <text x="140" y="115" font-size="10" fill="#6b7280" font-style="italic">Byte Streams → java.io package</text>
+    <text x="140" y="165" font-size="10" fill="#6b7280" font-style="italic">Character Streams → Unicode support</text>
+  </svg>
+</div>
+
+<!-- ======================== SECTION 2 ======================== -->
+<h2 id="s2">2. FileOutputStream</h2>
+
+<div class="def-box"><strong>Definition:</strong> <code>FileOutputStream</code> is a byte output stream used for writing data to a file. It extends <code>OutputStream</code> and is used to write primitive values or byte-oriented data into a file.</div>
+
+<pre>public class FileOutputStream extends OutputStream</pre>
+
+<h3>Key Methods</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>void write(int b)</code></td><td>Writes the specified byte to the file output stream</td></tr>
+  <tr><td><code>void write(byte[] b)</code></td><td>Writes b.length bytes from array b to the stream</td></tr>
+  <tr><td><code>void write(byte[] b, int off, int len)</code></td><td>Writes len bytes from b starting at offset off</td></tr>
+  <tr><td><code>void flush()</code></td><td>Flushes the output stream</td></tr>
+  <tr><td><code>void close()</code></td><td>Closes the file output stream</td></tr>
+  <tr><td><code>FileChannel getChannel()</code></td><td>Returns unique FileChannel associated with this stream</td></tr>
+</table>
+
+<h3>Example — Write a Single Byte</h3>
+<pre>import java.io.FileOutputStream;
+public class FileOutputStreamExample {
+    public static void main(String args[]) {
+        try {
+            FileOutputStream fout = new FileOutputStream("D:\\testout.txt");
+            fout.write(65);   // writes ASCII 65 = 'A'
+            fout.close();
+            System.out.println("success...");
+        } catch(Exception e) { System.out.println(e); }
+    }
+}
+// Output: success...
+// File testout.txt contains: A</pre>
+
+<div class="info-box">ASCII value 65 corresponds to the character 'A'. FileOutputStream writes raw bytes, so calling <code>fout.write(65)</code> stores 'A' in the file.</div>
+
+<!-- ======================== SECTION 3 ======================== -->
+<h2 id="s3">3. FileInputStream</h2>
+
+<div class="def-box"><strong>Definition:</strong> <code>FileInputStream</code> creates an InputStream used to read bytes from a file. It throws <code>FileNotFoundException</code> (a subclass of <code>IOException</code>) if the file does not exist.</div>
+
+<pre>FileInputStream f0 = new FileInputStream("/autoexec.bat");
+// OR using File object
+File f = new File("/autoexec.bat");
+FileInputStream f1 = new FileInputStream(f);</pre>
+
+<div class="warn-box"><strong>Note:</strong> FileInputStream overrides six methods of the abstract InputStream class. The <code>mark()</code> and <code>reset()</code> methods are NOT overridden — calling <code>reset()</code> on a FileInputStream generates an IOException.</div>
+
+<h3>Key Methods</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Return Type</th><th>Description</th></tr>
+  <tr><td><code>available()</code></td><td>int</td><td>Number of bytes readable without blocking</td></tr>
+  <tr><td><code>close()</code></td><td>void</td><td>Closes stream and releases resources</td></tr>
+  <tr><td><code>getFD()</code></td><td>FileDescriptor</td><td>Returns the FileDescriptor object</td></tr>
+  <tr><td><code>read()</code></td><td>int</td><td>Reads one byte; returns -1 at end</td></tr>
+  <tr><td><code>read(byte[] b)</code></td><td>int</td><td>Reads up to b.length bytes</td></tr>
+  <tr><td><code>read(byte[] b, int n, int m)</code></td><td>int</td><td>Reads m bytes from nth byte into array</td></tr>
+  <tr><td><code>skip(long n)</code></td><td>long</td><td>Skips and discards n bytes</td></tr>
+</table>
+
+<h3>Example 1 — Read Single Character</h3>
+<pre>import java.io.FileInputStream;
+public class DataStreamExample {
+    public static void main(String args[]) {
+        try {
+            FileInputStream fin = new FileInputStream("D:\\testout.txt");
+            int i = fin.read();
+            System.out.print((char)i);  // Cast int to char
+            fin.close();
+        } catch(Exception e) { System.out.println(e); }
+    }
+}
+// File contains: "Welcome to javatpoint."
+// Output: W</pre>
+
+<h3>Example 2 — Read All Characters</h3>
+<pre>FileInputStream fin = new FileInputStream("D:\\testout.txt");
+int i = 0;
+while((i = fin.read()) != -1) {
+    System.out.print((char)i);
+}
+fin.close();
+// Output: Welcome to javaTpoint</pre>
+
+<!-- ======================== SECTION 4 ======================== -->
+<h2 id="s4">4. ByteArrayOutputStream</h2>
+
+<div class="def-box"><strong>Definition:</strong> <code>ByteArrayOutputStream</code> is an output stream implementation that uses a byte array as its destination (in-memory buffer). It does not require a physical file.</div>
+
+<pre>ByteArrayOutputStream()            // buffer of 32 bytes default
+ByteArrayOutputStream(int numBytes) // specify initial buffer size</pre>
+
+<h3>Key Methods</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>write(byte[] b)</code></td><td>Writes entire byte array to the buffer</td></tr>
+  <td><td><code>toByteArray()</code></td><td>Returns contents as a byte array</td></tr>
+  <tr><td><code>toString()</code></td><td>Returns buffer contents as a String</td></tr>
+  <tr><td><code>writeTo(OutputStream out)</code></td><td>Writes complete contents to another output stream</td></tr>
+  <tr><td><code>reset()</code></td><td>Resets count to 0 (discards accumulated output)</td></tr>
+  <tr><td><code>size()</code></td><td>Returns current buffer size</td></tr>
+</table>
+
+<h3>Example</h3>
+<pre>import java.io.*;
+class ByteArrayOutputStreamDemo {
+    public static void main(String args[]) throws IOException {
+        ByteArrayOutputStream f = new ByteArrayOutputStream();
+        String s = "This should end up in the array";
+        byte buf[] = s.getBytes();
+        f.write(buf);
+        System.out.println(f.toString());       // prints as string
+        byte b[] = f.toByteArray();             // convert to byte array
+        for(int i=0; i&lt;b.length; i++)
+            System.out.print((char)b[i]);
+        f.reset();                              // reset buffer
+        for(int i=0; i&lt;3; i++) f.write('X');
+        System.out.println(f.toString());       // prints: XXX
+    }
+}</pre>
+
+<!-- ======================== SECTION 5 ======================== -->
+<h2 id="s5">5. ByteArrayInputStream</h2>
+
+<div class="def-box"><strong>Definition:</strong> <code>ByteArrayInputStream</code> is an input stream that uses a byte array as the source. It contains an internal buffer which grows automatically.</div>
+
+<pre>ByteArrayInputStream(byte array[])
+ByteArrayInputStream(byte array[], int start, int numBytes)</pre>
+
+<h3>Key Methods</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>int available()</code></td><td>Returns number of bytes remaining</td></tr>
+  <tr><td><code>int read()</code></td><td>Reads next byte from buffer; returns -1 at end</td></tr>
+  <tr><td><code>int read(byte[] b, int off, int len)</code></td><td>Reads len bytes into array from offset off</td></tr>
+  <tr><td><code>void reset()</code></td><td>Resets buffer to marked position</td></tr>
+  <tr><td><code>long skip(long n)</code></td><td>Skips n bytes</td></tr>
+</table>
+
+<h3>Example</h3>
+<pre>String tmp = "abcdefghijklmnopqrstuvwxyz";
+byte b[] = tmp.getBytes();
+ByteArrayInputStream input1 = new ByteArrayInputStream(b);      // full alphabet
+ByteArrayInputStream input2 = new ByteArrayInputStream(b,0,13); // first 13 letters
+// Reading input1 prints: abcdefghijklmnopqrstuvwxyz
+// Reading input2 prints: abcdefghijklm</pre>
+
+<!-- ======================== SECTION 6 ======================== -->
+<h2 id="s6">6. Character-Based Streams — Reader &amp; Writer</h2>
+
+<div class="def-box"><strong>Definition:</strong> Character streams provide a convenient means for handling input/output of characters using Unicode. They are more efficient than byte streams for text processing and support internationalization.</div>
+
+<h3>Writer (Abstract Class)</h3>
+<p>Defines streaming character output. Implements <code>Closeable</code>, <code>Flushable</code>, and <code>Appendable</code> interfaces.</p>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>write(int c)</code></td><td>Writes single character</td></tr>
+  <tr><td><code>write(char[] cbuf)</code></td><td>Writes character array</td></tr>
+  <tr><td><code>write(String s)</code></td><td>Writes string</td></tr>
+  <tr><td><code>write(char[] cbuf, int off, int len)</code></td><td>Writes portion of char array</td></tr>
+  <tr><td><code>flush()</code></td><td>Flushes stream</td></tr>
+  <tr><td><code>close()</code></td><td>Closes stream after flushing</td></tr>
+</table>
+
+<h3>Reader (Abstract Class)</h3>
+<p>Defines streaming character input. Implements <code>Closeable</code> and <code>Readable</code> interfaces.</p>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>int read()</code></td><td>Reads single character; -1 at end</td></tr>
+  <tr><td><code>int read(char[] cbuf)</code></td><td>Reads into char array</td></tr>
+  <tr><td><code>int read(char[] cbuf, int off, int len)</code></td><td>Reads len chars from offset off</td></tr>
+  <tr><td><code>void close()</code></td><td>Closes the stream</td></tr>
+  <tr><td><code>boolean ready()</code></td><td>Returns true if stream is ready to be read</td></tr>
+  <tr><td><code>long skip(long n)</code></td><td>Skips n characters</td></tr>
+  <tr><td><code>boolean markSupported()</code></td><td>Checks if mark operation is supported</td></tr>
+</table>
+
+<!-- ======================== SECTION 7 ======================== -->
+<h2 id="s7">7. FileWriter &amp; FileReader</h2>
+
+<h3>FileWriter</h3>
+<div class="def-box"><strong>Definition:</strong> <code>FileWriter</code> creates a <code>Writer</code> for writing characters to a file. It extends <code>OutputStreamWriter</code>. Throws <code>IOException</code> on failure.</div>
+
+<pre>FileWriter(String filePath)
+FileWriter(String filePath, boolean append)  // true = append to existing file
+FileWriter(File fileObj)</pre>
+
+<h3>FileWriter Example</h3>
+<pre>import java.io.*;
+class FileWriterDemo {
+    public static void main(String args[]) throws IOException {
+        String source = "Now is the time for all good men";
+        char buffer[] = new char[source.length()];
+        source.getChars(0, source.length(), buffer, 0);
+        
+        FileWriter f1 = new FileWriter("file22.txt");   // create/overwrite
+        f1.write(buffer);
+        f1.close();
+        
+        FileWriter f2 = new FileWriter("file33.txt", true); // append mode
+        f2.write(buffer, buffer.length - buffer.length/4, buffer.length/4);
+        f2.close();
+    }
+}</pre>
+
+<h3>FileReader</h3>
+<div class="def-box"><strong>Definition:</strong> <code>FileReader</code> creates a <code>Reader</code> for reading character contents of a file. Throws <code>FileNotFoundException</code> if file doesn't exist.</div>
+
+<pre>FileReader(String filePath)
+FileReader(File fileObj)</pre>
+
+<h3>FileReader Example (with BufferedReader)</h3>
+<pre>import java.io.*;
+class FileReaderDemo {
+    public static void main(String args[]) throws IOException {
+        FileReader fr = new FileReader("file112.txt");
+        BufferedReader br = new BufferedReader(fr);
+        String s;
+        while((s = br.readLine()) != null) {
+            System.out.println(s);
+        }
+        fr.close();
+        br.close();
+    }
+}</pre>
+
+<!-- ======================== SECTION 8 ======================== -->
+<h2 id="s8">8. CharArrayReader &amp; CharArrayWriter</h2>
+
+<h3>CharArrayReader</h3>
+<div class="def-box"><strong>Definition:</strong> An input stream implementation that uses a character array as the source. Reads contents of a <code>char[]</code> as a character stream.</div>
+
+<pre>CharArrayReader(char array[])
+CharArrayReader(char array[], int start, int numChars)</pre>
+
+<h3>CharArrayReader Example</h3>
+<pre>String tmp = "abcdefghijklmnopqrstuvwxyz";
+int length = tmp.length();
+char c[] = new char[length];
+tmp.getChars(0, length, c, 0);
+CharArrayReader input1 = new CharArrayReader(c);       // full alphabet
+CharArrayReader input2 = new CharArrayReader(c, 0, 5); // only first 5: abcde</pre>
+
+<h3>CharArrayWriter</h3>
+<div class="def-box"><strong>Definition:</strong> An output stream implementation that uses a char array as destination. Automatically grows the array when capacity is exceeded.</div>
+
+<pre>CharArrayWriter()
+CharArrayWriter(int numChars)</pre>
+
+<h3>Key Methods (CharArrayWriter)</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>write(char[] c)</code></td><td>Writes char array to the buffer</td></tr>
+  <tr><td><code>toCharArray()</code></td><td>Returns a copy of input data as char array</td></tr>
+  <tr><td><code>toString()</code></td><td>Converts to String</td></tr>
+  <tr><td><code>writeTo(Writer out)</code></td><td>Writes buffer contents to another Writer</td></tr>
+  <tr><td><code>reset()</code></td><td>Resets the buffer (discards previous data)</td></tr>
+  <tr><td><code>size()</code></td><td>Returns current buffer size</td></tr>
+</table>
+
+<!-- ======================== SECTION 9 ======================== -->
+<h2 id="s9">9. Object Serialization &amp; Deserialization</h2>
+
+<div class="def-box"><strong>Serialization:</strong> The process of saving an object's state to a sequence of bytes (typically to disk). The Java Serialization API provides a standard mechanism. Only objects of classes implementing the <code>Serializable</code> interface can be serialized.</div>
+
+<div class="def-box"><strong>Deserialization:</strong> The process of reconstructing a serialized object from bytes back into a live object in memory. Serialization is JVM-independent — an object serialized on one platform can be deserialized on an entirely different platform.</div>
+
+<h3>Classes Used</h3>
+<p><code>ObjectOutputStream</code> — for serialization &nbsp;|&nbsp; <code>ObjectInputStream</code> — for deserialization</p>
+
+<h3>Writing to ObjectOutputStream</h3>
+<pre>FileOutputStream out = new FileOutputStream("theTime");
+ObjectOutputStream s = new ObjectOutputStream(out);
+s.writeObject("Today");
+s.writeObject(new Date());
+s.flush();</pre>
+
+<h3>Reading from ObjectInputStream</h3>
+<pre>FileInputStream in = new FileInputStream("theTime");
+ObjectInputStream s = new ObjectInputStream(in);
+String today = (String) s.readObject();
+Date date = (Date) s.readObject();</pre>
+
+<h3>Complete Serialization Example</h3>
+<pre>import java.io.*;
+public class MyClass implements Serializable {
+    String s; int i; double d;
+    public MyClass(String s, int i, double d) {
+        this.s = s; this.i = i; this.d = d;
+    }
+    public String toString() { return "s=" + s + "; i=" + i + "; d=" + d; }
+}
+
+// Serialization
+MyClass object1 = new MyClass("Hello", -7, 2.7e10);
+FileOutputStream fos = new FileOutputStream("serial");
+ObjectOutputStream oos = new ObjectOutputStream(fos);
+oos.writeObject(object1);
+oos.flush(); oos.close();
+
+// Deserialization
+FileInputStream fis = new FileInputStream("serial");
+ObjectInputStream ois = new ObjectInputStream(fis);
+MyClass object2 = (MyClass) ois.readObject();
+ois.close();
+System.out.println("object2: " + object2);</pre>
+
+<h3>The <code>transient</code> Keyword</h3>
+<div class="warn-box"><strong>transient</strong> — marks a field to be excluded from serialization. When a <code>transient</code> field is deserialized, it gets the default value (null for objects, 0 for numbers, false for boolean). Static variables are also NOT serialized by default. Only used with variable declarations.</div>
+
+<pre>class Example implements Serializable {
+    String name;           // will be serialized
+    transient int password; // will NOT be serialized — value lost
+    static int count;      // static — also not serialized
+}</pre>
+
+<!-- ======================== SECTION 10 ======================== -->
+<h2 id="s10">10. FilterWriter &amp; FilterReader</h2>
+
+<h3>FilterWriter</h3>
+<div class="def-box"><strong>Definition:</strong> An abstract class used to write <em>filtered</em> character streams. Subclasses override its methods to process/transform data before writing to the underlying Writer. Constructor is protected: <code>FilterWriter(Writer out)</code>.</div>
+
+<pre>class FilterWriterDemo {
+    public static void main(String[] args) throws Exception {
+        Writer wr = new StringWriter();
+        FilterWriter fr = new FilterWriter(wr) {};  // anonymous subclass
+        String str = "Hello";
+        char c[] = {'H','e','l','l'};
+        fr.write(str);       // write string
+        fr.flush();
+        fr.write(c);         // write char array
+        fr.write('s');       // write single char
+        System.out.print(wr.toString()); // output: HelloHells
+        fr.close();
+    }
+}</pre>
+
+<h3>FilterReader</h3>
+<div class="def-box"><strong>Definition:</strong> An abstract class for reading filtered character streams. Default methods pass all requests to the contained stream. Subclasses override to selectively process data from the underlying Reader.</div>
+
+<pre>public abstract class FilterReader extends Reader
+// Constructor: protected FilterReader(Reader in)</pre>
+
+<h3>FilterReader Key Methods</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>int read()</code></td><td>Reads a single character</td></tr>
+  <tr><td><code>int read(char[] cbuf, int off, int len)</code></td><td>Reads len characters into buffer</td></tr>
+  <tr><td><code>void close()</code></td><td>Closes the stream</td></tr>
+  <tr><td><code>boolean markSupported()</code></td><td>Tests if mark operation is supported</td></tr>
+  <tr><td><code>void mark(int readLimit)</code></td><td>Marks current position in stream</td></tr>
+  <tr><td><code>void reset()</code></td><td>Resets stream to marked position</td></tr>
+  <tr><td><code>long skip(long n)</code></td><td>Skips n characters</td></tr>
+  <tr><td><code>boolean ready()</code></td><td>Returns true if stream is ready to read</td></tr>
+</table>
+
+<div class="info-box"><strong>DataOutputStream</strong> extends <code>FilterOutputStream</code> (not BufferedOutputStream or ByteArrayOutputStream). FilterOutputStream is the base for all filtered output streams.</div>
+
+<!-- ======================== SECTION 11 ======================== -->
+<h2 id="s11">11. Java Piped I/O</h2>
+
+<div class="def-box"><strong>Definition:</strong> Pipes are used as a communication channel between threads to transfer data in a producer-consumer scenario. They provide a unidirectional flow of data — one thread writes to the pipe, another thread reads from it.</div>
+
+<h3>Piped Classes</h3>
+<table class="method-table">
+  <tr><th>Class</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td><code>PipedInputStream</code></td><td>Byte-based</td><td>Reads from the pipe as bytes</td></tr>
+  <tr><td><code>PipedOutputStream</code></td><td>Byte-based</td><td>Writes to the pipe as bytes</td></tr>
+  <tr><td><code>PipedReader</code></td><td>Character-based</td><td>Reads from the pipe as characters</td></tr>
+  <tr><td><code>PipedWriter</code></td><td>Character-based</td><td>Writes to the pipe as characters</td></tr>
+</table>
+
+<h3>PipedWriter</h3>
+<p>Used to write text into a pipe as a stream of characters. Must be connected to a <code>PipedReader</code>. Used by the <em>Producer</em> thread. PipedWriter is a subclass of <code>Writer</code>.</p>
+
+<h3>PipedReader</h3>
+<p>Used to read the contents of a pipe as a stream of characters. Must be connected to the same <code>PipedWriter</code>. Used by the <em>Consumer</em> thread.</p>
+
+<h3>Example — Producer-Consumer with Pipes</h3>
+<pre>import java.io.PipedReader;
+import java.io.PipedWriter;
+
+public class PipeReaderExample {
+    public static void main(String[] args) {
+        try {
+            final PipedReader read = new PipedReader();
+            final PipedWriter write = new PipedWriter(read); // connected!
+
+            Thread readerThread = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        int data = read.read();
+                        while(data != -1) {
+                            System.out.print((char) data);
+                            data = read.read();
+                        }
+                    } catch(Exception ex) {}
+                }
+            });
+
+            Thread writerThread = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        write.write("My name is BHAVNEET\n".toCharArray());
+                    } catch(Exception ex) {}
+                }
+            });
+
+            readerThread.start();
+            writerThread.start();
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}</pre>
+
+<div class="warn-box">The <code>write(int)</code> method of PipedWriter throws an <code>IOException</code> if the pipe is broken or the connected PipedReader is closed.</div>
+
+<!-- ======================== SECTION 12 ======================== -->
+<h2 id="s12">12. Multithreading</h2>
+
+<div class="def-box"><strong>Definition:</strong> Multithreading is a Java feature that enables two or more parts (threads) of the same process to run concurrently for optimal CPU utilization. Each thread is a lightweight process within a process.</div>
+
+<h3>Multitasking vs. Multithreading</h3>
+<table class="method-table">
+  <tr><th>Feature</th><th>Multitasking</th><th>Multithreading</th></tr>
+  <tr><td>Unit</td><td>Process (separate programs)</td><td>Thread (part of same process)</td></tr>
+  <tr><td>Memory</td><td>Each process has its own memory</td><td>Threads share same memory/heap</td></tr>
+  <tr><td>Communication</td><td>Inter-process (costly)</td><td>Intra-process (cheaper)</td></tr>
+  <tr><td>Context Switch</td><td>Heavyweight — slower</td><td>Lightweight — faster</td></tr>
+  <tr><td>Example</td><td>Running Word + Chrome simultaneously</td><td>Typing + spell-check in Word</td></tr>
+</table>
+
+<h3>Thread Life Cycle</h3>
+<div class="lifecycle-row">
+  <div class="lc-box">New</div><div class="lc-arrow">→</div>
+  <div class="lc-box">Runnable</div><div class="lc-arrow">→</div>
+  <div class="lc-box">Running</div><div class="lc-arrow">→</div>
+  <div class="lc-box">Waiting / Timed Waiting</div><div class="lc-arrow">→</div>
+  <div class="lc-box">Terminated</div>
+</div>
+<ul>
+  <li><strong>New:</strong> Thread is created using <code>new Thread()</code>; not yet started</li>
+  <li><strong>Runnable:</strong> After <code>start()</code> is called; thread is ready to execute</li>
+  <li><strong>Running:</strong> Thread scheduler has assigned CPU to this thread</li>
+  <li><strong>Waiting:</strong> Thread waits for another thread to signal it (e.g., <code>wait()</code>, <code>join()</code>)</li>
+  <li><strong>Timed Waiting:</strong> Thread waits for a specified time interval (e.g., <code>sleep(ms)</code>)</li>
+  <li><strong>Terminated (Dead):</strong> Thread completes its <code>run()</code> method or is stopped</li>
+</ul>
+
+<h3>Advantages of Multithreading</h3>
+<ul>
+  <li>Improved performance and concurrency (multiple tasks simultaneously)</li>
+  <li>Simplified coding of remote procedure calls and conversations</li>
+  <li>Simultaneous access to multiple applications</li>
+  <li>Reduced number of required servers</li>
+</ul>
+
+<h3>Disadvantages of Multithreading</h3>
+<ul>
+  <li>Difficulty of writing code — complex logic required</li>
+  <li>Difficulty of debugging — race conditions are hard to reproduce</li>
+  <li>Difficulty of managing concurrency — deadlocks, starvation</li>
+  <li>Difficulty of testing — non-deterministic behavior</li>
+  <li>Difficulty of porting existing single-threaded code</li>
+</ul>
+
+<!-- ======================== SECTION 13 ======================== -->
+<h2 id="s13">13. Creating Threads — Thread Class &amp; Runnable Interface</h2>
+
+<div class="def-box"><strong>Definition:</strong> In Java, a thread is represented by the <code>Thread</code> class (in java.lang). Threads can be created in two ways: (1) by extending the <code>Thread</code> class, or (2) by implementing the <code>Runnable</code> interface.</div>
+
+<h3>Thread Class — Constructors</h3>
+<pre>Thread()
+Thread(String name)
+Thread(Runnable r)
+Thread(Runnable r, String name)</pre>
+
+<h3>Important Methods of Thread Class</h3>
+<table class="method-table">
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><code>void run()</code></td><td>Defines the code the thread executes — override this</td></tr>
+  <tr><td><code>void start()</code></td><td>Starts the thread; JVM calls run()</td></tr>
+  <tr><td><code>void sleep(long ms)</code></td><td>Pauses thread for specified milliseconds</td></tr>
+  <tr><td><code>void join()</code></td><td>Current thread waits for this thread to finish</td></tr>
+  <tr><td><code>void join(long ms)</code></td><td>Waits at most ms milliseconds for thread to die</td></tr>
+  <tr><td><code>int getPriority()</code></td><td>Returns thread's priority (1–10)</td></tr>
+  <tr><td><code>void setPriority(int p)</code></td><td>Sets thread priority</td></tr>
+  <tr><td><code>String getName()</code></td><td>Returns thread name</td></tr>
+  <tr><td><code>void setName(String name)</code></td><td>Sets thread name</td></tr>
+  <tr><td><code>Thread currentThread()</code></td><td>Returns reference to currently executing thread</td></tr>
+  <tr><td><code>int getId()</code></td><td>Returns thread ID</td></tr>
+  <tr><td><code>Thread.State getState()</code></td><td>Returns current thread state</td></tr>
+  <tr><td><code>boolean isAlive()</code></td><td>Returns true if thread is alive</td></tr>
+  <tr><td><code>void yield()</code></td><td>Pauses current thread to let others execute</td></tr>
+  <tr><td><code>boolean isDaemon()</code></td><td>Tests if thread is a daemon thread</td></tr>
+  <tr><td><code>void setDaemon(boolean b)</code></td><td>Marks thread as daemon or user thread</td></tr>
+  <tr><td><code>void interrupt()</code></td><td>Interrupts the thread</td></tr>
+  <tr><td><code>boolean isInterrupted()</code></td><td>Tests if thread has been interrupted</td></tr>
+</table>
+
+<h3>Method 1 — Extending Thread Class</h3>
+<pre>class Multi extends Thread {
+    public void run() {
+        System.out.println("thread is running...");
+    }
+    public static void main(String args[]) {
+        Multi t1 = new Multi();
+        t1.start();   // DO NOT call run() directly
+    }
+}
+// Output: thread is running...</pre>
+
+<h3>Method 2 — Implementing Runnable Interface</h3>
+<pre>class Multi3 implements Runnable {
+    public void run() {
+        System.out.println("thread is running...");
+    }
+    public static void main(String args[]) {
+        Multi3 m1 = new Multi3();
+        Thread t1 = new Thread(m1);  // wrap in Thread object
+        t1.start();
+    }
+}
+// Output: thread is running...</pre>
+
+<div class="info-box"><strong>Runnable Interface:</strong> Contains only a single method — <code>public void run()</code>. When <code>start()</code> is called: (1) a new thread starts with a new call stack, (2) thread moves from New to Runnable state, (3) when scheduled, its <code>run()</code> method executes.</div>
+
+<div class="warn-box"><strong>Key rule:</strong> Always call <code>start()</code>, never <code>run()</code> directly. Calling <code>run()</code> directly executes it in the current thread without creating a new thread.</div>
+
+<!-- ======================== SECTION 14 ======================== -->
+<h2 id="s14">14. Thread Synchronization</h2>
+
+<div class="def-box"><strong>Definition:</strong> Synchronization is the process of controlling access to shared resources among multiple threads so that only one thread can access a shared resource at a given point in time. Key concept: the <em>monitor</em> (also called a <em>semaphore</em>).</div>
+
+<h3>Why Synchronization?</h3>
+<p>Without synchronization, multiple threads accessing/modifying the same data simultaneously can produce inconsistent results (race conditions). Every object in Java has a lock associated with it.</p>
+
+<h3>Types of Synchronization</h3>
+<table class="method-table">
+  <tr><th>Type</th><th>Description</th></tr>
+  <tr><td>Synchronized Method</td><td>The entire method is locked — only one thread can execute it at a time</td></tr>
+  <tr><td>Synchronized Block</td><td>Only a specific block of code is locked — more granular control</td></tr>
+  <tr><td>Static Synchronization</td><td>Lock is on the Class object, not on an instance</td></tr>
+  <tr><td>Inter-thread Communication</td><td>wait(), notify(), notifyAll() for cooperation between threads</td></tr>
+</table>
+
+<h3>1. Synchronized Method</h3>
+<div class="def-box">When a thread invokes a synchronized method, it automatically acquires the lock for that object and releases it when the method completes.</div>
+<pre>class Table {
+    synchronized void printTable(int n) {  // lock on 'this' object
+        for(int i=1; i&lt;=5; i++) {
+            System.out.println(n * i);
+            try { Thread.sleep(400); } catch(Exception e) {}
+        }
+    }
+}
+// Two threads sharing same Table object — output will be sequential, not interleaved</pre>
+
+<h3>2. Synchronized Block</h3>
+<div class="def-box">Used to synchronize only a portion of a method. Smaller scope than a synchronized method. Syntax: <code>synchronized(object) { /* code */ }</code></div>
+<pre>class Table {
+    void printTable(int n) {
+        synchronized(this) {    // synchronized block — lock only this portion
+            for(int i=1; i&lt;=5; i++) {
+                System.out.println(n * i);
+                try { Thread.sleep(400); } catch(Exception e) {}
+            }
+        }
+    }
+}
+// Usage:
+Table obj = new Table();
+MyThread1 t1 = new MyThread1(obj);
+MyThread2 t2 = new MyThread2(obj);
+t1.start(); t2.start();
+// Output: 5, 10, 15, 20, 25, 100, 200, 300, 400, 500 (sequential)</pre>
+
+<h3>3. Static Synchronization</h3>
+<div class="def-box">When a static method is declared synchronized, the lock is on the <em>Class object</em>, not on any instance. This prevents interference between threads accessing the same class-level resource through different object instances.</div>
+
+<pre>class Display {
+    public static synchronized void displayMessage(String message) {
+        for(int i=0; i&lt;5; i++) {
+            System.out.println(message);
+            try { Thread.sleep(500); } catch(InterruptedException e) {}
+        }
+    }
+}
+class MyThread extends Thread {
+    String message;
+    MyThread(String message) { this.message = message; }
+    public void run() { Display.displayMessage(message); }
+}
+public class StaticSyncExample {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread("Hello");
+        MyThread t2 = new MyThread("World");
+        t1.start(); t2.start();
+        // Only one thread executes at a time — class-level lock
+    }
+}</pre>
+
+<h3>Why Static Synchronization is Needed</h3>
+<div class="warn-box">Without static synchronization: if two objects (obj1, obj2) of same class both have threads t1/t2 and t3/t4 — t1 and t3 can run simultaneously because they have different object-level locks. Static synchronization solves this by locking the entire class.</div>
+
+<h3>Concept of Lock/Monitor</h3>
+<ul>
+  <li>Every Java object has an internal lock (monitor) associated with it</li>
+  <li>A thread must acquire the object's lock before accessing its synchronized fields</li>
+  <li>Only one thread at a time may hold a lock on a monitor</li>
+  <li>The lock is automatically released when the synchronized method/block exits</li>
+  <li>The <code>synchronized</code> keyword is used to acquire locks</li>
+</ul>
+
+<!-- ======================== SECTION 15 ======================== -->
+<h2 id="s15">15. Question &amp; Answer Bank</h2>
+
+<h3 style="color:#057a55">Easy — 2 Marks (3–4 lines)</h3>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q1 — Easy · 2 Marks</div>
+  <div class="q-text">What is a stream in Java?</div>
+  <details><summary></summary>
+    <div class="q-ans">A stream in Java is an abstraction that either produces or consumes information. It is linked to a physical device by the Java I/O system. All streams behave the same way regardless of the device they are linked to. Java streams are defined in the <code>java.io</code> package.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q2 — Easy · 2 Marks</div>
+  <div class="q-text">What are the two types of streams in Java?</div>
+  <details><summary></summary>
+    <div class="q-ans">Java defines two types of streams: (1) <strong>Byte Streams</strong> — handle input/output of raw bytes, used for binary data; base classes are <code>InputStream</code> and <code>OutputStream</code>. (2) <strong>Character Streams</strong> — handle character I/O using Unicode, efficient for text; base classes are <code>Reader</code> and <code>Writer</code>.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q3 — Easy · 2 Marks</div>
+  <div class="q-text">What are the three predefined streams in Java?</div>
+  <details><summary></summary>
+    <div class="q-ans"><code>System.in</code> — standard input stream, default is keyboard. <code>System.out</code> — standard output stream, default is console. <code>System.err</code> — standard error stream, default is console. All three are defined in the <code>System</code> class of <code>java.lang</code> package.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q4 — Easy · 2 Marks</div>
+  <div class="q-text">What is a thread in Java?</div>
+  <details><summary></summary>
+    <div class="q-ans">A thread is a lightweight process inside a process. In Java, the <code>Thread</code> class (in java.lang) represents a thread of execution. Threads share the memory of the parent process. Java's multithreading enables two or more parts of the same program to run concurrently for optimal CPU utilization.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q5 — Easy · 2 Marks</div>
+  <div class="q-text">What is the purpose of the <code>transient</code> keyword?</div>
+  <details><summary></summary>
+    <div class="q-ans">The <code>transient</code> keyword is used in object serialization to exclude a non-static field from being serialized. When a transient field is deserialized, it gets its default value (null/0/false). Only used with variable declarations. Static variables are also excluded from serialization by default.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q6 — Easy · 2 Marks</div>
+  <div class="q-text">What keyword is used to acquire a lock on an object in Java?</div>
+  <details><summary></summary>
+    <div class="q-ans">The <code>synchronized</code> keyword is used in Java to acquire a lock on an object. When applied to a method or block, it ensures that only one thread at a time can execute that code. Volatile, locked, etc. are not valid keywords for this purpose.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q7 — Easy · 2 Marks</div>
+  <div class="q-text">List the states in the life cycle of a Java thread.</div>
+  <details><summary></summary>
+    <div class="q-ans">A Java thread has 5 states: (1) New — thread created, not started. (2) Runnable — after <code>start()</code> is called. (3) Waiting/Timed Waiting — thread paused waiting for signal or timeout. (4) Blocked — waiting to acquire a lock. (5) Terminated — thread has finished execution.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q8 — Easy · 2 Marks</div>
+  <div class="q-text">What is the difference between <code>FileWriter</code> and <code>FileOutputStream</code>?</div>
+  <details><summary></summary>
+    <div class="q-ans"><code>FileWriter</code> is a character stream (extends <code>Writer</code>) used to write text/characters to a file using Unicode. <code>FileOutputStream</code> is a byte stream (extends <code>OutputStream</code>) used to write raw bytes to a file. FileWriter is preferred for text files; FileOutputStream for binary files like images.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q9 — Easy · 2 Marks</div>
+  <div class="q-text">What interface must a class implement to be serializable?</div>
+  <details><summary></summary>
+    <div class="q-ans">A class must implement the <code>Serializable</code> interface (in java.io) to be serializable. This is a marker interface with no methods. Classes ObjectInputStream and ObjectOutputStream are used for the actual serialization and deserialization process.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q10 — Easy · 2 Marks</div>
+  <div class="q-text">What are Piped streams used for in Java?</div>
+  <details><summary></summary>
+    <div class="q-ans">Piped streams are used as a communication channel between threads in a producer-consumer scenario. They provide unidirectional data flow — one thread writes to <code>PipedWriter</code>/<code>PipedOutputStream</code>, and another thread reads from <code>PipedReader</code>/<code>PipedInputStream</code>. Useful for inter-thread communication.</div>
+  </details>
+</div>
+
+<div class="divider"></div>
+<h3 style="color:#c27803">Medium — 5 Marks (10–15 lines)</h3>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q11 — Medium · 5 Marks</div>
+  <div class="q-text">Explain the concept of Serialization and Deserialization in Java with a code example.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Serialization</strong> is the process of converting an object's state into a byte stream to save it to a file or transmit over a network. <strong>Deserialization</strong> is the reverse — reconstructing the object from the byte stream. The process is JVM-independent, meaning an object serialized on one platform can be deserialized on another.</p>
+      <p>To serialize a class, it must implement <code>java.io.Serializable</code> (a marker interface). <code>ObjectOutputStream</code> is used to write the object; <code>ObjectInputStream</code> is used to read it back. Fields marked <code>transient</code> are excluded from serialization.</p>
+      <pre>// Class to be serialized
+public class MyClass implements Serializable {
+    String s; int i;
+    public MyClass(String s, int i) { this.s=s; this.i=i; }
+}
+// Serialize
+FileOutputStream fos = new FileOutputStream("data.ser");
+ObjectOutputStream oos = new ObjectOutputStream(fos);
+oos.writeObject(new MyClass("Hello", 42));
+oos.close();
+// Deserialize
+FileInputStream fis = new FileInputStream("data.ser");
+ObjectInputStream ois = new ObjectInputStream(fis);
+MyClass obj = (MyClass) ois.readObject();
+ois.close();</pre>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q12 — Medium · 5 Marks</div>
+  <div class="q-text">Explain the two ways to create a thread in Java with examples.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Method 1: Extending Thread class</strong> — Create a class that extends <code>Thread</code> and override the <code>run()</code> method. Create an object and call <code>start()</code>.</p>
+      <pre>class MyThread extends Thread {
+    public void run() { System.out.println("Thread running"); }
+}
+MyThread t = new MyThread();
+t.start();</pre>
+      <p><strong>Method 2: Implementing Runnable interface</strong> — Create a class implementing <code>Runnable</code>, define <code>run()</code>, wrap it in a <code>Thread</code> object, then call <code>start()</code>. This approach is preferred because Java allows only single inheritance — using Runnable lets the class extend another class.</p>
+      <pre>class MyRunnable implements Runnable {
+    public void run() { System.out.println("Thread running"); }
+}
+Thread t = new Thread(new MyRunnable());
+t.start();</pre>
+      <p>In both cases, never call <code>run()</code> directly — that executes in the current thread, not a new one. Always use <code>start()</code> which creates a new call stack.</p>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q13 — Medium · 5 Marks</div>
+  <div class="q-text">Explain synchronized method vs synchronized block in Java with examples.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Synchronized Method:</strong> The entire method body is locked. When a thread invokes a synchronized method, it acquires the lock on the object and no other thread can invoke any synchronized method on the same object until the lock is released.</p>
+      <pre>synchronized void printTable(int n) {
+    for(int i=1; i&lt;=5; i++) System.out.println(n*i);
+}</pre>
+      <p><strong>Synchronized Block:</strong> Only a portion of the method is locked. This is more efficient when only part of the method accesses shared resources. The scope is smaller, so threads wait less. The object reference is explicitly specified.</p>
+      <pre>void printTable(int n) {
+    // non-synchronized code here (runs freely)
+    synchronized(this) {
+        // only this part is locked
+        for(int i=1; i&lt;=5; i++) System.out.println(n*i);
+    }
+}</pre>
+      <p>Key difference: synchronized method locks the entire method (coarse-grained); synchronized block locks only the critical section (fine-grained), giving better performance when only part of the method uses shared resources.</p>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q14 — Medium · 5 Marks</div>
+  <div class="q-text">Explain ByteArrayOutputStream with its key methods and an example.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><code>ByteArrayOutputStream</code> is an output stream that uses an internal byte array as its destination (in-memory buffer). No physical file is involved. The buffer automatically grows as data is written. Default buffer size is 32 bytes.</p>
+      <p><strong>Key methods:</strong> <code>write(byte[])</code> — writes data to buffer; <code>toByteArray()</code> — returns buffer as byte array; <code>toString()</code> — converts to String; <code>writeTo(OutputStream)</code> — copies buffer to another stream; <code>reset()</code> — clears buffer; <code>size()</code> — returns current buffer size.</p>
+      <pre>ByteArrayOutputStream f = new ByteArrayOutputStream();
+String s = "Hello World";
+f.write(s.getBytes());           // write to buffer
+System.out.println(f.toString()); // Hello World
+byte[] b = f.toByteArray();       // get as byte array
+f.reset();                         // clear buffer
+f.write('X');
+System.out.println(f.toString()); // X
+
+// Write to actual file
+OutputStream f2 = new FileOutputStream("test.txt");
+f.writeTo(f2); f2.close();</pre>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q15 — Medium · 5 Marks</div>
+  <div class="q-text">Explain FilterWriter and FilterReader with their purpose and usage.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>FilterWriter</strong> is an abstract class that extends <code>Writer</code>. It is designed to write <em>filtered</em> character streams — subclasses can override its methods to transform or process data before writing to the underlying Writer. Its constructor is protected: <code>FilterWriter(Writer out)</code>. Since it is abstract, you must create an anonymous subclass to instantiate it.</p>
+      <p><strong>FilterReader</strong> is an abstract class that extends <code>Reader</code>. It selectively processes data obtained from the underlying Reader. Default methods simply pass all calls to the contained stream. Subclasses override to add custom filtering logic. Constructor: <code>FilterReader(Reader in)</code>.</p>
+      <p><strong>Use case:</strong> Custom data transformation — e.g., converting characters to uppercase while reading, or encrypting characters while writing. Both classes form the foundation of the Decorator pattern in Java I/O.</p>
+      <pre>// Instantiating with anonymous subclass
+Writer wr = new StringWriter();
+FilterWriter fw = new FilterWriter(wr) {};  // empty anonymous class
+fw.write("Hello"); fw.flush();
+System.out.println(wr.toString()); // Hello
+fw.close();</pre>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q16 — Medium · 5 Marks</div>
+  <div class="q-text">Describe the complete life cycle of a thread in Java.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p>A Java thread goes through the following states during its lifetime:</p>
+      <p><strong>1. New:</strong> Thread is created with <code>new Thread()</code> but not yet started. Memory allocated, but execution not begun.</p>
+      <p><strong>2. Runnable:</strong> After <code>start()</code> is called. Thread is ready and waiting for CPU time from the thread scheduler. May or may not be currently executing.</p>
+      <p><strong>3. Running:</strong> Thread scheduler has given CPU time to this thread; <code>run()</code> method is executing.</p>
+      <p><strong>4. Waiting:</strong> Thread is waiting for another thread to notify it. Entered via <code>wait()</code>, <code>join()</code> (without timeout). Returns to Runnable when notified.</p>
+      <p><strong>5. Timed Waiting:</strong> Thread waits for a specified time. Entered via <code>sleep(ms)</code>, <code>join(ms)</code>, <code>wait(ms)</code>. Returns to Runnable after timeout or signal.</p>
+      <p><strong>6. Terminated (Dead):</strong> Thread has completed its <code>run()</code> method normally, or was stopped. A terminated thread cannot be restarted.</p>
+      <p>Key transitions: New→Runnable via <code>start()</code>; Runnable→Waiting via <code>wait()</code>/<code>join()</code>; any→Terminated via completion or exception.</p>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q17 — Medium · 5 Marks</div>
+  <div class="q-text">Explain CharArrayReader and CharArrayWriter with examples.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>CharArrayReader</strong> is a character input stream that uses a char array as its source. Useful to read character data already in memory without file I/O. Two constructors: one reads the full array, one reads a specified range (start, length).</p>
+      <pre>String tmp = "abcdefghijklmnopqrstuvwxyz";
+char c[] = new char[tmp.length()];
+tmp.getChars(0, tmp.length(), c, 0);
+CharArrayReader input1 = new CharArrayReader(c);       // reads all 26
+CharArrayReader input2 = new CharArrayReader(c, 0, 5); // reads abcde</pre>
+      <p><strong>CharArrayWriter</strong> is a character output stream that uses a char array as destination in memory. Auto-grows when capacity exceeded. <code>toCharArray()</code> returns the written characters; <code>writeTo(Writer)</code> copies to a Writer; <code>reset()</code> clears the buffer.</p>
+      <pre>CharArrayWriter f = new CharArrayWriter();
+f.write("Hello World".toCharArray());
+System.out.println(f.toString());   // Hello World
+char[] result = f.toCharArray();
+FileWriter fw = new FileWriter("out.txt");
+f.writeTo(fw); fw.close();</pre>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q18 — Medium · 5 Marks</div>
+  <div class="q-text">Explain static synchronization in Java and why it is needed.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Static synchronization</strong> means applying the <code>synchronized</code> keyword to a static method. In this case, the lock is acquired on the <em>Class object</em> (not an instance), meaning the entire class is locked for that thread.</p>
+      <p><strong>Why needed:</strong> In regular (instance-level) synchronization, threads operating on <em>different objects</em> of the same class can run simultaneously — each object has its own lock. If two threads t1 and t3 each operate on different objects (obj1, obj2), they won't block each other even with synchronized methods.</p>
+      <p>Static synchronization solves this: all threads, regardless of which instance they use, must share the same class-level lock. This prevents interference between t1 (on obj1) and t3 (on obj2).</p>
+      <pre>class Display {
+    public static synchronized void displayMessage(String msg) {
+        for(int i=0; i&lt;5; i++) {
+            System.out.println(msg);
+            try { Thread.sleep(500); } catch(InterruptedException e) {}
+        }
+    }
+}
+// t1 and t2 both call Display.displayMessage()
+// Only ONE thread executes at a time — class-level lock</pre>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q19 — Medium · 5 Marks</div>
+  <div class="q-text">Explain Java Piped I/O with its classes and usage in multithreading.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p>Java Piped I/O provides a mechanism for communication between threads using the producer-consumer pattern. Data flows unidirectionally — one thread writes, another reads. Java provides four piped classes:</p>
+      <ul>
+        <li><code>PipedOutputStream</code> + <code>PipedInputStream</code>: byte-based piped I/O</li>
+        <li><code>PipedWriter</code> + <code>PipedReader</code>: character-based piped I/O</li>
+      </ul>
+      <p>A PipedWriter must be connected to a PipedReader (or PipedOutputStream to PipedInputStream). The connection is made either in the constructor or via the <code>connect()</code> method. <code>write(int)</code> of PipedWriter throws <code>IOException</code> if the pipe is broken.</p>
+      <pre>final PipedReader reader = new PipedReader();
+final PipedWriter writer = new PipedWriter(reader); // connected
+
+// Producer thread
+new Thread(() -> {
+    try { writer.write("Data from producer".toCharArray()); }
+    catch(Exception e) {}
+}).start();
+
+// Consumer thread
+new Thread(() -> {
+    try {
+        int c;
+        while((c = reader.read()) != -1) System.out.print((char)c);
+    } catch(Exception e) {}
+}).start();</pre>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q20 — Medium · 5 Marks</div>
+  <div class="q-text">Compare FileReader vs FileInputStream. When would you use each?</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>FileInputStream</strong> (byte stream, extends InputStream): Reads raw bytes from a file. Used for binary data — images, audio, video, compiled .class files. Each read returns an int (0–255) representing a byte. Throws FileNotFoundException if file doesn't exist.</p>
+      <p><strong>FileReader</strong> (character stream, extends Reader): Reads characters from a file using the default character encoding (or a specified charset). Used for text files — .txt, .csv, .java. Each read returns a char. Handles Unicode automatically. Throws FileNotFoundException.</p>
+      <table class="method-table" style="margin-top:.5rem">
+        <tr><th>Aspect</th><th>FileInputStream</th><th>FileReader</th></tr>
+        <tr><td>Type</td><td>Byte stream</td><td>Character stream</td></tr>
+        <tr><td>Unit read</td><td>Byte (0–255)</td><td>Character (Unicode)</td></tr>
+        <tr><td>Use for</td><td>Binary files</td><td>Text files</td></tr>
+        <tr><td>Encoding</td><td>No encoding handling</td><td>Handles Unicode/charset</td></tr>
+      </table>
+      <p>Always pair FileReader with BufferedReader for line-by-line reading efficiency.</p>
+    </div>
+  </details>
+</div>
+
+<div class="divider"></div>
+<h3 style="color:#c81e1e">Difficult / Scenario-Based — 30+ Lines</h3>
+
+<div class="q-card q-hard">
+  <div class="q-label" style="color:#c81e1e">Q21 — Hard · Scenario-Based</div>
+  <div class="q-text">Scenario: A bank application has multiple teller threads all accessing and updating the same account balance. Without synchronization, what problems arise? Write a complete synchronized solution using Java threads that demonstrates the problem and its fix.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Problem Analysis — Race Condition:</strong></p>
+      <p>When multiple threads read, modify, and write the same shared variable simultaneously without synchronization, they produce inconsistent results. This is called a <em>race condition</em>. For a bank account, Thread 1 (Teller A) and Thread 2 (Teller B) both read balance=1000, both withdraw 500, and both write balance=500 — but the correct balance should be 0. The update from one thread gets "lost."</p>
+      <p>This happens because the operation <code>balance -= amount</code> is not atomic — it involves: (1) read balance, (2) subtract amount, (3) write new balance. Context switch between steps causes corruption.</p>
+      
+      <p><strong>Step 1 — Demonstrating the Problem (No Sync):</strong></p>
+      <pre>class BankAccount {
+    int balance = 1000;
+    void withdraw(int amount) {     // NOT synchronized
+        if(balance >= amount) {
+            try { Thread.sleep(100); } catch(Exception e) {}
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount + " | Balance: " + balance);
+        } else {
+            System.out.println("Insufficient funds! Balance: " + balance);
+        }
+    }
+}
+class Teller extends Thread {
+    BankAccount account; int amount;
+    Teller(BankAccount acc, int amt) { account = acc; amount = amt; }
+    public void run() { account.withdraw(amount); }
+}
+public class BankTest {
+    public static void main(String[] args) {
+        BankAccount acc = new BankAccount();
+        Teller t1 = new Teller(acc, 700);
+        Teller t2 = new Teller(acc, 700);
+        t1.start(); t2.start();
+        // PROBLEM: Both threads may read balance=1000, both see it's enough,
+        // both withdraw 700, final balance = -400 (WRONG!)
+    }
+}</pre>
+
+      <p><strong>Step 2 — Fixed Solution with Synchronized Method:</strong></p>
+      <pre>class BankAccount {
+    private int balance = 1000;
+    synchronized void withdraw(int amount) {  // only ONE thread at a time
+        System.out.println(Thread.currentThread().getName() 
+                           + " attempting to withdraw: " + amount);
+        if(balance >= amount) {
+            try { Thread.sleep(100); } catch(Exception e) {}
+            balance -= amount;
+            System.out.println(Thread.currentThread().getName() 
+                + " Success! Withdrawn: " + amount 
+                + " | Remaining Balance: " + balance);
+        } else {
+            System.out.println(Thread.currentThread().getName() 
+                + " Insufficient funds! Balance: " + balance);
+        }
+    }
+    int getBalance() { return balance; }
+}
+class Teller extends Thread {
+    BankAccount account; int amount;
+    Teller(BankAccount acc, int amt, String name) {
+        super(name); account = acc; amount = amt;
+    }
+    public void run() { account.withdraw(amount); }
+}
+public class SafeBankTest {
+    public static void main(String[] args) throws InterruptedException {
+        BankAccount acc = new BankAccount();
+        Teller t1 = new Teller(acc, 700, "Teller-A");
+        Teller t2 = new Teller(acc, 700, "Teller-B");
+        t1.start(); t2.start();
+        t1.join(); t2.join();
+        System.out.println("Final Balance: " + acc.getBalance());
+        // Teller-A gets lock first → withdraws 700 → balance=300
+        // Teller-B gets lock → balance=300 < 700 → Insufficient funds
+        // Final Balance: 300 ✓ CORRECT
+    }
+}</pre>
+
+      <p><strong>Key Concepts Demonstrated:</strong></p>
+      <ul>
+        <li>Race condition: threads reading stale values before another thread writes its update</li>
+        <li><code>synchronized</code> on the method acquires the object-level monitor lock</li>
+        <li>Only one thread executes the critical section at a time</li>
+        <li><code>join()</code> ensures main thread waits for both tellers to finish</li>
+        <li><code>Thread.sleep()</code> in the unsynchronized version exaggerates the race window, making the bug visible</li>
+        <li>The synchronized version ensures consistency even under concurrent access</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-hard">
+  <div class="q-label" style="color:#c81e1e">Q22 — Hard · Scenario-Based</div>
+  <div class="q-text">Scenario: You need to save a Student object (name, rollNo, CGPA, password) to a file and retrieve it later. The password must NOT be saved. Write the complete serialization and deserialization code and explain how transient helps.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Design Analysis:</strong></p>
+      <p>Object serialization converts an object's state to bytes for persistent storage or network transmission. The <code>Serializable</code> marker interface enables this. The <code>transient</code> keyword protects sensitive fields (like passwords) from being serialized. When deserialized, transient fields receive their default values (null for String).</p>
+
+      <pre>import java.io.*;
+
+// Student class — Serializable but password is transient
+class Student implements Serializable {
+    private static final long serialVersionUID = 1L;
+    String name;
+    int rollNo;
+    double cgpa;
+    transient String password;  // WILL NOT be serialized (security!)
+
+    public Student(String name, int rollNo, double cgpa, String password) {
+        this.name = name;
+        this.rollNo = rollNo;
+        this.cgpa = cgpa;
+        this.password = password;
+    }
+    public String toString() {
+        return "Name: " + name + " | Roll: " + rollNo 
+             + " | CGPA: " + cgpa + " | Password: " + password;
+    }
+}
+
+public class StudentSerializationDemo {
+    public static void main(String[] args) {
+        Student s1 = new Student("Ravi Kumar", 101, 8.75, "secure@123");
+        System.out.println("Before Serialization: " + s1);
+        // Output: Name: Ravi Kumar | Roll: 101 | CGPA: 8.75 | Password: secure@123
+
+        // SERIALIZATION — save to file
+        try {
+            FileOutputStream fos = new FileOutputStream("student.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(s1);     // serialize
+            oos.flush();
+            oos.close();
+            fos.close();
+            System.out.println("Object serialized successfully to student.ser");
+        } catch(IOException e) {
+            System.out.println("Serialization error: " + e.getMessage());
+        }
+
+        // DESERIALIZATION — recover from file
+        try {
+            FileInputStream fis = new FileInputStream("student.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Student s2 = (Student) ois.readObject();  // deserialize + cast
+            ois.close();
+            fis.close();
+            System.out.println("After Deserialization: " + s2);
+            // Output: Name: Ravi Kumar | Roll: 101 | CGPA: 8.75 | Password: null
+            // Password is NULL — transient field not saved!
+        } catch(Exception e) {
+            System.out.println("Deserialization error: " + e.getMessage());
+        }
+    }
+}</pre>
+
+      <p><strong>Explanation of transient behavior:</strong> The <code>transient</code> keyword tells the JVM to skip the <code>password</code> field during serialization. When deserialized, the field gets its default value (<code>null</code> for String). This is critical for security-sensitive data — you never want passwords stored in plain bytes on disk.</p>
+      <p><strong>serialVersionUID:</strong> This is a version control field for serialization. If the class changes (new fields added), the serialVersionUID ensures that incompatible versions are detected, preventing incorrect deserialization.</p>
+      <p>This pattern is widely used in enterprise applications for saving session data, caching, and network communication via Remote Method Invocation (RMI).</p>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-hard">
+  <div class="q-label" style="color:#c81e1e">Q23 — Hard · Scenario-Based</div>
+  <div class="q-text">Scenario: You are building a text file copying utility. Write a complete Java program using FileInputStream and FileOutputStream (byte-based) AND separately with FileReader and FileWriter (character-based). Compare both approaches and explain when to use each.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Approach 1 — Byte-Based File Copy (for binary/any files):</strong></p>
+      <pre>import java.io.*;
+public class ByteFileCopy {
+    public static void main(String[] args) {
+        String source = "source.txt";
+        String destination = "dest_byte.txt";
+        try {
+            FileInputStream fis = new FileInputStream(source);
+            FileOutputStream fos = new FileOutputStream(destination);
+            byte[] buffer = new byte[1024];  // read 1KB at a time
+            int bytesRead;
+            while((bytesRead = fis.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+            }
+            fis.close();
+            fos.close();
+            System.out.println("Byte-based copy complete!");
+        } catch(IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}</pre>
+
+      <p><strong>Approach 2 — Character-Based File Copy (for text files):</strong></p>
+      <pre>import java.io.*;
+public class CharFileCopy {
+    public static void main(String[] args) {
+        String source = "source.txt";
+        String destination = "dest_char.txt";
+        try {
+            FileReader fr = new FileReader(source);
+            FileWriter fw = new FileWriter(destination);
+            BufferedReader br = new BufferedReader(fr);    // for efficiency
+            BufferedWriter bw = new BufferedWriter(fw);
+            String line;
+            while((line = br.readLine()) != null) {
+                bw.write(line);
+                bw.newLine();   // preserve line endings
+            }
+            br.close(); bw.close();
+            fr.close(); fw.close();
+            System.out.println("Character-based copy complete!");
+        } catch(IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}</pre>
+
+      <p><strong>Comparison:</strong></p>
+      <table class="method-table">
+        <tr><th>Aspect</th><th>Byte-Based</th><th>Character-Based</th></tr>
+        <tr><td>Classes</td><td>FileInputStream/OutputStream</td><td>FileReader/FileWriter</td></tr>
+        <tr><td>Data unit</td><td>Byte (8-bit)</td><td>Character (16-bit Unicode)</td></tr>
+        <tr><td>Encoding</td><td>No automatic encoding</td><td>Handles charset encoding</td></tr>
+        <tr><td>Best for</td><td>Images, audio, .class, .zip</td><td>.txt, .csv, .java, .html</td></tr>
+        <tr><td>Line handling</td><td>Not supported</td><td>readLine() available via BufferedReader</td></tr>
+        <tr><td>International text</td><td>May corrupt non-ASCII</td><td>Unicode-safe</td></tr>
+      </table>
+      <p><strong>Buffering:</strong> Always wrap FileInputStream in BufferedInputStream and FileReader in BufferedReader for real-world applications. Buffering reduces disk I/O by reading chunks instead of byte-by-byte, drastically improving performance.</p>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-hard">
+  <div class="q-label" style="color:#c81e1e">Q24 — Hard · Theory + Code</div>
+  <div class="q-text">Explain in detail the concept of monitors/locks in Java. What is the difference between object-level locking and class-level locking? Write programs demonstrating both, and explain what happens to threads waiting for a lock.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Monitor / Lock Concept:</strong></p>
+      <p>Every Java object has an internal entity called a <em>monitor</em> (also called an intrinsic lock or mutex). When a thread executes a synchronized method or block, it automatically acquires the monitor of the relevant object. Only one thread can hold a monitor at a time — all other threads attempting to acquire the same monitor are placed in a <em>blocked</em> state and wait in a queue. When the holding thread releases the monitor (exits the synchronized section), one waiting thread is unblocked and acquires the lock.</p>
+
+      <p><strong>Object-Level Locking (Instance Lock):</strong> Lock on a specific object instance. Two threads on different objects → no blocking.</p>
+      <pre>class Counter {
+    int count = 0;
+    synchronized void increment() {  // lock on 'this' instance
+        count++;
+    }
+}
+// Counter c1 = new Counter(); Counter c2 = new Counter();
+// Thread on c1 and thread on c2 run SIMULTANEOUSLY (different locks!)
+// Thread on c1 and another thread on c1 are SERIALIZED (same lock)</pre>
+
+      <p><strong>Class-Level Locking (Static Lock):</strong> Lock on the Class object — shared across ALL instances.</p>
+      <pre>class Counter {
+    static int count = 0;
+    public static synchronized void increment() {  // lock on Counter.class
+        count++;
+    }
+}
+// Even threads on c1 and c2 are SERIALIZED — both share Class lock
+// More restrictive but prevents class-wide race conditions</pre>
+
+      <p><strong>When a thread waits for a lock:</strong></p>
+      <ul>
+        <li>Thread moves from Runnable → Blocked state</li>
+        <li>It is placed in the monitor's <em>entry set</em> (wait queue)</li>
+        <li>CPU is not given to blocked threads</li>
+        <li>When the holding thread exits synchronized section, JVM picks one thread from the entry set</li>
+        <li>That thread moves from Blocked → Runnable → eventually Running</li>
+        <li>There is no guaranteed order (not FIFO) unless using fair locks from java.util.concurrent</li>
+      </ul>
+
+      <p><strong>Complete demonstration:</strong></p>
+      <pre>class SharedPrinter {
+    // Object-level: different instances won't block each other
+    synchronized void printInstance(String msg) {
+        System.out.println(Thread.currentThread().getName() + " | Instance: " + msg);
+        try { Thread.sleep(300); } catch(Exception e) {}
+    }
+    // Class-level: ALL threads on any instance block each other
+    static synchronized void printClass(String msg) {
+        System.out.println(Thread.currentThread().getName() + " | Class: " + msg);
+        try { Thread.sleep(300); } catch(Exception e) {}
+    }
+}
+public class LockDemo {
+    public static void main(String[] args) {
+        SharedPrinter p1 = new SharedPrinter();
+        SharedPrinter p2 = new SharedPrinter();
+        // These two run concurrently (different object locks)
+        new Thread(() -> p1.printInstance("Hello"), "T1").start();
+        new Thread(() -> p2.printInstance("World"), "T2").start();
+        // These two are serialized (same class lock)
+        new Thread(() -> SharedPrinter.printClass("One"), "T3").start();
+        new Thread(() -> SharedPrinter.printClass("Two"), "T4").start();
+    }
+}</pre>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-hard">
+  <div class="q-label" style="color:#c81e1e">Q25 — Hard · Scenario-Based</div>
+  <div class="q-text">Scenario: Design and implement a multi-threaded log writer application where multiple threads write log messages to a shared ByteArrayOutputStream. Without synchronization, logs get corrupted. Fix it with synchronization and then demonstrate how to save the final log to a file using serialization or FileOutputStream.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Design:</strong> Multiple Logger threads concurrently append messages to a shared buffer. Without synchronization, outputs interleave and produce garbled logs. With synchronization, each log entry is written atomically.</p>
+      <pre>import java.io.*;
+import java.util.Date;
+
+class ThreadSafeLogger {
+    private ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    
+    // Synchronized to prevent interleaving from multiple threads
+    synchronized void log(String message) {
+        String entry = "[" + Thread.currentThread().getName() + "] "
+                     + new Date() + " | " + message + "\n";
+        buffer.write(entry.getBytes(), 0, entry.getBytes().length);
+    }
+    
+    // Save accumulated log to a file
+    void saveToFile(String filename) throws IOException {
+        FileOutputStream fos = new FileOutputStream(filename);
+        buffer.writeTo(fos);  // write entire buffer to file
+        fos.close();
+        System.out.println("Log saved to " + filename);
+    }
+    
+    String getLog() { return buffer.toString(); }
+}
+
+class LoggerThread extends Thread {
+    ThreadSafeLogger logger;
+    String[] messages;
+    
+    LoggerThread(ThreadSafeLogger logger, String[] messages, String name) {
+        super(name);
+        this.logger = logger;
+        this.messages = messages;
+    }
+    
+    public void run() {
+        for(String msg : messages) {
+            logger.log(msg);
+            try { Thread.sleep(50); } catch(InterruptedException e) {}
+        }
+    }
+}
+
+public class LogApp {
+    public static void main(String[] args) throws Exception {
+        ThreadSafeLogger logger = new ThreadSafeLogger();
+        
+        LoggerThread t1 = new LoggerThread(logger, 
+            new String[]{"User logged in", "Profile loaded", "Dashboard accessed"},
+            "UserService");
+        LoggerThread t2 = new LoggerThread(logger,
+            new String[]{"DB query executed", "Cache miss", "DB connection closed"},
+            "DBService");
+        LoggerThread t3 = new LoggerThread(logger,
+            new String[]{"Payment initiated", "Gateway response received", "Payment successful"},
+            "PaymentService");
+        
+        t1.start(); t2.start(); t3.start();
+        t1.join(); t2.join(); t3.join(); // wait for all threads
+        
+        System.out.println("=== Final Log ===");
+        System.out.println(logger.getLog());
+        logger.saveToFile("application.log");
+    }
+}</pre>
+      <p><strong>What happens without <code>synchronized</code>:</strong> Thread 1 starts writing "[UserService]..." and gets interrupted mid-write. Thread 2 writes its message, then Thread 1 resumes. The log file contains: "[User[DB query] logged in" — corrupted.</p>
+      <p><strong>With <code>synchronized</code>:</strong> Each <code>log()</code> call completes atomically. The monitor ensures one thread writes the full entry before the next thread can begin. The <code>ByteArrayOutputStream</code> accumulates all entries cleanly, and <code>writeTo()</code> efficiently saves the entire buffer to disk in one operation.</p>
+    </div>
+  </details>
+</div>
+
+<!-- Questions 26-30 -->
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q26 — Easy · 2 Marks</div>
+  <div class="q-text">What exception does FileInputStream throw if the file is not found?</div>
+  <details><summary></summary>
+    <div class="q-ans"><code>FileNotFoundException</code> is thrown by FileInputStream when the specified file does not exist. It is a subclass of <code>IOException</code>. FileInputStream overrides six methods of InputStream but does NOT override <code>mark()</code> and <code>reset()</code> — calling reset() throws IOException.</div>
+  </details>
+</div>
+
+<div class="q-card q-easy">
+  <div class="q-label" style="color:#057a55">Q27 — Easy · 2 Marks</div>
+  <div class="q-text">What is the return type of the <code>available()</code> method in InputStream?</div>
+  <details><summary></summary>
+    <div class="q-ans">The return type of <code>available()</code> is <code>int</code>. It returns the number of bytes that can be read (or skipped over) from the input stream without causing the next invocation to block. The value returned is an estimate, especially for network streams.</div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q28 — Medium · 5 Marks</div>
+  <div class="q-text">What are advantages and disadvantages of multithreading? Give a scenario where multithreading is essential.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Advantages:</strong> Improved performance — multiple tasks run in parallel, using CPU efficiently. Better responsiveness — UI thread remains active while background threads process data. Resource sharing — threads share memory, reducing overhead. Simpler design for concurrent problems (servers, producers-consumers).</p>
+      <p><strong>Disadvantages:</strong> Difficult to write, debug, and test — race conditions are non-deterministic. Synchronization bugs (deadlocks, livelocks, starvation) are hard to detect. Increased complexity in code design and maintenance. Porting single-threaded code to multithreaded is difficult.</p>
+      <p><strong>Essential scenario — Web Server:</strong> A web server receiving thousands of simultaneous client requests would fail without multithreading. Each incoming HTTP request is handled by a separate thread — one thread for Client A, another for Client B, etc. Without threads, the server would process Client A's request fully before starting Client B's, making it unusable. Multithreading allows all requests to proceed concurrently on a single server process.</p>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-medium">
+  <div class="q-label" style="color:#c27803">Q29 — Medium · 5 Marks</div>
+  <div class="q-text">An abstract class Test implements Runnable but doesn't implement run(). Will it compile? Explain with theory.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Yes, it will compile.</strong> Here is why:</p>
+      <pre>public abstract class Test implements Runnable {
+    public void doSomething() {}
+}
+// This compiles without error.</pre>
+      <p><strong>Reason:</strong> An <em>abstract class</em> is not required to implement all methods of an interface it implements. The obligation to implement <code>run()</code> is deferred to the first concrete (non-abstract) subclass. This is a fundamental OOP rule in Java.</p>
+      <p><strong>Abstract classes and interfaces:</strong> An abstract class can partially implement an interface, implement none of it, or implement all of it. The concrete subclass that extends the abstract class must then implement all remaining abstract methods.</p>
+      <pre>public class ConcreteTest extends Test {
+    public void run() {
+        System.out.println("Now run() is implemented here");
+    }
+}
+// ConcreteTest is concrete — must implement run()</pre>
+      <p>If <code>Test</code> were a concrete (non-abstract) class without implementing <code>run()</code>, the code would NOT compile — compiler would demand <code>run()</code> be defined. The <code>abstract</code> keyword is what grants permission to defer the implementation.</p>
+    </div>
+  </details>
+</div>
+
+<div class="q-card q-hard">
+  <div class="q-label" style="color:#c81e1e">Q30 — Hard · Comprehensive</div>
+  <div class="q-text">Write a complete Java program that reads a text file using FileReader + BufferedReader, processes each line (converts to uppercase), writes the result to another file using FileWriter, and uses two threads — one for reading and one for writing — communicating via PipedWriter/PipedReader. Explain every step.</div>
+  <details><summary></summary>
+    <div class="q-ans">
+      <p><strong>Design:</strong> Reader Thread reads lines from file → writes to PipedWriter → Consumer Thread reads from PipedReader → processes (uppercase) → writes to output file. This demonstrates piped I/O for inter-thread communication, character streams, and multithreading together.</p>
+      <pre>import java.io.*;
+
+public class FileProcessingApp {
+    public static void main(String[] args) throws IOException {
+        // Create pipe connection between threads
+        final PipedWriter pw = new PipedWriter();
+        final PipedReader pr = new PipedReader(pw); // connected!
+
+        // Thread 1: PRODUCER — reads from file, writes to pipe
+        Thread producer = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    FileReader fr = new FileReader("input.txt");
+                    BufferedReader br = new BufferedReader(fr);
+                    String line;
+                    while((line = br.readLine()) != null) {
+                        pw.write(line + "\n");  // write line to pipe
+                        pw.flush();
+                        Thread.sleep(100); // simulate processing delay
+                    }
+                    br.close(); fr.close();
+                    pw.close(); // signal end of data
+                    System.out.println("Producer: Finished reading input.txt");
+                } catch(Exception e) {
+                    System.out.println("Producer error: " + e.getMessage());
+                }
+            }
+        }, "ProducerThread");
+
+        // Thread 2: CONSUMER — reads from pipe, processes, writes to file
+        Thread consumer = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    BufferedReader pipeReader = new BufferedReader(pr);
+                    FileWriter fw = new FileWriter("output.txt");
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    String line;
+                    while((line = pipeReader.readLine()) != null) {
+                        String processed = line.toUpperCase(); // transform
+                        bw.write(processed);
+                        bw.newLine();
+                        System.out.println("Consumer wrote: " + processed);
+                    }
+                    bw.close(); fw.close(); pipeReader.close();
+                    System.out.println("Consumer: Finished writing output.txt");
+                } catch(Exception e) {
+                    System.out.println("Consumer error: " + e.getMessage());
+                }
+            }
+        }, "ConsumerThread");
+
+        consumer.start(); // start consumer first (it blocks waiting for data)
+        producer.start(); // producer starts generating data
+        
+        try { producer.join(); consumer.join(); } // wait for both
+        catch(InterruptedException e) {}
+        
+        System.out.println("Processing complete!");
+    }
+}</pre>
+
+      <p><strong>Step-by-step explanation:</strong></p>
+      <ul>
+        <li><strong>PipedWriter pw / PipedReader pr:</strong> Connected in constructor — form the communication channel. Data written to pw appears at pr.</li>
+        <li><strong>Producer thread:</strong> Reads input.txt line by line using BufferedReader (efficient — reads whole lines). Writes each line to the pipe with <code>pw.write()</code>. Closes pw when done — this sends EOF signal to consumer.</li>
+        <li><strong>Consumer thread:</strong> Wraps PipedReader in BufferedReader for line reading. Reads each line (<code>readLine()</code> returns null when pipe is closed = EOF). Converts to uppercase and writes to output.txt.</li>
+        <li><strong>Thread coordination:</strong> Consumer starts first so it's ready before producer. <code>join()</code> ensures main thread waits for completion. PipedWriter.close() signals EOF to PipedReader.</li>
+        <li><strong>Error handling:</strong> Each thread handles its own exceptions independently.</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ======================== CHEAT SHEET ======================== -->
+<div class="divider"></div>
+<h2 id="s16">16. Quick Revision Cheat Sheet</h2>
+
+<div class="cheatsheet">
+  <div class="cs-card">
+    <div class="cs-title" style="color:#1a56db">Stream Types</div>
+    <div class="cs-item">Byte streams: InputStream / OutputStream</div>
+    <div class="cs-item">Char streams: Reader / Writer</div>
+    <div class="cs-item">System.in → keyboard | System.out → console</div>
+    <div class="cs-item">Package: java.io</div>
+    <span class="cs-code">read() → returns -1 at end of stream</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#057a55">File Byte Streams</div>
+    <div class="cs-item">FileOutputStream → write bytes to file</div>
+    <div class="cs-item">FileInputStream → read bytes from file</div>
+    <div class="cs-item">write(65) → writes 'A' (ASCII 65)</div>
+    <div class="cs-item">FileNotFoundException if file missing</div>
+    <span class="cs-code">fout.write(65); // writes 'A'</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#6c2bd9">In-Memory Byte Streams</div>
+    <div class="cs-item">ByteArrayOutputStream → byte[] as destination</div>
+    <div class="cs-item">ByteArrayInputStream → byte[] as source</div>
+    <div class="cs-item">Default buffer: 32 bytes (auto-grows)</div>
+    <div class="cs-item">toByteArray() / toString() / writeTo()</div>
+    <span class="cs-code">f.reset(); // clear buffer</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#0694a2">File Char Streams</div>
+    <div class="cs-item">FileWriter → write chars to file (Unicode)</div>
+    <div class="cs-item">FileReader → read chars from file</div>
+    <div class="cs-item">append mode: new FileWriter("f.txt", true)</div>
+    <div class="cs-item">Wrap in BufferedReader for readLine()</div>
+    <span class="cs-code">new FileWriter("f.txt", true) // append</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#c27803">CharArray Streams</div>
+    <div class="cs-item">CharArrayReader → char[] as input source</div>
+    <div class="cs-item">CharArrayWriter → char[] as output dest</div>
+    <div class="cs-item">Auto-grows when capacity exceeded</div>
+    <div class="cs-item">toCharArray() / writeTo(Writer)</div>
+    <span class="cs-code">tmp.getChars(0, len, c, 0);</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#c81e1e">Serialization</div>
+    <div class="cs-item">Implement Serializable (marker interface)</div>
+    <div class="cs-item">ObjectOutputStream → writeObject()</div>
+    <div class="cs-item">ObjectInputStream → readObject() + cast</div>
+    <div class="cs-item">transient → exclude field from serialization</div>
+    <span class="cs-code">transient String password; // not saved</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#1a56db">Filter Streams</div>
+    <div class="cs-item">FilterWriter → abstract, transforms output</div>
+    <div class="cs-item">FilterReader → abstract, transforms input</div>
+    <div class="cs-item">DataOutputStream extends FilterOutputStream</div>
+    <div class="cs-item">Must create anonymous subclass to use</div>
+    <span class="cs-code">new FilterWriter(wr) {} // anonymous</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#057a55">Piped I/O</div>
+    <div class="cs-item">PipedWriter / PipedReader (char-based)</div>
+    <div class="cs-item">PipedOutputStream / PipedInputStream (byte)</div>
+    <div class="cs-item">Used for thread-to-thread communication</div>
+    <div class="cs-item">Producer writes → Consumer reads</div>
+    <span class="cs-code">new PipedReader(writer) // connected</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#6c2bd9">Thread Creation</div>
+    <div class="cs-item">Method 1: extend Thread, override run()</div>
+    <div class="cs-item">Method 2: implement Runnable, pass to Thread</div>
+    <div class="cs-item">ALWAYS call start(), never run() directly</div>
+    <div class="cs-item">Runnable preferred (allows multiple inheritance)</div>
+    <span class="cs-code">t1.start(); // creates new call stack</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#c27803">Thread Life Cycle</div>
+    <div class="cs-item">New → Runnable (via start())</div>
+    <div class="cs-item">Runnable → Waiting (via wait()/join())</div>
+    <div class="cs-item">Runnable → Timed Waiting (via sleep(ms))</div>
+    <div class="cs-item">Any → Terminated (via run() completion)</div>
+    <span class="cs-code">Thread.sleep(400); // timed waiting</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#c81e1e">Synchronization</div>
+    <div class="cs-item">synchronized method → lock on object</div>
+    <div class="cs-item">synchronized block → fine-grained lock</div>
+    <div class="cs-item">static synchronized → lock on Class</div>
+    <div class="cs-item">Monitor = internal lock per object</div>
+    <span class="cs-code">synchronized(this) { /* critical */ }</span>
+  </div>
+  <div class="cs-card">
+    <div class="cs-title" style="color:#0694a2">Key Thread Methods</div>
+    <div class="cs-item">start() · sleep(ms) · join() · yield()</div>
+    <div class="cs-item">getName() · getPriority() · isAlive()</div>
+    <div class="cs-item">currentThread() → reference to running thread</div>
+    <div class="cs-item">setDaemon(true) → background thread</div>
+    <span class="cs-code">Thread.currentThread().getName()</span>
+  </div>
+</div>
+
+<div class="info-box" style="margin-top:1.5rem">
+  <strong>Golden Rules to Remember:</strong> (1) Always close streams in finally block or use try-with-resources. (2) Use BufferedReader/Writer for performance. (3) Byte streams for binary data, char streams for text. (4) Call <code>start()</code> not <code>run()</code>. (5) Synchronized block is preferred over synchronized method for fine-grained control. (6) Static sync = class lock; instance sync = object lock.
+</div>
+
+<div style="text-align:center;padding:1.5rem 0 .5rem;color:#9ca3af;font-size:12px">
+  Object-Oriented Programming using Java · Unit 2 · Er. Simranjeet Kour · UIE–CSE · 2025–26
+</div>
+</div>
