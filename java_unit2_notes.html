@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Unit 2 - Complete Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FDFBF7;
+    --bg2: #F5F0E8;
+    --bg3: #EDE6D6;
+    --navy: #1C2B4A;
+    --navy2: #2E4070;
+    --orange: #C4622D;
+    --orange2: #E8854A;
+    --green: #2D6A4F;
+    --green2: #40916C;
+    --blue: #1A5276;
+    --blue2: #2874A6;
+    --purple: #6C3483;
+    --red: #922B21;
+    --teal: #0E6655;
+    --gold: #9A7D0A;
+    --text: #1C2B4A;
+    --text2: #4A5568;
+    --text3: #718096;
+    --border: #D4C9B0;
+    --border2: #BEB0A0;
+    --code-bg: #F0EBE0;
+    --hinglish-bg: #FFF8EE;
+    --hinglish-border: #E8A87C;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  /* TOP NAV */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    color: white;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    box-shadow: 0 2px 12px rgba(28,43,74,0.25);
+  }
+  .nav-brand {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #F4D03F;
+    padding: 0.85rem 1.5rem 0.85rem 0;
+    border-right: 1px solid rgba(255,255,255,0.2);
+    margin-right: 1rem;
+    white-space: nowrap;
+  }
+  .nav-tabs { display:flex; gap:0.25rem; overflow-x:auto; }
+  .nav-tab {
+    padding: 0.85rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.65);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { color: white; border-bottom-color: rgba(255,255,255,0.4); }
+  .nav-tab.active { color: #F4D03F; border-bottom-color: #F4D03F; }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* CHAPTER HEADER */
+  .chapter-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    color: white;
+    padding: 2.5rem 2.5rem 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter-header::before {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 30px solid rgba(255,255,255,0.06);
+  }
+  .chapter-header::after {
+    content: '';
+    position: absolute;
+    right: 40px;
+    bottom: -50px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 25px solid rgba(255,255,255,0.04);
+  }
+  .chapter-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #F4D03F;
+    margin-bottom: 0.5rem;
+  }
+  .chapter-title {
+    font-family: 'Lora', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .chapter-desc { color: rgba(255,255,255,0.72); font-size: 0.88rem; }
+  .chapter-hours {
+    display: inline-block;
+    background: rgba(244,208,63,0.2);
+    border: 1px solid rgba(244,208,63,0.4);
+    color: #F4D03F;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    margin-top: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* TOPIC CARD */
+  .topic-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(28,43,74,0.06);
+  }
+  .topic-header {
+    padding: 1.25rem 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .topic-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .topic-num {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .topic-title {
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .topic-body { padding: 1.75rem; }
+
+  /* HINGLISH BOX */
+  .hinglish {
+    background: var(--hinglish-bg);
+    border-left: 4px solid var(--hinglish-border);
+    border-radius: 0 10px 10px 0;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .hinglish-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 0.4rem;
+  }
+  .hinglish p { font-size: 0.95rem; color: #5D3A1A; line-height: 1.7; }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.4rem;
+    margin-top: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .def-box {
+    background: #EBF5FB;
+    border: 1px solid #AED6F1;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.93rem;
+    color: var(--blue);
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #1E2D40;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+  }
+  .code-header {
+    background: #162030;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .code-lang {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #F4D03F;
+  }
+  .code-dots { display: flex; gap: 5px; }
+  .code-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+  }
+  .code-body { padding: 1.2rem; overflow-x: auto; line-height: 1.65; }
+  .code-body pre { color: #D4E6F1; white-space: pre; }
+  .kw { color: #BB8FCE; }
+  .cls { color: #85C1E9; }
+  .str { color: #ABEBC6; }
+  .cm { color: #7F8C8D; font-style: italic; }
+  .fn { color: #F9E79F; }
+  .num { color: #F0B27A; }
+  .op { color: #85C1E9; }
+
+  /* SYNTAX BOX */
+  .syntax-box {
+    background: var(--code-bg);
+    border: 1.5px dashed var(--border2);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--navy);
+    white-space: pre-wrap;
+  }
+
+  /* TAGS GRID */
+  .tags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+  }
+  .tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .tag-blue { background: #D6EAF8; color: #1A5276; }
+  .tag-green { background: #D5F5E3; color: #1E8449; }
+  .tag-orange { background: #FDEBD0; color: #935116; }
+  .tag-purple { background: #EAD9F7; color: #6C3483; }
+  .tag-red { background: #FDEDEC; color: #922B21; }
+  .tag-teal { background: #D1F2EB; color: #0E6655; }
+
+  /* ADV/DISADV GRID */
+  .adv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.75rem 0; }
+  .adv-box {
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .adv-box.adv { background: #EAFAF1; border: 1px solid #A9DFBF; }
+  .adv-box.disadv { background: #FDEDEC; border: 1px solid #F5B7B1; }
+  .adv-title { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .adv-box.adv .adv-title { color: #1E8449; }
+  .adv-box.disadv .adv-title { color: #922B21; }
+  .adv-item { font-size: 0.87rem; display: flex; gap: 0.5rem; margin-bottom: 0.35rem; color: #2C3E50; }
+  .adv-dot { flex-shrink: 0; margin-top: 0.15rem; width: 6px; height: 6px; border-radius: 50%; background: #2D6A4F; }
+  .adv-box.disadv .adv-dot { background: #A93226; }
+
+  /* TABLE */
+  .styled-table { width:100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.88rem; }
+  .styled-table th { background: var(--navy); color: white; padding: 0.6rem 0.9rem; text-align:left; font-size: 0.75rem; letter-spacing:0.05em; text-transform:uppercase; }
+  .styled-table td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--text2); }
+  .styled-table tr:nth-child(even) td { background: var(--bg2); }
+
+  /* DIAGRAM */
+  .diagram-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin: 1rem 0; display:flex; flex-direction:column; align-items:center; }
+  .diagram-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 1rem; }
+
+  /* INFO CARDS ROW */
+  .info-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem; margin: 0.75rem 0; }
+  .info-mini {
+    border-radius: 10px;
+    padding: 0.9rem;
+    border: 1px solid;
+  }
+  .info-mini-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+  .info-mini p { font-size: 0.83rem; line-height: 1.5; }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 2px dashed var(--border); margin: 2rem 0; }
+
+  /* EXCEPTION HIERARCHY */
+  .exc-tree { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--bg2); border-radius: 10px; padding: 1.2rem 1.5rem; color: var(--navy); line-height: 2; border: 1px solid var(--border); }
+  .exc-line { display: flex; align-items: center; gap: 0.4rem; }
+  .exc-badge { font-size: 0.65rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 10px; letter-spacing: 0.05em; }
+
+  /* SCROLL TOP */
+  .back-top { display: inline-block; font-size: 0.78rem; font-weight: 700; color: var(--blue2); cursor: pointer; text-decoration: underline; margin-top: 1.5rem; }
+
+  /* RESPONSIVE */
+  @media (max-width: 650px) {
+    .adv-grid { grid-template-columns: 1fr; }
+    .chapter-title { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-brand">☕ Java — Unit 2</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="scrollTo('ch1')">Ch 1: Packages</div>
+    <div class="nav-tab" onclick="scrollTo('packages-builtin')">Built-in Packages</div>
+    <div class="nav-tab" onclick="scrollTo('user-pkg')">User Packages</div>
+    <div class="nav-tab" onclick="scrollTo('iostream')">IOStream</div>
+    <div class="nav-tab" onclick="scrollTo('ch2')">Ch 2: Exceptions</div>
+    <div class="nav-tab" onclick="scrollTo('builtin-exc')">Built-in Exc.</div>
+    <div class="nav-tab" onclick="scrollTo('user-exc')">User Exc.</div>
+    <div class="nav-tab" onclick="scrollTo('multi-exc')">Multi-Catch</div>
+    <div class="nav-tab" onclick="scrollTo('finally')">Finally</div>
+    <div class="nav-tab" onclick="scrollTo('throws')">Throws</div>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ===== UNIT BANNER ===== -->
+<div class="chapter-header" id="top">
+  <div class="chapter-label">Unit 2 • Complete Study Notes</div>
+  <div class="chapter-title">Packages, Exceptions & Multi-threading</div>
+  <div class="chapter-desc">Comprehensive Hinglish + English Notes • Diagrams • Syntax • Code Examples • Advantages/Disadvantages</div>
+  <div class="chapter-hours">⏱ 15 Contact Hours</div>
+</div>
+
+<!-- ==============================
+     CHAPTER 1: PACKAGES
+================================ -->
+<div id="ch1"></div>
+<div class="chapter-header" style="background: linear-gradient(135deg, #1B4F72, #2471A3);">
+  <div class="chapter-label">Chapter 1</div>
+  <div class="chapter-title">Package and IOStream</div>
+  <div class="chapter-desc">Built-in Packages • User Defined Packages • Accessing • Using • IO Streams • File I/O</div>
+</div>
+
+<!-- ===========================
+     TOPIC: WHAT IS A PACKAGE?
+============================ -->
+<div class="topic-card" id="packages-intro">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#D6EAF8;">📦</div>
+    <div>
+      <div class="topic-num" style="color:#1A5276;">Topic 1.0</div>
+      <div class="topic-title">What is a Package?</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Package ek <strong>folder ki tarah</strong> hota hai Java mein. Jaise computer mein hum related files ek folder mein rakhte hain — waise hi Java mein related <strong>classes aur interfaces</strong> ko ek package mein organize karte hain. Socho agar tumhare paas 500 Java classes hain — sab ek jagah rakhoge to bahut confusion hoga. Package se sab sorted rehta hai!</p>
+    </div>
+
+    <div class="section-label">Definition</div>
+    <div class="def-box">
+      A <strong>Package</strong> in Java is a namespace mechanism used to group related classes, interfaces, enumerations, and annotations together. It provides access protection and avoids naming conflicts.
+    </div>
+
+    <div class="section-label">Why Packages?</div>
+    <div class="info-row">
+      <div class="info-mini" style="background:#EBF5FB;border-color:#AED6F1;">
+        <div class="info-mini-title" style="color:#1A5276;">Organization</div>
+        <p>Related classes grouped logically — easy to find and manage.</p>
+      </div>
+      <div class="info-mini" style="background:#EAFAF1;border-color:#A9DFBF;">
+        <div class="info-mini-title" style="color:#1E8449;">Name Collision</div>
+        <p>Two classes with the same name can coexist in different packages.</p>
+      </div>
+      <div class="info-mini" style="background:#FDEBD0;border-color:#FAD7A0;">
+        <div class="info-mini-title" style="color:#935116;">Access Control</div>
+        <p>Package-level access protects classes from outside use.</p>
+      </div>
+      <div class="info-mini" style="background:#EAD9F7;border-color:#D2B4DE;">
+        <div class="info-mini-title" style="color:#6C3483;">Reusability</div>
+        <p>Packages can be imported and reused across projects.</p>
+      </div>
+    </div>
+
+    <div class="section-label">Types of Packages</div>
+    <div class="tags-grid">
+      <span class="tag tag-blue">1. Built-in Packages (java.lang, java.util, etc.)</span>
+      <span class="tag tag-green">2. User Defined Packages (created by programmers)</span>
+    </div>
+
+    <div class="adv-grid">
+      <div class="adv-box adv">
+        <div class="adv-title">✅ Advantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Avoids class name conflicts</div>
+        <div class="adv-item"><span class="adv-dot"></span>Better code organization</div>
+        <div class="adv-item"><span class="adv-dot"></span>Reusability of classes</div>
+        <div class="adv-item"><span class="adv-dot"></span>Access control/protection</div>
+        <div class="adv-item"><span class="adv-dot"></span>Easy maintenance of large projects</div>
+      </div>
+      <div class="adv-box disadv">
+        <div class="adv-title">❌ Disadvantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Complex directory structure needed</div>
+        <div class="adv-item"><span class="adv-dot"></span>Long import statements required</div>
+        <div class="adv-item"><span class="adv-dot"></span>Circular dependency possible</div>
+        <div class="adv-item"><span class="adv-dot"></span>Slight overhead for beginners</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: BUILT-IN PACKAGES
+============================ -->
+<div class="topic-card" id="packages-builtin">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#D5F5E3;">🏛️</div>
+    <div>
+      <div class="topic-num" style="color:#1E8449;">Topic 1.1</div>
+      <div class="topic-title">Built-in Packages (Java API Packages)</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Java ke saath <strong>already kuch packages aate hain</strong> — inhe Built-in ya Standard Library packages bolte hain. Jaise java.lang mein String, Math, System jaise commonly used classes hain jo automatically available hoti hain bina import ke. Baaki packages ko <code>import</code> karna padta hai.</p>
+    </div>
+
+    <div class="section-label">Major Built-in Packages</div>
+
+    <!-- java.lang -->
+    <div style="background:#EBF5FB;border-radius:10px;padding:1rem 1.25rem;margin:0.6rem 0;border:1px solid #AED6F1;">
+      <div style="font-weight:700;color:#1A5276;font-size:0.95rem;margin-bottom:0.4rem;">📗 java.lang <span style="font-size:0.7rem;background:#1A5276;color:white;padding:0.1rem 0.5rem;border-radius:10px;margin-left:0.5rem;">Auto-imported</span></div>
+      <p style="font-size:0.88rem;color:#2C3E50;margin-bottom:0.5rem;">The most fundamental package — automatically imported in every Java program. Contains core classes.</p>
+      <div class="tags-grid"><span class="tag tag-blue">String</span><span class="tag tag-blue">Math</span><span class="tag tag-blue">System</span><span class="tag tag-blue">Object</span><span class="tag tag-blue">Integer</span><span class="tag tag-blue">Thread</span><span class="tag tag-blue">Runnable</span><span class="tag tag-blue">Exception</span></div>
+    </div>
+
+    <!-- java.util -->
+    <div style="background:#EAFAF1;border-radius:10px;padding:1rem 1.25rem;margin:0.6rem 0;border:1px solid #A9DFBF;">
+      <div style="font-weight:700;color:#1E8449;font-size:0.95rem;margin-bottom:0.4rem;">📗 java.util</div>
+      <p style="font-size:0.88rem;color:#2C3E50;margin-bottom:0.5rem;">Utility classes — data structures, date/time, random numbers, scanner, collections framework.</p>
+      <div class="tags-grid"><span class="tag tag-green">ArrayList</span><span class="tag tag-green">HashMap</span><span class="tag tag-green">Scanner</span><span class="tag tag-green">Date</span><span class="tag tag-green">Calendar</span><span class="tag tag-green">Random</span><span class="tag tag-green">Stack</span><span class="tag tag-green">LinkedList</span></div>
+    </div>
+
+    <!-- java.io -->
+    <div style="background:#FDEBD0;border-radius:10px;padding:1rem 1.25rem;margin:0.6rem 0;border:1px solid #FAD7A0;">
+      <div style="font-weight:700;color:#935116;font-size:0.95rem;margin-bottom:0.4rem;">📗 java.io</div>
+      <p style="font-size:0.88rem;color:#2C3E50;margin-bottom:0.5rem;">Input/Output operations — reading/writing files, streams, serialization.</p>
+      <div class="tags-grid"><span class="tag tag-orange">FileReader</span><span class="tag tag-orange">FileWriter</span><span class="tag tag-orange">BufferedReader</span><span class="tag tag-orange">InputStream</span><span class="tag tag-orange">OutputStream</span><span class="tag tag-orange">File</span><span class="tag tag-orange">PrintWriter</span></div>
+    </div>
+
+    <!-- java.math -->
+    <div style="background:#EAD9F7;border-radius:10px;padding:1rem 1.25rem;margin:0.6rem 0;border:1px solid #D2B4DE;">
+      <div style="font-weight:700;color:#6C3483;font-size:0.95rem;margin-bottom:0.4rem;">📗 java.math</div>
+      <p style="font-size:0.88rem;color:#2C3E50;margin-bottom:0.5rem;">High-precision arithmetic — very large numbers, precise decimal calculations.</p>
+      <div class="tags-grid"><span class="tag tag-purple">BigInteger</span><span class="tag tag-purple">BigDecimal</span><span class="tag tag-purple">MathContext</span><span class="tag tag-purple">RoundingMode</span></div>
+    </div>
+
+    <!-- java.sql -->
+    <div style="background:#FDEDEC;border-radius:10px;padding:1rem 1.25rem;margin:0.6rem 0;border:1px solid #F5B7B1;">
+      <div style="font-weight:700;color:#922B21;font-size:0.95rem;margin-bottom:0.4rem;">📗 java.sql</div>
+      <p style="font-size:0.88rem;color:#2C3E50;margin-bottom:0.5rem;">Database connectivity via JDBC — connecting, querying, and updating databases.</p>
+      <div class="tags-grid"><span class="tag tag-red">Connection</span><span class="tag tag-red">Statement</span><span class="tag tag-red">ResultSet</span><span class="tag tag-red">PreparedStatement</span><span class="tag tag-red">DriverManager</span><span class="tag tag-red">SQLException</span></div>
+    </div>
+
+    <!-- java.awt -->
+    <div style="background:#D1F2EB;border-radius:10px;padding:1rem 1.25rem;margin:0.6rem 0;border:1px solid #76D7C4;">
+      <div style="font-weight:700;color:#0E6655;font-size:0.95rem;margin-bottom:0.4rem;">📗 java.awt <span style="font-size:0.7rem;font-weight:400;">(Abstract Window Toolkit)</span></div>
+      <p style="font-size:0.88rem;color:#2C3E50;margin-bottom:0.5rem;">GUI components for creating desktop applications — windows, buttons, text fields, graphics.</p>
+      <div class="tags-grid"><span class="tag tag-teal">Frame</span><span class="tag tag-teal">Button</span><span class="tag tag-teal">TextField</span><span class="tag tag-teal">Label</span><span class="tag tag-teal">Panel</span><span class="tag tag-teal">Graphics</span><span class="tag tag-teal">Color</span><span class="tag tag-teal">Font</span></div>
+    </div>
+
+    <div class="section-label">Comparison Table</div>
+    <table class="styled-table">
+      <tr><th>Package</th><th>Purpose</th><th>Key Classes</th><th>Auto Imported?</th></tr>
+      <tr><td>java.lang</td><td>Core language classes</td><td>String, Math, Object</td><td>✅ Yes</td></tr>
+      <tr><td>java.util</td><td>Utilities, Collections</td><td>ArrayList, Scanner, HashMap</td><td>❌ No</td></tr>
+      <tr><td>java.io</td><td>Input/Output, Files</td><td>FileReader, BufferedReader</td><td>❌ No</td></tr>
+      <tr><td>java.math</td><td>Big precision numbers</td><td>BigInteger, BigDecimal</td><td>❌ No</td></tr>
+      <tr><td>java.sql</td><td>Database (JDBC)</td><td>Connection, ResultSet</td><td>❌ No</td></tr>
+      <tr><td>java.awt</td><td>GUI (Desktop apps)</td><td>Frame, Button, Graphics</td><td>❌ No</td></tr>
+    </table>
+
+    <div class="section-label">Code Example — Using Built-in Packages</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.util.ArrayList;
+<span class="kw">import</span> java.util.Scanner;
+<span class="kw">import</span> java.math.BigInteger;
+
+<span class="kw">public class</span> <span class="cls">BuiltInDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        <span class="cm">// java.lang - auto imported, no need of import</span>
+        String name = <span class="str">"Java"</span>;
+        <span class="kw">double</span> pi = Math.PI;
+        System.out.println(<span class="str">"Name: "</span> + name + <span class="str">", PI: "</span> + pi);
+
+        <span class="cm">// java.util - ArrayList</span>
+        ArrayList&lt;String&gt; list = <span class="kw">new</span> ArrayList&lt;&gt;();
+        list.add(<span class="str">"Mango"</span>);
+        list.add(<span class="str">"Apple"</span>);
+        System.out.println(<span class="str">"Fruits: "</span> + list);
+
+        <span class="cm">// java.math - BigInteger for large numbers</span>
+        BigInteger big = <span class="kw">new</span> BigInteger(<span class="str">"12345678901234567890"</span>);
+        System.out.println(<span class="str">"Big Number: "</span> + big.multiply(<span class="kw">new</span> BigInteger(<span class="str">"2"</span>)));
+    }
+}</pre></div>
+    </div>
+    <div style="font-size:0.82rem;color:var(--text3);margin-top:0.25rem;">Output: Name: Java, PI: 3.141592653589793 | Fruits: [Mango, Apple] | Big Number: 24691357802469135780</div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: USER DEFINED PACKAGES
+============================ -->
+<div class="topic-card" id="user-pkg">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#FDEBD0;">🛠️</div>
+    <div>
+      <div class="topic-num" style="color:#935116;">Topic 1.2 - 1.4</div>
+      <div class="topic-title">Creating, Accessing & Using User Defined Packages</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>User Defined Package matlab <strong>tumhara khud ka package</strong>. Jaise ek school mein alag-alag departments hote hain (Science, Arts, Commerce), waise hi tum apne project mein alag-alag packages bana sakte ho. Jaise <code>com.school.science</code> ya <code>myapp.database</code>. Pehle file ke upar <code>package</code> keyword likhte hain, phir alag folder mein rakhte hain. Doosri classes mein use karne ke liye <code>import</code> karte hain.</p>
+    </div>
+
+    <div class="section-label">Step 1 — Creating a Package</div>
+    <div class="def-box">
+      Use the <code>package</code> keyword as the <strong>first statement</strong> in a Java file. The package name must match the folder/directory structure.
+    </div>
+
+    <div class="section-label">Syntax</div>
+    <div class="syntax-box">package packageName;            // simple package
+package com.company.module;     // nested/subpackage (recommended)</div>
+
+    <div class="section-label">Creating Package — Code</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — mypackage/Calculator.java</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="cm">// File path: mypackage/Calculator.java</span>
+<span class="kw">package</span> mypackage;  <span class="cm">// First line - declares the package</span>
+
+<span class="kw">public class</span> <span class="cls">Calculator</span> {
+
+    <span class="kw">public int</span> <span class="fn">add</span>(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+        <span class="kw">return</span> a + b;
+    }
+
+    <span class="kw">public int</span> <span class="fn">subtract</span>(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+        <span class="kw">return</span> a - b;
+    }
+
+    <span class="kw">public double</span> <span class="fn">divide</span>(<span class="kw">double</span> a, <span class="kw">double</span> b) {
+        <span class="kw">if</span>(b == <span class="num">0</span>) <span class="kw">throw new</span> ArithmeticException(<span class="str">"Cannot divide by zero!"</span>);
+        <span class="kw">return</span> a / b;
+    }
+}</pre></div>
+    </div>
+
+    <div class="section-label">Step 2 — Accessing (Importing) the Package</div>
+    <div style="margin:0.75rem 0;">
+      <p style="font-size:0.9rem;margin-bottom:0.5rem;">Three ways to access a package:</p>
+      <div class="info-row">
+        <div class="info-mini" style="background:#EBF5FB;border-color:#AED6F1;">
+          <div class="info-mini-title" style="color:#1A5276;">1. Fully Qualified Name</div>
+          <p>Use complete class path each time. No import needed.</p>
+        </div>
+        <div class="info-mini" style="background:#EAFAF1;border-color:#A9DFBF;">
+          <div class="info-mini-title" style="color:#1E8449;">2. Import Specific Class</div>
+          <p>Import only the class you need — recommended practice.</p>
+        </div>
+        <div class="info-mini" style="background:#FDEBD0;border-color:#FAD7A0;">
+          <div class="info-mini-title" style="color:#935116;">3. Import All (*)</div>
+          <p>Import all classes from a package. Convenient but can slow compilation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — Using the Package (Main.java)</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="cm">// Method 1: Fully Qualified Name (no import)</span>
+mypackage.Calculator calc1 = <span class="kw">new</span> mypackage.Calculator();
+
+<span class="cm">// Method 2: Import specific class (BEST PRACTICE)</span>
+<span class="kw">import</span> mypackage.Calculator;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        Calculator calc = <span class="kw">new</span> Calculator();
+        System.out.println(<span class="str">"Add: "</span> + calc.add(<span class="num">10</span>, <span class="num">5</span>));        <span class="cm">// Output: 15</span>
+        System.out.println(<span class="str">"Sub: "</span> + calc.subtract(<span class="num">10</span>, <span class="num">5</span>));   <span class="cm">// Output: 5</span>
+        System.out.println(<span class="str">"Div: "</span> + calc.divide(<span class="num">10</span>, <span class="num">2</span>));     <span class="cm">// Output: 5.0</span>
+    }
+}
+
+<span class="cm">// Method 3: Import all classes from package</span>
+<span class="kw">import</span> mypackage.*;   <span class="cm">// Imports ALL classes from mypackage</span></pre></div>
+    </div>
+
+    <div class="section-label">Directory Structure</div>
+    <div class="diagram-wrap">
+      <div class="diagram-title">Package Folder Structure</div>
+      <svg viewBox="0 0 580 240" style="width:100%;max-width:580px;">
+        <!-- Root -->
+        <rect x="230" y="10" width="120" height="36" rx="8" fill="#1C2B4A"/>
+        <text x="290" y="33" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#F4D03F">Project/</text>
+        <!-- Line down -->
+        <line x1="290" y1="46" x2="290" y2="70" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <!-- src folder -->
+        <rect x="230" y="70" width="120" height="34" rx="8" fill="#2874A6"/>
+        <text x="290" y="91" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="white">src/</text>
+        <!-- lines to children -->
+        <line x1="290" y1="104" x2="290" y2="118" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="150" y1="118" x2="430" y2="118" stroke="#888" stroke-width="1.5"/>
+        <line x1="150" y1="118" x2="150" y2="132" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="290" y1="118" x2="290" y2="132" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="430" y1="118" x2="430" y2="132" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <!-- Packages -->
+        <rect x="65" y="132" width="170" height="34" rx="8" fill="#1E8449"/>
+        <text x="150" y="153" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="white">mypackage/</text>
+        <rect x="210" y="132" width="160" height="34" rx="8" fill="#1E8449"/>
+        <text x="290" y="153" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="white">com.school/</text>
+        <rect x="350" y="132" width="160" height="34" rx="8" fill="#1A5276"/>
+        <text x="430" y="153" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="white">Main.java</text>
+        <!-- Files under mypackage -->
+        <line x1="150" y1="166" x2="150" y2="180" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="100" y1="180" x2="200" y2="180" stroke="#888" stroke-width="1.5"/>
+        <line x1="100" y1="180" x2="100" y2="194" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="200" y1="180" x2="200" y2="194" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <rect x="30" y="194" width="140" height="30" rx="6" fill="#F4D03F"/>
+        <text x="100" y="213" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1C2B4A">Calculator.java</text>
+        <rect x="145" y="194" width="110" height="30" rx="6" fill="#F4D03F"/>
+        <text x="200" y="213" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1C2B4A">Helper.java</text>
+      </svg>
+    </div>
+
+    <div class="section-label">Compile &amp; Run Commands</div>
+    <div class="syntax-box">// COMPILE
+javac mypackage/Calculator.java
+javac Main.java
+
+// RUN
+java Main
+
+// Compile with -d flag (auto-creates package directories)
+javac -d . Calculator.java    // Creates mypackage/Calculator.class automatically</div>
+
+    <div class="adv-grid">
+      <div class="adv-box adv">
+        <div class="adv-title">✅ Advantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Full control over structure</div>
+        <div class="adv-item"><span class="adv-dot"></span>Better modularization</div>
+        <div class="adv-item"><span class="adv-dot"></span>Can set access levels</div>
+        <div class="adv-item"><span class="adv-dot"></span>Reusable across projects</div>
+      </div>
+      <div class="adv-box disadv">
+        <div class="adv-title">❌ Disadvantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Must match folder structure exactly</div>
+        <div class="adv-item"><span class="adv-dot"></span>CLASSPATH setup needed</div>
+        <div class="adv-item"><span class="adv-dot"></span>Tedious for small programs</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: IO STREAMS
+============================ -->
+<div class="topic-card" id="iostream">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#D1F2EB;">🌊</div>
+    <div>
+      <div class="topic-num" style="color:#0E6655;">Topic 1.5</div>
+      <div class="topic-title">Input/Output Streams</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Stream ek <strong>data ka flow/nali</strong> hai — jaise paani ki nali mein paani bahta hai. Java mein data ek jagah se doosri jagah <strong>stream</strong> ke through transfer hota hai. <strong>Input Stream</strong> matlab data <em>andar aa raha hai</em> (keyboard se ya file se), aur <strong>Output Stream</strong> matlab data <em>bahar ja raha hai</em> (screen pe ya file mein). Java mein dono types ke liye alag-alag classes hain.</p>
+    </div>
+
+    <div class="section-label">Definition</div>
+    <div class="def-box">
+      A <strong>Stream</strong> is an abstraction that represents a source or destination of data. It is a sequence of data flowing from a source to a destination. Java I/O streams handle reading/writing of data byte-by-byte or character-by-character.
+    </div>
+
+    <div class="section-label">IO Stream Hierarchy — Diagram</div>
+    <div class="diagram-wrap">
+      <div class="diagram-title">Java IO Stream Class Hierarchy</div>
+      <svg viewBox="0 0 620 300" style="width:100%;max-width:620px;">
+        <!-- Top: java.io -->
+        <rect x="235" y="8" width="150" height="34" rx="8" fill="#1C2B4A"/>
+        <text x="310" y="29" text-anchor="middle" font-family="Nunito" font-size="12" font-weight="700" fill="#F4D03F">java.io Package</text>
+        
+        <!-- Two branches -->
+        <line x1="310" y1="42" x2="310" y2="58" stroke="#888" stroke-width="1.5"/>
+        <line x1="155" y1="58" x2="465" y2="58" stroke="#888" stroke-width="1.5"/>
+        <line x1="155" y1="58" x2="155" y2="72" stroke="#888" stroke-width="1.5"/>
+        <line x1="465" y1="58" x2="465" y2="72" stroke="#888" stroke-width="1.5"/>
+
+        <!-- Byte Streams -->
+        <rect x="60" y="72" width="190" height="34" rx="8" fill="#2874A6"/>
+        <text x="155" y="93" text-anchor="middle" font-family="Nunito" font-size="11" font-weight="700" fill="white">Byte Streams (8-bit)</text>
+        <!-- Char Streams -->
+        <rect x="370" y="72" width="190" height="34" rx="8" fill="#1E8449"/>
+        <text x="465" y="93" text-anchor="middle" font-family="Nunito" font-size="11" font-weight="700" fill="white">Character Streams (16-bit)</text>
+
+        <!-- Byte Stream children -->
+        <line x1="155" y1="106" x2="155" y2="120" stroke="#888" stroke-width="1"/>
+        <line x1="80" y1="120" x2="230" y2="120" stroke="#888" stroke-width="1"/>
+        <line x1="80" y1="120" x2="80" y2="134" stroke="#888" stroke-width="1"/>
+        <line x1="230" y1="120" x2="230" y2="134" stroke="#888" stroke-width="1"/>
+        <rect x="18" y="134" width="125" height="28" rx="6" fill="#1A5276"/>
+        <text x="80" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white">InputStream</text>
+        <rect x="168" y="134" width="125" height="28" rx="6" fill="#1A5276"/>
+        <text x="231" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white">OutputStream</text>
+
+        <!-- InputStream children -->
+        <line x1="80" y1="162" x2="80" y2="176" stroke="#888" stroke-width="1"/>
+        <line x1="28" y1="176" x2="132" y2="176" stroke="#888" stroke-width="1"/>
+        <line x1="28" y1="176" x2="28" y2="190" stroke="#888" stroke-width="1"/>
+        <line x1="80" y1="176" x2="80" y2="190" stroke="#888" stroke-width="1"/>
+        <line x1="132" y1="176" x2="132" y2="190" stroke="#888" stroke-width="1"/>
+        <rect x="-2" y="190" width="58" height="24" rx="4" fill="#AED6F1"/>
+        <text x="27" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#1A5276">FileIS</text>
+        <rect x="54" y="190" width="52" height="24" rx="4" fill="#AED6F1"/>
+        <text x="80" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#1A5276">BufferIS</text>
+        <rect x="108" y="190" width="52" height="24" rx="4" fill="#AED6F1"/>
+        <text x="134" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#1A5276">DataIS</text>
+
+        <!-- OutputStream children -->
+        <line x1="231" y1="162" x2="231" y2="176" stroke="#888" stroke-width="1"/>
+        <line x1="178" y1="176" x2="284" y2="176" stroke="#888" stroke-width="1"/>
+        <line x1="178" y1="176" x2="178" y2="190" stroke="#888" stroke-width="1"/>
+        <line x1="231" y1="176" x2="231" y2="190" stroke="#888" stroke-width="1"/>
+        <line x1="284" y1="176" x2="284" y2="190" stroke="#888" stroke-width="1"/>
+        <rect x="148" y="190" width="58" height="24" rx="4" fill="#F9E79F"/>
+        <text x="177" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7D6608">FileOS</text>
+        <rect x="205" y="190" width="52" height="24" rx="4" fill="#F9E79F"/>
+        <text x="231" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7D6608">BufferOS</text>
+        <rect x="258" y="190" width="52" height="24" rx="4" fill="#F9E79F"/>
+        <text x="284" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7D6608">PrintOS</text>
+
+        <!-- Char Stream children -->
+        <line x1="465" y1="106" x2="465" y2="120" stroke="#888" stroke-width="1"/>
+        <line x1="390" y1="120" x2="540" y2="120" stroke="#888" stroke-width="1"/>
+        <line x1="390" y1="120" x2="390" y2="134" stroke="#888" stroke-width="1"/>
+        <line x1="540" y1="120" x2="540" y2="134" stroke="#888" stroke-width="1"/>
+        <rect x="328" y="134" width="125" height="28" rx="6" fill="#1E8449"/>
+        <text x="391" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white">Reader</text>
+        <rect x="478" y="134" width="125" height="28" rx="6" fill="#1E8449"/>
+        <text x="541" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="white">Writer</text>
+
+        <!-- Reader children -->
+        <line x1="391" y1="162" x2="391" y2="190" stroke="#888" stroke-width="1"/>
+        <rect x="337" y="190" width="58" height="24" rx="4" fill="#A9DFBF"/>
+        <text x="366" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#1E8449">FileRdr</text>
+        <rect x="393" y="190" width="52" height="24" rx="4" fill="#A9DFBF"/>
+        <text x="419" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#1E8449">BufRdr</text>
+
+        <!-- Writer children -->
+        <line x1="541" y1="162" x2="541" y2="190" stroke="#888" stroke-width="1"/>
+        <rect x="487" y="190" width="58" height="24" rx="4" fill="#D5F5E3"/>
+        <text x="516" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#1E8449">FileWtr</text>
+        <rect x="546" y="190" width="52" height="24" rx="4" fill="#D5F5E3"/>
+        <text x="572" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#1E8449">BufWtr</text>
+
+        <!-- Legend -->
+        <rect x="10" y="240" width="14" height="14" rx="3" fill="#2874A6"/>
+        <text x="30" y="252" font-family="Nunito" font-size="10" fill="#555">Byte Streams</text>
+        <rect x="120" y="240" width="14" height="14" rx="3" fill="#1E8449"/>
+        <text x="140" y="252" font-family="Nunito" font-size="10" fill="#555">Character Streams</text>
+      </svg>
+    </div>
+
+    <div class="section-label">Types of Streams</div>
+    <table class="styled-table">
+      <tr><th>Type</th><th>Based On</th><th>Used For</th><th>Classes</th></tr>
+      <tr><td>Byte Stream</td><td>8-bit bytes</td><td>Binary data (images, audio, video)</td><td>InputStream, OutputStream</td></tr>
+      <tr><td>Character Stream</td><td>16-bit Unicode</td><td>Text data (files, strings)</td><td>Reader, Writer</td></tr>
+    </table>
+
+    <div class="section-label">Applications of IO Streams</div>
+    <div class="tags-grid">
+      <span class="tag tag-blue">Reading keyboard input</span>
+      <span class="tag tag-green">Writing to text files</span>
+      <span class="tag tag-orange">Network communication</span>
+      <span class="tag tag-teal">Image/Audio processing</span>
+      <span class="tag tag-purple">Serialization</span>
+      <span class="tag tag-red">Logging systems</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: FILE IO
+============================ -->
+<div class="topic-card" id="fileio">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#FDEBD0;">📄</div>
+    <div>
+      <div class="topic-num" style="color:#935116;">Topic 1.6</div>
+      <div class="topic-title">File I/O — Reading &amp; Writing Data from Files</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>File I/O ka matlab hai <strong>file se data padhna</strong> (Read) aur <strong>file mein data likhna</strong> (Write). Socho tum ek notepad file mein kuch save karna chahte ho — Java mein hum <code>FileWriter</code> se likhte hain aur <code>FileReader</code> se padhte hain. Speed ke liye <code>BufferedReader</code> aur <code>BufferedWriter</code> use karte hain — ye ek <em>buffer (temporary storage)</em> maintain karta hai jo reading/writing ko fast banata hai.</p>
+    </div>
+
+    <div class="section-label">Key File I/O Classes</div>
+    <table class="styled-table">
+      <tr><th>Class</th><th>Use</th><th>Type</th></tr>
+      <tr><td>FileWriter</td><td>Write characters to file</td><td>Character Stream (Output)</td></tr>
+      <tr><td>FileReader</td><td>Read characters from file</td><td>Character Stream (Input)</td></tr>
+      <tr><td>BufferedWriter</td><td>Buffered writing (faster)</td><td>Character Stream (Output)</td></tr>
+      <tr><td>BufferedReader</td><td>Buffered reading (faster)</td><td>Character Stream (Input)</td></tr>
+      <tr><td>FileOutputStream</td><td>Write bytes to file</td><td>Byte Stream (Output)</td></tr>
+      <tr><td>FileInputStream</td><td>Read bytes from file</td><td>Byte Stream (Input)</td></tr>
+      <tr><td>PrintWriter</td><td>Print formatted text to file</td><td>Character Stream (Output)</td></tr>
+    </table>
+
+    <div class="section-label">Writing to a File — Code</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — FileWriter + BufferedWriter</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.io.FileWriter;
+<span class="kw">import</span> java.io.BufferedWriter;
+<span class="kw">import</span> java.io.IOException;
+
+<span class="kw">public class</span> <span class="cls">WriteFile</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        <span class="cm">// try-with-resources (auto-closes stream)</span>
+        <span class="kw">try</span> (BufferedWriter bw = <span class="kw">new</span> BufferedWriter(<span class="kw">new</span> FileWriter(<span class="str">"output.txt"</span>))) {
+
+            bw.write(<span class="str">"Hello, Java File I/O!"</span>);
+            bw.newLine();                   <span class="cm">// new line</span>
+            bw.write(<span class="str">"Second line here."</span>);
+            bw.newLine();
+            bw.write(<span class="str">"Third line done!"</span>);
+
+            System.out.println(<span class="str">"File written successfully!"</span>);
+
+        } <span class="kw">catch</span> (IOException e) {
+            System.out.println(<span class="str">"Error: "</span> + e.getMessage());
+        }
+
+        <span class="cm">// Append mode - FileWriter(filename, true)</span>
+        <span class="kw">try</span> (FileWriter fw = <span class="kw">new</span> FileWriter(<span class="str">"output.txt"</span>, <span class="kw">true</span>)) {
+            fw.write(<span class="str">"\nAppended line!"</span>);
+        } <span class="kw">catch</span> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</pre></div>
+    </div>
+
+    <div class="section-label">Reading from a File — Code</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — FileReader + BufferedReader</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.io.FileReader;
+<span class="kw">import</span> java.io.BufferedReader;
+<span class="kw">import</span> java.io.IOException;
+
+<span class="kw">public class</span> <span class="cls">ReadFile</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        <span class="kw">try</span> (BufferedReader br = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> FileReader(<span class="str">"output.txt"</span>))) {
+
+            String line;
+            System.out.println(<span class="str">"=== File Contents ==="</span>);
+
+            <span class="cm">// readLine() returns null at end of file</span>
+            <span class="kw">while</span> ((line = br.readLine()) != <span class="kw">null</span>) {
+                System.out.println(line);
+            }
+
+        } <span class="kw">catch</span> (IOException e) {
+            System.out.println(<span class="str">"File not found: "</span> + e.getMessage());
+        }
+    }
+}
+
+<span class="cm">/* Output:
+=== File Contents ===
+Hello, Java File I/O!
+Second line here.
+Third line done!
+Appended line!
+*/</span></pre></div>
+    </div>
+
+    <div class="section-label">Byte Stream File I/O — Binary Files</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — FileInputStream / FileOutputStream</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ByteStreamDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) <span class="kw">throws</span> IOException {
+
+        <span class="cm">// Writing bytes to file</span>
+        FileOutputStream fos = <span class="kw">new</span> FileOutputStream(<span class="str">"data.bin"</span>);
+        String data = <span class="str">"Binary Data Here"</span>;
+        fos.write(data.getBytes()); <span class="cm">// Convert string to bytes</span>
+        fos.close();
+
+        <span class="cm">// Reading bytes from file</span>
+        FileInputStream fis = <span class="kw">new</span> FileInputStream(<span class="str">"data.bin"</span>);
+        <span class="kw">int</span> byteData;
+        System.out.print(<span class="str">"Read: "</span>);
+        <span class="kw">while</span> ((byteData = fis.read()) != -<span class="num">1</span>) {  <span class="cm">// -1 = end of file</span>
+            System.out.print((<span class="kw">char</span>) byteData);   <span class="cm">// Cast byte to char</span>
+        }
+        fis.close();
+    }
+}</pre></div>
+    </div>
+
+    <div class="adv-grid">
+      <div class="adv-box adv">
+        <div class="adv-title">✅ Advantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Data persistence (survives program restart)</div>
+        <div class="adv-item"><span class="adv-dot"></span>BufferedReader is very fast</div>
+        <div class="adv-item"><span class="adv-dot"></span>Handles large files efficiently</div>
+        <div class="adv-item"><span class="adv-dot"></span>Both text and binary supported</div>
+      </div>
+      <div class="adv-box disadv">
+        <div class="adv-title">❌ Disadvantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>IOException must be handled</div>
+        <div class="adv-item"><span class="adv-dot"></span>Streams must be properly closed</div>
+        <div class="adv-item"><span class="adv-dot"></span>Slower than in-memory operations</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ==============================
+     CHAPTER 2: EXCEPTIONS
+================================ -->
+<div id="ch2"></div>
+<div class="chapter-header" style="background: linear-gradient(135deg, #6C3483, #9B59B6);">
+  <div class="chapter-label">Chapter 2</div>
+  <div class="chapter-title">Exception Handling</div>
+  <div class="chapter-desc">Built-in Exceptions • User Defined Exceptions • Multiple Catch • finally • throws</div>
+</div>
+
+<!-- ===========================
+     TOPIC: WHAT IS EXCEPTION?
+============================ -->
+<div class="topic-card" id="exc-intro">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#EAD9F7;">⚡</div>
+    <div>
+      <div class="topic-num" style="color:#6C3483;">Topic 2.0</div>
+      <div class="topic-title">Exception Handling — Introduction</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Exception matlab <strong>kuch unexpected/galat ho gaya program mein</strong>. Jaise agar tum kisi number ko zero se divide karo, ya kisi aisi file ko open karo jo exist hi na kare — ye sab exceptions hain. Java mein agar exception handle na karo, to <strong>program crash ho jata hai</strong>. Exception Handling se hum ek safety net bana dete hain — program gracefully handle karta hai aur crash nahi hota. <code>try</code> mein risky code, <code>catch</code> mein problem solve, <code>finally</code> mein cleanup!</p>
+    </div>
+
+    <div class="section-label">Definition</div>
+    <div class="def-box">
+      An <strong>Exception</strong> is an event that disrupts the normal flow of program execution. It is an object that wraps an error event that occurred within a method. Java's exception handling mechanism uses <code>try</code>, <code>catch</code>, <code>finally</code>, <code>throw</code>, and <code>throws</code> keywords.
+    </div>
+
+    <div class="section-label">Exception vs Error</div>
+    <table class="styled-table">
+      <tr><th>Exception</th><th>Error</th></tr>
+      <tr><td>Can be caught and handled</td><td>Usually cannot be caught/recovered</td></tr>
+      <tr><td>Caused by application code</td><td>Caused by JVM/system problems</td></tr>
+      <tr><td>E.g., NullPointerException, IOException</td><td>E.g., StackOverflowError, OutOfMemoryError</td></tr>
+      <tr><td>java.lang.Exception is superclass</td><td>java.lang.Error is superclass</td></tr>
+    </table>
+
+    <div class="section-label">Exception Hierarchy</div>
+    <div class="exc-tree">
+      <div style="color:#1C2B4A;font-weight:700;">java.lang.Throwable</div>
+      <div style="padding-left:1.5rem;">
+        <div style="color:#2874A6;">├── java.lang.Error <span class="exc-badge" style="background:#D6EAF8;color:#1A5276;">Unrecoverable</span></div>
+        <div style="padding-left:1.5rem;color:#7F8C8D;">│   ├── StackOverflowError</div>
+        <div style="padding-left:1.5rem;color:#7F8C8D;">│   ├── OutOfMemoryError</div>
+        <div style="padding-left:1.5rem;color:#7F8C8D;">│   └── VirtualMachineError</div>
+        <div style="color:#1E8449;">└── java.lang.Exception <span class="exc-badge" style="background:#D5F5E3;color:#1E8449;">Recoverable</span></div>
+        <div style="padding-left:1.5rem;">
+          <div style="color:#E67E22;">├── RuntimeException <span class="exc-badge" style="background:#FDEBD0;color:#935116;">Unchecked</span></div>
+          <div style="padding-left:1.5rem;color:#7F8C8D;">│   ├── NullPointerException</div>
+          <div style="padding-left:1.5rem;color:#7F8C8D;">│   ├── ArrayIndexOutOfBoundsException</div>
+          <div style="padding-left:1.5rem;color:#7F8C8D;">│   ├── ArithmeticException</div>
+          <div style="padding-left:1.5rem;color:#7F8C8D;">│   └── ClassCastException</div>
+          <div style="color:#922B21;">├── IOException <span class="exc-badge" style="background:#FDEDEC;color:#922B21;">Checked</span></div>
+          <div style="padding-left:1.5rem;color:#7F8C8D;">│   ├── FileNotFoundException</div>
+          <div style="padding-left:1.5rem;color:#7F8C8D;">│   └── EOFException</div>
+          <div style="color:#922B21;">└── SQLException <span class="exc-badge" style="background:#FDEDEC;color:#922B21;">Checked</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Checked vs Unchecked</div>
+    <div class="info-row">
+      <div class="info-mini" style="background:#FDEDEC;border-color:#F5B7B1;">
+        <div class="info-mini-title" style="color:#922B21;">Checked Exception</div>
+        <p>Compiler forces you to handle them. Must use try-catch or throws. E.g.: IOException, SQLException, ClassNotFoundException</p>
+      </div>
+      <div class="info-mini" style="background:#FDEBD0;border-color:#FAD7A0;">
+        <div class="info-mini-title" style="color:#935116;">Unchecked Exception</div>
+        <p>Runtime exceptions — compiler does NOT force handling. E.g.: NullPointerException, ArrayIndexOutOfBoundsException</p>
+      </div>
+    </div>
+
+    <div class="section-label">Basic try-catch Syntax</div>
+    <div class="syntax-box">try {
+    // Risky/exception-prone code
+} catch (ExceptionType e) {
+    // Handle the exception
+} finally {
+    // Always executes (optional)
+}</div>
+
+    <div class="section-label">Basic try-catch Example</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — Basic Exception Handling</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">public class</span> <span class="cls">BasicException</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        <span class="kw">try</span> {
+            <span class="kw">int</span> result = <span class="num">10</span> / <span class="num">0</span>;  <span class="cm">// This throws ArithmeticException</span>
+            System.out.println(<span class="str">"Result: "</span> + result);  <span class="cm">// Never executed</span>
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.println(<span class="str">"Caught! Cannot divide by zero: "</span> + e.getMessage());
+        }
+
+        System.out.println(<span class="str">"Program continues normally..."</span>);
+    }
+}
+<span class="cm">/* Output:
+   Caught! Cannot divide by zero: / by zero
+   Program continues normally...
+*/</span></pre></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: BUILT-IN EXCEPTIONS
+============================ -->
+<div class="topic-card" id="builtin-exc">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#EAD9F7;">🏛️</div>
+    <div>
+      <div class="topic-num" style="color:#6C3483;">Topic 2.1</div>
+      <div class="topic-title">Java's Built-in Exceptions</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Java mein pehle se hi bahut saare <strong>ready-made exceptions</strong> hain — inhe Built-in Exceptions kehte hain. Jaise <code>NullPointerException</code> tab aata hai jab tum kisi <em>null object</em> pe method call karo, <code>ArrayIndexOutOfBoundsException</code> tab aata hai jab array se bahar ka index access karo. Ye sab JVM automatically throw karta hai jab galti hoti hai.</p>
+    </div>
+
+    <div class="section-label">Important Built-in Exceptions Table</div>
+    <table class="styled-table">
+      <tr><th>Exception</th><th>Type</th><th>Cause / When it occurs</th></tr>
+      <tr><td>ArithmeticException</td><td>Unchecked</td><td>Division by zero or invalid math operation</td></tr>
+      <tr><td>NullPointerException</td><td>Unchecked</td><td>Accessing member of a null object</td></tr>
+      <tr><td>ArrayIndexOutOfBoundsException</td><td>Unchecked</td><td>Array index is negative or >= array size</td></tr>
+      <tr><td>StringIndexOutOfBoundsException</td><td>Unchecked</td><td>String index is out of range</td></tr>
+      <tr><td>NumberFormatException</td><td>Unchecked</td><td>Converting invalid string to number</td></tr>
+      <tr><td>ClassCastException</td><td>Unchecked</td><td>Invalid casting between incompatible types</td></tr>
+      <tr><td>StackOverflowError</td><td>Error</td><td>Infinite recursion fills the call stack</td></tr>
+      <tr><td>IOException</td><td>Checked</td><td>I/O operation fails (file not found, etc.)</td></tr>
+      <tr><td>FileNotFoundException</td><td>Checked</td><td>File does not exist when trying to open</td></tr>
+      <tr><td>SQLException</td><td>Checked</td><td>Database access error occurs</td></tr>
+      <tr><td>ClassNotFoundException</td><td>Checked</td><td>Class not found at runtime (reflection)</td></tr>
+      <tr><td>IllegalArgumentException</td><td>Unchecked</td><td>Illegal or inappropriate argument passed</td></tr>
+    </table>
+
+    <div class="section-label">Code — Common Built-in Exceptions Demo</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — Built-in Exceptions Examples</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">public class</span> <span class="cls">BuiltInExceptions</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        <span class="cm">// 1. ArithmeticException</span>
+        <span class="kw">try</span> {
+            <span class="kw">int</span> x = <span class="num">5</span> / <span class="num">0</span>;
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.println(<span class="str">"1. Arithmetic: "</span> + e.getMessage());
+        }
+
+        <span class="cm">// 2. NullPointerException</span>
+        <span class="kw">try</span> {
+            String s = <span class="kw">null</span>;
+            System.out.println(s.length()); <span class="cm">// NPE here</span>
+        } <span class="kw">catch</span> (NullPointerException e) {
+            System.out.println(<span class="str">"2. NullPointer: object is null"</span>);
+        }
+
+        <span class="cm">// 3. ArrayIndexOutOfBoundsException</span>
+        <span class="kw">try</span> {
+            <span class="kw">int</span>[] arr = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
+            System.out.println(arr[<span class="num">5</span>]); <span class="cm">// index 5 doesn't exist</span>
+        } <span class="kw">catch</span> (ArrayIndexOutOfBoundsException e) {
+            System.out.println(<span class="str">"3. Array out of bounds: "</span> + e.getMessage());
+        }
+
+        <span class="cm">// 4. NumberFormatException</span>
+        <span class="kw">try</span> {
+            <span class="kw">int</span> num = Integer.parseInt(<span class="str">"abc"</span>); <span class="cm">// "abc" is not a number</span>
+        } <span class="kw">catch</span> (NumberFormatException e) {
+            System.out.println(<span class="str">"4. NumberFormat: "</span> + e.getMessage());
+        }
+
+        <span class="cm">// 5. ClassCastException</span>
+        <span class="kw">try</span> {
+            Object obj = <span class="str">"Hello"</span>;
+            Integer num = (Integer) obj; <span class="cm">// String cannot be cast to Integer</span>
+        } <span class="kw">catch</span> (ClassCastException e) {
+            System.out.println(<span class="str">"5. ClassCast: "</span> + e.getMessage());
+        }
+    }
+}
+<span class="cm">/* Output:
+   1. Arithmetic: / by zero
+   2. NullPointer: object is null
+   3. Array out of bounds: Index 5 out of bounds for length 3
+   4. NumberFormat: For input string: "abc"
+   5. ClassCast: class java.lang.String cannot be cast to class java.lang.Integer
+*/</span></pre></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: USER DEFINED EXCEPTIONS
+============================ -->
+<div class="topic-card" id="user-exc">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#D1F2EB;">🔧</div>
+    <div>
+      <div class="topic-num" style="color:#0E6655;">Topic 2.2</div>
+      <div class="topic-title">User Defined (Custom) Exceptions</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Kabhi-kabhi Java ke built-in exceptions hmare kaam nahi aate — kyunki problem <strong>business-specific</strong> hoti hai. Jaise ek bank app mein agar balance se zyada paise withdraw karne ki koshish karo — ye Java built-in mein nahi hai! Tab hum <strong>khud apna exception banate hain</strong> — <code>Exception</code> class ko extend karke. Phir jab galat condition aaye, <code>throw</code> se usse throw karte hain.</p>
+    </div>
+
+    <div class="section-label">Definition</div>
+    <div class="def-box">
+      A <strong>User Defined (Custom) Exception</strong> is an exception created by the programmer by extending the <code>Exception</code> class (or <code>RuntimeException</code>). It provides meaningful, domain-specific error messages for business logic violations.
+    </div>
+
+    <div class="section-label">Syntax — Creating Custom Exception</div>
+    <div class="syntax-box">class CustomException extends Exception {    // Checked
+    CustomException(String message) {
+        super(message);   // Pass message to parent
+    }
+}
+
+class CustomRuntimeException extends RuntimeException {    // Unchecked
+    CustomRuntimeException(String message) {
+        super(message);
+    }
+}</div>
+
+    <div class="section-label">Code — Bank Balance Custom Exception</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — User Defined Exception</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="cm">// Step 1: Create custom exception class</span>
+<span class="kw">class</span> <span class="cls">InsufficientFundsException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+    <span class="kw">private double</span> amount;
+
+    <span class="cls">InsufficientFundsException</span>(<span class="kw">double</span> amount) {
+        <span class="kw">super</span>(<span class="str">"Insufficient funds! Tried to withdraw: ₹"</span> + amount);
+        <span class="kw">this</span>.amount = amount;
+    }
+
+    <span class="kw">double</span> <span class="fn">getAmount</span>() { <span class="kw">return</span> amount; }
+}
+
+<span class="cm">// Step 2: Use custom exception in a class</span>
+<span class="kw">class</span> <span class="cls">BankAccount</span> {
+    <span class="kw">private double</span> balance;
+
+    <span class="cls">BankAccount</span>(<span class="kw">double</span> initialBalance) {
+        <span class="kw">this</span>.balance = initialBalance;
+    }
+
+    <span class="kw">void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> amount) <span class="kw">throws</span> InsufficientFundsException {
+        <span class="kw">if</span> (amount > balance) {
+            <span class="kw">throw new</span> InsufficientFundsException(amount);  <span class="cm">// throw!</span>
+        }
+        balance -= amount;
+        System.out.println(<span class="str">"Withdrawn: ₹"</span> + amount + <span class="str">", Remaining: ₹"</span> + balance);
+    }
+}
+
+<span class="cm">// Step 3: Handle the custom exception</span>
+<span class="kw">public class</span> <span class="cls">BankDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        BankAccount acc = <span class="kw">new</span> BankAccount(<span class="num">5000</span>);
+
+        <span class="kw">try</span> {
+            acc.withdraw(<span class="num">2000</span>);   <span class="cm">// OK</span>
+            acc.withdraw(<span class="num">4000</span>);   <span class="cm">// Throws InsufficientFundsException</span>
+        } <span class="kw">catch</span> (InsufficientFundsException e) {
+            System.out.println(<span class="str">"Error: "</span> + e.getMessage());
+            System.out.println(<span class="str">"Amount attempted: ₹"</span> + e.getAmount());
+        }
+    }
+}
+<span class="cm">/* Output:
+   Withdrawn: ₹2000.0, Remaining: ₹3000.0
+   Error: Insufficient funds! Tried to withdraw: ₹4000.0
+   Amount attempted: ₹4000.0
+*/</span></pre></div>
+    </div>
+
+    <div class="section-label">Another Example — Age Validation</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — InvalidAgeException</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">class</span> <span class="cls">InvalidAgeException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+    <span class="cls">InvalidAgeException</span>(String msg) { <span class="kw">super</span>(msg); }
+}
+
+<span class="kw">public class</span> <span class="cls">AgeCheck</span> {
+    <span class="kw">static void</span> <span class="fn">validateAge</span>(<span class="kw">int</span> age) <span class="kw">throws</span> InvalidAgeException {
+        <span class="kw">if</span> (age < <span class="num">18</span>)
+            <span class="kw">throw new</span> InvalidAgeException(<span class="str">"Age must be 18+! Your age: "</span> + age);
+        System.out.println(<span class="str">"Welcome! Age verified: "</span> + age);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">try</span> {
+            validateAge(<span class="num">25</span>);  <span class="cm">// OK</span>
+            validateAge(<span class="num">15</span>);  <span class="cm">// Throws InvalidAgeException</span>
+        } <span class="kw">catch</span> (InvalidAgeException e) {
+            System.out.println(<span class="str">"Caught: "</span> + e.getMessage());
+        }
+    }
+}</pre></div>
+    </div>
+
+    <div class="adv-grid">
+      <div class="adv-box adv">
+        <div class="adv-title">✅ Advantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Meaningful domain-specific messages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Better code readability</div>
+        <div class="adv-item"><span class="adv-dot"></span>Can carry additional data (fields)</div>
+        <div class="adv-item"><span class="adv-dot"></span>Forces callers to handle specific errors</div>
+      </div>
+      <div class="adv-box disadv">
+        <div class="adv-title">❌ Disadvantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Extra class creation needed</div>
+        <div class="adv-item"><span class="adv-dot"></span>Can lead to too many exception classes</div>
+        <div class="adv-item"><span class="adv-dot"></span>Overuse adds complexity</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: MULTIPLE EXCEPTIONS
+============================ -->
+<div class="topic-card" id="multi-exc">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#FDEBD0;">🎯</div>
+    <div>
+      <div class="topic-num" style="color:#935116;">Topic 2.3</div>
+      <div class="topic-title">Handling Multiple Exceptions</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Ek try block mein <strong>alag-alag types ki exceptions</strong> aa sakti hain. Jaise tum array access karo aur number format bhi parse karo — dono alag exceptions. Tab hum <strong>multiple catch blocks</strong> likhte hain — jaise multiple security guards at different gates. Har catch ek alag type ki exception ko pakadta hai. Java 7 se ek catch mein <strong>multiple exceptions</strong> bhi pakad sakte ho pipe (|) se.</p>
+    </div>
+
+    <div class="section-label">Syntax — Multiple Catch Blocks</div>
+    <div class="syntax-box">try {
+    // risky code with multiple possible exceptions
+} catch (ExceptionType1 e) {
+    // handle exception 1
+} catch (ExceptionType2 e) {
+    // handle exception 2
+} catch (ExceptionType3 e) {
+    // handle exception 3
+} catch (Exception e) {
+    // catch-all (most general — must be LAST)
+}</div>
+
+    <div class="section-label">Syntax — Multi-catch (Java 7+)</div>
+    <div class="syntax-box">// Java 7+ multi-catch: pipe (|) operator
+try {
+    // code
+} catch (ArithmeticException | NullPointerException e) {
+    // Handle both in one block
+}</div>
+
+    <div class="section-label">Code — Multiple Catch Blocks</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — Multiple Exception Handling</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">public class</span> <span class="cls">MultipleExceptions</span> {
+
+    <span class="kw">static void</span> <span class="fn">process</span>(<span class="kw">int</span> choice) {
+        <span class="kw">int</span>[] arr = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>};
+        String[] data = {<span class="str">"100"</span>, <span class="str">"abc"</span>, <span class="str">"300"</span>};
+
+        <span class="kw">try</span> {
+            <span class="kw">if</span> (choice == <span class="num">1</span>) {
+                <span class="kw">int</span> result = arr[<span class="num">5</span>];    <span class="cm">// ArrayIndexOutOfBoundsException</span>
+            } <span class="kw">else if</span> (choice == <span class="num">2</span>) {
+                <span class="kw">int</span> num = Integer.parseInt(data[<span class="num">1</span>]);  <span class="cm">// NumberFormatException</span>
+            } <span class="kw">else if</span> (choice == <span class="num">3</span>) {
+                String s = <span class="kw">null</span>;
+                s.length();              <span class="cm">// NullPointerException</span>
+            } <span class="kw">else</span> {
+                <span class="kw">int</span> x = <span class="num">10</span> / <span class="num">0</span>;          <span class="cm">// ArithmeticException</span>
+            }
+
+        } <span class="kw">catch</span> (ArrayIndexOutOfBoundsException e) {
+            System.out.println(<span class="str">"Array error: "</span> + e.getMessage());
+
+        } <span class="kw">catch</span> (NumberFormatException e) {
+            System.out.println(<span class="str">"Number parse error: "</span> + e.getMessage());
+
+        } <span class="kw">catch</span> (NullPointerException e) {
+            System.out.println(<span class="str">"Null reference error!"</span>);
+
+        } <span class="kw">catch</span> (Exception e) {    <span class="cm">// Generic - catches anything else</span>
+            System.out.println(<span class="str">"General error: "</span> + e.getMessage());
+        }
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        process(<span class="num">1</span>);   <span class="cm">// Array error</span>
+        process(<span class="num">2</span>);   <span class="cm">// Number format error</span>
+        process(<span class="num">3</span>);   <span class="cm">// Null pointer error</span>
+        process(<span class="num">4</span>);   <span class="cm">// Arithmetic error (caught by general catch)</span>
+    }
+}
+<span class="cm">/* Output:
+   Array error: Index 5 out of bounds for length 3
+   Number parse error: For input string: "abc"
+   Null reference error!
+   General error: / by zero
+*/</span></pre></div>
+    </div>
+
+    <div class="section-label">Code — Java 7 Multi-catch (|) Operator</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java 7+ — Multi-catch with pipe</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">MultiCatch</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        <span class="kw">try</span> {
+            <span class="kw">int</span>[] arr = <span class="kw">new int</span>[<span class="num">3</span>];
+            arr[<span class="num">5</span>] = <span class="num">10</span>;  <span class="cm">// Might throw ArrayIndexOutOfBoundsException</span>
+            <span class="kw">int</span> x = <span class="num">10</span> / <span class="num">0</span>;  <span class="cm">// Might throw ArithmeticException</span>
+
+        } <span class="kw">catch</span> (ArrayIndexOutOfBoundsException | ArithmeticException e) {
+            <span class="cm">// Same handling for both exceptions</span>
+            System.out.println(<span class="str">"Caught: "</span> + e.getClass().getSimpleName()
+                               + <span class="str">" — "</span> + e.getMessage());
+        }
+    }
+}
+<span class="cm">// Note: In multi-catch, 'e' is effectively final — cannot reassign</span></pre></div>
+    </div>
+
+    <div style="background:#FEF9E7;border:1px solid #F4D03F;border-radius:10px;padding:1rem 1.25rem;margin:0.75rem 0;">
+      <div style="font-size:0.75rem;font-weight:800;color:#9A7D0A;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">⚠️ Important Rule</div>
+      <p style="font-size:0.9rem;color:#6E2F00;">Catch blocks must be ordered from <strong>most specific to most general</strong>. If you put <code>Exception</code> (parent) before <code>NullPointerException</code> (child), it causes a <strong>compile error</strong> — "exception already caught".</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: FINALLY
+============================ -->
+<div class="topic-card" id="finally">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#D5F5E3;">🏁</div>
+    <div>
+      <div class="topic-num" style="color:#1E8449;">Topic 2.4</div>
+      <div class="topic-title">The finally Clause</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p><code>finally</code> block <strong>hamesha execute hota hai</strong> — chahe exception aaye ya na aaye! Ye jaise ek promise hai Java ka — "main zaroor chalunga." Iska use mainly <strong>cleanup kaam</strong> ke liye hota hai — jaise file close karna, database connection close karna, ya resources free karna. Yani chahe try mein kuch bhi ho, chahe catch execute ho ya na ho, <code>finally</code> hamesha run karta hai (except: <code>System.exit()</code> call ho to nahi chalta).</p>
+    </div>
+
+    <div class="section-label">Definition</div>
+    <div class="def-box">
+      The <code>finally</code> block is an optional block that <strong>always executes</strong> regardless of whether an exception was thrown or caught. It is used for cleanup activities like closing files, releasing connections, or freeing resources.
+    </div>
+
+    <div class="section-label">Syntax</div>
+    <div class="syntax-box">try {
+    // risky code
+} catch (Exception e) {
+    // handle exception
+} finally {
+    // ALWAYS executes — cleanup code here
+    // Close files, connections, release resources
+}</div>
+
+    <div class="section-label">When does finally NOT execute?</div>
+    <div class="tags-grid">
+      <span class="tag tag-red">System.exit() is called</span>
+      <span class="tag tag-red">JVM crashes (OutOfMemoryError)</span>
+      <span class="tag tag-red">Power failure / machine shutdown</span>
+    </div>
+
+    <div class="section-label">Code — finally Clause Demo</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — finally Block</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">FinallyDemo</span> {
+
+    <span class="cm">// Case 1: No exception — finally still runs</span>
+    <span class="kw">static void</span> <span class="fn">case1</span>() {
+        System.out.println(<span class="str">"\n--- Case 1: No Exception ---"</span>);
+        <span class="kw">try</span> {
+            System.out.println(<span class="str">"In try block"</span>);
+            <span class="kw">int</span> x = <span class="num">10</span> / <span class="num">2</span>;  <span class="cm">// No exception</span>
+            System.out.println(<span class="str">"Result: "</span> + x);
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.println(<span class="str">"In catch block"</span>);  <span class="cm">// Skipped</span>
+        } <span class="kw">finally</span> {
+            System.out.println(<span class="str">"In finally — ALWAYS runs!"</span>);
+        }
+    }
+
+    <span class="cm">// Case 2: Exception occurs — catch + finally both run</span>
+    <span class="kw">static void</span> <span class="fn">case2</span>() {
+        System.out.println(<span class="str">"\n--- Case 2: Exception Caught ---"</span>);
+        <span class="kw">try</span> {
+            System.out.println(<span class="str">"In try block"</span>);
+            <span class="kw">int</span> x = <span class="num">10</span> / <span class="num">0</span>;  <span class="cm">// Exception!</span>
+        } <span class="kw">catch</span> (ArithmeticException e) {
+            System.out.println(<span class="str">"In catch: "</span> + e.getMessage());
+        } <span class="kw">finally</span> {
+            System.out.println(<span class="str">"In finally — still runs!"</span>);
+        }
+    }
+
+    <span class="cm">// Real-world: File closing in finally</span>
+    <span class="kw">static void</span> <span class="fn">readFile</span>() {
+        BufferedReader br = <span class="kw">null</span>;
+        System.out.println(<span class="str">"\n--- File Read with Finally ---"</span>);
+        <span class="kw">try</span> {
+            br = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> FileReader(<span class="str">"test.txt"</span>));
+            System.out.println(br.readLine());
+        } <span class="kw">catch</span> (IOException e) {
+            System.out.println(<span class="str">"File error: "</span> + e.getMessage());
+        } <span class="kw">finally</span> {
+            <span class="kw">try</span> {
+                <span class="kw">if</span> (br != <span class="kw">null</span>) br.close();  <span class="cm">// Always close!</span>
+                System.out.println(<span class="str">"Reader closed in finally."</span>);
+            } <span class="kw">catch</span> (IOException e) { }
+        }
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        case1();
+        case2();
+        readFile();
+    }
+}
+<span class="cm">/* Output:
+--- Case 1: No Exception ---
+In try block
+Result: 5
+In finally — ALWAYS runs!
+
+--- Case 2: Exception Caught ---
+In try block
+In catch: / by zero
+In finally — still runs!
+
+--- File Read with Finally ---
+File error: test.txt (No such file or directory)
+Reader closed in finally.
+*/</span></pre></div>
+    </div>
+
+    <div class="section-label">Flow Diagram — finally</div>
+    <div class="diagram-wrap">
+      <div class="diagram-title">try-catch-finally Execution Flow</div>
+      <svg viewBox="0 0 400 340" style="width:100%;max-width:400px;">
+        <rect x="150" y="10" width="100" height="36" rx="8" fill="#1C2B4A"/>
+        <text x="200" y="33" text-anchor="middle" font-family="Nunito" font-size="12" font-weight="700" fill="white">START</text>
+        <line x1="200" y1="46" x2="200" y2="62" stroke="#888" stroke-width="1.5"/>
+        <rect x="120" y="62" width="160" height="36" rx="8" fill="#2874A6"/>
+        <text x="200" y="84" text-anchor="middle" font-family="Nunito" font-size="11" fill="white">try { risky code }</text>
+        <line x1="200" y1="98" x2="200" y2="116" stroke="#888" stroke-width="1.5"/>
+        <!-- Diamond -->
+        <polygon points="200,116 260,146 200,176 140,146" fill="#E8854A" stroke="none"/>
+        <text x="200" y="141" text-anchor="middle" font-family="Nunito" font-size="10" fill="white" font-weight="700">Exception</text>
+        <text x="200" y="156" text-anchor="middle" font-family="Nunito" font-size="10" fill="white" font-weight="700">thrown?</text>
+        <!-- YES -->
+        <line x1="260" y1="146" x2="320" y2="146" stroke="#E74C3C" stroke-width="1.5"/>
+        <text x="290" y="140" text-anchor="middle" font-family="Nunito" font-size="10" fill="#E74C3C" font-weight="700">YES</text>
+        <rect x="310" y="126" width="80" height="36" rx="8" fill="#922B21"/>
+        <text x="350" y="148" text-anchor="middle" font-family="Nunito" font-size="10" fill="white">catch { }</text>
+        <line x1="350" y1="162" x2="350" y2="226" stroke="#E74C3C" stroke-width="1.5"/>
+        <line x1="350" y1="226" x2="260" y2="226" stroke="#E74C3C" stroke-width="1.5"/>
+        <!-- NO -->
+        <line x1="200" y1="176" x2="200" y2="226" stroke="#27AE60" stroke-width="1.5"/>
+        <text x="215" y="208" font-family="Nunito" font-size="10" fill="#27AE60" font-weight="700">NO</text>
+        <!-- finally -->
+        <rect x="120" y="210" width="160" height="36" rx="8" fill="#1E8449"/>
+        <text x="200" y="233" text-anchor="middle" font-family="Nunito" font-size="11" fill="white" font-weight="700">finally { } ← ALWAYS</text>
+        <line x1="200" y1="246" x2="200" y2="270" stroke="#888" stroke-width="1.5"/>
+        <rect x="150" y="270" width="100" height="36" rx="8" fill="#1C2B4A"/>
+        <text x="200" y="293" text-anchor="middle" font-family="Nunito" font-size="12" fill="white" font-weight="700">CONTINUE</text>
+      </svg>
+    </div>
+
+    <div class="adv-grid">
+      <div class="adv-box adv">
+        <div class="adv-title">✅ Advantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Guarantees resource cleanup</div>
+        <div class="adv-item"><span class="adv-dot"></span>Prevents resource leaks</div>
+        <div class="adv-item"><span class="adv-dot"></span>Code reliability increases</div>
+        <div class="adv-item"><span class="adv-dot"></span>Works even when exception uncaught</div>
+      </div>
+      <div class="adv-box disadv">
+        <div class="adv-title">❌ Disadvantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Slight performance overhead</div>
+        <div class="adv-item"><span class="adv-dot"></span>Can hide exceptions if throws exception itself</div>
+        <div class="adv-item"><span class="adv-dot"></span>return in finally overrides try/catch return</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     TOPIC: THROWS CLAUSE
+============================ -->
+<div class="topic-card" id="throws">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:#FDEDEC;">🚀</div>
+    <div>
+      <div class="topic-num" style="color:#922B21;">Topic 2.5</div>
+      <div class="topic-title">The throws Clause (throw vs throws)</div>
+    </div>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish">
+      <div class="hinglish-label">🗣 Hinglish Explanation</div>
+      <p>Socho tum ek method bana rahe ho jo koi risky kaam karta hai — tum us method mein exception handle nahi karna chahte, balki <strong>caller ko bhejna chahte ho</strong> ki "yaar, ye method exception throw kar sakta hai, tum handle karo!" — iske liye <code>throws</code> keyword use hota hai method signature mein. Aur jab actually exception throw karni ho manually, tab <code>throw</code> keyword use hota hai (bina 's' ke). Ye dono alag hain!</p>
+    </div>
+
+    <div class="section-label">throw vs throws — Comparison</div>
+    <table class="styled-table">
+      <tr><th>throw</th><th>throws</th></tr>
+      <tr><td>Used to explicitly <strong>throw</strong> an exception</td><td>Used in method signature to <strong>declare</strong> exceptions</td></tr>
+      <tr><td>Followed by an exception instance</td><td>Followed by exception class names</td></tr>
+      <tr><td>Used inside a method body</td><td>Used in method signature</td></tr>
+      <tr><td>Can throw only ONE exception at a time</td><td>Can declare MULTIPLE exceptions (comma separated)</td></tr>
+      <tr><td>throw new IOException("error");</td><td>void method() throws IOException, SQLException</td></tr>
+    </table>
+
+    <div class="section-label">throws Syntax</div>
+    <div class="syntax-box">// Method that declares it might throw exceptions
+returnType methodName(params) throws Exception1, Exception2 {
+    // method body
+    // can throw Exception1 or Exception2
+}</div>
+
+    <div class="section-label">throw Syntax</div>
+    <div class="syntax-box">// Manually throwing an exception
+throw new ExceptionType("error message");   // throw an exception object</div>
+
+    <div class="section-label">Code — throw and throws</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — throw and throws Keywords</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ThrowDemo</span> {
+
+    <span class="cm">// Method declares it MIGHT throw IOException</span>
+    <span class="cm">// 'throws' = declaration / warning to caller</span>
+    <span class="kw">static void</span> <span class="fn">readData</span>(String filename) <span class="kw">throws</span> IOException {
+        <span class="kw">if</span> (filename == <span class="kw">null</span>) {
+            <span class="cm">// 'throw' = actually throwing the exception</span>
+            <span class="kw">throw new</span> IOException(<span class="str">"Filename cannot be null!"</span>);
+        }
+        BufferedReader br = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> FileReader(filename));
+        System.out.println(br.readLine());
+        br.close();
+    }
+
+    <span class="cm">// Method throws multiple exceptions</span>
+    <span class="kw">static void</span> <span class="fn">processData</span>(<span class="kw">int</span> x) <span class="kw">throws</span> ArithmeticException, NullPointerException {
+        <span class="kw">if</span> (x == <span class="num">0</span>)
+            <span class="kw">throw new</span> ArithmeticException(<span class="str">"x cannot be zero!"</span>);
+        <span class="kw">if</span> (x < <span class="num">0</span>)
+            <span class="kw">throw new</span> NullPointerException(<span class="str">"x cannot be negative!"</span>);
+        System.out.println(<span class="str">"Processing: "</span> + (<span class="num">100</span> / x));
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+
+        <span class="cm">// Must handle because readData() uses 'throws'</span>
+        <span class="kw">try</span> {
+            readData(<span class="kw">null</span>);
+        } <span class="kw">catch</span> (IOException e) {
+            System.out.println(<span class="str">"Caught: "</span> + e.getMessage());
+        }
+
+        <span class="cm">// processData can throw two types</span>
+        <span class="kw">try</span> {
+            processData(<span class="num">5</span>);   <span class="cm">// OK</span>
+            processData(<span class="num">0</span>);   <span class="cm">// ArithmeticException</span>
+        } <span class="kw">catch</span> (ArithmeticException | NullPointerException e) {
+            System.out.println(<span class="str">"Process error: "</span> + e.getMessage());
+        }
+    }
+}
+<span class="cm">/* Output:
+   Caught: Filename cannot be null!
+   Processing: 20
+   Process error: x cannot be zero!
+*/</span></pre></div>
+    </div>
+
+    <div class="section-label">Complete Program — All Concepts Together</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Java — Full Exception Demo (All Concepts)</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="kw">import</span> java.io.*;
+
+<span class="cm">// Custom Exception</span>
+<span class="kw">class</span> <span class="cls">AgeException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+    <span class="cls">AgeException</span>(String msg) { <span class="kw">super</span>(msg); }
+}
+
+<span class="kw">public class</span> <span class="cls">CompleteExceptionDemo</span> {
+
+    <span class="cm">// Method with throws</span>
+    <span class="kw">static void</span> <span class="fn">validateAge</span>(<span class="kw">int</span> age) <span class="kw">throws</span> AgeException {
+        <span class="kw">if</span> (age < <span class="num">0</span> || age > <span class="num">150</span>)
+            <span class="kw">throw new</span> AgeException(<span class="str">"Invalid age: "</span> + age);
+        System.out.println(<span class="str">"Valid age: "</span> + age);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">int</span>[] ages = {<span class="num">25</span>, -<span class="num">5</span>, <span class="num">200</span>};
+
+        <span class="kw">for</span> (<span class="kw">int</span> age : ages) {
+            <span class="kw">try</span> {
+                System.out.print(<span class="str">"Testing age "</span> + age + <span class="str">": "</span>);
+                validateAge(age);          <span class="cm">// might throw</span>
+
+            } <span class="kw">catch</span> (AgeException e) {   <span class="cm">// custom exception</span>
+                System.out.println(<span class="str">"AgeError: "</span> + e.getMessage());
+
+            } <span class="kw">catch</span> (Exception e) {      <span class="cm">// general catch</span>
+                System.out.println(<span class="str">"Error: "</span> + e.getMessage());
+
+            } <span class="kw">finally</span> {                  <span class="cm">// always runs</span>
+                System.out.println(<span class="str">"  [finally] loop iteration done."</span>);
+            }
+        }
+        System.out.println(<span class="str">"\nProgram completed successfully!"</span>);
+    }
+}
+<span class="cm">/* Output:
+Testing age 25: Valid age: 25
+  [finally] loop iteration done.
+Testing age -5: AgeError: Invalid age: -5
+  [finally] loop iteration done.
+Testing age 200: AgeError: Invalid age: 200
+  [finally] loop iteration done.
+
+Program completed successfully!
+*/</span></pre></div>
+    </div>
+
+    <div class="adv-grid">
+      <div class="adv-box adv">
+        <div class="adv-title">✅ Advantages of throws</div>
+        <div class="adv-item"><span class="adv-dot"></span>Propagates exception to caller</div>
+        <div class="adv-item"><span class="adv-dot"></span>Clean separation of concerns</div>
+        <div class="adv-item"><span class="adv-dot"></span>Forces caller awareness</div>
+        <div class="adv-item"><span class="adv-dot"></span>Method stays clean (no try-catch clutter)</div>
+      </div>
+      <div class="adv-box disadv">
+        <div class="adv-title">❌ Disadvantages</div>
+        <div class="adv-item"><span class="adv-dot"></span>Caller must always handle</div>
+        <div class="adv-item"><span class="adv-dot"></span>Long chain of throws possible</div>
+        <div class="adv-item"><span class="adv-dot"></span>Can lead to exception swallowing</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===========================
+     QUICK REFERENCE SUMMARY
+============================ -->
+<div style="background: linear-gradient(135deg,#1C2B4A,#2E4070);border-radius:16px;padding:2rem;margin-top:2rem;color:white;">
+  <div style="font-size:0.7rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#F4D03F;margin-bottom:0.75rem;">Unit 2 — Quick Reference Summary</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+    <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:1rem;">
+      <div style="font-weight:700;color:#F4D03F;margin-bottom:0.4rem;font-size:0.88rem;">📦 Packages</div>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.8);line-height:1.6;">package keyword • import keyword • Built-in: java.lang (auto) • java.util, java.io, java.math, java.sql, java.awt need import</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:1rem;">
+      <div style="font-weight:700;color:#F4D03F;margin-bottom:0.4rem;font-size:0.88rem;">🌊 IO Streams</div>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.8);line-height:1.6;">Byte: InputStream/OutputStream • Char: Reader/Writer • File: FileReader, FileWriter, BufferedReader, BufferedWriter</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:1rem;">
+      <div style="font-weight:700;color:#F4D03F;margin-bottom:0.4rem;font-size:0.88rem;">⚡ Exceptions</div>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.8);line-height:1.6;">Checked (must handle) vs Unchecked (optional) • try-catch-finally • throw vs throws • Custom: extend Exception</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:1rem;">
+      <div style="font-weight:700;color:#F4D03F;margin-bottom:0.4rem;font-size:0.88rem;">🔑 Key Keywords</div>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.8);line-height:1.6;">try • catch • finally • throw (instance) • throws (declaration) • package • import • extends Exception</div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:2rem;color:var(--text3);font-size:0.8rem;">
+  Made with ☕ for Java Unit 2 | Hinglish + English Notes | All Topics Covered
+</div>
+
+</div><!-- end container -->
+
+<script>
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
