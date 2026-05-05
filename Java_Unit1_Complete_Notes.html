@@ -1,0 +1,2997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Unit 1 — Complete Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Lato:wght@300;400;700&family=Source+Code+Pro:wght@400;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ef;
+  --card: #ffffff;
+  --border: #e0d9ce;
+  --text: #1a1a2e;
+  --muted: #5a5a7a;
+  --accent: #e07b00;
+  --accent2: #1565c0;
+  --accent3: #2e7d32;
+  --accent4: #c62828;
+  --code-bg: #1e1e2e;
+  --code-text: #cdd6f4;
+  --keyword: #cba6f7;
+  --string: #a6e3a1;
+  --comment: #6c7086;
+  --number: #fab387;
+  --type: #89dceb;
+  --tag: #f38ba8;
+  --shadow: 0 2px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.13);
+  --radius: 12px;
+  --java: #e07b00;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15.5px;
+}
+
+/* ===================== HEADER ===================== */
+.hero {
+  background: linear-gradient(135deg, #0d1b2a 0%, #1565c0 50%, #e07b00 100%);
+  color: white;
+  padding: 60px 40px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+.hero h1 span { color: #ffd54f; }
+.hero p { font-size: 1.1rem; opacity: 0.88; max-width: 700px; margin: 0 auto 20px; }
+.hero-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+/* ===================== LAYOUT ===================== */
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: #0d1b2a;
+  color: #c9d6df;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 24px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #e07b00 #0d1b2a;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #e07b00; border-radius: 4px; }
+
+.sidebar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e07b00;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0 20px 12px;
+  border-bottom: 1px solid #1e2d3d;
+  margin-bottom: 12px;
+}
+
+.toc-ch {
+  padding: 8px 20px 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #e07b00;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sidebar a {
+  display: block;
+  padding: 5px 20px 5px 28px;
+  color: #9ab;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+}
+.sidebar a:hover {
+  color: #fff;
+  border-left-color: #e07b00;
+  background: rgba(224,123,0,0.08);
+  padding-left: 32px;
+}
+
+.main { flex: 1; padding: 40px 48px; max-width: 1000px; }
+
+/* ===================== SECTIONS ===================== */
+.chapter-header {
+  background: linear-gradient(90deg, var(--accent2) 0%, #0d47a1 100%);
+  color: white;
+  padding: 24px 32px;
+  border-radius: var(--radius);
+  margin: 40px 0 32px;
+  position: relative;
+  overflow: hidden;
+}
+.chapter-header::after {
+  content: attr(data-ch);
+  position: absolute;
+  right: 24px; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  font-weight: 900;
+  opacity: 0.12;
+  color: white;
+}
+.chapter-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  margin-bottom: 4px;
+}
+.chapter-header p { opacity: 0.85; font-size: 0.92rem; }
+
+.topic {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 32px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.topic-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(90deg, #fafafa 0%, #fff 100%);
+  user-select: none;
+  transition: background 0.2s;
+}
+.topic-header:hover { background: #f0f4ff; }
+.topic-num {
+  background: var(--accent);
+  color: white;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.topic-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  flex: 1;
+}
+.toggle-icon {
+  font-size: 1.1rem;
+  color: var(--muted);
+  transition: transform 0.3s;
+}
+.topic.open .toggle-icon { transform: rotate(180deg); }
+.topic-body {
+  padding: 28px 28px;
+  display: none;
+}
+.topic.open .topic-body { display: block; }
+
+/* ===================== CONTENT ELEMENTS ===================== */
+.hinglish-box {
+  background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
+  border-left: 4px solid #f9a825;
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.hinglish-box .label {
+  font-style: normal;
+  font-weight: 700;
+  color: #e65100;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.definition-box {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+.definition-box .label {
+  font-weight: 700;
+  color: #2e7d32;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.exam-alert {
+  background: #fce4ec;
+  border: 1px solid #ef9a9a;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 18px 0;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.exam-alert .icon { font-size: 1.3rem; flex-shrink: 0; }
+.exam-alert .content { flex: 1; }
+.exam-alert strong { color: #c62828; display: block; margin-bottom: 4px; font-size: 0.8rem; letter-spacing: 0.5px; text-transform: uppercase; }
+
+.tip-box {
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 16px 0;
+}
+.tip-box strong { color: #1565c0; }
+
+.types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.type-card {
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+  border: 1px solid #c5cae9;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.type-card h5 {
+  color: var(--accent2);
+  font-size: 0.88rem;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.type-card p { font-size: 0.84rem; color: #444; }
+
+/* Code blocks */
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.code-header {
+  background: #181825;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #313244;
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-r { background: #f38ba8; }
+.dot-y { background: #f9e2af; }
+.dot-g { background: #a6e3a1; }
+.code-lang {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: #585b70;
+  font-family: 'Source Code Pro', monospace;
+  letter-spacing: 1px;
+}
+.code-block pre {
+  padding: 20px 20px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  color: var(--code-text);
+}
+.kw { color: #cba6f7; font-weight: 600; }
+.st { color: #a6e3a1; }
+.cm { color: #6c7086; font-style: italic; }
+.nm { color: #fab387; }
+.tp { color: #89dceb; }
+.fn { color: #89b4fa; }
+.cl { color: #f9e2af; }
+.op { color: #f38ba8; }
+.an { color: #94e2d5; }
+
+/* Diagram */
+.diagram-box {
+  background: #f8faff;
+  border: 1px solid #c5cae9;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.diagram-box pre {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #1a1a2e;
+  white-space: pre;
+}
+.diagram-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1565c0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* Adv/Dis table */
+.adv-dis { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+.adv-box, .dis-box {
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.adv-box { background: #e8f5e9; border: 1px solid #a5d6a7; }
+.dis-box { background: #fce4ec; border: 1px solid #ef9a9a; }
+.adv-box h5 { color: #2e7d32; margin-bottom: 8px; font-size: 0.85rem; }
+.dis-box h5 { color: #c62828; margin-bottom: 8px; font-size: 0.85rem; }
+.adv-box ul, .dis-box ul { padding-left: 16px; font-size: 0.86rem; }
+.adv-box li, .dis-box li { margin-bottom: 4px; }
+
+/* Diff Table */
+.diff-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.86rem; }
+.diff-table th {
+  background: #1565c0;
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+}
+.diff-table td {
+  padding: 9px 14px;
+  border: 1px solid #e0e0e0;
+}
+.diff-table tr:nth-child(even) td { background: #f5f5f5; }
+
+/* Section heading */
+.sh {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--accent2);
+  margin: 22px 0 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #c5cae9;
+}
+.sh2 {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #333;
+  margin: 16px 0 8px;
+}
+
+p { margin-bottom: 10px; }
+ul { padding-left: 20px; margin-bottom: 12px; }
+li { margin-bottom: 5px; font-size: 0.9rem; }
+strong { color: #1a1a2e; }
+
+.mnemonic {
+  background: linear-gradient(135deg, #f3e5f5 0%, #ede7f6 100%);
+  border: 1px solid #ce93d8;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 14px 0;
+}
+.mnemonic .label { font-weight: 700; color: #7b1fa2; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+
+.tag-chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.chip { background: #e3f2fd; color: #1565c0; border-radius: 20px; padding: 2px 12px; font-size: 0.78rem; font-weight: 700; border: 1px solid #90caf9; }
+
+.output-box {
+  background: #263238;
+  color: #aed581;
+  border-radius: 0 0 8px 8px;
+  padding: 12px 18px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.83rem;
+  border-top: 2px solid #37474f;
+}
+.output-label { color: #78909c; font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+.prop-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.prop-card .icon { font-size: 1.8rem; margin-bottom: 6px; }
+.prop-card h5 { font-size: 0.8rem; color: #1565c0; margin-bottom: 4px; }
+.prop-card p { font-size: 0.78rem; color: #666; margin: 0; }
+
+.inline-code {
+  background: #eceff1;
+  color: #c62828;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.85em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid #cfd8dc;
+}
+
+/* Summary ribbon */
+.summary-ribbon {
+  background: linear-gradient(90deg, #e07b00 0%, #f9a825 100%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin: 20px 0 10px;
+}
+
+@media (max-width: 900px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: relative; }
+  .main { padding: 20px; }
+  .adv-dis { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>☕ Java <span>Unit 1</span> — Complete Notes</h1>
+  <p>Chapter 1: Java Fundamentals | Chapter 2: Classes & Inheritance | Self Study: String Handling</p>
+  <div class="hero-badges">
+    <span class="badge">🇮🇳 HINGLISH</span>
+    <span class="badge">📖 DEEP DIVE</span>
+    <span class="badge">💻 CODE EXAMPLES</span>
+    <span class="badge">📊 DIAGRAMS</span>
+    <span class="badge">🎯 EXAM READY</span>
+    <span class="badge">☕ JAVA</span>
+  </div>
+</div>
+
+<div class="layout">
+<!-- SIDEBAR TOC -->
+<nav class="sidebar">
+  <div class="sidebar-title">📋 Table of Contents</div>
+  <div class="toc-ch">Chapter 1 — Fundamentals</div>
+  <a href="#oop">1. OOP Paradigms</a>
+  <a href="#features">2. Features of OOP</a>
+  <a href="#overview">3. Java Overview</a>
+  <a href="#jvm">4. JVM / JDK / JRE</a>
+  <a href="#bytecode">5. Bytecode Interpretation</a>
+  <a href="#datatypes">6. Data Types</a>
+  <a href="#variables">7. Variables & Arrays</a>
+  <a href="#operators">8. Operators</a>
+  <a href="#control">9. Control Statements</a>
+  <a href="#structure">10. Programming Structure</a>
+  <a href="#classes">11. Objects & Classes</a>
+  <a href="#constructors">12. Constructors & Methods</a>
+  <a href="#access">13. Access Specifiers</a>
+  <a href="#static">14. Static Members</a>
+  <a href="#functions">15. Functions</a>
+  <div class="toc-ch">Chapter 2 — Inheritance</div>
+  <a href="#overload">16. Overloading & Overriding</a>
+  <a href="#objparam">17. Objects as Parameters</a>
+  <a href="#retobj">18. Returning Objects</a>
+  <a href="#innerclass">19. Static, Inner & Wrapper</a>
+  <a href="#inheritance">20. Inheritance & Types</a>
+  <a href="#thissuper">21. this & super Keyword</a>
+  <a href="#abstract">22. Abstract Classes</a>
+  <a href="#final">23. final Variables & Methods</a>
+  <a href="#interface">24. Interface</a>
+  <a href="#memberaccess">25. Member Access</a>
+  <div class="toc-ch">Self Study</div>
+  <a href="#strings">26. String Handling</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div class="chapter-header" data-ch="CH1">
+  <h2>Chapter 1 — Java Fundamentals</h2>
+  <p>OOP Concepts, Java Architecture, Data Types, Variables, Operators, Classes, Constructors & More</p>
+</div>
+
+<!-- 1. OOP PARADIGMS -->
+<div class="topic open" id="oop">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">1</div>
+    <h3>Object-Oriented Programming Paradigms</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Bhai, OOP ek <strong>programming style</strong> hai jisme hum duniya ko real-life objects ki tarah sochte hain. Jaise — ek <em>Car</em> ek object hai jiske paas <strong>properties</strong> hain (color, speed) aur <strong>behaviors</strong> hain (drive, brake). Programming mein hum inhe <strong>class</strong> aur <strong>methods</strong> kehte hain. Yeh approach code ko organized, reusable, aur samajhne mein aasan banata hai!
+    </div>
+
+    <div class="definition-box">
+      <div class="label">📖 English Definition</div>
+      Object-Oriented Programming (OOP) is a programming paradigm based on the concept of <strong>"objects"</strong>, which are instances of classes. It organizes software design around data and objects rather than functions and logic. OOP models real-world entities as software objects that have attributes (data) and behaviors (methods).
+    </div>
+
+    <div class="sh">Programming Paradigms — Types</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <h5>🔧 Procedural</h5>
+        <p>Code executes step-by-step. Example: C Language. Functions do the work.</p>
+      </div>
+      <div class="type-card">
+        <h5>🎯 Object-Oriented</h5>
+        <p>Code organized around objects. Example: Java, C++, Python. Classes define objects.</p>
+      </div>
+      <div class="type-card">
+        <h5>📐 Functional</h5>
+        <p>Functions are first-class citizens. Example: Haskell, Lisp. Pure functions, no side effects.</p>
+      </div>
+      <div class="type-card">
+        <h5>📦 Declarative</h5>
+        <p>Describe WHAT to do, not HOW. Example: SQL, HTML. Less focus on control flow.</p>
+      </div>
+    </div>
+
+    <div class="diagram-box">
+      <div class="diagram-title">📊 OOP vs Procedural Paradigm</div>
+      <pre>
+PROCEDURAL APPROACH            OBJECT-ORIENTED APPROACH
+─────────────────────          ──────────────────────────────
+  main()                         ┌─────────────────────┐
+    │                            │   Class: Car         │
+    ├─ getData()                  │ ─────────────────── │
+    ├─ processData()              │  Attributes:         │
+    ├─ displayData()              │    color, speed      │
+    │                            │  Methods:            │
+  Functions are                  │    drive(), brake()  │
+  PRIMARY units                  └─────────────────────┘
+                                   Objects are PRIMARY units
+</pre>
+    </div>
+
+    <div class="adv-dis">
+      <div class="adv-box">
+        <h5>✅ Advantages</h5>
+        <ul>
+          <li>Code Reusability (via inheritance)</li>
+          <li>Easy to maintain & debug</li>
+          <li>Models real-world problems naturally</li>
+          <li>Modularity & encapsulation</li>
+          <li>Security via data hiding</li>
+        </ul>
+      </div>
+      <div class="dis-box">
+        <h5>❌ Disadvantages</h5>
+        <ul>
+          <li>More complex than procedural</li>
+          <li>Larger program size</li>
+          <li>Slower execution (sometimes)</li>
+          <li>Not suitable for small problems</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. FEATURES OF OOP -->
+<div class="topic open" id="features">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">2</div>
+    <h3>Features of Object-Oriented Programming</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      OOP ke 4 main pillars hain — <strong>Encapsulation, Abstraction, Inheritance, Polymorphism</strong>. Yaad karo ek school ka example: Teacher class → Subject Teacher class (Inheritance). Teacher ki personal details hidden (Encapsulation). Teacher ka kaam batata hai "padhana" lekin andar ka mechanism hide (Abstraction). Ek teacher multiple subjects padha sakta hai differently (Polymorphism). Easy hai na! 🎯
+    </div>
+
+    <div class="mnemonic">
+      <div class="label">🧠 Mnemonic</div>
+      <strong>"A PIE" — Abstraction, Polymorphism, Inheritance, Encapsulation</strong><br>
+      Ya yaad karo: <em>"Ek Acha Padha-likha Insaan"</em> = E(ncapsulation) A(bstraction) P(olymorphism) I(nheritance)
+    </div>
+
+    <div class="sh">1️⃣ Encapsulation</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      <strong>Bundling data (variables) and methods that operate on that data within a single unit (class)</strong>, and restricting direct access to some components. Achieved via <em>access modifiers</em> (private, public).
+    </div>
+    <div class="diagram-box">
+      <pre>
+  ┌────────────────────────────────────────┐
+  │           Class: BankAccount           │
+  │ ────────────────────────────────────── │
+  │  Private (Hidden):                     │
+  │    - balance = 50000                   │
+  │    - pin = 1234                        │
+  │ ────────────────────────────────────── │
+  │  Public (Accessible):                  │
+  │    + deposit(amount)                   │
+  │    + withdraw(amount)                  │
+  │    + getBalance()                      │
+  └────────────────────────────────────────┘
+  Data is PROTECTED. Only methods can access it!
+</pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Encapsulation</div></div>
+      <pre><span class="kw">class</span> <span class="cl">BankAccount</span> {
+    <span class="kw">private</span> <span class="tp">double</span> balance;  <span class="cm">// hidden data</span>
+
+    <span class="kw">public</span> <span class="tp">void</span> <span class="fn">deposit</span>(<span class="tp">double</span> amount) {
+        <span class="kw">if</span> (amount <span class="op">></span> <span class="nm">0</span>) balance <span class="op">+=</span> amount;
+    }
+
+    <span class="kw">public</span> <span class="tp">double</span> <span class="fn">getBalance</span>() {
+        <span class="kw">return</span> balance;  <span class="cm">// controlled access</span>
+    }
+}</pre>
+    </div>
+
+    <div class="sh">2️⃣ Abstraction</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      Hiding the <strong>implementation details</strong> and showing only the <strong>essential features</strong> to the user. Like a car's steering wheel — you don't need to know how it's mechanically connected, you just turn it!
+    </div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Abstraction</div></div>
+      <pre><span class="kw">abstract class</span> <span class="cl">Animal</span> {
+    <span class="kw">abstract void</span> <span class="fn">sound</span>();  <span class="cm">// abstract - no body</span>
+
+    <span class="kw">void</span> <span class="fn">breathe</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Breathing..."</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    <span class="kw">void</span> <span class="fn">sound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Woof!"</span>);  <span class="cm">// implementation</span>
+    }
+}</pre>
+    </div>
+
+    <div class="sh">3️⃣ Inheritance</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      A mechanism where one class <strong>acquires the properties and behaviors</strong> of another class. The class that is inherited from is called <em>Parent/Super class</em> and the one that inherits is called <em>Child/Sub class</em>.
+    </div>
+    <div class="diagram-box">
+      <pre>
+         ┌──────────────────┐
+         │   Animal (Parent) │
+         │  + name           │
+         │  + eat()          │
+         └────────┬─────────┘
+                  │ extends
+        ┌─────────┴──────────┐
+        │                    │
+  ┌─────▼──────┐    ┌────────▼──────┐
+  │ Dog (Child) │    │  Cat (Child)  │
+  │ + bark()    │    │  + meow()     │
+  └────────────┘    └───────────────┘
+  Dog & Cat INHERIT: name, eat() from Animal
+</pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Inheritance</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Animal</span> {
+    <span class="cl">String</span> name;
+    <span class="kw">void</span> <span class="fn">eat</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(name <span class="op">+</span> <span class="st">" is eating"</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    <span class="kw">void</span> <span class="fn">bark</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Woof Woof!"</span>); }
+}
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Dog</span> d = <span class="kw">new</span> <span class="cl">Dog</span>();
+        d.name = <span class="st">"Tommy"</span>;
+        d.<span class="fn">eat</span>();  <span class="cm">// Inherited from Animal</span>
+        d.<span class="fn">bark</span>(); <span class="cm">// Dog's own method</span>
+    }
+}</pre>
+    </div>
+
+    <div class="sh">4️⃣ Polymorphism</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      Greek: "Many Forms". Ability of an object to <strong>take many forms</strong>. One method name can behave differently based on the object or parameters. Two types: <em>Compile-time (Overloading)</em> and <em>Runtime (Overriding)</em>.
+    </div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Polymorphism</div></div>
+      <pre><span class="cm">// Compile-time (Overloading)</span>
+<span class="kw">class</span> <span class="cl">Calculator</span> {
+    <span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) { <span class="kw">return</span> a <span class="op">+</span> b; }
+    <span class="tp">double</span> <span class="fn">add</span>(<span class="tp">double</span> a, <span class="tp">double</span> b) { <span class="kw">return</span> a <span class="op">+</span> b; }
+    <span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b, <span class="tp">int</span> c) { <span class="kw">return</span> a<span class="op">+</span>b<span class="op">+</span>c; }
+}
+
+<span class="cm">// Runtime (Overriding)</span>
+<span class="kw">class</span> <span class="cl">Shape</span> {
+    <span class="kw">void</span> <span class="fn">draw</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Drawing Shape"</span>); }
+}
+<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+    <span class="kw">void</span> <span class="fn">draw</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Drawing Circle"</span>); }
+}</pre>
+    </div>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Exam Alert</strong>
+        Pillars ka full form yaad karo: Encapsulation (data bundling + hiding), Abstraction (hide complexity), Inheritance (IS-A relationship), Polymorphism (many forms). Difference between Abstraction vs Encapsulation: Abstraction hides complexity, Encapsulation hides data.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. JAVA OVERVIEW -->
+<div class="topic open" id="overview">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">3</div>
+    <h3>Overview of Java</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Java ek powerful programming language hai jo <strong>Sun Microsystems</strong> ne 1991 mein banai thi (James Gosling ne design ki). Iska motto hai <strong>"Write Once, Run Anywhere"</strong> — matlab ek baar code likho aur kisi bhi platform pe run karo! Pehle iska naam <em>Oak</em> tha, phir Java coffee ke naam pe rakha gaya! ☕
+    </div>
+
+    <div class="definition-box">
+      <div class="label">English Definition</div>
+      Java is a <strong>high-level, class-based, object-oriented, platform-independent</strong> programming language developed by James Gosling at Sun Microsystems in 1995. It follows the principle of <strong>WORA — Write Once, Run Anywhere</strong> through bytecode and JVM.
+    </div>
+
+    <div class="sh">History of Java</div>
+    <div class="diagram-box">
+      <pre>
+  1991          1995          1997          2006          2010          2014+
+   │             │             │             │             │              │
+   ▼             ▼             ▼             ▼             ▼              ▼
+ Oak           Java 1.0     Java 1.1     Java SE 6     Oracle buys    Java 8, 11,
+ (by James     (Released     (Inner        (Major        Sun Micro     17, 21 LTS
+ Gosling)      publicly)     Classes)      Release)      Systems       released
+</pre>
+    </div>
+
+    <div class="sh">Key Features / Characteristics</div>
+    <div class="properties-grid">
+      <div class="prop-card">
+        <div class="icon">🌍</div>
+        <h5>Platform Independent</h5>
+        <p>Bytecode runs on any JVM</p>
+      </div>
+      <div class="prop-card">
+        <div class="icon">🎯</div>
+        <h5>Object-Oriented</h5>
+        <p>Everything is an object</p>
+      </div>
+      <div class="prop-card">
+        <div class="icon">💪</div>
+        <h5>Robust</h5>
+        <p>Strong memory management</p>
+      </div>
+      <div class="prop-card">
+        <div class="icon">🔒</div>
+        <h5>Secure</h5>
+        <p>No pointers, bytecode verifier</p>
+      </div>
+      <div class="prop-card">
+        <div class="icon">⚡</div>
+        <h5>Multithreaded</h5>
+        <p>Built-in thread support</p>
+      </div>
+      <div class="prop-card">
+        <div class="icon">🗑️</div>
+        <h5>Garbage Collected</h5>
+        <p>Automatic memory management</p>
+      </div>
+      <div class="prop-card">
+        <div class="icon">📚</div>
+        <h5>Rich API</h5>
+        <p>Large standard library</p>
+      </div>
+      <div class="prop-card">
+        <div class="icon">🌐</div>
+        <h5>Distributed</h5>
+        <p>Supports network programming</p>
+      </div>
+    </div>
+
+    <div class="sh">First Java Program</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Hello World</div></div>
+      <pre><span class="cm">// File: HelloWorld.java</span>
+<span class="kw">public class</span> <span class="cl">HelloWorld</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Hello, World!"</span>);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Java mein Swagat hai! ☕"</span>);
+    }
+}</pre>
+    </div>
+    <div class="output-box">
+      <div class="output-label">▶ Output</div>
+      Hello, World!<br>Java mein Swagat hai! ☕
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Note:</strong> Java mein filename aur public class ka naam <strong>same</strong> hona chahiye (case-sensitive). HelloWorld.java mein class ka naam HelloWorld hi hoga.
+    </div>
+  </div>
+</div>
+
+<!-- 4. JVM, JDK, JRE -->
+<div class="topic open" id="jvm">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">4</div>
+    <h3>JVM, JDK, JRE — Java Architecture</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Socho aise — <strong>JDK</strong> ek complete workshop hai (tools sab hain), <strong>JRE</strong> sirf machine hai (run karne ke liye), <strong>JVM</strong> engine hai jo actual kaam karta hai. Developer ko JDK chahiye, end user ko JRE, aur JVM dono ke andar hota hai. Nested hain ye teeno! 🔧
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  ╔══════════════════════════════════════════════════════╗
+  ║                    JDK (Java Dev Kit)                ║
+  ║  Tools: javac, java, jar, javadoc, jdb, jconsole...  ║
+  ║  ╔════════════════════════════════════════════════╗  ║
+  ║  ║                JRE (Java Runtime Env)          ║  ║
+  ║  ║  Libraries: java.lang, java.util, java.io...   ║  ║
+  ║  ║  ╔══════════════════════════════════════════╗  ║  ║
+  ║  ║  ║         JVM (Java Virtual Machine)       ║  ║  ║
+  ║  ║  ║  Class Loader → Bytecode Verifier →      ║  ║  ║
+  ║  ║  ║  Interpreter / JIT Compiler → Runtime    ║  ║  ║
+  ║  ║  ╚══════════════════════════════════════════╝  ║  ║
+  ║  ╚════════════════════════════════════════════════╝  ║
+  ╚══════════════════════════════════════════════════════╝
+</pre>
+    </div>
+
+    <div class="sh">JVM — Java Virtual Machine</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      JVM is an <strong>abstract computing machine</strong> that enables Java bytecode to be executed on any platform. It provides a runtime environment in which Java bytecode can be executed. JVM is platform-specific (different JVM for Windows, Linux, Mac) but the bytecode is platform-independent.
+    </div>
+    <div class="sh2">JVM Internal Architecture:</div>
+    <div class="diagram-box">
+      <pre>
+  Java Source Code (.java)
+        │
+        ▼ javac (compiler)
+  Bytecode (.class)
+        │
+        ▼ JVM loads
+  ┌─────────────────────────────────────────┐
+  │              JVM                        │
+  │  ┌─────────────┐  ┌──────────────────┐  │
+  │  │ Class Loader│  │  Method Area     │  │
+  │  │ Subsystem   │  │  (class info)    │  │
+  │  └──────┬──────┘  └──────────────────┘  │
+  │         │          ┌──────────────────┐  │
+  │         ▼          │  Heap (objects)  │  │
+  │  ┌─────────────┐   └──────────────────┘  │
+  │  │  Bytecode   │   ┌──────────────────┐  │
+  │  │  Verifier   │   │  Stack (frames)  │  │
+  │  └──────┬──────┘   └──────────────────┘  │
+  │         │          ┌──────────────────┐  │
+  │         ▼          │ Native Meth Stack│  │
+  │  ┌────────────────┐ └──────────────────┘ │
+  │  │Execution Engine│  ┌────────────────┐  │
+  │  │ Interpreter OR │  │ PC Registers   │  │
+  │  │ JIT Compiler   │  └────────────────┘  │
+  │  └────────────────┘                      │
+  └─────────────────────────────────────────┘
+        │
+        ▼
+    Output / Result
+</pre>
+    </div>
+
+    <div class="sh">JDK — Java Development Kit</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      JDK is a <strong>software development environment</strong> used for developing Java applications. It includes JRE + Development tools like compiler (javac), debugger (jdb), documentation generator (javadoc), archiver (jar), etc.
+    </div>
+    <div class="tag-chips">
+      <span class="chip">javac — Compiler</span>
+      <span class="chip">java — Runner</span>
+      <span class="chip">jar — Archiver</span>
+      <span class="chip">javadoc — Doc Generator</span>
+      <span class="chip">jdb — Debugger</span>
+    </div>
+
+    <div class="sh">JRE — Java Runtime Environment</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      JRE is the <strong>minimum environment needed to run a Java program</strong>. It contains JVM + Core libraries (java.lang, java.util, etc.) + Other supporting files. End users who just want to run Java apps need JRE (not JDK).
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Feature</th><th>JVM</th><th>JRE</th><th>JDK</th></tr>
+      <tr><td>What it is</td><td>Virtual Machine</td><td>Runtime Environment</td><td>Dev Kit</td></tr>
+      <tr><td>Contains</td><td>Interpreter, JIT</td><td>JVM + Libraries</td><td>JRE + Tools</td></tr>
+      <tr><td>Used by</td><td>Inside JRE/JDK</td><td>End Users</td><td>Developers</td></tr>
+      <tr><td>Can compile?</td><td>No</td><td>No</td><td>Yes (javac)</td></tr>
+      <tr><td>Can run?</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 5. BYTECODE -->
+<div class="topic open" id="bytecode">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">5</div>
+    <h3>Bytecode Interpretation</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Jab hum Java code likhte hain aur compile karte hain, toh directly machine code nahi banta. Pehle ek <strong>intermediate format</strong> banta hai — jise <strong>Bytecode</strong> kehte hain. Yeh bytecode JVM padhta hai aur machine-specific instructions mein convert karta hai. Isliye ek .class file Windows, Linux, Android — sab jagah chalti hai! 🌍
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  ┌────────────────┐     javac      ┌─────────────────┐     JVM      ┌────────────┐
+  │  HelloWorld.java│  ──────────►  │ HelloWorld.class  │ ──────────►  │  Output    │
+  │  (Source Code)  │  (Compiler)   │   (Bytecode)      │ (Interprets) │            │
+  └────────────────┘               └─────────────────┘               └────────────┘
+       Human                       Platform-Independent               Platform-Specific
+       Readable                     Intermediate Code                 Native Execution
+</pre>
+    </div>
+
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      Bytecode is an <strong>intermediate representation</strong> of a Java program, generated by the Java compiler (javac). It is not machine code but a set of instructions for the JVM. The JVM then interprets or compiles this bytecode into native machine instructions at runtime.
+    </div>
+
+    <div class="sh">Two Execution Methods in JVM</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <h5>🐢 Interpreter</h5>
+        <p>Reads bytecode line by line and executes. Slower but starts immediately. Used for infrequent code.</p>
+      </div>
+      <div class="type-card">
+        <h5>⚡ JIT Compiler (Just-In-Time)</h5>
+        <p>Compiles "hot" (frequently used) bytecode to native code at runtime. Much faster execution after first run.</p>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 WORA:</strong> "Write Once, Run Anywhere" — Bytecode ka platform independent hona hi Java ko WORA deta hai. Ek .class file Android tablet se leke Windows PC tak chalti hai!
+    </div>
+  </div>
+</div>
+
+<!-- 6. DATA TYPES -->
+<div class="topic open" id="datatypes">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">6</div>
+    <h3>Data Types in Java</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Data Types batate hain ki variable mein <strong>kis type ka data store hoga</strong> aur kitni memory lagegi. Java mein 2 categories hain — <strong>Primitive</strong> (directly value store karte hain — int, char, boolean) aur <strong>Non-Primitive/Reference</strong> (object ka reference store karte hain — String, Array, Class). Integer default int, decimal default double!
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+                    Data Types in Java
+                    ─────────────────
+                           │
+            ┌──────────────┴──────────────┐
+            │                             │
+      PRIMITIVE (8 types)          NON-PRIMITIVE
+            │                     (Reference Types)
+     ┌──────┴───────┐               │
+     │              │          ┌────┴────┐
+  Numeric        boolean      String   Arrays
+     │              │         Class    Interface
+  ┌──┴───────┐                Object   Enum
+  │          │
+Integer   Floating
+  │          │
+ byte      float
+ short     double
+ int
+ long
+ char (special)
+</pre>
+    </div>
+
+    <div class="sh">Primitive Data Types — All 8</div>
+    <table class="diff-table">
+      <tr><th>Type</th><th>Size</th><th>Default</th><th>Range</th><th>Example</th></tr>
+      <tr><td><code class="inline-code">byte</code></td><td>1 byte (8 bits)</td><td>0</td><td>-128 to 127</td><td><code class="inline-code">byte b = 100;</code></td></tr>
+      <tr><td><code class="inline-code">short</code></td><td>2 bytes</td><td>0</td><td>-32768 to 32767</td><td><code class="inline-code">short s = 1000;</code></td></tr>
+      <tr><td><code class="inline-code">int</code></td><td>4 bytes</td><td>0</td><td>-2³¹ to 2³¹-1</td><td><code class="inline-code">int i = 99999;</code></td></tr>
+      <tr><td><code class="inline-code">long</code></td><td>8 bytes</td><td>0L</td><td>-2⁶³ to 2⁶³-1</td><td><code class="inline-code">long l = 9999L;</code></td></tr>
+      <tr><td><code class="inline-code">float</code></td><td>4 bytes</td><td>0.0f</td><td>~±3.4×10³⁸</td><td><code class="inline-code">float f = 3.14f;</code></td></tr>
+      <tr><td><code class="inline-code">double</code></td><td>8 bytes</td><td>0.0d</td><td>~±1.8×10³⁰⁸</td><td><code class="inline-code">double d = 3.14;</code></td></tr>
+      <tr><td><code class="inline-code">char</code></td><td>2 bytes</td><td>'\u0000'</td><td>0 to 65535 (Unicode)</td><td><code class="inline-code">char c = 'A';</code></td></tr>
+      <tr><td><code class="inline-code">boolean</code></td><td>1 bit (JVM dependent)</td><td>false</td><td>true / false</td><td><code class="inline-code">boolean flag = true;</code></td></tr>
+    </table>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Data Types Example</div></div>
+      <pre><span class="kw">public class</span> <span class="cl">DataTypeDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="tp">byte</span>    b  = <span class="nm">127</span>;
+        <span class="tp">short</span>   s  = <span class="nm">30000</span>;
+        <span class="tp">int</span>     i  = <span class="nm">2147483647</span>;
+        <span class="tp">long</span>    l  = <span class="nm">9876543210L</span>;      <span class="cm">// L suffix required</span>
+        <span class="tp">float</span>   f  = <span class="nm">3.14f</span>;           <span class="cm">// f suffix required</span>
+        <span class="tp">double</span>  d  = <span class="nm">3.141592653589</span>;
+        <span class="tp">char</span>    ch = <span class="st">'J'</span>;
+        <span class="tp">boolean</span> flag = <span class="kw">true</span>;
+
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"int: "</span> <span class="op">+</span> i);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"char: "</span> <span class="op">+</span> ch);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"boolean: "</span> <span class="op">+</span> flag);
+    }
+}</pre>
+    </div>
+
+    <div class="sh">Type Casting</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <h5>📤 Widening (Implicit)</h5>
+        <p>Small → Large type. Auto done by Java.<br><code class="inline-code">int x = 10; long y = x;</code></p>
+      </div>
+      <div class="type-card">
+        <h5>📥 Narrowing (Explicit)</h5>
+        <p>Large → Small type. Manual cast needed.<br><code class="inline-code">double d=9.5; int i=(int)d;</code></p>
+      </div>
+    </div>
+
+    <div class="mnemonic">
+      <div class="label">🧠 Widening Order Mnemonic</div>
+      <strong>byte → short → int → long → float → double</strong><br>
+      <em>"Bhai Socha, Isko Lagta Frequently Dabao"</em> 😄
+    </div>
+  </div>
+</div>
+
+<!-- 7. VARIABLES & ARRAYS -->
+<div class="topic open" id="variables">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">7</div>
+    <h3>Variables and Arrays</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      <strong>Variable</strong> = ek named memory location jisme data store hota hai. Jaise ghar ka address hai — address se ghar dhundh lete ho, variable se data dhundh lete ho. Aur <strong>Array</strong> = ek row ke boxes ka group jisme same type ka data store hota hai. Jaise rail ke dabhe — sab connected hain numbered hain!
+    </div>
+
+    <div class="sh">Types of Variables</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <h5>🏠 Local Variable</h5>
+        <p>Method ke andar declare. Only accessible within that method. No default value.</p>
+      </div>
+      <div class="type-card">
+        <h5>🏛️ Instance Variable</h5>
+        <p>Class ke andar, method ke bahar. Each object has its own copy. Has default value.</p>
+      </div>
+      <div class="type-card">
+        <h5>⚡ Static Variable</h5>
+        <p>Class level. Shared among all objects. Declared with <code class="inline-code">static</code>. One copy exists.</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Variable Types</div></div>
+      <pre><span class="kw">class</span> <span class="cl">VariableDemo</span> {
+    <span class="tp">int</span> instanceVar = <span class="nm">10</span>;        <span class="cm">// Instance variable</span>
+    <span class="kw">static</span> <span class="tp">int</span> staticVar = <span class="nm">0</span>;   <span class="cm">// Static variable</span>
+
+    <span class="kw">void</span> <span class="fn">show</span>() {
+        <span class="tp">int</span> localVar = <span class="nm">5</span>;          <span class="cm">// Local variable</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(localVar <span class="op">+</span> instanceVar <span class="op">+</span> staticVar);
+    }
+}</pre>
+    </div>
+
+    <div class="sh">Arrays in Java</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      An array is a <strong>collection of similar type elements</strong> stored in contiguous memory locations. Arrays in Java are objects. They have a fixed size once created.
+    </div>
+
+    <div class="sh2">1D Array:</div>
+    <div class="diagram-box">
+      <pre>
+  int[] marks = {85, 90, 78, 92, 88};
+
+   Index:  [0]  [1]  [2]  [3]  [4]
+          ┌────┬────┬────┬────┬────┐
+  Value:  │ 85 │ 90 │ 78 │ 92 │ 88│
+          └────┴────┴────┴────┴────┘
+  marks[0] = 85, marks[2] = 78 ...
+</pre>
+    </div>
+
+    <div class="sh2">2D Array:</div>
+    <div class="diagram-box">
+      <pre>
+  int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
+
+          [0]  [1]  [2]
+     [0]   1    2    3
+     [1]   4    5    6
+     [2]   7    8    9
+
+  matrix[1][2] = 6
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Arrays Complete</div></div>
+      <pre><span class="kw">public class</span> <span class="cl">ArrayDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+
+        <span class="cm">// 1D Array — Declaration & Initialization</span>
+        <span class="tp">int</span>[] marks = <span class="kw">new</span> <span class="tp">int</span>[<span class="nm">5</span>];    <span class="cm">// size 5</span>
+        marks[<span class="nm">0</span>] = <span class="nm">85</span>;
+        marks[<span class="nm">1</span>] = <span class="nm">90</span>;
+
+        <span class="cm">// Shorthand</span>
+        <span class="tp">int</span>[] scores = {<span class="nm">10</span>, <span class="nm">20</span>, <span class="nm">30</span>, <span class="nm">40</span>, <span class="nm">50</span>};
+
+        <span class="cm">// Loop through array</span>
+        <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i <span class="op"><</span> scores.length; i++) {
+            <span class="cl">System</span>.out.<span class="fn">print</span>(scores[i] <span class="op">+</span> <span class="st">" "</span>);
+        }
+
+        <span class="cm">// Enhanced for loop</span>
+        <span class="kw">for</span> (<span class="tp">int</span> s : scores) {
+            <span class="cl">System</span>.out.<span class="fn">print</span>(s <span class="op">+</span> <span class="st">" "</span>);
+        }
+
+        <span class="cm">// 2D Array</span>
+        <span class="tp">int</span>[][] matrix = {{<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>},{<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>}};
+        <span class="cl">System</span>.out.<span class="fn">println</span>(matrix[<span class="nm">1</span>][<span class="nm">2</span>]);  <span class="cm">// Output: 6</span>
+    }
+}</pre>
+    </div>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Exam Alert</strong>
+        Java mein arrays 0-indexed hain. <code class="inline-code">array.length</code> property hai (method nahi!). ArrayIndexOutOfBoundsException tab aata hai jab invalid index access karo. Arrays are objects in Java — they are stored in heap memory!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. OPERATORS -->
+<div class="topic open" id="operators">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">8</div>
+    <h3>Operators in Java</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Operators woh symbols hain jo variables aur values pe operations perform karte hain. Jaise maths mein +, -, ×, ÷ hote hain, Java mein bhi alag alag types ke operators hain — arithmetic, comparison, logical, bitwise, assignment, etc.!
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Category</th><th>Operators</th><th>Example</th><th>Result</th></tr>
+      <tr><td><strong>Arithmetic</strong></td><td>+ - * / % ++ --</td><td><code class="inline-code">10 % 3</code></td><td>1</td></tr>
+      <tr><td><strong>Relational</strong></td><td>== != > < >= <=</td><td><code class="inline-code">5 == 5</code></td><td>true</td></tr>
+      <tr><td><strong>Logical</strong></td><td>&& || !</td><td><code class="inline-code">true && false</code></td><td>false</td></tr>
+      <tr><td><strong>Assignment</strong></td><td>= += -= *= /= %=</td><td><code class="inline-code">x += 5</code></td><td>x = x+5</td></tr>
+      <tr><td><strong>Bitwise</strong></td><td>& | ^ ~ << >> >>></td><td><code class="inline-code">5 & 3</code></td><td>1</td></tr>
+      <tr><td><strong>Ternary</strong></td><td>? :</td><td><code class="inline-code">a>b ? a : b</code></td><td>max value</td></tr>
+      <tr><td><strong>instanceof</strong></td><td>instanceof</td><td><code class="inline-code">obj instanceof Dog</code></td><td>boolean</td></tr>
+    </table>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Operators Demo</div></div>
+      <pre><span class="kw">public class</span> <span class="cl">OperatorDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="tp">int</span> a = <span class="nm">10</span>, b = <span class="nm">3</span>;
+
+        <span class="cm">// Arithmetic</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(a <span class="op">+</span> b);  <span class="cm">// 13</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(a <span class="op">%</span> b);  <span class="cm">// 1 (modulus)</span>
+
+        <span class="cm">// Pre and Post Increment</span>
+        <span class="tp">int</span> x = <span class="nm">5</span>;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(x<span class="op">++</span>);   <span class="cm">// 5 (post: use then increment)</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="op">++</span>x);   <span class="cm">// 7 (pre: increment then use)</span>
+
+        <span class="cm">// Ternary</span>
+        <span class="tp">int</span> max = (a <span class="op">></span> b) <span class="op">?</span> a <span class="op">:</span> b;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Max: "</span> <span class="op">+</span> max);  <span class="cm">// 10</span>
+
+        <span class="cm">// Bitwise AND</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="nm">5</span> <span class="op">&</span> <span class="nm">3</span>);  <span class="cm">// 101 & 011 = 001 = 1</span>
+
+        <span class="cm">// Logical Short-Circuit</span>
+        <span class="tp">boolean</span> r = (<span class="nm">5</span> <span class="op">></span> <span class="nm">3</span>) <span class="op">&&</span> (<span class="nm">2</span> <span class="op"><</span> <span class="nm">4</span>);  <span class="cm">// true</span>
+    }
+}</pre>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Short-Circuit Evaluation:</strong> <code class="inline-code">&&</code> mein agar pehla false hai toh second evaluate nahi hota. <code class="inline-code">||</code> mein agar pehla true hai toh second nahi chekta!
+    </div>
+
+    <div class="sh">Operator Precedence (High → Low)</div>
+    <div class="diagram-box">
+      <pre>
+  1. Postfix:        expr++ expr--
+  2. Unary:          ++expr --expr +expr -expr ~ !
+  3. Multiplicative: * / %
+  4. Additive:       + -
+  5. Shift:          << >> >>>
+  6. Relational:     < > <= >= instanceof
+  7. Equality:       == !=
+  8. Bitwise AND:    &
+  9. Bitwise XOR:    ^
+  10. Bitwise OR:    |
+  11. Logical AND:   &&
+  12. Logical OR:    ||
+  13. Ternary:       ? :
+  14. Assignment:    = += -= *= /= %= etc.
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 9. CONTROL STATEMENTS -->
+<div class="topic open" id="control">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">9</div>
+    <h3>Control Statements</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Control Statements program ke execution flow ko control karte hain. By default code top-to-bottom chalta hai. Control statements se hum decide karte hain — kaunsa code run hoga, kab run hoga, aur kitni baar run hoga. 3 types: <strong>Selection (if/switch), Iteration (loops), Jump (break/continue/return)</strong>!
+    </div>
+
+    <div class="sh">1. Selection Statements</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — if-else & switch</div></div>
+      <pre><span class="cm">// if-else if-else</span>
+<span class="tp">int</span> marks = <span class="nm">75</span>;
+
+<span class="kw">if</span> (marks <span class="op">>=</span> <span class="nm">90</span>) {
+    <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Grade: A+"</span>);
+} <span class="kw">else if</span> (marks <span class="op">>=</span> <span class="nm">75</span>) {
+    <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Grade: A"</span>);
+} <span class="kw">else if</span> (marks <span class="op">>=</span> <span class="nm">60</span>) {
+    <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Grade: B"</span>);
+} <span class="kw">else</span> {
+    <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Grade: C"</span>);
+}
+
+<span class="cm">// switch</span>
+<span class="tp">int</span> day = <span class="nm">3</span>;
+<span class="kw">switch</span> (day) {
+    <span class="kw">case</span> <span class="nm">1</span>: <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Monday"</span>); <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="nm">2</span>: <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Tuesday"</span>); <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="nm">3</span>: <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Wednesday"</span>); <span class="kw">break</span>;
+    <span class="kw">default</span>: <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Other day"</span>);
+}</pre>
+    </div>
+
+    <div class="sh">2. Iteration (Loops)</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — All Loops</div></div>
+      <pre><span class="cm">// for loop</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">1</span>; i <span class="op"><=</span> <span class="nm">5</span>; i++) {
+    <span class="cl">System</span>.out.<span class="fn">print</span>(i <span class="op">+</span> <span class="st">" "</span>); <span class="cm">// 1 2 3 4 5</span>
+}
+
+<span class="cm">// while loop</span>
+<span class="tp">int</span> i = <span class="nm">1</span>;
+<span class="kw">while</span> (i <span class="op"><=</span> <span class="nm">5</span>) {
+    <span class="cl">System</span>.out.<span class="fn">print</span>(i <span class="op">+</span> <span class="st">" "</span>);
+    i<span class="op">++</span>;
+}
+
+<span class="cm">// do-while loop (runs at least once!)</span>
+<span class="tp">int</span> j = <span class="nm">10</span>;
+<span class="kw">do</span> {
+    <span class="cl">System</span>.out.<span class="fn">println</span>(j);  <span class="cm">// prints 10, then checks condition</span>
+    j<span class="op">++</span>;
+} <span class="kw">while</span> (j <span class="op"><</span> <span class="nm">5</span>);  <span class="cm">// false but printed once!</span>
+
+<span class="cm">// Enhanced for loop (for arrays/collections)</span>
+<span class="tp">int</span>[] arr = {<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">5</span>};
+<span class="kw">for</span> (<span class="tp">int</span> x : arr) {
+    <span class="cl">System</span>.out.<span class="fn">print</span>(x <span class="op">+</span> <span class="st">" "</span>);
+}</pre>
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Loop</th><th>Condition Check</th><th>Min Executions</th><th>Best Use</th></tr>
+      <tr><td>for</td><td>Before</td><td>0 (if false initially)</td><td>Known number of iterations</td></tr>
+      <tr><td>while</td><td>Before</td><td>0 (if false initially)</td><td>Unknown iterations</td></tr>
+      <tr><td>do-while</td><td>After</td><td>1 (at least once!)</td><td>Menu-driven programs</td></tr>
+    </table>
+
+    <div class="sh">3. Jump Statements</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — break, continue, return</div></div>
+      <pre><span class="cm">// break — exits the loop immediately</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">1</span>; i <span class="op"><=</span> <span class="nm">10</span>; i++) {
+    <span class="kw">if</span> (i <span class="op">==</span> <span class="nm">5</span>) <span class="kw">break</span>;
+    <span class="cl">System</span>.out.<span class="fn">print</span>(i <span class="op">+</span> <span class="st">" "</span>);  <span class="cm">// 1 2 3 4</span>
+}
+
+<span class="cm">// continue — skips current iteration</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">1</span>; i <span class="op"><=</span> <span class="nm">10</span>; i++) {
+    <span class="kw">if</span> (i <span class="op">%</span> <span class="nm">2</span> <span class="op">==</span> <span class="nm">0</span>) <span class="kw">continue</span>;
+    <span class="cl">System</span>.out.<span class="fn">print</span>(i <span class="op">+</span> <span class="st">" "</span>);  <span class="cm">// 1 3 5 7 9</span>
+}
+
+<span class="cm">// return — exits from the method</span>
+<span class="kw">static int</span> <span class="fn">max</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) {
+    <span class="kw">if</span> (a <span class="op">></span> b) <span class="kw">return</span> a;
+    <span class="kw">return</span> b;
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 10. PROGRAMMING STRUCTURE -->
+<div class="topic open" id="structure">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">10</div>
+    <h3>Programming Structures in Java</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Java program ki ek specific structure hoti hai. Har Java program mein ek ya zyada classes hoti hain. Main class mein <strong>main() method</strong> hota hai jo entry point hai. Uske andar methods define hote hain. Package se related classes ko group karte hain. Import se baaki libraries use karte hain.
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  ┌─────────────────────────────────────────────────────────┐
+  │  package mypackage;              ← Package Declaration   │
+  │                                                          │
+  │  import java.util.Scanner;       ← Import Statement      │
+  │  import java.util.*;                                      │
+  │                                                          │
+  │  public class MyProgram {        ← Class Declaration     │
+  │                                                          │
+  │      // Instance variables       ← Fields/Attributes     │
+  │      int x = 10;                                         │
+  │      static int count = 0;       ← Static field          │
+  │                                                          │
+  │      // Constructor              ← Constructor           │
+  │      MyProgram() { count++; }                            │
+  │                                                          │
+  │      // Methods                  ← Member Methods        │
+  │      void display() { ... }                              │
+  │                                                          │
+  │      // Main Method              ← Entry Point           │
+  │      public static void main(String[] args) {            │
+  │          MyProgram obj = new MyProgram();                │
+  │          obj.display();                                   │
+  │      }                                                   │
+  │  }                                                       │
+  └─────────────────────────────────────────────────────────┘
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Complete Program Structure</div></div>
+      <pre><span class="an">package</span> com.saksham.java;           <span class="cm">// package</span>
+
+<span class="kw">import</span> java.util.Scanner;            <span class="cm">// import</span>
+
+<span class="kw">public class</span> <span class="cl">Student</span> {
+    <span class="cm">// Fields (Instance Variables)</span>
+    <span class="cl">String</span> name;
+    <span class="tp">int</span> rollNo;
+    <span class="kw">static</span> <span class="tp">int</span> totalStudents = <span class="nm">0</span>;   <span class="cm">// static</span>
+
+    <span class="cm">// Constructor</span>
+    <span class="fn">Student</span>(<span class="cl">String</span> n, <span class="tp">int</span> r) {
+        name = n;
+        rollNo = r;
+        totalStudents<span class="op">++</span>;
+    }
+
+    <span class="cm">// Method</span>
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(rollNo <span class="op">+</span> <span class="st">": "</span> <span class="op">+</span> name);
+    }
+
+    <span class="cm">// Main method — entry point</span>
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Student</span> s1 = <span class="kw">new</span> <span class="cl">Student</span>(<span class="st">"Saksham"</span>, <span class="nm">101</span>);
+        <span class="cl">Student</span> s2 = <span class="kw">new</span> <span class="cl">Student</span>(<span class="st">"Priya"</span>, <span class="nm">102</span>);
+        s1.<span class="fn">display</span>();
+        s2.<span class="fn">display</span>();
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Total: "</span> <span class="op">+</span> totalStudents);
+    }
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 11. OBJECTS & CLASSES -->
+<div class="topic open" id="classes">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">11</div>
+    <h3>Objects and Classes in Java</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      <strong>Class</strong> ek blueprint/template hai aur <strong>Object</strong> uska ek real instance hai. Jaise — Car ek class hai (blueprint), aur tumhari Maruti 800 ek object hai (actual car). Class mein define karte hain kya kya properties aur methods honge, object se actual data aur behavior milta hai!
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  CLASS (Blueprint)                  OBJECTS (Instances)
+  ─────────────────────              ────────────────────────────
+  ┌─────────────────┐                ┌─────────┐  ┌─────────┐
+  │  class Car {    │   new Car()    │  Car 1  │  │  Car 2  │
+  │    String color;│  ──────────►  │color=Red│  │color=Blu│
+  │    int speed;   │                │speed=100│  │speed=120│
+  │    void drive() │                └─────────┘  └─────────┘
+  │  }              │                Each object has its OWN data
+  └─────────────────┘
+</pre>
+    </div>
+
+    <div class="definition-box">
+      <div class="label">Class — Definition</div>
+      A class is a <strong>user-defined blueprint</strong> from which objects are created. It represents a set of properties (attributes/fields) and behaviors (methods) that are common to all objects of that type.
+    </div>
+    <div class="definition-box">
+      <div class="label">Object — Definition</div>
+      An object is an <strong>instance of a class</strong>. Objects have state (values of attributes), behavior (methods), and identity (unique reference in memory). Objects are created on the heap.
+    </div>
+
+    <div class="sh">Creating a Class and Object</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Class & Object</div></div>
+      <pre><span class="cm">// Class definition</span>
+<span class="kw">class</span> <span class="cl">Car</span> {
+    <span class="cm">// Fields (state)</span>
+    <span class="cl">String</span> color;
+    <span class="cl">String</span> brand;
+    <span class="tp">int</span> speed;
+
+    <span class="cm">// Method (behavior)</span>
+    <span class="kw">void</span> <span class="fn">drive</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(brand <span class="op">+</span> <span class="st">" is driving at "</span> <span class="op">+</span> speed <span class="op">+</span> <span class="st">" km/h"</span>);
+    }
+
+    <span class="kw">void</span> <span class="fn">brake</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(brand <span class="op">+</span> <span class="st">" stopped!"</span>);
+    }
+}
+
+<span class="cm">// Main class</span>
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cm">// Creating objects</span>
+        <span class="cl">Car</span> car1 = <span class="kw">new</span> <span class="cl">Car</span>();     <span class="cm">// Object 1</span>
+        car1.brand = <span class="st">"Maruti"</span>;
+        car1.color = <span class="st">"Red"</span>;
+        car1.speed = <span class="nm">100</span>;
+
+        <span class="cl">Car</span> car2 = <span class="kw">new</span> <span class="cl">Car</span>();     <span class="cm">// Object 2</span>
+        car2.brand = <span class="st">"BMW"</span>;
+        car2.speed = <span class="nm">200</span>;
+
+        car1.<span class="fn">drive</span>();
+        car2.<span class="fn">drive</span>();
+    }
+}</pre>
+    </div>
+
+    <div class="sh">new Keyword & Memory</div>
+    <div class="diagram-box">
+      <pre>
+  Car car1 = new Car();
+  ─────────────────────
+       │              │
+       │       Creates object in HEAP
+       │              │
+  car1 is a       ┌───────────────┐
+  REFERENCE       │  Car Object   │
+  stored in       │  color = null │
+  STACK           │  brand = null │
+       │          │  speed = 0    │
+       └──────────►  @hashCode    │
+                  └───────────────┘
+  car1 stores ADDRESS (reference) to heap object!
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 12. CONSTRUCTORS -->
+<div class="topic open" id="constructors">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">12</div>
+    <h3>Constructors and Methods</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      <strong>Constructor</strong> ek special method hai jo tab automatically call hota hai jab object create hota hai (<code class="inline-code">new</code> use karte waqt). Iska kaam object ko <strong>initialize</strong> karna hai. Constructor ka naam class ke naam se same hota hai, aur return type nahi hota. Ghar banate waqt painter ko bulaoge — woh painting karega — painter constructor jaisa hai!
+    </div>
+
+    <div class="definition-box">
+      <div class="label">Constructor — Definition</div>
+      A constructor is a <strong>special member method</strong> that is automatically called when an object is instantiated. It initializes the object. Rules: same name as class, no return type (not even void), called automatically with <code class="inline-code">new</code>.
+    </div>
+
+    <div class="sh">Types of Constructors</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <h5>📭 Default Constructor</h5>
+        <p>No parameters. Auto-provided by Java if no constructor defined. Assigns default values.</p>
+      </div>
+      <div class="type-card">
+        <h5>📬 No-Arg Constructor</h5>
+        <p>Defined by programmer, no parameters. Custom initialization without parameters.</p>
+      </div>
+      <div class="type-card">
+        <h5>📮 Parameterized Constructor</h5>
+        <p>Takes parameters to initialize object with specific values at creation time.</p>
+      </div>
+      <div class="type-card">
+        <h5>📋 Copy Constructor</h5>
+        <p>Creates a new object as copy of existing object. Java doesn't have built-in, manually defined.</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — All Constructor Types</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Student</span> {
+    <span class="cl">String</span> name;
+    <span class="tp">int</span> age;
+    <span class="tp">double</span> cgpa;
+
+    <span class="cm">// No-arg Constructor</span>
+    <span class="fn">Student</span>() {
+        name = <span class="st">"Unknown"</span>;
+        age = <span class="nm">0</span>;
+        cgpa = <span class="nm">0.0</span>;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Default Constructor called"</span>);
+    }
+
+    <span class="cm">// Parameterized Constructor</span>
+    <span class="fn">Student</span>(<span class="cl">String</span> n, <span class="tp">int</span> a, <span class="tp">double</span> c) {
+        name = n;
+        age = a;
+        cgpa = c;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Parameterized Constructor called"</span>);
+    }
+
+    <span class="cm">// Copy Constructor</span>
+    <span class="fn">Student</span>(<span class="cl">Student</span> s) {
+        name = s.name;
+        age = s.age;
+        cgpa = s.cgpa;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Copy Constructor called"</span>);
+    }
+
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(name <span class="op">+</span> <span class="st">" | Age: "</span> <span class="op">+</span> age <span class="op">+</span> <span class="st">" | CGPA: "</span> <span class="op">+</span> cgpa);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Student</span> s1 = <span class="kw">new</span> <span class="cl">Student</span>();                     <span class="cm">// No-arg</span>
+        <span class="cl">Student</span> s2 = <span class="kw">new</span> <span class="cl">Student</span>(<span class="st">"Saksham"</span>, <span class="nm">20</span>, <span class="nm">8.9</span>);   <span class="cm">// Param</span>
+        <span class="cl">Student</span> s3 = <span class="kw">new</span> <span class="cl">Student</span>(s2);                   <span class="cm">// Copy</span>
+        s1.<span class="fn">display</span>(); s2.<span class="fn">display</span>(); s3.<span class="fn">display</span>();
+    }
+}</pre>
+    </div>
+
+    <div class="sh">Constructor Chaining with this()</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Constructor Chaining</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Box</span> {
+    <span class="tp">int</span> l, w, h;
+
+    <span class="fn">Box</span>() {
+        <span class="kw">this</span>(<span class="nm">1</span>, <span class="nm">1</span>, <span class="nm">1</span>);  <span class="cm">// calls parameterized constructor</span>
+    }
+
+    <span class="fn">Box</span>(<span class="tp">int</span> l, <span class="tp">int</span> w, <span class="tp">int</span> h) {
+        <span class="kw">this</span>.l = l; <span class="kw">this</span>.w = w; <span class="kw">this</span>.h = h;
+    }
+
+    <span class="tp">int</span> <span class="fn">volume</span>() { <span class="kw">return</span> l <span class="op">*</span> w <span class="op">*</span> h; }
+}</pre>
+    </div>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Important Points</strong>
+        Constructor koi value return nahi karta. Java automatically Default Constructor provide karta hai ONLY if programmer koi constructor define na kare. Agar ek bhi constructor define karo, toh default nahi milega. <code class="inline-code">this()</code> always first statement hona chahiye constructor mein.
+      </div>
+    </div>
+
+    <div class="sh">Methods in Java</div>
+    <div class="definition-box">
+      <div class="label">Method — Definition</div>
+      A method is a <strong>block of code</strong> that performs a specific task and may return a value. Methods promote code reuse. Syntax: <code class="inline-code">returnType methodName(parameters) { body }</code>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Method Examples</div></div>
+      <pre><span class="kw">class</span> <span class="cl">MathUtils</span> {
+    <span class="cm">// Void method (no return)</span>
+    <span class="kw">void</span> <span class="fn">greet</span>(<span class="cl">String</span> name) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Hello, "</span> <span class="op">+</span> name);
+    }
+
+    <span class="cm">// Return type method</span>
+    <span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) {
+        <span class="kw">return</span> a <span class="op">+</span> b;
+    }
+
+    <span class="cm">// Static method</span>
+    <span class="kw">static double</span> <span class="fn">square</span>(<span class="tp">double</span> n) {
+        <span class="kw">return</span> n <span class="op">*</span> n;
+    }
+
+    <span class="cm">// Method with varargs</span>
+    <span class="tp">int</span> <span class="fn">sum</span>(<span class="tp">int</span>... nums) {
+        <span class="tp">int</span> total = <span class="nm">0</span>;
+        <span class="kw">for</span> (<span class="tp">int</span> n : nums) total <span class="op">+=</span> n;
+        <span class="kw">return</span> total;
+    }
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 13. ACCESS SPECIFIERS -->
+<div class="topic open" id="access">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">13</div>
+    <h3>Access Specifiers (Modifiers)</div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🇳 Hinglish Explanation</div>
+      Access Specifiers decide karte hain ki class, method ya variable ko <strong>kaun access kar sakta hai</strong>. 4 types hain — <strong>private</strong> (sirf apni class), <strong>default</strong> (same package), <strong>protected</strong> (same package + subclasses), <strong>public</strong> (sabke liye). Jaise ghar mein rooms ka access — bedroom private, hall public!
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  ┌───────────────┬────────────┬──────────────┬──────────────────────────────┐
+  │  Modifier     │  Same      │  Same        │  Subclass    │ Other Package │
+  │               │  Class     │  Package     │  (diff pkg)  │               │
+  ├───────────────┼────────────┼──────────────┼──────────────┼───────────────┤
+  │ private       │    ✅      │    ❌        │    ❌        │     ❌        │
+  │ default       │    ✅      │    ✅        │    ❌        │     ❌        │
+  │ protected     │    ✅      │    ✅        │    ✅        │     ❌        │
+  │ public        │    ✅      │    ✅        │    ✅        │     ✅        │
+  └───────────────┴────────────┴──────────────┴──────────────┴───────────────┘
+  Least Access: private ◄────────────────────────────► Most Access: public
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Access Modifiers</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Person</span> {
+    <span class="kw">private</span> <span class="cl">String</span> ssn;          <span class="cm">// Only this class</span>
+    <span class="cl">String</span> city;                  <span class="cm">// Default - same package</span>
+    <span class="kw">protected</span> <span class="cl">String</span> name;       <span class="cm">// Package + subclasses</span>
+    <span class="kw">public</span> <span class="tp">int</span> age;               <span class="cm">// Everyone</span>
+
+    <span class="kw">private void</span> <span class="fn">showSSN</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"SSN: "</span> <span class="op">+</span> ssn);  <span class="cm">// OK here</span>
+    }
+
+    <span class="kw">public void</span> <span class="fn">setSSN</span>(<span class="cl">String</span> s) {
+        ssn = s;  <span class="cm">// Controlled access via setter (Encapsulation!)</span>
+    }
+}</pre>
+    </div>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Exam Alert</strong>
+        Default ka matlab "no modifier" hota hai — koi keyword nahi likhte! Protected ko subclass access kar sakti hai even in different package. private members inherited nahi hote.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 14. STATIC MEMBERS -->
+<div class="topic open" id="static">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">14</div>
+    <h3>Static Members</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      <strong>Static</strong> matlab class-level ka — object-level nahi. Static members class ke sath associated hote hain, individual objects ke saath nahi. Ek baar memory mein load hote hain aur sab objects share karte hain. Jaise school ka principal ek hi hota hai (static) — har class ka alag principal nahi hota!
+    </div>
+
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      Static members (variables and methods) belong to the <strong>class itself rather than to any specific object</strong>. They are shared among all instances. Accessed via class name: <code class="inline-code">ClassName.staticMember</code>.
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  Class: Counter
+  ──────────────────────────────────────────────
+  static int count = 0;   ◄── ONE copy for ALL objects
+  ──────────────────────────────────────────────
+  Object 1        Object 2        Object 3
+  count = 1       count = 2       count = 3
+         ↑               ↑               ↑
+         └───────────────┴───────────────┘
+                  SHARED: count = 3
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Static Variables & Methods</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Counter</span> {
+    <span class="kw">static int</span> count = <span class="nm">0</span>;  <span class="cm">// static variable</span>
+    <span class="tp">int</span> id;
+
+    <span class="fn">Counter</span>() {
+        count<span class="op">++</span>;
+        id = count;
+    }
+
+    <span class="cm">// Static method — can only access static members</span>
+    <span class="kw">static void</span> <span class="fn">showCount</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Total objects: "</span> <span class="op">+</span> count);
+        <span class="cm">// System.out.println(id); // ERROR! id is non-static</span>
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Counter</span> c1 = <span class="kw">new</span> <span class="cl">Counter</span>();
+        <span class="cl">Counter</span> c2 = <span class="kw">new</span> <span class="cl">Counter</span>();
+        <span class="cl">Counter</span> c3 = <span class="kw">new</span> <span class="cl">Counter</span>();
+        <span class="cl">Counter</span>.<span class="fn">showCount</span>();  <span class="cm">// Total objects: 3</span>
+    }
+}</pre>
+    </div>
+
+    <div class="sh">Static Block</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Static Block</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Config</span> {
+    <span class="kw">static</span> <span class="cl">String</span> dbURL;
+
+    <span class="kw">static</span> {  <span class="cm">// Static initializer block — runs ONCE when class loads</span>
+        dbURL = <span class="st">"jdbc:mysql://localhost/mydb"</span>;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Static block executed!"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Main method. DB: "</span> <span class="op">+</span> dbURL);
+    }
+}</pre>
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Feature</th><th>Static Member</th><th>Instance Member</th></tr>
+      <tr><td>Belongs to</td><td>Class</td><td>Object</td></tr>
+      <tr><td>Memory</td><td>One copy (Method Area)</td><td>Per object (Heap)</td></tr>
+      <tr><td>Accessed via</td><td>ClassName.member</td><td>object.member</td></tr>
+      <tr><td>Can access non-static?</td><td>No</td><td>Yes</td></tr>
+      <tr><td>Loads when</td><td>Class loads</td><td>Object created</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 15. FUNCTIONS -->
+<div class="topic open" id="functions">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">15</div>
+    <h3>Functions (Methods) — Deep Dive</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Java mein functions ko <strong>methods</strong> kehte hain (koi standalone function nahi hota — sab class ke andar!). Method ek named code block hai jo specific kaam karta hai. Call karo → execute hoga → result do. Java mein parameter passing <strong>Pass by Value</strong> hoti hai — matlab original variable change nahi hota (primitive ke liye)!
+    </div>
+
+    <div class="sh">Method Syntax & Components</div>
+    <div class="diagram-box">
+      <pre>
+  access_modifier  return_type  method_name  (parameters)  throws exceptions
+       │                │             │            │
+       ▼                ▼             ▼            ▼
+  public           int         addNumbers    (int a, int b)
+  {
+      return a + b;   ← method body
+  }
+
+  Components:
+  1. Access Modifier: public / private / protected / default
+  2. Return Type: int / void / String / double / any type
+  3. Method Name: camelCase convention
+  4. Parameters: (type name, type name, ...)
+  5. Method Body: actual code inside {}
+  6. Return Statement: return value; (not for void)
+</pre>
+    </div>
+
+    <div class="sh">Pass by Value (Java)</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Pass by Value</div></div>
+      <pre><span class="kw">class</span> <span class="cl">PassByValueDemo</span> {
+    <span class="kw">static void</span> <span class="fn">change</span>(<span class="tp">int</span> x) {
+        x = <span class="nm">100</span>;  <span class="cm">// changes local copy, not original</span>
+    }
+
+    <span class="kw">static void</span> <span class="fn">changeArray</span>(<span class="tp">int</span>[] arr) {
+        arr[<span class="nm">0</span>] = <span class="nm">999</span>;  <span class="cm">// reference copy — changes original array!</span>
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="tp">int</span> a = <span class="nm">10</span>;
+        <span class="fn">change</span>(a);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(a);  <span class="cm">// 10 — not changed!</span>
+
+        <span class="tp">int</span>[] arr = {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>};
+        <span class="fn">changeArray</span>(arr);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(arr[<span class="nm">0</span>]);  <span class="cm">// 999 — changed! (reference)</span>
+    }
+}</pre>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Key Point:</strong> Java is ALWAYS pass by value. For primitives, value is copied. For objects/arrays, the reference (address) is copied — so object's data CAN be changed but the reference itself cannot be reassigned.
+    </div>
+
+    <div class="sh">Recursion</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Recursion (Factorial)</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Recursion</span> {
+    <span class="kw">static int</span> <span class="fn">factorial</span>(<span class="tp">int</span> n) {
+        <span class="kw">if</span> (n <span class="op">==</span> <span class="nm">0</span> <span class="op">||</span> n <span class="op">==</span> <span class="nm">1</span>) <span class="kw">return</span> <span class="nm">1</span>;  <span class="cm">// base case</span>
+        <span class="kw">return</span> n <span class="op">*</span> <span class="fn">factorial</span>(n <span class="op">-</span> <span class="nm">1</span>);         <span class="cm">// recursive call</span>
+    }
+    <span class="cm">// factorial(5) = 5 * factorial(4)
+    //              = 5 * 4 * factorial(3)
+    //              = 5 * 4 * 3 * 2 * 1 = 120</span>
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div class="chapter-header" data-ch="CH2">
+  <h2>Chapter 2 — Classes & Inheritance</h2>
+  <p>Overloading, Overriding, Inheritance, Abstract, Interface, final, this, super</p>
+</div>
+
+<!-- 16. OVERLOADING & OVERRIDING -->
+<div class="topic open" id="overload">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">16</div>
+    <h3>Method Overloading and Overriding</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      <strong>Overloading</strong> = Same class mein same naam ke methods alag-alag parameters ke saath. <strong>Overriding</strong> = Child class apne Parent ke method ko naya definition deta hai. Overloading = Compile Time, Overriding = Runtime. Overloading "Early Binding", Overriding "Late Binding/Dynamic Dispatch"!
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Feature</th><th>Overloading</th><th>Overriding</th></tr>
+      <tr><td>Also called</td><td>Compile-time / Static polymorphism</td><td>Runtime / Dynamic polymorphism</td></tr>
+      <tr><td>Where</td><td>Same class</td><td>Parent-Child classes</td></tr>
+      <tr><td>Method name</td><td>Same</td><td>Same</td></tr>
+      <tr><td>Parameters</td><td>Must be different</td><td>Must be same</td></tr>
+      <tr><td>Return type</td><td>Can differ</td><td>Must be same (or covariant)</td></tr>
+      <tr><td>Inheritance needed?</td><td>No</td><td>Yes</td></tr>
+      <tr><td>@Override annotation</td><td>No</td><td>Recommended</td></tr>
+    </table>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Overloading</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Printer</span> {
+    <span class="kw">void</span> <span class="fn">print</span>(<span class="tp">int</span> x)         { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Int: "</span> <span class="op">+</span> x); }
+    <span class="kw">void</span> <span class="fn">print</span>(<span class="tp">double</span> x)      { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Double: "</span> <span class="op">+</span> x); }
+    <span class="kw">void</span> <span class="fn">print</span>(<span class="cl">String</span> x)      { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"String: "</span> <span class="op">+</span> x); }
+    <span class="kw">void</span> <span class="fn">print</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Two ints: "</span> <span class="op">+</span> a <span class="op">+</span> b); }
+    <span class="cm">// Resolved at COMPILE TIME based on argument types</span>
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Overriding</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Vehicle</span> {
+    <span class="kw">void</span> <span class="fn">start</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Vehicle starts..."</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">ElectricCar</span> <span class="kw">extends</span> <span class="cl">Vehicle</span> {
+    <span class="an">@Override</span>
+    <span class="kw">void</span> <span class="fn">start</span>() {  <span class="cm">// Same signature as parent</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Electric Car starts silently..."</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Vehicle</span> v = <span class="kw">new</span> <span class="cl">ElectricCar</span>(); <span class="cm">// Upcasting</span>
+        v.<span class="fn">start</span>(); <span class="cm">// "Electric Car starts silently..." (Runtime decision)</span>
+    }
+}</pre>
+    </div>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Exam Alert — Rules for Overriding</strong>
+        1) private methods override nahi ho sakti. 2) static methods override nahi hoti (method hiding hoti hai). 3) final methods override nahi ho sakti. 4) Access modifier ko restrict nahi kar sakte (narrow nahi karo). 5) Covariant return type allowed hai Java 5+.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 17. OBJECTS AS PARAMETERS -->
+<div class="topic open" id="objparam">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">17</div>
+    <h3>Objects as Parameters</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Java mein objects ko method ko parameter ki tarah pass kar sakte hain. Jab object pass hota hai, uska <strong>reference (address)</strong> copy hota hai (pass by value). Isliye method andar se object ki state change ho sakti hai, lekin reference reassign nahi hoga!
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Objects as Parameters</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Rectangle</span> {
+    <span class="tp">double</span> length, width;
+
+    <span class="fn">Rectangle</span>(<span class="tp">double</span> l, <span class="tp">double</span> w) {
+        length = l; width = w;
+    }
+
+    <span class="cm">// Object as parameter</span>
+    <span class="tp">boolean</span> <span class="fn">isEqual</span>(<span class="cl">Rectangle</span> other) {
+        <span class="kw">return</span> (<span class="kw">this</span>.length == other.length <span class="op">&&</span> <span class="kw">this</span>.width == other.width);
+    }
+
+    <span class="cm">// Comparing areas</span>
+    <span class="tp">double</span> <span class="fn">compareArea</span>(<span class="cl">Rectangle</span> r) {
+        <span class="kw">return</span> (<span class="kw">this</span>.length <span class="op">*</span> <span class="kw">this</span>.width) <span class="op">-</span> (r.length <span class="op">*</span> r.width);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Rectangle</span> r1 = <span class="kw">new</span> <span class="cl">Rectangle</span>(<span class="nm">5</span>, <span class="nm">4</span>);
+        <span class="cl">Rectangle</span> r2 = <span class="kw">new</span> <span class="cl">Rectangle</span>(<span class="nm">5</span>, <span class="nm">4</span>);
+        <span class="cl">Rectangle</span> r3 = <span class="kw">new</span> <span class="cl">Rectangle</span>(<span class="nm">10</span>, <span class="nm">3</span>);
+
+        <span class="cl">System</span>.out.<span class="fn">println</span>(r1.<span class="fn">isEqual</span>(r2));      <span class="cm">// true</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(r1.<span class="fn">compareArea</span>(r3));  <span class="cm">// 20-30 = -10</span>
+    }
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 18. RETURNING OBJECTS -->
+<div class="topic open" id="retobj">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">18</div>
+    <h3>Returning Objects from Methods</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Methods sirf primitive values return nahi karte — <strong>objects bhi return kar sakte hain</strong>! Method ka return type class naam ho jata hai. Andar new object banate hain aur return karte hain. Method chaining bhi isi concept se hoti hai (StringBuilder jaisi).
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Returning Objects</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Point</span> {
+    <span class="tp">int</span> x, y;
+
+    <span class="fn">Point</span>(<span class="tp">int</span> x, <span class="tp">int</span> y) { <span class="kw">this</span>.x = x; <span class="kw">this</span>.y = y; }
+
+    <span class="cm">// Method that returns a Point object</span>
+    <span class="cl">Point</span> <span class="fn">add</span>(<span class="cl">Point</span> p) {
+        <span class="kw">return new</span> <span class="cl">Point</span>(<span class="kw">this</span>.x <span class="op">+</span> p.x, <span class="kw">this</span>.y <span class="op">+</span> p.y);
+    }
+
+    <span class="cl">Point</span> <span class="fn">scale</span>(<span class="tp">int</span> factor) {
+        <span class="kw">return new</span> <span class="cl">Point</span>(<span class="kw">this</span>.x <span class="op">*</span> factor, <span class="kw">this</span>.y <span class="op">*</span> factor);
+    }
+
+    <span class="kw">void</span> <span class="fn">display</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"("</span> <span class="op">+</span> x <span class="op">+</span> <span class="st">", "</span> <span class="op">+</span> y <span class="op">+</span> <span class="st">")"</span>); }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Point</span> p1 = <span class="kw">new</span> <span class="cl">Point</span>(<span class="nm">2</span>, <span class="nm">3</span>);
+        <span class="cl">Point</span> p2 = <span class="kw">new</span> <span class="cl">Point</span>(<span class="nm">4</span>, <span class="nm">1</span>);
+        <span class="cl">Point</span> result = p1.<span class="fn">add</span>(p2);   <span class="cm">// Returns new Point object</span>
+        result.<span class="fn">display</span>();             <span class="cm">// (6, 4)</span>
+
+        p1.<span class="fn">scale</span>(<span class="nm">3</span>).<span class="fn">display</span>();        <span class="cm">// Method chaining! (6, 9)</span>
+    }
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 19. STATIC, INNER, WRAPPER -->
+<div class="topic open" id="innerclass">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">19</div>
+    <h3>Static, Inner and Wrapper Classes</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      <strong>Inner Class</strong> = Class ke andar class define karna. <strong>Static Nested Class</strong> = Inner class jo static hai (outer object ki zaroorat nahi). <strong>Wrapper Classes</strong> = Primitive types ke object wrappers — int → Integer, char → Character, etc. Inse primitives ko objects ki tarah use kar sakte hain (Collections mein)!
+    </div>
+
+    <div class="sh">Types of Inner/Nested Classes</div>
+    <div class="types-grid">
+      <div class="type-card">
+        <h5>🏠 Inner Class (Non-Static)</h5>
+        <p>Class ke andar class. Outer class ka object chahiye.</p>
+      </div>
+      <div class="type-card">
+        <h5>⚡ Static Nested Class</h5>
+        <p>static keyword ke saath. Outer class ke object ki zaroorat nahi.</p>
+      </div>
+      <div class="type-card">
+        <h5>🔧 Local Inner Class</h5>
+        <p>Method ke andar define. Only that method mein accessible.</p>
+      </div>
+      <div class="type-card">
+        <h5>🌐 Anonymous Class</h5>
+        <p>No name, inline definition. Often for interface/abstract implementations.</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Inner & Static Nested Classes</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Outer</span> {
+    <span class="tp">int</span> outerData = <span class="nm">10</span>;
+
+    <span class="cm">// Inner Class (Non-static)</span>
+    <span class="kw">class</span> <span class="cl">Inner</span> {
+        <span class="kw">void</span> <span class="fn">display</span>() {
+            <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Outer data: "</span> <span class="op">+</span> outerData); <span class="cm">// Can access outer</span>
+        }
+    }
+
+    <span class="cm">// Static Nested Class</span>
+    <span class="kw">static class</span> <span class="cl">StaticNested</span> {
+        <span class="kw">void</span> <span class="fn">show</span>() {
+            <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Static nested class"</span>);
+            <span class="cm">// Cannot access outerData without object</span>
+        }
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cm">// Inner class needs outer object</span>
+        <span class="cl">Outer</span> out = <span class="kw">new</span> <span class="cl">Outer</span>();
+        <span class="cl">Outer</span>.<span class="cl">Inner</span> inn = out.<span class="kw">new</span> <span class="cl">Inner</span>();
+        inn.<span class="fn">display</span>();
+
+        <span class="cm">// Static nested — no outer object needed</span>
+        <span class="cl">Outer</span>.<span class="cl">StaticNested</span> sn = <span class="kw">new</span> <span class="cl">Outer</span>.<span class="cl">StaticNested</span>();
+        sn.<span class="fn">show</span>();
+    }
+}</pre>
+    </div>
+
+    <div class="sh">Wrapper Classes</div>
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      Wrapper classes provide a way to use primitive data types as objects. Every primitive type has a corresponding wrapper class in <code class="inline-code">java.lang</code> package.
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Primitive</th><th>Wrapper Class</th><th>Example</th></tr>
+      <tr><td>int</td><td>Integer</td><td><code class="inline-code">Integer.parseInt("42")</code></td></tr>
+      <tr><td>double</td><td>Double</td><td><code class="inline-code">Double.parseDouble("3.14")</code></td></tr>
+      <tr><td>char</td><td>Character</td><td><code class="inline-code">Character.isLetter('A')</code></td></tr>
+      <tr><td>boolean</td><td>Boolean</td><td><code class="inline-code">Boolean.parseBoolean("true")</code></td></tr>
+      <tr><td>byte</td><td>Byte</td><td><code class="inline-code">Byte.MAX_VALUE</code></td></tr>
+      <tr><td>long</td><td>Long</td><td><code class="inline-code">Long.parseLong("9999")</code></td></tr>
+    </table>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Autoboxing & Unboxing</div></div>
+      <pre><span class="cm">// Autoboxing: primitive → wrapper (auto)</span>
+<span class="tp">int</span> x = <span class="nm">42</span>;
+<span class="cl">Integer</span> obj = x;  <span class="cm">// Auto-wrapped</span>
+
+<span class="cm">// Unboxing: wrapper → primitive (auto)</span>
+<span class="cl">Integer</span> y = <span class="nm">99</span>;
+<span class="tp">int</span> z = y;  <span class="cm">// Auto-unwrapped</span>
+
+<span class="cm">// Useful methods</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="cl">Integer</span>.MAX_VALUE);       <span class="cm">// 2147483647</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="cl">Integer</span>.<span class="fn">toBinaryString</span>(<span class="nm">10</span>)); <span class="cm">// 1010</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="cl">Integer</span>.<span class="fn">parseInt</span>(<span class="st">"123"</span>));   <span class="cm">// 123</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- 20. INHERITANCE -->
+<div class="topic open" id="inheritance">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">20</div>
+    <h3>Inheritance and Types of Inheritance</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Inheritance = Ek class doosri class ke properties aur methods inherit karti hai. <strong>IS-A relationship</strong>. Dog IS-A Animal. Isse code reuse hota hai. Java mein <code class="inline-code">extends</code> keyword se inheritance hoti hai. Java <strong>multiple inheritance support nahi karta</strong> (diamond problem). Lekin interface se multiple implement kar sakte hain!
+    </div>
+
+    <div class="sh">Types of Inheritance</div>
+    <div class="diagram-box">
+      <pre>
+  1. SINGLE                2. MULTILEVEL            3. HIERARCHICAL
+  ─────────────            ─────────────────        ─────────────────────
+       A                        A                            A
+       │                        │                     ┌──────┤──────┐
+       ▼                        ▼                     │      │      │
+       B                        B                     ▼      ▼      ▼
+                                │                     B      C      D
+                                ▼
+                                C
+
+  4. MULTIPLE (via Interface)      5. HYBRID (combination)
+  ────────────────────────────     ─────────────────────────
+       A      B                   Not supported directly.
+       │      │                   Done via interfaces.
+       └──┬───┘
+          ▼
+          C
+
+  Java supports: 1, 2, 3 directly | 4, 5 via Interface
+  Java does NOT support multiple inheritance via classes (to avoid Diamond Problem)
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Multilevel Inheritance</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Animal</span> {
+    <span class="kw">void</span> <span class="fn">eat</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Eating..."</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    <span class="kw">void</span> <span class="fn">bark</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Barking..."</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">BabyDog</span> <span class="kw">extends</span> <span class="cl">Dog</span> {  <span class="cm">// Multilevel!</span>
+    <span class="kw">void</span> <span class="fn">weep</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Weeping..."</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">BabyDog</span> bd = <span class="kw">new</span> <span class="cl">BabyDog</span>();
+        bd.<span class="fn">eat</span>();   <span class="cm">// from Animal</span>
+        bd.<span class="fn">bark</span>();  <span class="cm">// from Dog</span>
+        bd.<span class="fn">weep</span>(); <span class="cm">// BabyDog's own</span>
+    }
+}</pre>
+    </div>
+
+    <div class="sh">What is NOT Inherited?</div>
+    <ul>
+      <li><strong>Constructors</strong> — inherited nahi hote (but called via super())</li>
+      <li><strong>private members</strong> — accessible nahi hote</li>
+      <li><strong>static members</strong> — inherited nahi (accessible via class name)</li>
+    </ul>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Diamond Problem</strong>
+        Agar Java mein multiple class inheritance hoti: class C extends A, B — phir A aur B dono mein same method hoti toh C ko kaunsa milta? Yahi ambiguity Diamond Problem hai. Java ise classes ke through allow nahi karta, but Interface mein Java 8+ ne default methods ke saath solve kiya!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 21. THIS & SUPER -->
+<div class="topic open" id="thissuper">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">21</div>
+    <h3>this and super Keyword</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      <strong>this</strong> = current object ka reference. Jab local variable aur instance variable ka naam same ho, <code class="inline-code">this.variable</code> se instance variable access karo. <strong>super</strong> = parent class ka reference. Child class se parent ke methods/constructor access karo <code class="inline-code">super.method()</code> se. Dono keywords memory saving tools hain!
+    </div>
+
+    <div class="sh">this Keyword — Uses</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — this keyword</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Employee</span> {
+    <span class="cl">String</span> name;
+    <span class="tp">int</span> salary;
+
+    <span class="cm">// Use 1: Distinguish instance vs local variable</span>
+    <span class="fn">Employee</span>(<span class="cl">String</span> name, <span class="tp">int</span> salary) {
+        <span class="kw">this</span>.name = name;        <span class="cm">// this.name = instance var</span>
+        <span class="kw">this</span>.salary = salary;    <span class="cm">// name = parameter</span>
+    }
+
+    <span class="cm">// Use 2: Call another constructor (this())</span>
+    <span class="fn">Employee</span>(<span class="cl">String</span> name) {
+        <span class="kw">this</span>(name, <span class="nm">30000</span>);   <span class="cm">// calls parameterized constructor</span>
+    }
+
+    <span class="cm">// Use 3: Pass current object as parameter</span>
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        <span class="fn">printDetails</span>(<span class="kw">this</span>);   <span class="cm">// passing current object</span>
+    }
+
+    <span class="cm">// Use 4: Return current object (method chaining)</span>
+    <span class="cl">Employee</span> <span class="fn">setSalary</span>(<span class="tp">int</span> s) {
+        <span class="kw">this</span>.salary = s;
+        <span class="kw">return this</span>;   <span class="cm">// enables chaining!</span>
+    }
+
+    <span class="kw">static void</span> <span class="fn">printDetails</span>(<span class="cl">Employee</span> e) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(e.name <span class="op">+</span> <span class="st">": ₹"</span> <span class="op">+</span> e.salary);
+    }
+}</pre>
+    </div>
+
+    <div class="sh">super Keyword — Uses</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — super keyword</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Animal</span> {
+    <span class="cl">String</span> type = <span class="st">"Animal"</span>;
+
+    <span class="fn">Animal</span>(<span class="cl">String</span> t) {
+        type = t;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Animal constructor: "</span> <span class="op">+</span> type);
+    }
+
+    <span class="kw">void</span> <span class="fn">sound</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Generic animal sound"</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    <span class="cl">String</span> breed;
+
+    <span class="fn">Dog</span>(<span class="cl">String</span> breed) {
+        <span class="kw">super</span>(<span class="st">"Dog"</span>);         <span class="cm">// Use 1: Call parent constructor FIRST!</span>
+        <span class="kw">this</span>.breed = breed;
+    }
+
+    <span class="an">@Override</span>
+    <span class="kw">void</span> <span class="fn">sound</span>() {
+        <span class="kw">super</span>.<span class="fn">sound</span>();        <span class="cm">// Use 2: Call parent method</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Woof!"</span>);
+    }
+
+    <span class="kw">void</span> <span class="fn">show</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="kw">super</span>.type);  <span class="cm">// Use 3: Access parent variable</span>
+    }
+}</pre>
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Feature</th><th>this</th><th>super</th></tr>
+      <tr><td>Refers to</td><td>Current class object</td><td>Parent class object</td></tr>
+      <tr><td>Constructor call</td><td>this() — same class</td><td>super() — parent class</td></tr>
+      <tr><td>Method call</td><td>this.method()</td><td>super.method()</td></tr>
+      <tr><td>Must be first statement?</td><td>Yes (in constructor)</td><td>Yes (in constructor)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 22. ABSTRACT -->
+<div class="topic open" id="abstract">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">22</div>
+    <h3>Abstract Classes</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      <strong>Abstract Class</strong> ek aisi class hai jo directly instantiated nahi ho sakti (object nahi ban sakta directly). Yeh ek <em>incomplete blueprint</em> hai. Isme abstract methods hote hain (body nahi hoti) — child class ko implement karna padta hai. Jaise "Shape" abstract hai, "Circle" aur "Rectangle" concrete implementations hain!
+    </div>
+
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      An abstract class is a class declared with the <code class="inline-code">abstract</code> keyword. It may contain abstract methods (no body) and concrete methods (with body). <strong>Cannot be instantiated directly</strong>. Must be subclassed, and all abstract methods must be implemented.
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  abstract class Shape {        ← Can't do: new Shape()
+      abstract double area();   ← No body, must be overridden
+      void display() { ... }    ← Concrete method (has body)
+  }
+         │
+   ┌─────┴──────┐
+   │            │
+   ▼            ▼
+Circle       Rectangle
+area()=πr²   area()=l*w
+(implemented) (implemented)
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Abstract Class</div></div>
+      <pre><span class="kw">abstract class</span> <span class="cl">Shape</span> {
+    <span class="cl">String</span> color;
+
+    <span class="fn">Shape</span>(<span class="cl">String</span> color) {
+        <span class="kw">this</span>.color = color;
+    }
+
+    <span class="cm">// Abstract method — no body</span>
+    <span class="kw">abstract double</span> <span class="fn">area</span>();
+    <span class="kw">abstract double</span> <span class="fn">perimeter</span>();
+
+    <span class="cm">// Concrete method — has body</span>
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Color: "</span> <span class="op">+</span> color <span class="op">+</span> <span class="st">" | Area: "</span> <span class="op">+</span> <span class="fn">area</span>());
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+    <span class="tp">double</span> radius;
+
+    <span class="fn">Circle</span>(<span class="cl">String</span> color, <span class="tp">double</span> r) {
+        <span class="kw">super</span>(color);
+        radius = r;
+    }
+
+    <span class="an">@Override</span>
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> <span class="cl">Math</span>.PI <span class="op">*</span> radius <span class="op">*</span> radius; }
+
+    <span class="an">@Override</span>
+    <span class="kw">double</span> <span class="fn">perimeter</span>() { <span class="kw">return</span> <span class="nm">2</span> <span class="op">*</span> <span class="cl">Math</span>.PI <span class="op">*</span> radius; }
+}
+
+<span class="kw">class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cm">// Shape s = new Shape("Red"); // ERROR! Can't instantiate</span>
+        <span class="cl">Shape</span> s = <span class="kw">new</span> <span class="cl">Circle</span>(<span class="st">"Red"</span>, <span class="nm">5.0</span>);  <span class="cm">// OK! Upcasting</span>
+        s.<span class="fn">display</span>();
+    }
+}</pre>
+    </div>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Abstract Class vs Interface Comparison</strong>
+        Abstract class: partial abstraction (0-100%), can have constructors, can have instance variables, can have method body. Interface: 100% abstraction (Java 7), can have default/static methods (Java 8+), all methods public abstract by default, all variables public static final.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 23. FINAL -->
+<div class="topic open" id="final">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">23</div>
+    <h3>final Variables and Methods</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      <strong>final</strong> keyword ka matlab hai — <em>"band karo!"</em>. Variable ko final karo → constant ban jata hai (change nahi hoga). Method ko final karo → override nahi hogi. Class ko final karo → inherit nahi hogi. Java mein <code class="inline-code">Math.PI</code> final variable hai!
+    </div>
+
+    <div class="types-grid">
+      <div class="type-card">
+        <h5>📌 final Variable</h5>
+        <p>Once assigned, value cannot be changed. Acts as a constant. Must be initialized.</p>
+      </div>
+      <div class="type-card">
+        <h5>🔒 final Method</h5>
+        <p>Cannot be overridden by subclasses. Security feature. Prevents polymorphism for that method.</p>
+      </div>
+      <div class="type-card">
+        <h5>🚫 final Class</h5>
+        <p>Cannot be subclassed (inherited). Example: String class. Immutable design.</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — final Keyword</div></div>
+      <pre><span class="cm">// final variable</span>
+<span class="kw">final double</span> PI = <span class="nm">3.14159</span>;
+<span class="cm">// PI = 3.14;  // ERROR! Cannot reassign final</span>
+
+<span class="cm">// final class — cannot be extended</span>
+<span class="kw">final class</span> <span class="cl">Immutable</span> {
+    <span class="kw">final int</span> value;
+    <span class="fn">Immutable</span>(<span class="tp">int</span> v) { value = v; }
+}
+<span class="cm">// class Child extends Immutable {}  // ERROR!</span>
+
+<span class="cm">// final method — cannot be overridden</span>
+<span class="kw">class</span> <span class="cl">Parent</span> {
+    <span class="kw">final void</span> <span class="fn">show</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Cannot be overridden!"</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Child</span> <span class="kw">extends</span> <span class="cl">Parent</span> {
+    <span class="cm">// void show() {} // ERROR! Cannot override final method</span>
+}
+
+<span class="cm">// static final — class constant (convention: UPPER_CASE)</span>
+<span class="kw">class</span> <span class="cl">Constants</span> {
+    <span class="kw">public static final double</span> GRAVITY = <span class="nm">9.8</span>;
+    <span class="kw">public static final int</span> MAX_SIZE = <span class="nm">100</span>;
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 24. INTERFACE -->
+<div class="topic open" id="interface">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">24</div>
+    <h3>Interface in Java</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Interface ek <strong>pure abstract blueprint</strong> hai (Java 7 tak) jisme sirf method signatures hoti hain — koi implementation nahi. Class <code class="inline-code">implements</code> keyword se interface use karta hai. Interface se Java mein multiple inheritance achieve hoti hai! Java 8 mein default aur static methods allow hue, Java 9 mein private methods bhi!
+    </div>
+
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      An interface is a <strong>reference type</strong> in Java, similar to a class, that can contain only abstract methods (Java 7), constants, default methods (Java 8+), and static methods. Classes implement interfaces using the <code class="inline-code">implements</code> keyword.
+    </div>
+
+    <div class="diagram-box">
+      <pre>
+  Interface: Flyable              Interface: Swimmable
+  ──────────────────              ────────────────────
+  + fly()  (abstract)             + swim() (abstract)
+          │                               │
+          └──────────┬────────────────────┘
+                     │ implements
+                     ▼
+            class Duck implements Flyable, Swimmable {
+                fly()  → override
+                swim() → override
+            }
+  Multiple Interface Implementation = Multiple Inheritance in Java!
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Interface Complete Example</div></div>
+      <pre><span class="cm">// Interface definition</span>
+<span class="kw">interface</span> <span class="cl">Drawable</span> {
+    <span class="kw">int</span> SIZE = <span class="nm">100</span>;  <span class="cm">// implicitly public static final</span>
+    <span class="kw">void</span> <span class="fn">draw</span>();     <span class="cm">// implicitly public abstract</span>
+
+    <span class="cm">// Java 8: default method</span>
+    <span class="kw">default void</span> <span class="fn">printInfo</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Drawing with size: "</span> <span class="op">+</span> SIZE);
+    }
+}
+
+<span class="kw">interface</span> <span class="cl">Resizable</span> {
+    <span class="kw">void</span> <span class="fn">resize</span>(<span class="tp">int</span> factor);
+}
+
+<span class="cm">// Class implementing multiple interfaces</span>
+<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">implements</span> <span class="cl">Drawable</span>, <span class="cl">Resizable</span> {
+    <span class="tp">int</span> radius;
+
+    <span class="fn">Circle</span>(<span class="tp">int</span> r) { radius = r; }
+
+    <span class="an">@Override</span>
+    <span class="kw">public void</span> <span class="fn">draw</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Drawing Circle with radius: "</span> <span class="op">+</span> radius);
+    }
+
+    <span class="an">@Override</span>
+    <span class="kw">public void</span> <span class="fn">resize</span>(<span class="tp">int</span> factor) {
+        radius <span class="op">*=</span> factor;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"New radius: "</span> <span class="op">+</span> radius);
+    }
+}
+
+<span class="cm">// Interface can extend another interface</span>
+<span class="kw">interface</span> <span class="cl">Shape</span> <span class="kw">extends</span> <span class="cl">Drawable</span>, <span class="cl">Resizable</span> {
+    <span class="kw">double</span> <span class="fn">area</span>();
+}</pre>
+    </div>
+
+    <table class="diff-table">
+      <tr><th>Feature</th><th>Abstract Class</th><th>Interface</th></tr>
+      <tr><td>Keyword</td><td>abstract class</td><td>interface</td></tr>
+      <tr><td>Multiple inheritance</td><td>No (single only)</td><td>Yes (multiple implements)</td></tr>
+      <tr><td>Constructors</td><td>Yes</td><td>No</td></tr>
+      <tr><td>Instance variables</td><td>Yes</td><td>Only public static final</td></tr>
+      <tr><td>Method body</td><td>Yes (concrete methods)</td><td>Only default/static (Java 8+)</td></tr>
+      <tr><td>Access modifiers</td><td>Any</td><td>public only</td></tr>
+      <tr><td>Achieved abstraction</td><td>Partial</td><td>Full (Java 7)</td></tr>
+    </table>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Interface Variables are implicitly:</strong> <code class="inline-code">public static final</code><br>
+        <strong>Interface Methods are implicitly:</strong> <code class="inline-code">public abstract</code> (Java 7)<br>
+        Interface cannot be instantiated. A class can implement multiple interfaces but extend only one class.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 25. MEMBER ACCESS -->
+<div class="topic open" id="memberaccess">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">25</div>
+    <h3>Member Access in Inheritance</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Inheritance mein member access control bahut important hai. Child class ko parent ke public aur protected members accessible hote hain. Private members child mein accessible nahi hote (but exist karte hain — inherited hain, directly access nahi). Aur super se parent members access kar sakte hain!
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Member Access in Inheritance</div></div>
+      <pre><span class="kw">class</span> <span class="cl">Parent</span> {
+    <span class="kw">private</span> <span class="tp">int</span> pvt = <span class="nm">1</span>;       <span class="cm">// private</span>
+    <span class="tp">int</span> def = <span class="nm">2</span>;               <span class="cm">// default (package)</span>
+    <span class="kw">protected</span> <span class="tp">int</span> prot = <span class="nm">3</span>;   <span class="cm">// protected</span>
+    <span class="kw">public</span> <span class="tp">int</span> pub = <span class="nm">4</span>;        <span class="cm">// public</span>
+
+    <span class="kw">private void</span> <span class="fn">privateMethod</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Private"</span>); }
+    <span class="kw">public void</span> <span class="fn">publicMethod</span>()  { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Public"</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Child</span> <span class="kw">extends</span> <span class="cl">Parent</span> {
+    <span class="kw">void</span> <span class="fn">test</span>() {
+        <span class="cm">// System.out.println(pvt);        // ERROR! Cannot access private</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(def);         <span class="cm">// OK (same package)</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(prot);        <span class="cm">// OK (protected)</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(pub);         <span class="cm">// OK (public)</span>
+
+        <span class="cm">// privateMethod();  // ERROR!</span>
+        <span class="fn">publicMethod</span>();                  <span class="cm">// OK</span>
+    }
+}</pre>
+    </div>
+
+    <div class="sh">Upcasting & Downcasting</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Upcasting & Downcasting</div></div>
+      <pre><span class="cl">Animal</span> a = <span class="kw">new</span> <span class="cl">Dog</span>();      <span class="cm">// Upcasting: automatic, safe</span>
+a.<span class="fn">eat</span>();                    <span class="cm">// Calls Dog's version if overridden</span>
+<span class="cm">// a.bark();  // ERROR! Animal reference can't call Dog method</span>
+
+<span class="cl">Dog</span> d = (<span class="cl">Dog</span>) a;           <span class="cm">// Downcasting: manual, risky</span>
+d.<span class="fn">bark</span>();                   <span class="cm">// Now OK!</span>
+
+<span class="cm">// Safe downcasting with instanceof</span>
+<span class="kw">if</span> (a <span class="kw">instanceof</span> <span class="cl">Dog</span>) {
+    <span class="cl">Dog</span> dog = (<span class="cl">Dog</span>) a;
+    dog.<span class="fn">bark</span>();
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SELF STUDY ==================== -->
+<div class="chapter-header" data-ch="SS" style="background: linear-gradient(90deg, #2e7d32, #1b5e20);">
+  <h2>Self Study — String Handling</h2>
+  <p>String class, StringBuilder, StringBuffer, Methods, Immutability</p>
+</div>
+
+<!-- 26. STRINGS -->
+<div class="topic open" id="strings">
+  <div class="topic-header" onclick="toggleTopic(this)">
+    <div class="topic-num">26</div>
+    <h3>String Handling in Java</h3>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="topic-body">
+
+    <div class="hinglish-box">
+      <div class="label">🇮🕵️Hinglish Explanation</div>
+      Java mein <strong>String ek class hai</strong> — primitive nahi! String <em>immutable</em> hoti hai — matlab ek baar create hone ke baad change nahi hoti. <code class="inline-code">"Hello"</code> likhte hi String Pool mein object ban jata hai. <strong>StringBuilder</strong> mutable hai aur faster hai (thread unsafe). <strong>StringBuffer</strong> mutable + thread-safe hai lekin thoda slow!
+    </div>
+
+    <div class="definition-box">
+      <div class="label">Definition</div>
+      String is a <strong>sequence of characters</strong> represented by the <code class="inline-code">java.lang.String</code> class. Strings in Java are <strong>immutable</strong> — once created, their value cannot be changed. Any modification creates a new String object.
+    </div>
+
+    <div class="sh">String Creation — Two Ways</div>
+    <div class="diagram-box">
+      <pre>
+  1. String Literal (uses String Pool):
+     String s1 = "Hello";
+     String s2 = "Hello";  ← Both point to SAME object in Pool!
+
+     String Pool:
+     ┌─────────────────────────┐
+     │  "Hello" (only ONE obj)  │
+     │  s1 ──────────────────► │
+     │  s2 ──────────────────► │
+     └─────────────────────────┘
+
+  2. new keyword (uses Heap):
+     String s3 = new String("Hello");  ← New object in Heap ALWAYS
+     String s4 = new String("Hello");  ← Another new object!
+
+     Heap: s3 → {Hello}   s4 → {Hello}  (2 separate objects)
+
+  s1 == s2     → true  (same pool reference)
+  s1 == s3     → false (s3 is in heap)
+  s1.equals(s3)→ true  (same content)
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — String Methods (Must Know)</div></div>
+      <pre><span class="cl">String</span> s = <span class="st">"Hello, Java!"</span>;
+
+<span class="cm">// Length</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">length</span>());         <span class="cm">// 12</span>
+
+<span class="cm">// Character at index</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">charAt</span>(<span class="nm">0</span>));        <span class="cm">// 'H'</span>
+
+<span class="cm">// Substring</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">substring</span>(<span class="nm">7</span>));      <span class="cm">// "Java!"</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">substring</span>(<span class="nm">7</span>, <span class="nm">11</span>)); <span class="cm">// "Java"</span>
+
+<span class="cm">// Case conversion</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">toUpperCase</span>());    <span class="cm">// "HELLO, JAVA!"</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">toLowerCase</span>());    <span class="cm">// "hello, java!"</span>
+
+<span class="cm">// Trim whitespace</span>
+<span class="cl">String</span> padded = <span class="st">"  Hello  "</span>;
+<span class="cl">System</span>.out.<span class="fn">println</span>(padded.<span class="fn">trim</span>());       <span class="cm">// "Hello"</span>
+
+<span class="cm">// indexOf, lastIndexOf</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">indexOf</span>(<span class="st">"Java"</span>));  <span class="cm">// 7</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">indexOf</span>(<span class="st">'l'</span>));     <span class="cm">// 2</span>
+
+<span class="cm">// contains, startsWith, endsWith</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">contains</span>(<span class="st">"Java"</span>));   <span class="cm">// true</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">startsWith</span>(<span class="st">"Hello"</span>)); <span class="cm">// true</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">endsWith</span>(<span class="st">"!"</span>));      <span class="cm">// true</span>
+
+<span class="cm">// Replace</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">replace</span>(<span class="st">"Java"</span>, <span class="st">"Python"</span>)); <span class="cm">// "Hello, Python!"</span>
+
+<span class="cm">// Compare</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">equals</span>(<span class="st">"Hello, Java!"</span>));         <span class="cm">// true</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">equalsIgnoreCase</span>(<span class="st">"hello, java!"</span>)); <span class="cm">// true</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">compareTo</span>(<span class="st">"Hello"</span>));              <span class="cm">// positive</span>
+
+<span class="cm">// Split</span>
+<span class="cl">String</span>[] parts = s.<span class="fn">split</span>(<span class="st">","</span>);  <span class="cm">// ["Hello", " Java!"]</span>
+
+<span class="cm">// Convert to char array</span>
+<span class="tp">char</span>[] arr = s.<span class="fn">toCharArray</span>();
+
+<span class="cm">// valueOf — convert other types to String</span>
+<span class="cl">String</span> numStr = <span class="cl">String</span>.<span class="fn">valueOf</span>(<span class="nm">42</span>);  <span class="cm">// "42"</span>
+
+<span class="cm">// concat</span>
+<span class="cl">String</span> result = <span class="st">"Hello"</span>.<span class="fn">concat</span>(<span class="st">" World"</span>); <span class="cm">// "Hello World"</span>
+
+<span class="cm">// isEmpty, isBlank</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">""</span>.<span class="fn">isEmpty</span>());     <span class="cm">// true</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"  "</span>.<span class="fn">isBlank</span>()); <span class="cm">// true (Java 11)</span></pre>
+    </div>
+
+    <div class="sh">String Immutability</div>
+    <div class="diagram-box">
+      <pre>
+  String s = "Hello";         →  s points to "Hello" in pool
+  s = s + " World";           →  NEW object "Hello World" created
+                                 Original "Hello" still in pool!
+  
+  Pool:
+  ┌──────────────────────────────┐
+  │  "Hello"        (unchanged)  │
+  │  "Hello World"  (new object) │
+  │  " World"       (temporary)  │
+  └──────────────────────────────┘
+  
+  s now points to "Hello World"
+  Old "Hello" may be garbage collected (if no reference)
+</pre>
+    </div>
+
+    <div class="sh">StringBuilder vs StringBuffer vs String</div>
+    <table class="diff-table">
+      <tr><th>Feature</th><th>String</th><th>StringBuilder</th><th>StringBuffer</th></tr>
+      <tr><td>Mutable?</td><td>No (Immutable)</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Thread Safe?</td><td>Yes</td><td>No</td><td>Yes (synchronized)</td></tr>
+      <tr><td>Performance</td><td>Slow (new obj each time)</td><td>Fast</td><td>Moderate</td></tr>
+      <tr><td>Storage</td><td>String Pool / Heap</td><td>Heap</td><td>Heap</td></tr>
+      <tr><td>When to use</td><td>Constant strings</td><td>Single thread, many changes</td><td>Multi-thread, many changes</td></tr>
+    </table>
+
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — StringBuilder Example</div></div>
+      <pre><span class="cl">StringBuilder</span> sb = <span class="kw">new</span> <span class="cl">StringBuilder</span>(<span class="st">"Hello"</span>);
+
+sb.<span class="fn">append</span>(<span class="st">" World"</span>);     <span class="cm">// "Hello World"</span>
+sb.<span class="fn">insert</span>(<span class="nm">5</span>, <span class="st">","</span>);        <span class="cm">// "Hello, World"</span>
+sb.<span class="fn">delete</span>(<span class="nm">5</span>, <span class="nm">6</span>);          <span class="cm">// "Hello World"</span>
+sb.<span class="fn">reverse</span>();             <span class="cm">// "dlroW olleH"</span>
+sb.<span class="fn">replace</span>(<span class="nm">0</span>, <span class="nm">5</span>, <span class="st">"Bye"</span>);  <span class="cm">// "Bye olleH"</span>
+
+<span class="cl">System</span>.out.<span class="fn">println</span>(sb.<span class="fn">toString</span>());
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Length: "</span> <span class="op">+</span> sb.<span class="fn">length</span>());
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Capacity: "</span> <span class="op">+</span> sb.<span class="fn">capacity</span>()); <span class="cm">// default 16+initial</span></pre>
+    </div>
+
+    <div class="sh">String Formatting</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — String.format()</div></div>
+      <pre><span class="cl">String</span> name = <span class="st">"Saksham"</span>;
+<span class="tp">int</span> age = <span class="nm">20</span>;
+<span class="tp">double</span> cgpa = <span class="nm">8.95</span>;
+
+<span class="cl">String</span> info = <span class="cl">String</span>.<span class="fn">format</span>(<span class="st">"Name: %s, Age: %d, CGPA: %.2f"</span>, name, age, cgpa);
+<span class="cl">System</span>.out.<span class="fn">println</span>(info);
+<span class="cm">// Output: Name: Saksham, Age: 20, CGPA: 8.95</span>
+
+<span class="cm">// Format specifiers:</span>
+<span class="cm">// %s = String, %d = int, %f = float/double</span>
+<span class="cm">// %c = char, %b = boolean, %n = newline</span>
+<span class="cm">// %10d = right-aligned width 10, %-10d = left-aligned</span>
+<span class="cm">// %.2f = 2 decimal places</span></pre>
+    </div>
+
+    <div class="sh">String Programs — Common Examples</div>
+    <div class="code-block">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-lang">JAVA — Common String Programs</div></div>
+      <pre><span class="cm">// 1. Reverse a String</span>
+<span class="cl">String</span> <span class="fn">reverse</span>(<span class="cl">String</span> s) {
+    <span class="kw">return new</span> <span class="cl">StringBuilder</span>(s).<span class="fn">reverse</span>().<span class="fn">toString</span>();
+}
+
+<span class="cm">// 2. Check Palindrome</span>
+<span class="tp">boolean</span> <span class="fn">isPalindrome</span>(<span class="cl">String</span> s) {
+    <span class="cl">String</span> rev = <span class="kw">new</span> <span class="cl">StringBuilder</span>(s).<span class="fn">reverse</span>().<span class="fn">toString</span>();
+    <span class="kw">return</span> s.<span class="fn">equalsIgnoreCase</span>(rev);
+}
+
+<span class="cm">// 3. Count vowels</span>
+<span class="tp">int</span> <span class="fn">countVowels</span>(<span class="cl">String</span> s) {
+    <span class="tp">int</span> count = <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="tp">char</span> c : s.<span class="fn">toLowerCase</span>().<span class="fn">toCharArray</span>()) {
+        <span class="kw">if</span> (<span class="st">"aeiou"</span>.<span class="fn">indexOf</span>(c) <span class="op">!=</span> <span class="op">-</span><span class="nm">1</span>) count<span class="op">++</span>;
+    }
+    <span class="kw">return</span> count;
+}
+
+<span class="cm">// 4. Check Anagram</span>
+<span class="tp">boolean</span> <span class="fn">isAnagram</span>(<span class="cl">String</span> s1, <span class="cl">String</span> s2) {
+    <span class="tp">char</span>[] a1 = s1.<span class="fn">toLowerCase</span>().<span class="fn">toCharArray</span>();
+    <span class="tp">char</span>[] a2 = s2.<span class="fn">toLowerCase</span>().<span class="fn">toCharArray</span>();
+    java.util.Arrays.<span class="fn">sort</span>(a1);
+    java.util.Arrays.<span class="fn">sort</span>(a2);
+    <span class="kw">return</span> java.util.Arrays.<span class="fn">equals</span>(a1, a2);
+}</pre>
+    </div>
+
+    <div class="exam-alert">
+      <div class="icon">🎯</div>
+      <div class="content">
+        <strong>Exam Musts for String</strong>
+        1) == compares references, .equals() compares content. 2) String is immutable — every + operation creates new object. 3) String Pool mein literals store hote hain. 4) StringBuilder fastest but not thread-safe. 5) StringBuffer thread-safe (synchronized methods). 6) String is a final class — can't be extended!
+      </div>
+    </div>
+
+    <div class="mnemonic">
+      <div class="label">🧠 String Method Mnemonics</div>
+      <strong>Common Methods to remember:</strong> <em>length(), charAt(), substring(), indexOf(), replace(), split(), trim(), toUpperCase(), toLowerCase(), equals(), contains(), startsWith(), endsWith()</em><br>
+      <strong>Yaad karo:</strong> "L-C-S-I-R-S-T-U-L-E-C-S-E" → "Life Creates Solid Individuals Reaching Success Through Understanding Learning's Endless Creative Side Everyday" 😄
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY CARD -->
+<div style="background: linear-gradient(135deg, #0d1b2a, #1565c0); color: white; border-radius: 14px; padding: 30px; margin: 40px 0;">
+  <h2 style="font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 16px; color: #ffd54f;">📋 Quick Revision — All Topics at a Glance</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p style="color: #f9a825; font-weight: 700; margin-bottom: 8px; font-size: 0.85rem; letter-spacing: 1px;">CHAPTER 1</p>
+      <ul style="padding-left: 18px; font-size: 0.85rem; line-height: 2;">
+        <li>OOP = Objects + Classes + 4 pillars (APIE)</li>
+        <li>JDK ⊃ JRE ⊃ JVM</li>
+        <li>Bytecode = Platform Independence = WORA</li>
+        <li>8 Primitive Types: byte,short,int,long,float,double,char,boolean</li>
+        <li>3 Variable Types: local, instance, static</li>
+        <li>3 Loops: for, while, do-while</li>
+        <li>Constructor = no return type + same name as class</li>
+        <li>Access: private < default < protected < public</li>
+        <li>Static = class level, one copy shared</li>
+      </ul>
+    </div>
+    <div>
+      <p style="color: #f9a825; font-weight: 700; margin-bottom: 8px; font-size: 0.85rem; letter-spacing: 1px;">CHAPTER 2 + STRINGS</p>
+      <ul style="padding-left: 18px; font-size: 0.85rem; line-height: 2;">
+        <li>Overloading = same class, diff params (compile time)</li>
+        <li>Overriding = child redefines parent (runtime)</li>
+        <li>Inheritance = IS-A, extends keyword</li>
+        <li>Java: no multiple class inheritance</li>
+        <li>this = current obj, super = parent</li>
+        <li>abstract = incomplete, can't instantiate</li>
+        <li>final = no change/override/inherit</li>
+        <li>Interface = implements, multiple allowed</li>
+        <li>String = immutable, String Pool</li>
+        <li>StringBuilder = mutable, fast (single thread)</li>
+        <li>StringBuffer = mutable, thread-safe</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function toggleTopic(header) {
+  const topic = header.parentElement;
+  topic.classList.toggle('open');
+}
+
+// Smooth scrolling for TOC links
+document.querySelectorAll('.sidebar a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Open the topic
+      if (!target.classList.contains('open')) {
+        target.classList.add('open');
+      }
+    }
+  });
+});
+
+// Highlight active TOC item on scroll
+const topics = document.querySelectorAll('.topic');
+const tocLinks = document.querySelectorAll('.sidebar a');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      tocLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === '#' + id ? '#fff' : '';
+        link.style.borderLeftColor = link.getAttribute('href') === '#' + id ? '#e07b00' : 'transparent';
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-100px 0px -60% 0px' });
+
+topics.forEach(topic => observer.observe(topic));
+</script>
+</body>
+</html>
