@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operating System — Complete Exam Notes</title>
+<style>
+  /* ── RESET & BASE ── */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f8f6f0;
+    color: #1a1a2e;
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero h1 {
+    font-family: Georgia, serif;
+    font-size: 2.8em;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .hero h1 span { color: #e94560; }
+  .hero p { font-size: 1.1em; color: #a8b2d8; margin-bottom: 20px; position: relative; }
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; position: relative; }
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 0.83em;
+    font-family: 'Courier New', monospace;
+    color: #e0e6ff;
+  }
+
+  /* ── STICKY NAV ── */
+  .nav {
+    background: #1a1a2e;
+    position: sticky; top: 0; z-index: 200;
+    padding: 0 30px;
+    display: flex; gap: 0; overflow-x: auto;
+    border-bottom: 3px solid #e94560;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a {
+    color: #a8b2d8;
+    text-decoration: none;
+    padding: 13px 16px;
+    font-size: 0.82em;
+    white-space: nowrap;
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav a:hover { color: #e94560; border-bottom-color: #e94560; }
+
+  /* ── MAIN LAYOUT ── */
+  .page { max-width: 1050px; margin: 0 auto; padding: 40px 30px; }
+
+  /* ── UNIT TITLE ── */
+  .unit {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+    padding: 28px 35px;
+    border-radius: 14px;
+    margin: 45px 0 25px;
+    border-left: 6px solid #e94560;
+    position: relative; overflow: hidden;
+  }
+  .unit::after {
+    content: attr(data-num);
+    position: absolute; right: 30px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 5em; font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    font-family: Georgia, serif;
+    pointer-events: none;
+  }
+  .unit h2 { font-size: 1.6em; margin-bottom: 4px; }
+  .unit p { color: #a8b2d8; font-size: 0.9em; font-family: 'Courier New', monospace; }
+
+  /* ── TOPIC CARD ── */
+  .topic {
+    background: white;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+    border: 1px solid #e8e4d9;
+  }
+  .topic-head {
+    background: linear-gradient(90deg, #f0f4ff, #fafafa);
+    border-bottom: 2px solid #e8e4d9;
+    padding: 16px 24px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .tno {
+    background: #1a1a2e;
+    color: white;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 0.78em;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    flex-shrink: 0;
+  }
+  .topic-head h3 { font-size: 1.15em; color: #1a1a2e; font-weight: 700; }
+  .tbody { padding: 24px 28px; }
+
+  /* ── DEFINITION BOX ── */
+  .defbox {
+    background: #f0f4ff;
+    border: 1.5px solid #c5d0f0;
+    border-left: 5px solid #3b5bdb;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .defbox .dlabel {
+    color: #3b5bdb;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+    font-family: 'Courier New', monospace;
+  }
+  .defbox p, .defbox li { font-size: 0.94em; color: #2d3561; line-height: 1.75; }
+
+  /* ── NOTE / TIP BOX ── */
+  .notebox {
+    background: #fffbf0;
+    border: 1.5px solid #f0d080;
+    border-left: 5px solid #f59f00;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    font-size: 0.93em;
+  }
+  .notebox::before { content: '💡 '; font-size: 1em; }
+
+  /* ── TRICK BOX ── */
+  .trick {
+    background: #fff0f6;
+    border: 1.5px solid #f0b0c8;
+    border-left: 5px solid #e64980;
+    border-radius: 8px;
+    padding: 13px 18px;
+    margin: 12px 0;
+    font-size: 0.92em;
+  }
+  .trick::before { content: '🧠 Memory Trick — '; color: #e64980; font-weight: 700; }
+
+  /* ── KEYWORDS ── */
+  .kwbox {
+    background: #f0fdf4;
+    border: 1.5px solid #a3e6b8;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin: 12px 0;
+    font-size: 0.9em;
+  }
+  .kwbox::before { content: '🔑 Key Terms: '; color: #2f9e44; font-weight: 700; }
+  .kw {
+    background: #d3f9d8;
+    color: #1e7235;
+    padding: 2px 9px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.87em;
+    margin: 2px 3px;
+    display: inline-block;
+  }
+
+  /* ── EXAM QUESTION BOX ── */
+  .examq {
+    background: #fffbe6;
+    border: 1.5px solid #f0c040;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .examq .qlabel {
+    color: #b08000;
+    font-weight: 700;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 6px;
+  }
+  .examq .qtext { font-weight: 700; margin-bottom: 8px; color: #1a1a2e; }
+  .examq .qans {
+    color: #3a3a3a;
+    font-size: 0.92em;
+    border-top: 1px dashed #e0c060;
+    padding-top: 8px;
+    margin-top: 8px;
+    line-height: 1.7;
+  }
+
+  /* ── NUMERICAL BOX ── */
+  .numbox {
+    background: #f8fffe;
+    border: 1.5px solid #99e0d0;
+    border-left: 5px solid #0ca678;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .numbox .ntitle {
+    color: #0ca678;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  .step {
+    background: #e8f8f4;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin: 8px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    color: #1a4a3a;
+    white-space: pre-wrap;
+    line-height: 1.6;
+  }
+  .answer {
+    background: #d0f0e4;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    font-weight: 700;
+    color: #1a4a3a;
+    font-size: 0.92em;
+  }
+
+  /* ── GRID ── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .card {
+    background: #f8f6f0;
+    border: 1.5px solid #e0d8c8;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .card .ctitle {
+    font-weight: 700;
+    font-size: 0.9em;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e0d8c8;
+  }
+  .card p, .card li { font-size: 0.88em; color: #3a3a5a; line-height: 1.65; }
+  .card ul { padding-left: 16px; }
+  .card-red { border-top: 3px solid #e03131; }
+  .card-green { border-top: 3px solid #2f9e44; }
+  .card-blue { border-top: 3px solid #1971c2; }
+  .card-orange { border-top: 3px solid #e67700; }
+  .card-purple { border-top: 3px solid #7048e8; }
+
+  /* ── TABLE ── */
+  .tw { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+  thead th {
+    background: #1a1a2e;
+    color: white;
+    padding: 11px 15px;
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    letter-spacing: 0.5px;
+  }
+  tbody td {
+    padding: 10px 15px;
+    border: 1px solid #e0d8c8;
+    color: #3a3a5a;
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) td { background: #fafaf7; }
+  tbody tr:hover td { background: #f0f4ff; }
+
+  /* ── SVG DIAGRAM CONTAINER ── */
+  .svgwrap {
+    background: #fff;
+    border: 1.5px solid #e0d8c8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .svgwrap .svgtitle {
+    font-weight: 700;
+    font-size: 0.88em;
+    color: #555;
+    margin-bottom: 12px;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .svgwrap svg { max-width: 100%; height: auto; }
+
+  /* ── SECTION DIVIDER ── */
+  hr.div { border: none; height: 1px; background: linear-gradient(90deg, transparent, #c8c0b0, transparent); margin: 30px 0; }
+
+  /* ── HIGHLIGHTS ── */
+  .hl  { color: #e03131; font-weight: 700; }
+  .hl2 { color: #2f9e44; font-weight: 700; }
+  .hl3 { color: #1971c2; font-weight: 700; }
+  .hl4 { color: #e67700; font-weight: 700; }
+
+  /* ── NUMBERED STEPS ── */
+  .steps { list-style: none; padding: 0; margin: 12px 0; }
+  .steps li {
+    background: #f8f6f0;
+    border: 1px solid #e0d8c8;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 8px 0;
+    font-size: 0.93em;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .steps li .sn {
+    background: #1a1a2e;
+    color: white;
+    border-radius: 50%;
+    min-width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78em; font-weight: 700;
+    font-family: 'Courier New', monospace;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .steps li .sn.red { background: #e03131; }
+  .steps li .sn.green { background: #2f9e44; }
+  .steps li .sn.blue { background: #1971c2; }
+  .steps li .sn.orange { background: #e67700; }
+
+  /* ── COMPARISON BOX ── */
+  .versus { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 14px 0; border-radius: 10px; overflow: hidden; border: 1.5px solid #e0d8c8; }
+  .versus .vs-a { background: #f0fff4; padding: 18px 20px; border-right: 1px solid #e0d8c8; }
+  .versus .vs-b { background: #fff0f0; padding: 18px 20px; }
+  .versus .vs-title { font-weight: 700; font-size: 0.9em; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px dashed; }
+  .versus .vs-a .vs-title { color: #2f9e44; border-bottom-color: #a3e6b8; }
+  .versus .vs-b .vs-title { color: #e03131; border-bottom-color: #ffc0c0; }
+  .versus ul { padding-left: 16px; font-size: 0.88em; color: #3a3a5a; }
+  .versus li { margin: 5px 0; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: #1a1a2e;
+    color: #a8b2d8;
+    text-align: center;
+    padding: 35px;
+    margin-top: 50px;
+  }
+  .footer h3 { color: #e94560; font-size: 1.4em; margin-bottom: 8px; }
+  .footer p { font-size: 0.9em; line-height: 1.7; }
+
+  @media (max-width: 700px) {
+    .g2, .g3, .g4, .versus { grid-template-columns: 1fr; }
+    .page { padding: 25px 16px; }
+    .hero { padding: 35px 20px 30px; }
+    .hero h1 { font-size: 1.9em; }
+    .nav { padding: 0 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero">
+  <h1>Operating <span>System</span> Notes</h1>
+  <p>Complete Study Guide — All 8 PPTs Covered — 20 Mark Exam Preparation</p>
+  <div class="badges">
+    <span class="badge">5 × 2 Marks</span>
+    <span class="badge">2 × 5 Marks</span>
+    <span class="badge">Diagrams Included</span>
+    <span class="badge">Numericals Solved</span>
+    <span class="badge">Plain English</span>
+  </div>
+</header>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="nav">
+  <a href="#dl">Deadlock</a>
+  <a href="#rag">RAG</a>
+  <a href="#dlh">DL Handling</a>
+  <a href="#bank">Banker's</a>
+  <a href="#mm">Memory Mgmt</a>
+  <a href="#alloc">Allocation</a>
+  <a href="#paging">Paging</a>
+  <a href="#seg">Segmentation</a>
+  <a href="#vm">Virtual Memory</a>
+  <a href="#pr">Page Replace</a>
+  <a href="#disk">Disk</a>
+  <a href="#rev">Quick Rev</a>
+</nav>
+
+<main class="page">
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT 1 — DEADLOCK
+═══════════════════════════════════════════════════════ -->
+<div class="unit" id="dl" data-num="1">
+  <h2>📌 Unit 1 — Deadlock</h2>
+  <p>PPT 1.3.1 &nbsp;|&nbsp; PPT 1.3.2 &nbsp;|&nbsp; PPT 1.3.3</p>
+</div>
+
+<!-- TOPIC 1.1 -->
+<article class="topic">
+  <div class="topic-head"><span class="tno">1.1</span><h3>What is Deadlock?</h3></div>
+  <div class="tbody">
+
+    <p>Imagine two cars on a one-lane bridge — one coming from the left, one from the right. Both stop and wait for the other to move back. Neither moves. This is a <strong>deadlock</strong> — a permanent standstill where no progress is possible.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Definition</div>
+      <p><strong>Deadlock</strong> is a situation where two or more processes are permanently blocked because each process is waiting for a resource that is currently held by another waiting process. No process can proceed, and no process can release its resources.</p>
+    </div>
+
+    <!-- SVG DIAGRAM: Deadlock between P1 and P2 -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 1 — Deadlock: Two Processes Waiting for Each Other</div>
+      <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" width="640">
+        <defs>
+          <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#e03131"/>
+          </marker>
+          <marker id="arrg" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#1971c2"/>
+          </marker>
+        </defs>
+        <!-- P1 circle -->
+        <circle cx="120" cy="140" r="50" fill="#f0f4ff" stroke="#1971c2" stroke-width="2.5"/>
+        <text x="120" y="135" text-anchor="middle" font-size="15" font-weight="bold" fill="#1971c2" font-family="Georgia">Process</text>
+        <text x="120" y="155" text-anchor="middle" font-size="15" font-weight="bold" fill="#1971c2" font-family="Georgia">P1</text>
+        <!-- P2 circle -->
+        <circle cx="520" cy="140" r="50" fill="#fff0f0" stroke="#e03131" stroke-width="2.5"/>
+        <text x="520" y="135" text-anchor="middle" font-size="15" font-weight="bold" fill="#e03131" font-family="Georgia">Process</text>
+        <text x="520" y="155" text-anchor="middle" font-size="15" font-weight="bold" fill="#e03131" font-family="Georgia">P2</text>
+        <!-- R1 box -->
+        <rect x="270" y="40" width="100" height="60" rx="8" fill="#e8f5e9" stroke="#2f9e44" stroke-width="2"/>
+        <text x="320" y="68" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f9e44" font-family="Georgia">Resource</text>
+        <text x="320" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f9e44" font-family="Georgia">R1</text>
+        <!-- R2 box -->
+        <rect x="270" y="180" width="100" height="60" rx="8" fill="#fff8e1" stroke="#e67700" stroke-width="2"/>
+        <text x="320" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#e67700" font-family="Georgia">Resource</text>
+        <text x="320" y="228" text-anchor="middle" font-size="14" font-weight="bold" fill="#e67700" font-family="Georgia">R2</text>
+        <!-- P1 holds R1 (assignment: R1→P1) -->
+        <line x1="270" y1="70" x2="170" y2="120" stroke="#1971c2" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrg)"/>
+        <text x="195" y="85" font-size="11" fill="#1971c2" font-family="Georgia">holds R1</text>
+        <!-- P1 waits for R2 (request: P1→R2) -->
+        <line x1="155" y1="175" x2="270" y2="205" stroke="#e03131" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="170" y="205" font-size="11" fill="#e03131" font-family="Georgia">wants R2</text>
+        <!-- P2 holds R2 (assignment: R2→P2) -->
+        <line x1="370" y1="210" x2="470" y2="175" stroke="#e67700" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+        <text x="415" y="208" font-size="11" fill="#e67700" font-family="Georgia">holds R2</text>
+        <!-- P2 waits for R1 (request: P2→R1) -->
+        <line x1="470" y1="105" x2="370" y2="75" stroke="#1971c2" stroke-width="2" marker-end="url(#arrg)"/>
+        <text x="400" y="85" font-size="11" fill="#1971c2" font-family="Georgia">wants R1</text>
+        <!-- DEADLOCK label -->
+        <rect x="260" y="118" width="120" height="44" rx="10" fill="#e03131"/>
+        <text x="320" y="135" text-anchor="middle" font-size="13" font-weight="bold" fill="white" font-family="Georgia">DEADLOCK</text>
+        <text x="320" y="153" text-anchor="middle" font-size="11" fill="#ffcccc" font-family="Georgia">No progress!</text>
+      </svg>
+    </div>
+
+    <p><strong>P1</strong> holds Resource R1 and is waiting for R2.<br>
+    <strong>P2</strong> holds Resource R2 and is waiting for R1.<br>
+    Neither will ever get what it needs. The system is stuck forever.</p>
+
+    <div class="kwbox">
+      <span class="kw">Deadlock</span> <span class="kw">Circular Wait</span> <span class="kw">Blocked Process</span> <span class="kw">Permanent Block</span>
+    </div>
+  </div>
+</article>
+
+<!-- TOPIC 1.2 — 4 CONDITIONS -->
+<article class="topic">
+  <div class="topic-head"><span class="tno">1.2</span><h3>4 Necessary Conditions for Deadlock (Coffman Conditions)</h3></div>
+  <div class="tbody">
+
+    <p>Deadlock can <strong>only happen if ALL four conditions are true at the same time</strong>. If even one condition is false, deadlock cannot occur. These were identified by Coffman in 1971.</p>
+
+    <div class="g2">
+      <div class="card card-blue">
+        <div class="ctitle">① Mutual Exclusion</div>
+        <p>At least one resource can be used by <strong>only one process at a time</strong>. It is non-shareable. Example: A printer can only print one job at a time.</p>
+      </div>
+      <div class="card card-orange">
+        <div class="ctitle">② Hold and Wait</div>
+        <p>A process is <strong>holding at least one resource</strong> while simultaneously <strong>waiting to acquire more resources</strong> that are currently held by other processes.</p>
+      </div>
+      <div class="card card-red">
+        <div class="ctitle">③ No Preemption</div>
+        <p>Resources <strong>cannot be forcefully taken away</strong> from a process. A process only releases a resource voluntarily after it has finished using it.</p>
+      </div>
+      <div class="card card-purple">
+        <div class="ctitle">④ Circular Wait</div>
+        <p>A <strong>circular chain of processes</strong> exists where each process waits for a resource held by the next process in the chain: P1→waits for→P2→waits for→P3→...→waits for→P1.</p>
+      </div>
+    </div>
+
+    <!-- SVG: Circular Wait -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 2 — Circular Wait (The Root Cause of Deadlock)</div>
+      <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg" width="500">
+        <defs>
+          <marker id="ca" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#7048e8"/>
+          </marker>
+        </defs>
+        <!-- Processes in a circle -->
+        <circle cx="250" cy="70" r="38" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="250" y="67" text-anchor="middle" font-size="13" font-weight="bold" fill="#1971c2" font-family="Georgia">P1</text>
+        <text x="250" y="84" text-anchor="middle" font-size="10" fill="#1971c2" font-family="Georgia">holds R1</text>
+
+        <circle cx="420" cy="200" r="38" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <text x="420" y="197" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f9e44" font-family="Georgia">P2</text>
+        <text x="420" y="214" text-anchor="middle" font-size="10" fill="#2f9e44" font-family="Georgia">holds R2</text>
+
+        <circle cx="80" cy="200" r="38" fill="#fff8e1" stroke="#e67700" stroke-width="2"/>
+        <text x="80" y="197" text-anchor="middle" font-size="13" font-weight="bold" fill="#e67700" font-family="Georgia">P3</text>
+        <text x="80" y="214" text-anchor="middle" font-size="10" fill="#e67700" font-family="Georgia">holds R3</text>
+
+        <!-- Curved arrows: P1 wants R2 (at P2), P2 wants R3 (at P3), P3 wants R1 (at P1) -->
+        <path d="M 282 95 Q 390 110 390 165" stroke="#7048e8" stroke-width="2.5" fill="none" marker-end="url(#ca)"/>
+        <text x="368" y="128" font-size="11" fill="#7048e8" font-family="Georgia">P1 wants R2</text>
+
+        <path d="M 390 238 Q 300 310 115 230" stroke="#7048e8" stroke-width="2.5" fill="none" marker-end="url(#ca)"/>
+        <text x="210" y="300" font-size="11" fill="#7048e8" font-family="Georgia">P2 wants R3</text>
+
+        <path d="M 112 168 Q 150 80 212 75" stroke="#7048e8" stroke-width="2.5" fill="none" marker-end="url(#ca)"/>
+        <text x="108" y="108" font-size="11" fill="#7048e8" font-family="Georgia">P3 wants R1</text>
+
+        <!-- Center label -->
+        <circle cx="250" cy="180" r="30" fill="#e03131" opacity="0.9"/>
+        <text x="250" y="177" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Georgia">DEAD</text>
+        <text x="250" y="193" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Georgia">LOCK</text>
+      </svg>
+    </div>
+
+    <div class="notebox">All four conditions must be present simultaneously for deadlock. Eliminate even ONE condition and deadlock cannot happen. Deadlock prevention works by breaking one of these conditions.</div>
+
+    <div class="numbox">
+      <div class="ntitle">Formula — Minimum Resources to Avoid Deadlock</div>
+      <p>If there are <strong>n processes</strong> and each process Pi needs a maximum of <strong>xi units</strong> of a resource:</p>
+      <div class="step">Maximum units that ENSURE deadlock   =  (x₁ + x₂ + ... + xₙ) - n  =  Σxi - n
+Minimum units that ENSURE no deadlock =  (Σxi - n) + 1</div>
+      <p style="margin-top:10px"><strong>Why?</strong> In the worst case, each process holds (xi - 1) units and waits for 1 more. One extra unit breaks the cycle — one process finishes and releases all its resources.</p>
+      <div class="step">Example: P1 needs max 3, P2 needs max 4, P3 needs max 5, P4 needs max 2 (n = 4)
+Σxi = 3 + 4 + 5 + 2 = 14
+Max ensuring DEADLOCK  = 14 - 4 = 10 units
+Min ensuring NO deadlock = 10 + 1 = 11 units ✓</div>
+      <div class="answer">Answer: With 10 units → deadlock possible. With 11 units → deadlock IMPOSSIBLE.</div>
+    </div>
+
+    <div class="trick">Remember <strong>"M-H-N-C"</strong> for the four conditions: <strong>M</strong>utual exclusion, <strong>H</strong>old &amp; wait, <strong>N</strong>o preemption, <strong>C</strong>ircular wait.</div>
+
+    <div class="examq">
+      <div class="qlabel">⭐ Likely 2-Mark Question</div>
+      <div class="qtext">Q: State and explain the four necessary conditions for deadlock.</div>
+      <div class="qans">Ans: (1) Mutual Exclusion — resource used by one process at a time. (2) Hold and Wait — process holds a resource while waiting for more. (3) No Preemption — resource cannot be taken forcefully. (4) Circular Wait — circular chain of waiting processes. All four must hold simultaneously.</div>
+    </div>
+  </div>
+</article>
+
+<!-- TOPIC 1.3 — RAG -->
+<article class="topic" id="rag">
+  <div class="topic-head"><span class="tno">1.3</span><h3>Resource Allocation Graph (RAG)</h3></div>
+  <div class="tbody">
+
+    <p>A <strong>Resource Allocation Graph</strong> is a diagram that shows which resources are assigned to which processes, and which processes are waiting for which resources. By looking at this graph, we can check whether a deadlock has occurred.</p>
+
+    <div class="defbox">
+      <div class="dlabel">RAG Components</div>
+      <ul>
+        <li><strong>Circles (○)</strong> = Processes (P1, P2, P3...)</li>
+        <li><strong>Squares (□)</strong> = Resource types (R1, R2, R3...)</li>
+        <li><strong>Dots inside squares</strong> = Individual instances of the resource</li>
+        <li><strong>Arrow P → R</strong> (Request edge) = Process is WAITING for this resource</li>
+        <li><strong>Arrow R → P</strong> (Assignment edge) = Resource is GIVEN to this process</li>
+      </ul>
+    </div>
+
+    <!-- SVG: RAG with deadlock + RAG without deadlock -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 3 — RAG: With Deadlock (left) vs Without Deadlock (right)</div>
+      <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" width="700">
+        <defs>
+          <marker id="ra" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#e03131"/>
+          </marker>
+          <marker id="ga" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#2f9e44"/>
+          </marker>
+          <marker id="ba" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#1971c2"/>
+          </marker>
+        </defs>
+
+        <!-- LEFT SIDE — WITH DEADLOCK -->
+        <text x="175" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#e03131" font-family="Georgia">WITH DEADLOCK ✗</text>
+        <!-- P1 -->
+        <circle cx="80" cy="100" r="28" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="80" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#1971c2" font-family="Georgia">P1</text>
+        <!-- R1 box -->
+        <rect x="155" y="42" width="70" height="50" rx="6" fill="#e8f5e9" stroke="#2f9e44" stroke-width="2"/>
+        <text x="190" y="65" text-anchor="middle" font-size="12" font-weight="bold" fill="#2f9e44" font-family="Georgia">R1</text>
+        <circle cx="183" cy="80" r="5" fill="#2f9e44"/><circle cx="197" cy="80" r="5" fill="#2f9e44"/>
+        <!-- P2 -->
+        <circle cx="270" cy="100" r="28" fill="#fff0f0" stroke="#e03131" stroke-width="2"/>
+        <text x="270" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#e03131" font-family="Georgia">P2</text>
+        <!-- R2 box -->
+        <rect x="155" y="160" width="70" height="50" rx="6" fill="#fff8e1" stroke="#e67700" stroke-width="2"/>
+        <text x="190" y="183" text-anchor="middle" font-size="12" font-weight="bold" fill="#e67700" font-family="Georgia">R2</text>
+        <circle cx="183" cy="198" r="5" fill="#e67700"/><circle cx="197" cy="198" r="5" fill="#e67700"/>
+
+        <!-- R1 → P1 (assignment: R1 gives to P1) -->
+        <line x1="155" y1="75" x2="108" y2="90" stroke="#2f9e44" stroke-width="2" marker-end="url(#ga)"/>
+        <!-- P1 → R2 (request: P1 wants R2) -->
+        <line x1="80" y1="128" x2="155" y2="165" stroke="#e03131" stroke-width="2" marker-end="url(#ra)"/>
+        <!-- R2 → P2 (assignment) -->
+        <line x1="225" y1="185" x2="242" y2="128" stroke="#e67700" stroke-width="2" marker-end="url(#ra)"/>
+        <!-- P2 → R1 (request) -->
+        <line x1="242" y1="75" x2="225" y2="67" stroke="#e03131" stroke-width="2" marker-end="url(#ra)"/>
+        <!-- Cycle label -->
+        <rect x="135" y="115" width="100" height="30" rx="8" fill="#e03131"/>
+        <text x="185" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Georgia">CYCLE = DEADLOCK</text>
+
+        <!-- Vertical divider -->
+        <line x1="360" y1="30" x2="360" y2="270" stroke="#e0d8c8" stroke-width="2" stroke-dasharray="8,4"/>
+
+        <!-- RIGHT SIDE — NO DEADLOCK (multiple instances) -->
+        <text x="530" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f9e44" font-family="Georgia">CYCLE, NO DEADLOCK ✓</text>
+        <!-- P3 -->
+        <circle cx="400" cy="100" r="28" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="400" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#1971c2" font-family="Georgia">P3</text>
+        <!-- P4 -->
+        <circle cx="530" cy="100" r="28" fill="#fff8e1" stroke="#e67700" stroke-width="2"/>
+        <text x="530" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#e67700" font-family="Georgia">P4</text>
+        <!-- P5 (free process) -->
+        <circle cx="660" cy="100" r="28" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <text x="660" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f9e44" font-family="Georgia">P5</text>
+        <!-- R3 with 3 instances -->
+        <rect x="470" y="175" width="80" height="55" rx="6" fill="#f3f0ff" stroke="#7048e8" stroke-width="2"/>
+        <text x="510" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#7048e8" font-family="Georgia">R3</text>
+        <circle cx="496" cy="216" r="5" fill="#7048e8"/>
+        <circle cx="510" cy="216" r="5" fill="#7048e8"/>
+        <circle cx="524" cy="216" r="5" fill="#7048e8"/>
+        <!-- assignments -->
+        <line x1="476" y1="185" x2="415" y2="128" stroke="#7048e8" stroke-width="2" marker-end="url(#ba)"/>
+        <line x1="510" y1="175" x2="530" y2="128" stroke="#7048e8" stroke-width="2" marker-end="url(#ba)"/>
+        <!-- P3 also wants R3 -->
+        <path d="M 385 128 Q 400 175 470 200" stroke="#e03131" stroke-width="2" fill="none" marker-end="url(#ra)"/>
+        <!-- P5 will finish and release R3 for P3 -->
+        <line x1="548" y1="115" x2="548" y2="162" stroke="#2f9e44" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="565" y="148" font-size="10" fill="#2f9e44" font-family="Georgia">P5 can finish</text>
+        <text x="565" y="162" font-size="10" fill="#2f9e44" font-family="Georgia">→ R3 freed!</text>
+        <!-- No deadlock label -->
+        <rect x="430" y="115" width="130" height="30" rx="8" fill="#2f9e44"/>
+        <text x="495" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Georgia">CYCLE ≠ DEADLOCK</text>
+        <text x="495" y="155" text-anchor="middle" font-size="10" fill="#2f9e44" font-family="Georgia">(3 instances available)</text>
+      </svg>
+    </div>
+
+    <div class="defbox">
+      <div class="dlabel">Rules for Deadlock Detection Using RAG</div>
+      <ul>
+        <li><strong>No cycle in graph</strong> → Definitely <span class="hl2">NO deadlock</span></li>
+        <li><strong>Cycle + only 1 instance per resource</strong> → Definitely <span class="hl">DEADLOCK</span></li>
+        <li><strong>Cycle + multiple instances per resource</strong> → <span class="hl4">Possible deadlock</span> (need further checking)</li>
+      </ul>
+    </div>
+
+    <div class="trick">Think of RAG like a map of traffic. If there's a circular traffic jam where no car can move, that is a deadlock. A one-way road system (no cycles) = no jam = no deadlock!</div>
+
+    <div class="examq">
+      <div class="qlabel">⭐ Likely 2-Mark Question</div>
+      <div class="qtext">Q: What is a Resource Allocation Graph? Explain request and assignment edges.</div>
+      <div class="qans">Ans: RAG is a directed graph showing resource allocation state. Nodes are processes (circles) and resources (squares). A request edge (P→R) means process P is waiting for resource R. An assignment edge (R→P) means resource R is currently given to process P. If the graph has a cycle with single instances, deadlock exists.</div>
+    </div>
+  </div>
+</article>
+
+<!-- TOPIC 1.4 — DEADLOCK HANDLING -->
+<article class="topic" id="dlh">
+  <div class="topic-head"><span class="tno">1.4</span><h3>Deadlock Handling — Four Strategies</h3></div>
+  <div class="tbody">
+
+    <p>An operating system has four ways to deal with deadlock. Think of deadlock like a road blockage — you can prevent it by better road design, avoid it by traffic control, fix it after it happens, or just ignore it!</p>
+
+    <!-- SVG: 4 strategies overview -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 4 — Four Deadlock Handling Strategies</div>
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" width="680">
+        <!-- PREVENTION -->
+        <rect x="10" y="30" width="155" height="140" rx="10" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <rect x="10" y="30" width="155" height="38" rx="10" fill="#1971c2"/>
+        <text x="87" y="54" text-anchor="middle" font-size="13" font-weight="bold" fill="white" font-family="Georgia">PREVENTION</text>
+        <text x="87" y="88" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Break one of</text>
+        <text x="87" y="105" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">the 4 conditions</text>
+        <text x="87" y="125" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">at design time</text>
+        <text x="87" y="153" text-anchor="middle" font-size="10" fill="#1971c2" font-family="Georgia">✓ Guarantees</text>
+        <text x="87" y="168" text-anchor="middle" font-size="10" fill="#1971c2" font-family="Georgia">no deadlock</text>
+
+        <!-- AVOIDANCE -->
+        <rect x="175" y="30" width="155" height="140" rx="10" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <rect x="175" y="30" width="155" height="38" rx="10" fill="#2f9e44"/>
+        <text x="252" y="54" text-anchor="middle" font-size="13" font-weight="bold" fill="white" font-family="Georgia">AVOIDANCE</text>
+        <text x="252" y="88" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Check safe state</text>
+        <text x="252" y="105" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">before every</text>
+        <text x="252" y="122" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">allocation</text>
+        <text x="252" y="148" text-anchor="middle" font-size="10" fill="#2f9e44" font-family="Georgia">Example:</text>
+        <text x="252" y="163" text-anchor="middle" font-size="10" fill="#2f9e44" font-family="Georgia">Banker's Algorithm</text>
+
+        <!-- DETECTION & RECOVERY -->
+        <rect x="340" y="30" width="155" height="140" rx="10" fill="#fffbf0" stroke="#e67700" stroke-width="2"/>
+        <rect x="340" y="30" width="155" height="38" rx="10" fill="#e67700"/>
+        <text x="418" y="49" text-anchor="middle" font-size="12" font-weight="bold" fill="white" font-family="Georgia">DETECTION &amp;</text>
+        <text x="418" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="white" font-family="Georgia">RECOVERY</text>
+        <text x="418" y="92" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Let deadlock</text>
+        <text x="418" y="109" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">happen, then</text>
+        <text x="418" y="126" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">detect and fix it</text>
+        <text x="418" y="153" text-anchor="middle" font-size="10" fill="#e67700" font-family="Georgia">Kill/rollback</text>
+        <text x="418" y="168" text-anchor="middle" font-size="10" fill="#e67700" font-family="Georgia">processes</text>
+
+        <!-- IGNORANCE -->
+        <rect x="505" y="30" width="165" height="140" rx="10" fill="#fff0f0" stroke="#e03131" stroke-width="2"/>
+        <rect x="505" y="30" width="165" height="38" rx="10" fill="#e03131"/>
+        <text x="588" y="54" text-anchor="middle" font-size="13" font-weight="bold" fill="white" font-family="Georgia">IGNORANCE</text>
+        <text x="588" y="88" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Pretend deadlock</text>
+        <text x="588" y="105" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">doesn't exist</text>
+        <text x="588" y="122" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">(Ostrich method)</text>
+        <text x="588" y="148" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">Used by Windows</text>
+        <text x="588" y="163" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">and Linux!</text>
+      </svg>
+    </div>
+
+    <hr class="div">
+    <h4 style="color:#1971c2; margin-bottom:10px">Strategy 1 — Deadlock Prevention</h4>
+    <p>Design the system so that at least one of the four conditions can never occur. There are four approaches, one for each condition:</p>
+
+    <ul class="steps">
+      <li><span class="sn blue">1</span><div><strong>Break Mutual Exclusion:</strong> Make all resources shareable. In practice, this is impossible for most resources (a printer cannot print two jobs at once). Not a practical solution.</div></li>
+      <li><span class="sn orange">2</span><div><strong>Break Hold and Wait:</strong> A process must request ALL resources it will ever need before it starts execution. If it cannot get all of them, it must wait and hold nothing. Drawback: Wasteful — all resources are tied up from the start even if not needed yet.</div></li>
+      <li><span class="sn red">3</span><div><strong>Break No Preemption:</strong> Allow the OS to forcefully take resources away from a waiting process. Only practical for resources whose state can be saved (like CPU registers, memory). Cannot be done for printers or tape drives.</div></li>
+      <li><span class="sn" style="background:#7048e8">4</span><div><strong>Break Circular Wait (Most Practical!):</strong> Assign a number to every resource type. A process can only request resources in increasing order of numbers. This makes circular chains impossible. May cause starvation but NEVER deadlock.</div></li>
+    </ul>
+
+    <hr class="div">
+    <h4 style="color:#2f9e44; margin-bottom:10px">Strategy 2 — Deadlock Avoidance</h4>
+    <p>The OS checks before every resource allocation: "If I give this resource now, will the system remain in a <strong>safe state</strong>?" If yes, allocate. If no, make the process wait.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Safe State vs Unsafe State</div>
+      <p><strong>Safe State:</strong> There exists at least one order (safe sequence) in which all processes can complete execution without causing deadlock. Even if we have no deadlock right now, if the state is unsafe, deadlock may occur later.</p>
+      <p style="margin-top:6px"><strong>Safe → No deadlock guaranteed &nbsp;|&nbsp; Unsafe → Deadlock is possible (not certain)</strong></p>
+    </div>
+
+    <hr class="div">
+    <h4 style="color:#e67700; margin-bottom:10px">Strategy 3 — Detection and Recovery</h4>
+    <p>Allow deadlocks to happen. Periodically run a detection algorithm (check RAG for cycles, or run the safety algorithm). Once detected, recover by:</p>
+    <div class="g2">
+      <div class="card card-blue">
+        <div class="ctitle">Recovery via Resources</div>
+        <ul>
+          <li><strong>Preempt a resource</strong> — take it from one process and give it to another</li>
+          <li><strong>Rollback</strong> — restore a process to a previously saved checkpoint</li>
+        </ul>
+      </div>
+      <div class="card card-red">
+        <div class="ctitle">Recovery via Processes</div>
+        <ul>
+          <li><strong>Kill one process</strong> — choose the process that has done the least work</li>
+          <li><strong>Kill all deadlocked processes</strong> — drastic but complete</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="div">
+    <h4 style="color:#e03131; margin-bottom:10px">Strategy 4 — Deadlock Ignorance (Ostrich Algorithm)</h4>
+    <div class="defbox">
+      <div class="dlabel">Ostrich Algorithm</div>
+      <p>An ostrich buries its head in the sand and ignores danger. Similarly, the OS ignores the possibility of deadlock entirely. This sounds absurd, but <strong>Windows and Linux both use this approach</strong>. The reasoning: deadlocks are rare in practice. The overhead of prevention/detection is higher than the cost of occasionally rebooting when a deadlock happens.</p>
+    </div>
+
+    <div class="trick">Remember as <strong>P-A-D-I</strong>: Prevention, Avoidance, Detection, Ignorance. Four ways to handle deadlock, from most proactive to most passive.</div>
+
+    <div class="examq">
+      <div class="qlabel">⭐ Likely 5-Mark Question</div>
+      <div class="qtext">Q: Explain the different methods of deadlock handling with their advantages and disadvantages.</div>
+      <div class="qans">Ans: Write all 4 strategies (~1.25 marks each): (1) Prevention — break one condition, most restrictive (2) Avoidance — Banker's Algorithm, check safe state (3) Detection &amp; Recovery — detect using RAG, recover by killing/rollback (4) Ignorance — Ostrich method, used by Windows/Linux. Include the diagram.</div>
+    </div>
+  </div>
+</article>
+
+<!-- TOPIC 1.5 — BANKER'S ALGORITHM -->
+<article class="topic" id="bank">
+  <div class="topic-head"><span class="tno">1.5</span><h3>Banker's Algorithm — Deadlock Avoidance</h3></div>
+  <div class="tbody">
+
+    <p>Think of the OS as a bank manager. A bank will only give a loan if it is confident it can recover the money later. Similarly, the OS only allocates resources if it is confident the system will stay in a <strong>safe state</strong> — that is, all processes can eventually complete.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Why "Banker's" Algorithm?</div>
+      <p>Banks never lend so much money that they cannot honor all customer withdrawals. They always keep enough in reserve. The OS does the same: it never allocates resources in a way that could lead to a deadlock.</p>
+    </div>
+
+    <h4 style="margin: 16px 0 10px; color:#1a1a2e">Four Data Structures Used</h4>
+    <div class="g2">
+      <div class="card card-blue">
+        <div class="ctitle">Available [1 × m array]</div>
+        <p>How many free instances of each resource are currently available. Available[j] = free instances of resource type j.</p>
+      </div>
+      <div class="card card-orange">
+        <div class="ctitle">Max [n × m matrix]</div>
+        <p>The maximum number of instances of each resource that each process may ever request. Declared when the process starts.</p>
+      </div>
+      <div class="card card-green">
+        <div class="ctitle">Allocation [n × m matrix]</div>
+        <p>How many instances of each resource are currently allocated to each process right now.</p>
+      </div>
+      <div class="card card-red">
+        <div class="ctitle">Need [n × m matrix] ← KEY!</div>
+        <p><strong>Need = Max − Allocation</strong>. How many more resources each process might still request before it finishes.</p>
+      </div>
+    </div>
+
+    <!-- SVG: Banker's Algorithm Flow -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 5 — Banker's Algorithm: Request Handling Flow</div>
+      <svg viewBox="0 0 620 380" xmlns="http://www.w3.org/2000/svg" width="620">
+        <defs>
+          <marker id="fa" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#555"/>
+          </marker>
+          <marker id="fag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#2f9e44"/>
+          </marker>
+          <marker id="far" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#e03131"/>
+          </marker>
+        </defs>
+
+        <!-- START -->
+        <rect x="220" y="10" width="180" height="40" rx="20" fill="#1a1a2e"/>
+        <text x="310" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="white" font-family="Georgia">Process makes a Request</text>
+        <line x1="310" y1="50" x2="310" y2="80" stroke="#555" stroke-width="2" marker-end="url(#fa)"/>
+
+        <!-- Step 1 -->
+        <rect x="160" y="80" width="300" height="44" rx="8" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="310" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#1971c2" font-family="Georgia">Step 1: Is Request ≤ Need?</text>
+        <text x="310" y="117" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">(Did the process stay within its declared max?)</text>
+        <line x1="310" y1="124" x2="310" y2="155" stroke="#555" stroke-width="2" marker-end="url(#fa)"/>
+
+        <!-- Reject box -->
+        <line x1="460" y1="102" x2="560" y2="102" stroke="#e03131" stroke-width="2" marker-end="url(#far)"/>
+        <text x="470" y="97" font-size="11" fill="#e03131" font-family="Georgia">NO</text>
+        <rect x="560" y="82" width="50" height="40" rx="8" fill="#ffeeee" stroke="#e03131" stroke-width="2"/>
+        <text x="585" y="106" text-anchor="middle" font-size="11" font-weight="bold" fill="#e03131" font-family="Georgia">ERROR</text>
+
+        <text x="316" y="148" font-size="11" fill="#2f9e44" font-family="Georgia">YES</text>
+
+        <!-- Step 2 -->
+        <rect x="160" y="155" width="300" height="44" rx="8" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <text x="310" y="175" text-anchor="middle" font-size="12" font-weight="bold" fill="#2f9e44" font-family="Georgia">Step 2: Is Request ≤ Available?</text>
+        <text x="310" y="192" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">(Are there enough free resources?)</text>
+        <line x1="310" y1="199" x2="310" y2="230" stroke="#555" stroke-width="2" marker-end="url(#fa)"/>
+
+        <!-- Wait box -->
+        <line x1="460" y1="177" x2="550" y2="177" stroke="#e03131" stroke-width="2" marker-end="url(#far)"/>
+        <text x="470" y="172" font-size="11" fill="#e03131" font-family="Georgia">NO</text>
+        <rect x="550" y="157" width="60" height="40" rx="8" fill="#ffeeee" stroke="#e03131" stroke-width="2"/>
+        <text x="580" y="181" text-anchor="middle" font-size="11" font-weight="bold" fill="#e03131" font-family="Georgia">WAIT</text>
+
+        <text x="316" y="223" font-size="11" fill="#2f9e44" font-family="Georgia">YES</text>
+
+        <!-- Step 3 -->
+        <rect x="130" y="230" width="360" height="55" rx="8" fill="#fffbf0" stroke="#e67700" stroke-width="2"/>
+        <text x="310" y="252" text-anchor="middle" font-size="12" font-weight="bold" fill="#e67700" font-family="Georgia">Step 3: Pretend to Allocate</text>
+        <text x="310" y="268" text-anchor="middle" font-size="10.5" fill="#555" font-family="Georgia">Available -= Request;  Allocation += Request;  Need -= Request</text>
+        <text x="310" y="282" text-anchor="middle" font-size="10.5" fill="#555" font-family="Georgia">Then run Safety Algorithm →</text>
+        <line x1="310" y1="285" x2="310" y2="315" stroke="#555" stroke-width="2" marker-end="url(#fa)"/>
+
+        <!-- Safety Check -->
+        <rect x="160" y="315" width="300" height="40" rx="8" fill="#f3f0ff" stroke="#7048e8" stroke-width="2"/>
+        <text x="310" y="333" text-anchor="middle" font-size="12" font-weight="bold" fill="#7048e8" font-family="Georgia">Safety Algorithm: Safe state?</text>
+        <text x="310" y="348" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">(Does a safe sequence exist?)</text>
+
+        <!-- Safe → Allocate -->
+        <line x1="220" y1="355" x2="110" y2="355" stroke="#2f9e44" stroke-width="2" marker-end="url(#fag)"/>
+        <text x="150" y="348" font-size="11" fill="#2f9e44" font-family="Georgia">YES</text>
+        <rect x="30" y="340" width="80" height="30" rx="8" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+        <text x="70" y="360" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e7235" font-family="Georgia">ALLOCATE ✓</text>
+
+        <!-- Unsafe → Rollback -->
+        <line x1="400" y1="355" x2="510" y2="355" stroke="#e03131" stroke-width="2" marker-end="url(#far)"/>
+        <text x="430" y="348" font-size="11" fill="#e03131" font-family="Georgia">NO</text>
+        <rect x="510" y="337" width="95" height="36" rx="8" fill="#ffeeee" stroke="#e03131" stroke-width="2"/>
+        <text x="558" y="355" text-anchor="middle" font-size="11" font-weight="bold" fill="#e03131" font-family="Georgia">ROLLBACK + WAIT</text>
+      </svg>
+    </div>
+
+    <h4 style="margin: 16px 0 10px; color:#1a1a2e">Safety Algorithm (Finding the Safe Sequence)</h4>
+    <div class="defbox">
+      <div class="dlabel">Safety Algorithm Steps</div>
+      <ol style="padding-left:20px; font-size:0.93em; color:#2d3561; line-height:1.8;">
+        <li>Set <strong>Work = Available</strong> (copy of available resources)</li>
+        <li>Set <strong>Finish[i] = false</strong> for all processes initially</li>
+        <li>Find a process Pi where: <strong>Finish[i] = false</strong> AND <strong>Need[i] ≤ Work</strong></li>
+        <li>If found: <strong>Work = Work + Allocation[i]</strong> (Pi finishes and releases resources), set <strong>Finish[i] = true</strong>, go back to step 3</li>
+        <li>If all <strong>Finish[i] = true</strong> → <span class="hl2">SAFE STATE ✓</span></li>
+        <li>Otherwise → <span class="hl">UNSAFE STATE ✗</span></li>
+      </ol>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Solved Numerical — Classic Banker's Example</div>
+      <p>Resources: A = 10, B = 5, C = 7 instances. Processes: P0 to P4.</p>
+      <div class="step">          Allocation      Max         Need = Max - Alloc     
+           A   B   C     A   B   C     A   B   C
+  P0:      0   1   0     7   5   3     7   4   3
+  P1:      2   0   0     3   2   2     1   2   2
+  P2:      3   0   2     9   0   2     6   0   0
+  P3:      2   1   1     2   2   2     0   1   1
+  P4:      0   0   2     4   3   3     4   3   1
+
+  Total Allocated = [7, 2, 5]
+  Available = [10,5,7] - [7,2,5] = [3, 3, 2]</div>
+      <div class="step">Safety Algorithm — Work = [3, 3, 2]:
+
+  P1: Need [1,2,2] ≤ Work [3,3,2]? ✓  Work = [3,3,2]+[2,0,0] = [5,3,2]
+  P3: Need [0,1,1] ≤ Work [5,3,2]? ✓  Work = [5,3,2]+[2,1,1] = [7,4,3]
+  P4: Need [4,3,1] ≤ Work [7,4,3]? ✓  Work = [7,4,3]+[0,0,2] = [7,4,5]
+  P0: Need [7,4,3] ≤ Work [7,4,5]? ✓  Work = [7,4,5]+[0,1,0] = [7,5,5]
+  P2: Need [6,0,0] ≤ Work [7,5,5]? ✓  Done!</div>
+      <div class="answer">Safe Sequence: ⟨P1, P3, P4, P0, P2⟩ → System is in SAFE STATE ✓</div>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Solved Numerical — Find Which Process Finishes Last</div>
+      <p>3 processes, 5 units each of resources X, Y, Z (total = [5,5,5])</p>
+      <div class="step">           Allocation      Request (Need)
+           X   Y   Z     X   Y   Z
+  P0:      1   2   1     1   0   3
+  P1:      2   0   1     0   1   2
+  P2:      2   2   1     1   2   0
+
+  Total Allocated = [5, 4, 3]
+  Available = [5,5,5] - [5,4,3] = [0, 1, 2]</div>
+      <div class="step">Step 1: P1 Need [0,1,2] ≤ Available [0,1,2]? ✓
+         P1 runs → Available = [0,1,2] + [2,0,1] = [2,1,3]
+
+  Step 2: P0 Need [1,0,3] ≤ Available [2,1,3]? ✓
+         P0 runs → Available = [2,1,3] + [1,2,1] = [3,3,4]
+
+  Step 3: P2 Need [1,2,0] ≤ Available [3,3,4]? ✓
+         P2 runs LAST</div>
+      <div class="answer">Safe Sequence: P1 → P0 → P2.  Answer: P2 finishes LAST ✓</div>
+    </div>
+
+    <div class="trick">Always start by computing <strong>Need = Max − Allocation</strong>. Then find Available. Then look for the process whose Need ≤ Available. That is the first one to run!</div>
+
+    <div class="kwbox">
+      <span class="kw">Safe State</span> <span class="kw">Safe Sequence</span> <span class="kw">Need = Max - Allocation</span> <span class="kw">Work Array</span> <span class="kw">Finish Array</span> <span class="kw">Rollback</span>
+    </div>
+
+    <div class="examq">
+      <div class="qlabel">⭐ Likely 5-Mark Question</div>
+      <div class="qtext">Q: Explain Banker's Algorithm. What is a safe state? Illustrate with an example.</div>
+      <div class="qans">Ans: Define safe state (1 mark) → List 4 data structures with Need=Max-Alloc (1 mark) → 3-step request algorithm (1 mark) → Safety algorithm steps (1 mark) → Solve example showing safe sequence (1 mark) = Full 5 marks!</div>
+    </div>
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT 2 — MEMORY MANAGEMENT
+═══════════════════════════════════════════════════════ -->
+<div class="unit" id="mm" data-num="2">
+  <h2>📌 Unit 2 — Memory Management</h2>
+  <p>L-2.1.1 Memory Management &nbsp;|&nbsp; L-2.1.2 Allocation Techniques</p>
+</div>
+
+<!-- TOPIC 2.1 — ADDRESS BINDING -->
+<article class="topic">
+  <div class="topic-head"><span class="tno">2.1</span><h3>Address Binding — Mapping Logical to Physical Addresses</h3></div>
+  <div class="tbody">
+
+    <p>When you write a program, you use variable names and function names. The compiler converts these to addresses. <strong>Address binding</strong> is the process of mapping those program addresses to actual physical locations in RAM. This can happen at three different stages.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Definition</div>
+      <p><strong>Address Binding</strong> is the process of mapping a program's logical (virtual) addresses to physical (main memory) addresses. Every instruction and data item in a program needs to know its exact physical location before it can be executed.</p>
+    </div>
+
+    <div class="g3">
+      <div class="card card-blue">
+        <div class="ctitle">① Compile-Time Binding</div>
+        <p>The compiler produces <strong>absolute addresses</strong>. The program must always be loaded at the same memory location. Called <strong>Static Binding</strong>. If the location changes, the program must be recompiled.</p>
+      </div>
+      <div class="card card-orange">
+        <div class="ctitle">② Load-Time Binding</div>
+        <p>The compiler produces <strong>relocatable code</strong> (addresses relative to 0). The loader converts them to absolute addresses when the program is loaded into memory. If the program is moved, it must be reloaded.</p>
+      </div>
+      <div class="card card-green">
+        <div class="ctitle">③ Execution-Time Binding</div>
+        <p>Address translation happens at <strong>runtime by the CPU hardware (MMU)</strong>. The process can be moved in memory during execution. Called <strong>Dynamic Binding</strong>. Used by most modern operating systems.</p>
+      </div>
+    </div>
+
+    <!-- SVG: Address Binding Flow -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 6 — Address Binding: From Source Code to Physical Memory</div>
+      <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" width="600">
+        <defs>
+          <marker id="da" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#555"/>
+          </marker>
+        </defs>
+        <!-- Stage boxes -->
+        <rect x="10" y="60" width="100" height="80" rx="8" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="60" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Source</text>
+        <text x="60" y="106" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Code</text>
+        <text x="60" y="124" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">(x = y + z)</text>
+
+        <line x1="110" y1="100" x2="148" y2="100" stroke="#555" stroke-width="2" marker-end="url(#da)"/>
+        <text x="128" y="94" text-anchor="middle" font-size="9" fill="#e67700" font-family="Georgia">Compiler</text>
+
+        <rect x="148" y="60" width="100" height="80" rx="8" fill="#fffbf0" stroke="#e67700" stroke-width="2"/>
+        <text x="198" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Object</text>
+        <text x="198" y="106" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Module</text>
+        <text x="198" y="124" text-anchor="middle" font-size="9.5" fill="#555" font-family="Georgia">(relative addrs)</text>
+
+        <line x1="248" y1="100" x2="286" y2="100" stroke="#555" stroke-width="2" marker-end="url(#da)"/>
+        <text x="266" y="94" text-anchor="middle" font-size="9" fill="#e67700" font-family="Georgia">Linker</text>
+
+        <rect x="286" y="60" width="100" height="80" rx="8" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <text x="336" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Executable</text>
+        <text x="336" y="106" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">File</text>
+        <text x="336" y="124" text-anchor="middle" font-size="9.5" fill="#555" font-family="Georgia">(logical addrs)</text>
+
+        <line x1="386" y1="100" x2="424" y2="100" stroke="#555" stroke-width="2" marker-end="url(#da)"/>
+        <text x="404" y="94" text-anchor="middle" font-size="9" fill="#e67700" font-family="Georgia">Loader</text>
+
+        <rect x="424" y="60" width="100" height="80" rx="8" fill="#fff0f6" stroke="#e64980" stroke-width="2"/>
+        <text x="474" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Process in</text>
+        <text x="474" y="106" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">RAM</text>
+        <text x="474" y="124" text-anchor="middle" font-size="9.5" fill="#555" font-family="Georgia">(physical addrs)</text>
+
+        <!-- MMU label below -->
+        <line x1="300" y1="160" x2="490" y2="160" stroke="#e64980" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="395" y="156" text-anchor="middle" font-size="10" fill="#e64980" font-family="Georgia">MMU translates at runtime (Execution-Time Binding)</text>
+        <line x1="336" y1="140" x2="336" y2="158" stroke="#e64980" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="474" y1="140" x2="474" y2="158" stroke="#e64980" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+        <!-- Binding time labels -->
+        <text x="128" y="175" text-anchor="middle" font-size="9.5" fill="#1971c2" font-family="Georgia">← Compile-time →</text>
+        <text x="266" y="175" text-anchor="middle" font-size="9.5" fill="#e67700" font-family="Georgia">← Load-time →</text>
+      </svg>
+    </div>
+
+    <div class="g2">
+      <div class="card card-blue">
+        <div class="ctitle">Dynamic Loading</div>
+        <p>A routine (function) is loaded into memory <strong>only when it is called</strong>. If it is never called, it is never loaded. Better memory use. No special OS support needed — done by program design.</p>
+      </div>
+      <div class="card card-green">
+        <div class="ctitle">Dynamic Linking</div>
+        <p>Linking is postponed until execution. A small stub code finds the actual library at runtime. <strong>Shared libraries</strong> (.dll in Windows, .so in Linux) use this. OS support required.</p>
+      </div>
+    </div>
+
+    <div class="defbox">
+      <div class="dlabel">Base and Limit Registers — Hardware Protection</div>
+      <p><strong>Base Register:</strong> Holds the starting physical address of the current process.<br>
+      <strong>Limit Register:</strong> Holds the size (length) of the process.<br>
+      The CPU checks every memory access: <strong>Base ≤ Address ≤ Base + Limit</strong>. If the address falls outside this range, a trap (error) is generated, protecting other processes from being corrupted.</p>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Address Space Calculations</div>
+      <div class="step">Physical address space = 64 KB = 2^16 bytes,  Word size = 8 B = 2^3 bytes
+  Physical address space (in words) = 2^16 / 2^3 = 2^13 words
+  Physical address size = log₂(2^13) = 13 bits
+
+  Logical address space = 128 MB = 2^27 bytes,  Word size = 4 B = 2^2 bytes
+  Logical address space (in words)  = 2^27 / 2^2 = 2^25 words
+  Logical address size = log₂(2^25) = 25 bits</div>
+      <div class="answer">General Rule: Address size (bits) = log₂(address_space_in_words)</div>
+    </div>
+
+    <div class="trick">Dynamic Loading = "load when needed" (lazy loading). Dynamic Linking = "link when needed" (lazy linking). Both save memory and time!</div>
+    <div class="kwbox">
+      <span class="kw">Logical Address</span> <span class="kw">Physical Address</span> <span class="kw">MMU</span> <span class="kw">Base Register</span> <span class="kw">Limit Register</span> <span class="kw">Dynamic Loading</span> <span class="kw">Dynamic Linking</span>
+    </div>
+  </div>
+</article>
+
+<!-- TOPIC 2.2 — MEMORY ALLOCATION -->
+<article class="topic" id="alloc">
+  <div class="topic-head"><span class="tno">2.2</span><h3>Memory Allocation Techniques</h3></div>
+  <div class="tbody">
+
+    <p>When multiple programs run simultaneously, the OS needs a strategy to give each program its portion of RAM. This is called memory allocation. Poor allocation leads to <strong>fragmentation</strong> — wasted memory that cannot be used.</p>
+
+    <h4 style="margin:14px 0 8px; color:#1971c2">Swapping</h4>
+    <div class="defbox">
+      <div class="dlabel">Swapping</div>
+      <p>When RAM is full and a new process needs to run, the OS temporarily moves a process from RAM to the hard disk (swap out). Later, it brings it back (swap in). This allows more processes to run than the RAM can hold at one time. It slows the system but increases multitasking capability.</p>
+    </div>
+
+    <hr class="div">
+    <h4 style="margin:14px 0 8px; color:#1971c2">Contiguous Memory Allocation</h4>
+    <p>Each process is stored in a <strong>single contiguous (uninterrupted) block</strong> of memory.</p>
+
+    <div class="versus">
+      <div class="vs-a">
+        <div class="vs-title">Fixed Partition Scheme</div>
+        <ul>
+          <li>Memory is divided into <strong>fixed-size partitions</strong> at boot time</li>
+          <li>Each process is placed in one partition</li>
+          <li>Simple and fast</li>
+          <li>Problem: <strong>Internal Fragmentation</strong> — if a 5KB process is placed in an 8KB partition, 3KB is wasted inside</li>
+        </ul>
+      </div>
+      <div class="vs-b">
+        <div class="vs-title">Dynamic (Variable) Partition Scheme</div>
+        <ul>
+          <li>A partition is created <strong>exactly equal to the process size</strong></li>
+          <li>No internal fragmentation</li>
+          <li>Problem: <strong>External Fragmentation</strong> — after many allocate/deallocate cycles, free memory is scattered in small non-contiguous pieces</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SVG: Internal vs External Fragmentation -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 7 — Internal Fragmentation vs External Fragmentation</div>
+      <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" width="680">
+        <!-- INTERNAL FRAG (Left) -->
+        <text x="170" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#1971c2" font-family="Georgia">INTERNAL FRAGMENTATION</text>
+        <text x="170" y="40" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">(Fixed Partition — 8KB partition, 5KB process)</text>
+
+        <rect x="80" y="55" width="180" height="80" rx="6" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+        <text x="170" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e7235" font-family="Georgia">Process (5KB)</text>
+        <text x="170" y="100" text-anchor="middle" font-size="11" fill="#1e7235" font-family="Georgia">Actually used</text>
+
+        <rect x="80" y="135" width="180" height="45" rx="0" fill="#ffeeee" stroke="#e03131" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="170" y="157" text-anchor="middle" font-size="12" font-weight="bold" fill="#e03131" font-family="Georgia">WASTED: 3KB ✗</text>
+        <text x="170" y="174" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">(Cannot be used by others)</text>
+
+        <rect x="80" y="55" width="180" height="125" rx="6" fill="none" stroke="#1971c2" stroke-width="2.5"/>
+        <text x="280" y="120" font-size="11" fill="#1971c2" font-family="Georgia">↑ 8KB fixed</text>
+        <text x="280" y="135" font-size="11" fill="#1971c2" font-family="Georgia">  partition</text>
+
+        <text x="170" y="210" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">Waste is INSIDE the partition</text>
+        <text x="170" y="228" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">Solution: Paging (equal-size pages)</text>
+
+        <!-- Divider -->
+        <line x1="350" y1="10" x2="350" y2="250" stroke="#e0d8c8" stroke-width="2" stroke-dasharray="6,4"/>
+
+        <!-- EXTERNAL FRAG (Right) -->
+        <text x="515" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#e03131" font-family="Georgia">EXTERNAL FRAGMENTATION</text>
+        <text x="515" y="40" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">(Dynamic partition — scattered free blocks)</text>
+
+        <rect x="370" y="55" width="80" height="45" rx="4" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+        <text x="410" y="83" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e7235" font-family="Georgia">Process A</text>
+
+        <rect x="455" y="55" width="50" height="45" rx="4" fill="#ffeeee" stroke="#e03131" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="480" y="76" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">Free</text>
+        <text x="480" y="91" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">2KB</text>
+
+        <rect x="510" y="55" width="90" height="45" rx="4" fill="#d0e8ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="555" y="83" text-anchor="middle" font-size="11" font-weight="bold" fill="#1971c2" font-family="Georgia">Process B</text>
+
+        <rect x="605" y="55" width="65" height="45" rx="4" fill="#ffeeee" stroke="#e03131" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="637" y="76" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">Free</text>
+        <text x="637" y="91" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">3KB</text>
+
+        <rect x="370" y="108" width="300" height="45" rx="4" fill="#d8f0e8" stroke="#2f9e44" stroke-width="2"/>
+        <text x="520" y="136" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e7235" font-family="Georgia">Process C</text>
+
+        <!-- Problem label -->
+        <rect x="395" y="165" width="250" height="45" rx="6" fill="#fffbf0" stroke="#e67700" stroke-width="2"/>
+        <text x="520" y="183" text-anchor="middle" font-size="11" font-weight="bold" fill="#e67700" font-family="Georgia">New process needs 4KB</text>
+        <text x="520" y="200" text-anchor="middle" font-size="11" fill="#e03131" font-family="Georgia">Total free = 5KB BUT non-contiguous! ✗</text>
+
+        <text x="515" y="228" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">Solution: Compaction (merge free blocks)</text>
+      </svg>
+    </div>
+
+    <hr class="div">
+    <h4 style="margin:14px 0 8px; color:#1971c2">Dynamic Storage Allocation — First Fit, Best Fit, Worst Fit</h4>
+    <p>When using dynamic partitioning, which free hole (gap) should be used for a new process? Three algorithms answer this:</p>
+
+    <div class="g3">
+      <div class="card card-blue">
+        <div class="ctitle">① First Fit</div>
+        <p>Scan memory from the <strong>beginning</strong> and pick the <strong>first hole that is large enough</strong>. Fast but may fragment the beginning of memory over time.</p>
+      </div>
+      <div class="card card-green">
+        <div class="ctitle">② Best Fit</div>
+        <p>Search the <strong>entire list</strong> and pick the <strong>smallest hole that fits</strong>. Minimizes wasted space per allocation but leaves tiny unusable fragments. Slow.</p>
+      </div>
+      <div class="card card-red">
+        <div class="ctitle">③ Worst Fit</div>
+        <p>Search the <strong>entire list</strong> and pick the <strong>largest available hole</strong>. Leaves the biggest leftover, but is generally the least efficient overall.</p>
+      </div>
+    </div>
+
+    <!-- SVG: Three allocation algorithms -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 8 — Memory Allocation: First Fit vs Best Fit vs Worst Fit</div>
+      <svg viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" width="660">
+        <!-- Memory partitions: 100, 200, 300, 400 KB. Process needs 250KB -->
+        <text x="330" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Process Size: 250KB  |  Available Holes: 100KB, 500KB, 200KB, 350KB</text>
+
+        <!-- FIRST FIT -->
+        <text x="110" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#1971c2" font-family="Georgia">FIRST FIT</text>
+        <text x="110" y="65" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">First hole ≥ 250KB</text>
+        <rect x="30" y="80" width="60" height="40" rx="4" fill="#ffeeee" stroke="#aaa" stroke-width="1.5"/>
+        <text x="60" y="105" text-anchor="middle" font-size="10" fill="#888" font-family="Georgia">100KB ✗</text>
+        <rect x="95" y="80" width="80" height="40" rx="4" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2.5"/>
+        <text x="135" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">500KB ✓</text>
+        <text x="135" y="115" text-anchor="middle" font-size="9" fill="#1e7235" font-family="Georgia">USE THIS!</text>
+        <rect x="180" y="80" width="45" height="40" rx="4" fill="#f5f5f5" stroke="#aaa" stroke-width="1.5"/>
+        <text x="202" y="105" text-anchor="middle" font-size="10" fill="#888" font-family="Georgia">200KB</text>
+        <!-- After allocation -->
+        <text x="110" y="145" text-anchor="middle" font-size="11" fill="#555" font-family="Georgia">After: 500KB → 250KB used</text>
+        <rect x="95" y="155" width="40" height="30" rx="4" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="115" y="175" text-anchor="middle" font-size="9" fill="#1e7235" font-family="Georgia">250KB</text>
+        <rect x="138" y="155" width="37" height="30" rx="4" fill="#fff8e1" stroke="#e67700" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="156" y="175" text-anchor="middle" font-size="9" fill="#e67700" font-family="Georgia">250KB</text>
+        <text x="110" y="210" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Leftover: 250KB</text>
+
+        <!-- Dividers -->
+        <line x1="240" y1="40" x2="240" y2="230" stroke="#e0d8c8" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="450" y1="40" x2="450" y2="230" stroke="#e0d8c8" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+        <!-- BEST FIT -->
+        <text x="345" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#2f9e44" font-family="Georgia">BEST FIT</text>
+        <text x="345" y="65" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Smallest hole ≥ 250KB</text>
+        <rect x="260" y="80" width="60" height="40" rx="4" fill="#f5f5f5" stroke="#aaa" stroke-width="1.5"/>
+        <text x="290" y="105" text-anchor="middle" font-size="10" fill="#888" font-family="Georgia">100KB ✗</text>
+        <rect x="325" y="80" width="40" height="40" rx="4" fill="#f5f5f5" stroke="#aaa" stroke-width="1.5"/>
+        <text x="345" y="100" text-anchor="middle" font-size="10" fill="#888" font-family="Georgia">500KB</text>
+        <rect x="370" y="80" width="50" height="40" rx="4" fill="#f5f5f5" stroke="#aaa" stroke-width="1.5"/>
+        <text x="395" y="100" text-anchor="middle" font-size="10" fill="#888" font-family="Georgia">200KB ✗</text>
+        <rect x="260" y="130" width="160" height="30" rx="4" fill="#eee"/>
+        <text x="340" y="150" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">350KB → smallest ≥ 250</text>
+        <!-- Best = 350KB -->
+        <rect x="260" y="165" width="160" height="30" rx="4" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+        <text x="340" y="185" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">Use 350KB ✓ (leftover: 100KB)</text>
+        <text x="345" y="215" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Smallest leftover!</text>
+
+        <!-- WORST FIT -->
+        <text x="560" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#e03131" font-family="Georgia">WORST FIT</text>
+        <text x="560" y="65" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Largest hole ≥ 250KB</text>
+        <rect x="470" y="80" width="50" height="40" rx="4" fill="#f5f5f5" stroke="#aaa" stroke-width="1.5"/>
+        <text x="495" y="105" text-anchor="middle" font-size="10" fill="#888" font-family="Georgia">100KB ✗</text>
+        <rect x="525" y="80" width="80" height="40" rx="4" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2.5"/>
+        <text x="565" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">500KB ✓</text>
+        <text x="565" y="115" text-anchor="middle" font-size="9" fill="#1e7235" font-family="Georgia">LARGEST</text>
+        <!-- After -->
+        <text x="560" y="150" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Use 500KB (leftover: 250KB)</text>
+        <text x="560" y="170" text-anchor="middle" font-size="10" fill="#e67700" font-family="Georgia">Same leftover as First Fit</text>
+        <text x="560" y="190" text-anchor="middle" font-size="10" fill="#e03131" font-family="Georgia">But wastes the largest hole!</text>
+        <text x="560" y="215" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Generally worst performance</text>
+      </svg>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Solved Numerical — All Three Algorithms</div>
+      <p>Partitions: 200KB, 400KB, 600KB, 500KB, 300KB, 250KB. Processes: P1=357KB, P2=210KB, P3=468KB, P4=491KB</p>
+      <div class="step">FIRST FIT (scan from start, take first sufficient hole):
+  P1(357): 200KB✗ → 400KB✓  |  Leftover in 400KB: 43KB
+  P2(210): 200KB✗ → 43KB✗  → 600KB✓  |  Leftover: 390KB
+  P3(468): 43KB✗ → 390KB✗ → 500KB✓  |  Leftover: 32KB
+  P4(491): 43KB✗ 390KB✗ 32KB✗ 300KB✗ 250KB✗ → NOT ALLOCATED ✗</div>
+      <div class="step">BEST FIT (smallest hole that fits):
+  P1(357): 400KB✓ (smallest ≥357)  |  Leftover: 43KB
+  P2(210): 250KB✓ (smallest ≥210)  |  Leftover: 40KB
+  P3(468): 500KB✓ (smallest ≥468)  |  Leftover: 32KB
+  P4(491): 600KB✓ (smallest ≥491)  |  Leftover: 109KB
+  All 4 processes allocated ✓</div>
+      <div class="answer">Best Fit successfully allocates all 4 processes. First Fit fails to allocate P4!</div>
+    </div>
+
+    <h4 style="margin:16px 0 8px; color:#1971c2">Compaction</h4>
+    <div class="defbox">
+      <div class="dlabel">Compaction</div>
+      <p>Compaction rearranges all currently running processes in memory so that all free spaces are merged into one large contiguous block. This fixes external fragmentation. However, it is expensive — every process must be moved and its addresses updated. Requires execution-time address binding.</p>
+    </div>
+
+    <!-- SVG: Compaction -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 9 — Compaction: Before and After</div>
+      <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" width="580">
+        <defs>
+          <marker id="coa" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+            <polygon points="0 0,12 4,0 8" fill="#e67700"/>
+          </marker>
+        </defs>
+        <!-- BEFORE -->
+        <text x="140" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#e03131" font-family="Georgia">BEFORE COMPACTION</text>
+        <rect x="30" y="35" width="220" height="145" rx="6" fill="#f5f5f5" stroke="#555" stroke-width="2"/>
+        <!-- segments -->
+        <rect x="30" y="35" width="220" height="32" rx="0" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="140" y="56" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e7235" font-family="Georgia">Process A (30KB)</text>
+        <rect x="30" y="67" width="220" height="22" rx="0" fill="#ffeeee" stroke="#e03131" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="140" y="83" text-anchor="middle" font-size="11" fill="#e03131" font-family="Georgia">Free: 10KB</text>
+        <rect x="30" y="89" width="220" height="28" rx="0" fill="#d0e8ff" stroke="#1971c2" stroke-width="1.5"/>
+        <text x="140" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="#1971c2" font-family="Georgia">Process B (20KB)</text>
+        <rect x="30" y="117" width="220" height="18" rx="0" fill="#ffeeee" stroke="#e03131" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="140" y="131" text-anchor="middle" font-size="11" fill="#e03131" font-family="Georgia">Free: 8KB</text>
+        <rect x="30" y="135" width="220" height="25" rx="0" fill="#f3f0ff" stroke="#7048e8" stroke-width="1.5"/>
+        <text x="140" y="153" text-anchor="middle" font-size="11" font-weight="bold" fill="#7048e8" font-family="Georgia">Process C (15KB)</text>
+        <rect x="30" y="160" width="220" height="20" rx="0" fill="#ffeeee" stroke="#e03131" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="140" y="176" text-anchor="middle" font-size="11" fill="#e03131" font-family="Georgia">Free: 7KB</text>
+        <!-- Problem: total free = 25KB but scattered -->
+        <text x="140" y="196" text-anchor="middle" font-size="10.5" fill="#e03131" font-family="Georgia">25KB free but SCATTERED!</text>
+
+        <!-- Arrow -->
+        <text x="290" y="100" text-anchor="middle" font-size="11" fill="#e67700" font-family="Georgia">COMPACT</text>
+        <line x1="258" y1="108" x2="322" y2="108" stroke="#e67700" stroke-width="3" marker-end="url(#coa)"/>
+
+        <!-- AFTER -->
+        <text x="440" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f9e44" font-family="Georgia">AFTER COMPACTION</text>
+        <rect x="330" y="35" width="220" height="145" rx="6" fill="#f5f5f5" stroke="#555" stroke-width="2"/>
+        <rect x="330" y="35" width="220" height="32" rx="0" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="440" y="56" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e7235" font-family="Georgia">Process A (30KB)</text>
+        <rect x="330" y="67" width="220" height="28" rx="0" fill="#d0e8ff" stroke="#1971c2" stroke-width="1.5"/>
+        <text x="440" y="86" text-anchor="middle" font-size="11" font-weight="bold" fill="#1971c2" font-family="Georgia">Process B (20KB)</text>
+        <rect x="330" y="95" width="220" height="25" rx="0" fill="#f3f0ff" stroke="#7048e8" stroke-width="1.5"/>
+        <text x="440" y="113" text-anchor="middle" font-size="11" font-weight="bold" fill="#7048e8" font-family="Georgia">Process C (15KB)</text>
+        <rect x="330" y="120" width="220" height="60" rx="0" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2.5" stroke-dasharray="0"/>
+        <text x="440" y="148" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e7235" font-family="Georgia">FREE: 25KB</text>
+        <text x="440" y="168" text-anchor="middle" font-size="11" fill="#1e7235" font-family="Georgia">CONTIGUOUS ✓</text>
+        <text x="440" y="196" text-anchor="middle" font-size="10.5" fill="#2f9e44" font-family="Georgia">Can now fit a 25KB process!</text>
+      </svg>
+    </div>
+
+    <div class="trick">Fixed partition → Internal fragmentation (waste INSIDE). Dynamic partition → External fragmentation (waste OUTSIDE). Compaction fixes external; Paging fixes both!</div>
+
+    <div class="kwbox">
+      <span class="kw">Swapping</span> <span class="kw">Internal Fragmentation</span> <span class="kw">External Fragmentation</span> <span class="kw">First Fit</span> <span class="kw">Best Fit</span> <span class="kw">Worst Fit</span> <span class="kw">Compaction</span>
+    </div>
+
+    <div class="examq">
+      <div class="qlabel">⭐ Likely 2-Mark Question</div>
+      <div class="qtext">Q: Differentiate between internal and external fragmentation.</div>
+      <div class="qans">Ans: Internal fragmentation occurs in fixed-partition schemes where the allocated partition is larger than the process — the unused space inside the partition is wasted. External fragmentation occurs in dynamic-partition schemes where free memory exists but is scattered in non-contiguous blocks too small to satisfy a request. Solution: paging for internal; compaction for external.</div>
+    </div>
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT 3 — PAGING & SEGMENTATION
+═══════════════════════════════════════════════════════ -->
+<div class="unit" id="paging" data-num="3">
+  <h2>📌 Unit 3 — Paging &amp; Segmentation</h2>
+  <p>L-2.1.4 Paging, Shared Pages, Multi-Level Paging, Segmentation</p>
+</div>
+
+<!-- TOPIC 3.1 — PAGING -->
+<article class="topic">
+  <div class="topic-head"><span class="tno">3.1</span><h3>Paging — Non-Contiguous Memory Management</h3></div>
+  <div class="tbody">
+
+    <p>Paging solves the problem of contiguous allocation. Think of it like a book. The book (program) is divided into pages of equal size. These pages can be placed on any shelf (physical memory frame) — they do not need to be side by side. A page table acts as the index, telling you which shelf each page is on.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Definition</div>
+      <p><strong>Paging</strong> divides physical memory into fixed-size blocks called <strong>frames</strong> and logical memory into same-size blocks called <strong>pages</strong>. A <strong>page table</strong> maps each page number to a frame number. Any free frame can hold any page — no need for contiguous allocation. This eliminates external fragmentation.</p>
+    </div>
+
+    <!-- SVG: Paging Address Translation -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 10 — Paging: Address Translation from Logical to Physical</div>
+      <svg viewBox="0 0 660 290" xmlns="http://www.w3.org/2000/svg" width="660">
+        <defs>
+          <marker id="pa" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#1971c2"/>
+          </marker>
+          <marker id="pag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#2f9e44"/>
+          </marker>
+        </defs>
+
+        <!-- CPU generates Logical Address -->
+        <rect x="10" y="20" width="155" height="55" rx="8" fill="#1a1a2e"/>
+        <text x="88" y="43" text-anchor="middle" font-size="12" font-weight="bold" fill="white" font-family="Georgia">CPU Logical Address</text>
+        <rect x="15" y="50" width="68" height="20" rx="4" fill="#e64980"/>
+        <text x="49" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Georgia">Page # (p)</text>
+        <rect x="90" y="50" width="70" height="20" rx="4" fill="#1971c2"/>
+        <text x="125" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Georgia">Offset (d)</text>
+
+        <!-- Arrow to page table -->
+        <line x1="49" y1="75" x2="49" y2="115" stroke="#e64980" stroke-width="2" marker-end="url(#pa)"/>
+
+        <!-- Page Table -->
+        <rect x="10" y="115" width="145" height="130" rx="8" fill="#f3f0ff" stroke="#7048e8" stroke-width="2"/>
+        <text x="83" y="135" text-anchor="middle" font-size="12" font-weight="bold" fill="#7048e8" font-family="Georgia">Page Table</text>
+        <rect x="18" y="142" width="129" height="20" rx="4" fill="#e9e0ff"/>
+        <text x="83" y="157" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Page 0 → Frame 3</text>
+        <rect x="18" y="165" width="129" height="20" rx="4" fill="#d0c8ff"/>
+        <text x="83" y="180" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Page 1 → Frame 7</text>
+        <rect x="18" y="188" width="129" height="20" rx="4" fill="#e9e0ff"/>
+        <text x="83" y="203" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Page 2 → Frame 1</text>
+        <rect x="18" y="211" width="129" height="20" rx="4" fill="#d0c8ff"/>
+        <text x="83" y="226" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Page 3 → Frame 4</text>
+
+        <!-- Arrow from page table to physical -->
+        <line x1="155" y1="185" x2="220" y2="185" stroke="#7048e8" stroke-width="2" marker-end="url(#pa)"/>
+        <text x="188" y="178" text-anchor="middle" font-size="10" fill="#7048e8" font-family="Georgia">Frame# = f</text>
+
+        <!-- Physical Address -->
+        <rect x="220" y="155" width="155" height="55" rx="8" fill="#1a1a2e"/>
+        <text x="298" y="178" text-anchor="middle" font-size="12" font-weight="bold" fill="white" font-family="Georgia">Physical Address</text>
+        <rect x="225" y="185" width="68" height="20" rx="4" fill="#2f9e44"/>
+        <text x="259" y="199" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Georgia">Frame # (f)</text>
+        <rect x="300" y="185" width="70" height="20" rx="4" fill="#1971c2"/>
+        <text x="335" y="199" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Georgia">Offset (d)</text>
+
+        <!-- Offset passes through unchanged -->
+        <path d="M 125 75 Q 125 130 335 150" stroke="#1971c2" stroke-width="2" fill="none" stroke-dasharray="6,3" marker-end="url(#pag)"/>
+        <text x="220" y="125" font-size="10" fill="#1971c2" font-family="Georgia">Offset passes unchanged</text>
+
+        <!-- Physical Memory -->
+        <rect x="420" y="30" width="230" height="240" rx="8" fill="#f8f6f0" stroke="#555" stroke-width="2"/>
+        <text x="535" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Physical Memory (Frames)</text>
+
+        <rect x="430" y="60" width="90" height="30" rx="4" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="475" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">Frame 0 (free)</text>
+        <rect x="430" y="95" width="90" height="30" rx="4" fill="#ffeeee" stroke="#e03131" stroke-width="1.5"/>
+        <text x="475" y="115" text-anchor="middle" font-size="10" font-weight="bold" fill="#c00" font-family="Georgia">Frame 1 — Page 2</text>
+        <rect x="430" y="130" width="90" height="30" rx="4" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="475" y="150" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">Frame 2 (free)</text>
+        <rect x="430" y="165" width="90" height="30" rx="4" fill="#d0c8ff" stroke="#7048e8" stroke-width="1.5"/>
+        <text x="475" y="185" text-anchor="middle" font-size="10" font-weight="bold" fill="#5030b0" font-family="Georgia">Frame 3 — Page 0</text>
+        <rect x="430" y="200" width="90" height="30" rx="4" fill="#ffe8cc" stroke="#e67700" stroke-width="1.5"/>
+        <text x="475" y="220" text-anchor="middle" font-size="10" font-weight="bold" fill="#904000" font-family="Georgia">Frame 4 — Page 3</text>
+
+        <!-- More frames -->
+        <rect x="530" y="95" width="110" height="30" rx="4" fill="#d0e8ff" stroke="#1971c2" stroke-width="1.5"/>
+        <text x="585" y="115" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a3a8a" font-family="Georgia">Frame 7 — Page 1</text>
+
+        <!-- Note: non-contiguous -->
+        <rect x="425" y="240" width="215" height="22" rx="6" fill="#fffbf0" stroke="#e67700" stroke-width="1.5"/>
+        <text x="533" y="256" text-anchor="middle" font-size="10" font-weight="bold" fill="#e67700" font-family="Georgia">Pages in non-contiguous frames! ✓</text>
+
+        <!-- Arrow from Physical address to frame -->
+        <line x1="375" y1="185" x2="420" y2="165" stroke="#2f9e44" stroke-width="2" marker-end="url(#pag)"/>
+      </svg>
+    </div>
+
+    <div class="defbox">
+      <div class="dlabel">Key Formulas</div>
+      <p><strong>Page Number (p)</strong> = Logical Address ÷ Page Size</p>
+      <p><strong>Offset (d)</strong> = Logical Address mod Page Size</p>
+      <p><strong>Physical Address</strong> = Frame Number × Page Size + Offset</p>
+      <p><strong>If logical address space = 2^m and page size = 2^n:</strong> Page number uses (m−n) bits, Offset uses n bits</p>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Solved Numerical — Find Logical Address Bits</div>
+      <div class="step">Given: 4K pages of size 512 bytes each
+
+  Number of pages = 4K = 4 × 1024 = 4096 = 2^12  → Page number needs 12 bits
+  Page size       = 512 bytes = 2^9                → Offset needs 9 bits
+  Total logical address size = 12 + 9 = 21 bits ✓</div>
+      <div class="answer">Answer: 21 bits are needed for the logical address.</div>
+    </div>
+
+    <h4 style="margin:16px 0 8px; color:#1971c2">Translation Lookaside Buffer (TLB)</h4>
+    <div class="defbox">
+      <div class="dlabel">Why TLB?</div>
+      <p>The page table is stored in main memory. So every memory access actually requires TWO memory accesses: one to look up the page table, and one to get the actual data. This doubles the access time!</p>
+      <p style="margin-top:6px">The <strong>TLB (Translation Lookaside Buffer)</strong> is a small, fast hardware cache that stores recently used page table entries. If the page entry is in TLB (TLB hit), only ONE memory access is needed. If not (TLB miss), two accesses are needed.</p>
+      <p style="margin-top:6px"><strong>Effective Access Time = (Hit Rate × Hit Time) + (Miss Rate × Miss Rate × Memory Access Time)</strong></p>
+    </div>
+
+    <h4 style="margin:16px 0 8px; color:#1971c2">Shared Pages</h4>
+    <div class="defbox">
+      <div class="dlabel">Shared Pages</div>
+      <p>Multiple processes can share the same physical frame (same physical page). This is useful for common code like text editors or system libraries — only one copy exists in RAM but multiple processes use it. Shared pages must be <strong>read-only</strong> (write-protected) to prevent one process from corrupting another's data.</p>
+    </div>
+
+    <h4 style="margin:16px 0 8px; color:#1971c2">Multi-Level Page Tables</h4>
+    <div class="defbox">
+      <div class="dlabel">Why Multi-Level?</div>
+      <p>For a 32-bit address space with 4KB pages, the page table alone would need 4MB of memory per process! The solution is to break the page table into multiple levels. The level-1 table points to level-2 tables, which point to actual frames. Only the parts of the page table actually in use are kept in memory.</p>
+    </div>
+
+    <div class="trick">Paging = No external fragmentation! But may have internal fragmentation (last page not fully used). Page table itself takes memory — use TLB for speed!</div>
+    <div class="kwbox">
+      <span class="kw">Page</span> <span class="kw">Frame</span> <span class="kw">Page Table</span> <span class="kw">TLB</span> <span class="kw">Page Number</span> <span class="kw">Offset</span> <span class="kw">PTBR</span> <span class="kw">Internal Fragmentation</span>
+    </div>
+  </div>
+</article>
+
+<!-- TOPIC 3.2 — SEGMENTATION -->
+<article class="topic" id="seg">
+  <div class="topic-head"><span class="tno">3.2</span><h3>Segmentation — Logical Division of Memory</h3></div>
+  <div class="tbody">
+
+    <p>While paging divides memory physically into equal-size pieces, <strong>segmentation divides a program logically</strong> based on its structure — code section, data section, stack, heap, etc. Each part is a separate segment of different size. This matches how a programmer thinks about their program.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Definition</div>
+      <p><strong>Segmentation</strong> is a memory management scheme where a program is divided into variable-size logical segments. Each segment has a name/number and a length. The OS maintains a <strong>Segment Table</strong> with the base address and limit for each segment.</p>
+    </div>
+
+    <!-- SVG: Segmentation Address Translation -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 11 — Segmentation: Address Translation</div>
+      <svg viewBox="0 0 620 250" xmlns="http://www.w3.org/2000/svg" width="620">
+        <defs>
+          <marker id="sga" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#2f9e44"/>
+          </marker>
+          <marker id="sra" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#e03131"/>
+          </marker>
+          <marker id="sba" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#1971c2"/>
+          </marker>
+        </defs>
+
+        <!-- Logical address -->
+        <rect x="10" y="20" width="140" height="55" rx="8" fill="#1a1a2e"/>
+        <text x="80" y="40" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Georgia">Logical Address</text>
+        <rect x="15" y="47" width="58" height="22" rx="4" fill="#e64980"/>
+        <text x="44" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Georgia">Seg # (s)</text>
+        <rect x="80" y="47" width="65" height="22" rx="4" fill="#1971c2"/>
+        <text x="112" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="Georgia">Offset (d)</text>
+
+        <!-- Arrow from segment# to segment table -->
+        <line x1="44" y1="75" x2="44" y2="115" stroke="#e64980" stroke-width="2" marker-end="url(#sba)"/>
+
+        <!-- Segment Table -->
+        <rect x="10" y="115" width="175" height="120" rx="8" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <text x="97" y="133" text-anchor="middle" font-size="11" font-weight="bold" fill="#2f9e44" font-family="Georgia">Segment Table</text>
+        <rect x="18" y="140" width="159" height="18" rx="3" fill="#e8f5e9"/>
+        <text x="97" y="153" text-anchor="middle" font-size="10" fill="#1a1a2e" font-family="Georgia">Seg# | Base  | Limit</text>
+        <rect x="18" y="160" width="159" height="16" rx="3" fill="#d3f9d8"/>
+        <text x="97" y="172" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">  0  | 1000  |  400</text>
+        <rect x="18" y="178" width="159" height="16" rx="3" fill="#e8f5e9"/>
+        <text x="97" y="190" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">  1  | 2000  |  300 ◄</text>
+        <rect x="18" y="196" width="159" height="16" rx="3" fill="#d3f9d8"/>
+        <text x="97" y="208" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">  2  | 3000  |  500</text>
+        <text x="97" y="228" text-anchor="middle" font-size="9" fill="#2f9e44" font-family="Georgia">STBR holds address of this table</text>
+
+        <!-- Check validity -->
+        <text x="220" y="175" text-anchor="middle" font-size="11" font-weight="bold" fill="#e67700" font-family="Georgia">Check:</text>
+        <text x="220" y="192" text-anchor="middle" font-size="10.5" fill="#e67700" font-family="Georgia">d &lt; Limit?</text>
+        <line x1="185" y1="185" x2="248" y2="185" stroke="#e67700" stroke-width="2" marker-end="url(#sba)"/>
+
+        <!-- YES/NO arrows -->
+        <line x1="260" y1="170" x2="310" y2="130" stroke="#2f9e44" stroke-width="2" marker-end="url(#sga)"/>
+        <text x="262" y="150" font-size="10" fill="#2f9e44" font-family="Georgia">YES ✓</text>
+        <line x1="260" y1="200" x2="310" y2="230" stroke="#e03131" stroke-width="2" marker-end="url(#sra)"/>
+        <text x="265" y="225" font-size="10" fill="#e03131" font-family="Georgia">NO ✗</text>
+
+        <!-- Physical address (YES path) -->
+        <rect x="310" y="100" width="170" height="50" rx="8" fill="#1a1a2e"/>
+        <text x="395" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Georgia">Physical Address</text>
+        <text x="395" y="140" text-anchor="middle" font-size="11" fill="#a3e6b8" font-family="Georgia">= Base + Offset</text>
+        <text x="395" y="158" text-anchor="middle" font-size="11" fill="#a3e6b8" font-family="Georgia">= 2000 + 150 = 2150 ✓</text>
+
+        <!-- Trap (NO path) -->
+        <rect x="310" y="215" width="155" height="30" rx="8" fill="#ffeeee" stroke="#e03131" stroke-width="2"/>
+        <text x="388" y="235" text-anchor="middle" font-size="11" font-weight="bold" fill="#e03131" font-family="Georgia">TRAP! Segmentation Fault ✗</text>
+
+        <!-- Offset arrow -->
+        <path d="M 112 75 Q 112 90 480 90 Q 490 90 490 100" stroke="#1971c2" stroke-width="2" fill="none" stroke-dasharray="5,3" marker-end="url(#sba)"/>
+        <text x="300" y="84" font-size="9.5" fill="#1971c2" font-family="Georgia">Offset (d) added to Base</text>
+      </svg>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Solved Numerical — Segmentation Address Translation</div>
+      <p>Segment table: Seg 0: Base=1000, Limit=400 | Seg 1: Base=2000, Limit=300 | Seg 2: Base=3000, Limit=500</p>
+      <div class="step">Find physical address for logical address (1, 150):
+  Segment number = 1  →  Base = 2000, Limit = 300
+  Offset = 150
+  Check: offset (150) &lt; limit (300)?  → YES ✓ (valid access)
+  Physical Address = Base + Offset = 2000 + 150 = 2150 ✓
+
+Find physical address for logical address (0, 500):
+  Segment number = 0  →  Base = 1000, Limit = 400
+  Offset = 500
+  Check: offset (500) &lt; limit (400)?  → NO ✗ (500 &gt; 400)
+  → TRAP generated! → Segmentation Fault!</div>
+      <div class="answer">PA = 2150 for (1,150). Segmentation fault for (0,500) — offset exceeds segment limit.</div>
+    </div>
+
+    <!-- SVG: Paging vs Segmentation comparison -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 12 — Paging vs Segmentation Comparison</div>
+      <svg viewBox="0 0 620 220" xmlns="http://www.w3.org/2000/svg" width="620">
+        <!-- Headers -->
+        <rect x="10" y="10" width="295" height="36" rx="8" fill="#1971c2"/>
+        <text x="157" y="33" text-anchor="middle" font-size="14" font-weight="bold" fill="white" font-family="Georgia">PAGING</text>
+        <rect x="315" y="10" width="295" height="36" rx="8" fill="#2f9e44"/>
+        <text x="462" y="33" text-anchor="middle" font-size="14" font-weight="bold" fill="white" font-family="Georgia">SEGMENTATION</text>
+
+        <!-- Rows -->
+        <rect x="10" y="50" width="295" height="25" rx="0" fill="#f0f4ff"/>
+        <text x="157" y="67" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Fixed size (power of 2)</text>
+        <rect x="315" y="50" width="295" height="25" rx="0" fill="#f0fff4"/>
+        <text x="462" y="67" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Variable size (by logic)</text>
+
+        <rect x="10" y="78" width="295" height="25" rx="0" fill="#f8f8f8"/>
+        <text x="157" y="95" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Physical view (programmer unaware)</text>
+        <rect x="315" y="78" width="295" height="25" rx="0" fill="#f8f8f8"/>
+        <text x="462" y="95" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Logical view (code, data, stack...)</text>
+
+        <rect x="10" y="106" width="295" height="25" rx="0" fill="#f0f4ff"/>
+        <text x="157" y="123" text-anchor="middle" font-size="11" fill="#e03131" font-family="Georgia">Internal fragmentation ⚠️</text>
+        <rect x="315" y="106" width="295" height="25" rx="0" fill="#f0fff4"/>
+        <text x="462" y="123" text-anchor="middle" font-size="11" fill="#e03131" font-family="Georgia">External fragmentation ⚠️</text>
+
+        <rect x="10" y="134" width="295" height="25" rx="0" fill="#f8f8f8"/>
+        <text x="157" y="151" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Address: page# + offset</text>
+        <rect x="315" y="134" width="295" height="25" rx="0" fill="#f8f8f8"/>
+        <text x="462" y="151" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Address: segment# + offset</text>
+
+        <rect x="10" y="162" width="295" height="25" rx="0" fill="#f0f4ff"/>
+        <text x="157" y="179" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Table: Page Table</text>
+        <rect x="315" y="162" width="295" height="25" rx="0" fill="#f0fff4"/>
+        <text x="462" y="179" text-anchor="middle" font-size="11" fill="#1a1a2e" font-family="Georgia">Table: Segment Table (Base+Limit)</text>
+
+        <rect x="10" y="190" width="295" height="25" rx="0" fill="#f8f8f8"/>
+        <text x="157" y="207" text-anchor="middle" font-size="11" fill="#2f9e44" font-family="Georgia">Easy to implement</text>
+        <rect x="315" y="190" width="295" height="25" rx="0" fill="#f8f8f8"/>
+        <text x="462" y="207" text-anchor="middle" font-size="11" fill="#2f9e44" font-family="Georgia">Matches programmer's view</text>
+
+        <!-- Row labels -->
+        <line x1="10" y1="50" x2="610" y2="50" stroke="#ccc" stroke-width="1"/>
+        <line x1="10" y1="78" x2="610" y2="78" stroke="#ccc" stroke-width="1"/>
+        <line x1="10" y1="106" x2="610" y2="106" stroke="#ccc" stroke-width="1"/>
+        <line x1="10" y1="134" x2="610" y2="134" stroke="#ccc" stroke-width="1"/>
+        <line x1="10" y1="162" x2="610" y2="162" stroke="#ccc" stroke-width="1"/>
+        <line x1="310" y1="46" x2="310" y2="218" stroke="#aaa" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <div class="trick">Paging = equal pizza slices (fixed size, physical). Segmentation = parts of a book (variable size, logical — chapter, index, glossary). Combined: segment each chapter, then page each chapter's pages!</div>
+    <div class="kwbox">
+      <span class="kw">Segment</span> <span class="kw">Segment Table</span> <span class="kw">Base</span> <span class="kw">Limit</span> <span class="kw">STBR</span> <span class="kw">Segmentation Fault</span> <span class="kw">External Fragmentation</span>
+    </div>
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT 4 — VIRTUAL MEMORY
+═══════════════════════════════════════════════════════ -->
+<div class="unit" id="vm" data-num="4">
+  <h2>📌 Unit 4 — Virtual Memory</h2>
+  <p>L-2.1.5 Virtual Memory, Demand Paging, Page Replacement, Segmentation</p>
+</div>
+
+<article class="topic">
+  <div class="topic-head"><span class="tno">4.1</span><h3>Virtual Memory &amp; Demand Paging</h3></div>
+  <div class="tbody">
+
+    <p>Have you ever wondered how a 10GB game runs on a computer with only 4GB of RAM? The answer is <strong>virtual memory</strong>. Not all parts of a program need to be in RAM at the same time. The OS keeps only the currently needed parts in RAM and stores the rest on the hard disk. When a needed part is not in RAM, the OS fetches it from disk.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Virtual Memory</div>
+      <p>Virtual memory creates an illusion that each process has a very large private address space, even though physical RAM is limited. It works by using secondary storage (hard disk/SSD) as an extension of RAM.</p>
+      <p style="margin-top:6px">Two benefits: (1) Programs larger than RAM can run. (2) Memory protection — each process has its own virtual address space.</p>
+    </div>
+
+    <!-- SVG: Virtual Memory Concept -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 13 — Virtual Memory: Program Larger than RAM</div>
+      <svg viewBox="0 0 620 230" xmlns="http://www.w3.org/2000/svg" width="620">
+        <defs>
+          <marker id="vma" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#1971c2"/>
+          </marker>
+          <marker id="vmr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#e03131"/>
+          </marker>
+        </defs>
+
+        <!-- Process virtual space -->
+        <rect x="10" y="20" width="120" height="190" rx="6" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="70" y="40" text-anchor="middle" font-size="11" font-weight="bold" fill="#1971c2" font-family="Georgia">Process (10GB)</text>
+        <text x="70" y="55" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">Virtual Space</text>
+        <rect x="18" y="65" width="104" height="22" rx="3" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="70" y="81" text-anchor="middle" font-size="10" fill="#1e7235" font-family="Georgia">Code (Page 0)</text>
+        <rect x="18" y="90" width="104" height="22" rx="3" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="70" y="106" text-anchor="middle" font-size="10" fill="#1e7235" font-family="Georgia">Data (Page 1)</text>
+        <rect x="18" y="115" width="104" height="22" rx="3" fill="#f5f5f5" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="70" y="131" text-anchor="middle" font-size="10" fill="#999" font-family="Georgia">Page 2 (on disk)</text>
+        <rect x="18" y="140" width="104" height="22" rx="3" fill="#f5f5f5" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="70" y="156" text-anchor="middle" font-size="10" fill="#999" font-family="Georgia">Page 3 (on disk)</text>
+        <rect x="18" y="165" width="104" height="22" rx="3" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="70" y="181" text-anchor="middle" font-size="10" fill="#1e7235" font-family="Georgia">Stack (Page 4)</text>
+        <text x="70" y="205" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">and many more...</text>
+
+        <!-- RAM -->
+        <rect x="220" y="20" width="160" height="180" rx="6" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <text x="300" y="40" text-anchor="middle" font-size="12" font-weight="bold" fill="#2f9e44" font-family="Georgia">Physical RAM</text>
+        <text x="300" y="56" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">(4GB only)</text>
+        <rect x="228" y="65" width="144" height="30" rx="3" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="300" y="85" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">Frame — Code (P.0) ✓</text>
+        <rect x="228" y="100" width="144" height="30" rx="3" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="300" y="120" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">Frame — Data (P.1) ✓</text>
+        <rect x="228" y="135" width="144" height="30" rx="3" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <text x="300" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">Frame — Stack (P.4) ✓</text>
+        <rect x="228" y="170" width="144" height="22" rx="3" fill="#eeeeee" stroke="#bbb" stroke-width="1.5"/>
+        <text x="300" y="185" text-anchor="middle" font-size="10" fill="#999" font-family="Georgia">Free frame</text>
+
+        <!-- Disk -->
+        <rect x="450" y="20" width="160" height="180" rx="6" fill="#fffbf0" stroke="#e67700" stroke-width="2"/>
+        <text x="530" y="40" text-anchor="middle" font-size="12" font-weight="bold" fill="#e67700" font-family="Georgia">Hard Disk (Swap)</text>
+        <text x="530" y="56" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">(100GB space)</text>
+        <rect x="458" y="65" width="144" height="30" rx="3" fill="#fff8e1" stroke="#e67700" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="530" y="85" text-anchor="middle" font-size="10" fill="#b05000" font-family="Georgia">Page 2 (not needed yet)</text>
+        <rect x="458" y="100" width="144" height="30" rx="3" fill="#fff8e1" stroke="#e67700" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="530" y="120" text-anchor="middle" font-size="10" fill="#b05000" font-family="Georgia">Page 3 (not needed yet)</text>
+        <rect x="458" y="135" width="144" height="55" rx="3" fill="#eeeeee" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="530" y="160" text-anchor="middle" font-size="10" fill="#999" font-family="Georgia">More pages...</text>
+        <text x="530" y="178" text-anchor="middle" font-size="10" fill="#999" font-family="Georgia">stored on disk</text>
+
+        <!-- Arrows -->
+        <line x1="130" y1="75" x2="218" y2="80" stroke="#2f9e44" stroke-width="2" marker-end="url(#vma)"/>
+        <text x="174" y="72" text-anchor="middle" font-size="9" fill="#2f9e44" font-family="Georgia">in RAM ✓</text>
+        <line x1="130" y1="127" x2="448" y2="80" stroke="#e03131" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#vmr)"/>
+        <text x="290" y="60" text-anchor="middle" font-size="9" fill="#e03131" font-family="Georgia">on disk (page fault if accessed)</text>
+      </svg>
+    </div>
+
+    <div class="defbox">
+      <div class="dlabel">Demand Paging</div>
+      <p>In demand paging, a page is loaded into RAM <strong>only when the CPU actually tries to access it</strong>. Not all pages are loaded at the start — only on demand. This saves RAM and allows larger programs to run.</p>
+      <p style="margin-top:6px"><strong>Page Fault:</strong> When the CPU tries to access a page that is NOT currently in RAM, a <em>page fault interrupt</em> occurs. The OS then fetches that page from disk, loads it into a free RAM frame, updates the page table, and restarts the instruction.</p>
+      <p style="margin-top:6px"><strong>Pure Demand Paging:</strong> Nothing is loaded at startup. The very first instruction itself causes a page fault. Very lazy — load only when needed.</p>
+    </div>
+
+    <!-- SVG: Page Fault Handling Steps -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 14 — Page Fault: Step-by-Step Handling</div>
+      <svg viewBox="0 0 620 150" xmlns="http://www.w3.org/2000/svg" width="620">
+        <defs>
+          <marker id="pfa" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0,10 3.5,0 7" fill="#555"/>
+          </marker>
+        </defs>
+        <!-- Steps as boxes -->
+        <rect x="10" y="40" width="88" height="60" rx="6" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="54" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="#1971c2" font-family="Georgia">CPU accesses</text>
+        <text x="54" y="77" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">virtual addr V</text>
+        <text x="54" y="92" text-anchor="middle" font-size="9" fill="#e03131" font-family="Georgia">Page NOT in RAM!</text>
+        <line x1="98" y1="70" x2="115" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#pfa)"/>
+
+        <rect x="115" y="40" width="82" height="60" rx="6" fill="#ffeeee" stroke="#e03131" stroke-width="2"/>
+        <text x="156" y="65" text-anchor="middle" font-size="10" font-weight="bold" fill="#e03131" font-family="Georgia">PAGE FAULT</text>
+        <text x="156" y="82" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">Interrupt → OS</text>
+        <text x="156" y="95" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">takes control</text>
+        <line x1="197" y1="70" x2="214" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#pfa)"/>
+
+        <rect x="214" y="40" width="88" height="60" rx="6" fill="#fffbf0" stroke="#e67700" stroke-width="2"/>
+        <text x="258" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="#e67700" font-family="Georgia">OS finds free</text>
+        <text x="258" y="77" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">frame in RAM</text>
+        <text x="258" y="92" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">(or replaces one)</text>
+        <line x1="302" y1="70" x2="319" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#pfa)"/>
+
+        <rect x="319" y="40" width="88" height="60" rx="6" fill="#fffbf0" stroke="#e67700" stroke-width="2"/>
+        <text x="363" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="#e67700" font-family="Georgia">Load page</text>
+        <text x="363" y="77" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">from disk</text>
+        <text x="363" y="92" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">into frame</text>
+        <line x1="407" y1="70" x2="424" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#pfa)"/>
+
+        <rect x="424" y="40" width="88" height="60" rx="6" fill="#f0fff4" stroke="#2f9e44" stroke-width="2"/>
+        <text x="468" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="#2f9e44" font-family="Georgia">Update page</text>
+        <text x="468" y="77" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">table entry</text>
+        <text x="468" y="92" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">(mark as present)</text>
+        <line x1="512" y1="70" x2="529" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#pfa)"/>
+
+        <rect x="529" y="40" width="82" height="60" rx="6" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+        <text x="570" y="65" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e7235" font-family="Georgia">Restart</text>
+        <text x="570" y="82" text-anchor="middle" font-size="10" fill="#555" font-family="Georgia">instruction</text>
+        <text x="570" y="97" text-anchor="middle" font-size="9" fill="#2f9e44" font-family="Georgia">Resume ✓</text>
+
+        <!-- Step numbers -->
+        <text x="54" y="25" text-anchor="middle" font-size="9" fill="#aaa" font-family="Georgia">Step 1</text>
+        <text x="156" y="25" text-anchor="middle" font-size="9" fill="#aaa" font-family="Georgia">Step 2</text>
+        <text x="258" y="25" text-anchor="middle" font-size="9" fill="#aaa" font-family="Georgia">Step 3</text>
+        <text x="363" y="25" text-anchor="middle" font-size="9" fill="#aaa" font-family="Georgia">Step 4</text>
+        <text x="468" y="25" text-anchor="middle" font-size="9" fill="#aaa" font-family="Georgia">Step 5</text>
+        <text x="570" y="25" text-anchor="middle" font-size="9" fill="#aaa" font-family="Georgia">Step 6</text>
+      </svg>
+    </div>
+
+    <div class="defbox">
+      <div class="dlabel">Thrashing</div>
+      <p>When a process has too few frames, it causes page faults constantly. The OS spends more time swapping pages in and out than actually running programs. This is called <strong>thrashing</strong>. The system slows to a crawl. Solution: give processes enough frames, or reduce the number of running processes (lower degree of multiprogramming).</p>
+    </div>
+
+    <div class="kwbox">
+      <span class="kw">Virtual Memory</span> <span class="kw">Demand Paging</span> <span class="kw">Page Fault</span> <span class="kw">Swap In / Swap Out</span> <span class="kw">Thrashing</span> <span class="kw">Working Set</span>
+    </div>
+  </div>
+</article>
+
+<!-- TOPIC 4.2 — PAGE REPLACEMENT -->
+<article class="topic" id="pr">
+  <div class="topic-head"><span class="tno">4.2</span><h3>Page Replacement Algorithms</h3></div>
+  <div class="tbody">
+
+    <p>When a page fault occurs and RAM is full, the OS must choose which existing page to remove (evict) to make room for the new page. This decision is made by a <strong>page replacement algorithm</strong>. The goal is to minimize future page faults.</p>
+
+    <div class="g3">
+      <div class="card card-red">
+        <div class="ctitle">FIFO — First In, First Out</div>
+        <p>The page that has been in memory the <strong>longest time</strong> is replaced first. Like a queue — first in, first out. Simple to implement.</p>
+        <p style="margin-top:6px; color:#e03131"><strong>Problem:</strong> Belady's Anomaly — adding more frames can sometimes INCREASE page faults!</p>
+      </div>
+      <div class="card card-green">
+        <div class="ctitle">Optimal (OPT / MIN)</div>
+        <p>Replace the page that will <strong>not be used for the longest time in the future</strong>. This gives the minimum possible page faults.</p>
+        <p style="margin-top:6px; color:#e03131"><strong>Problem:</strong> Impossible to implement — you cannot know the future! Used only as a theoretical benchmark.</p>
+      </div>
+      <div class="card card-blue">
+        <div class="ctitle">LRU — Least Recently Used</div>
+        <p>Replace the page that has <strong>not been used for the longest time in the past</strong>. Uses past behavior to predict future behavior (locality of reference).</p>
+        <p style="margin-top:6px; color:#2f9e44"><strong>Best practical algorithm!</strong> Performs close to Optimal. No Belady's Anomaly.</p>
+      </div>
+    </div>
+
+    <!-- SVG: Page Replacement Timeline -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 15 — Page Replacement: FIFO vs LRU vs Optimal (3 Frames, Ref: 1,2,3,1,4,1,2,3,4,1)</div>
+      <svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" width="680">
+        <!-- Header row -->
+        <text x="10" y="20" font-size="11" font-weight="bold" fill="#555" font-family="Georgia">Reference:</text>
+        <!-- Reference string at top -->
+        <text x="100" y="20" font-size="12" font-weight="bold" fill="#1a1a2e" font-family="Georgia">  1     2     3     1     4     1     2     3     4     1</text>
+
+        <!-- Column separators -->
+        <line x1="90" y1="5" x2="90" y2="330" stroke="#eee" stroke-width="1"/>
+        <!-- 10 columns for 10 refs, each ~58px wide starting at x=100 -->
+
+        <!-- FIFO section -->
+        <rect x="5" y="30" width="685" height="95" rx="4" fill="#fff8f8"/>
+        <text x="10" y="50" font-size="12" font-weight="bold" fill="#e03131" font-family="Georgia">FIFO</text>
+        <text x="10" y="65" font-size="10" fill="#e03131" font-family="Georgia">(3 frames)</text>
+
+        <!-- FIFO data: ref 1,2,3,1,4,1,2,3,4,1 — 3 frames -->
+        <!-- F1 row -->
+        <text x="10" y="86" font-size="10" fill="#555" font-family="Georgia">F1:</text>
+        <text x="100" y="86" font-size="12" fill="#1971c2" font-family="Georgia">  1     1     1     1     4     4     4     4     4     4</text>
+        <!-- F2 row -->
+        <text x="10" y="102" font-size="10" fill="#555" font-family="Georgia">F2:</text>
+        <text x="100" y="102" font-size="12" fill="#1971c2" font-family="Georgia">        2     2     2     2     2     2     3     3     3</text>
+        <!-- F3 row -->
+        <text x="10" y="118" font-size="10" fill="#555" font-family="Georgia">F3:</text>
+        <text x="100" y="118" font-size="12" fill="#1971c2" font-family="Georgia">              3     3     3     3     3     3     3     1</text>
+        <!-- Faults row -->
+        <text x="10" y="118" font-size="10" fill="#555" font-family="Georgia"></text>
+        <text x="10" y="134" font-size="10" font-weight="bold" fill="#e03131" font-family="Georgia">PF?</text>
+        <text x="100" y="134" font-size="12" fill="#e03131" font-family="Georgia">  *     *     *           *                 *     *     </text>
+        <text x="580" y="134" font-size="11" font-weight="bold" fill="#e03131" font-family="Georgia">= 6 Faults</text>
+
+        <!-- LRU section -->
+        <rect x="5" y="145" width="685" height="95" rx="4" fill="#f8fff8"/>
+        <text x="10" y="165" font-size="12" font-weight="bold" fill="#1971c2" font-family="Georgia">LRU</text>
+        <text x="10" y="180" font-size="10" fill="#1971c2" font-family="Georgia">(3 frames)</text>
+
+        <text x="10" y="200" font-size="10" fill="#555" font-family="Georgia">F1:</text>
+        <text x="100" y="200" font-size="12" fill="#1971c2" font-family="Georgia">  1     1     1     1     1     1     1     1     1     1</text>
+        <text x="10" y="216" font-size="10" fill="#555" font-family="Georgia">F2:</text>
+        <text x="100" y="216" font-size="12" fill="#1971c2" font-family="Georgia">        2     2     2     4     4     2     2     4     4</text>
+        <text x="10" y="232" font-size="10" fill="#555" font-family="Georgia">F3:</text>
+        <text x="100" y="232" font-size="12" fill="#1971c2" font-family="Georgia">              3     3     3     3     3     3     3     3</text>
+        <text x="10" y="248" font-size="10" font-weight="bold" fill="#e03131" font-family="Georgia">PF?</text>
+        <text x="100" y="248" font-size="12" fill="#e03131" font-family="Georgia">  *     *     *           *                             </text>
+        <text x="580" y="248" font-size="11" font-weight="bold" fill="#2f9e44" font-family="Georgia">= 4 Faults</text>
+
+        <!-- Optimal section -->
+        <rect x="5" y="260" width="685" height="60" rx="4" fill="#f8f8ff"/>
+        <text x="10" y="280" font-size="12" font-weight="bold" fill="#7048e8" font-family="Georgia">OPTIMAL</text>
+        <text x="100" y="280" font-size="11" fill="#555" font-family="Georgia">Replace page with longest future non-use</text>
+        <text x="10" y="300" font-size="10" font-weight="bold" fill="#e03131" font-family="Georgia">PF?</text>
+        <text x="100" y="300" font-size="12" fill="#e03131" font-family="Georgia">  *     *     *                                          </text>
+        <text x="580" y="300" font-size="11" font-weight="bold" fill="#7048e8" font-family="Georgia">= 3 Faults (min!)</text>
+
+        <!-- Summary -->
+        <rect x="5" y="318" width="685" height="12" rx="3" fill="#f0f0f0"/>
+        <text x="100" y="328" font-size="10" fill="#555" font-family="Georgia">Comparison: FIFO(6) ≥ LRU(4) ≥ Optimal(3) — Optimal always has fewest faults!</text>
+      </svg>
+    </div>
+
+    <div class="defbox">
+      <div class="dlabel">Belady's Anomaly (FIFO only)</div>
+      <p>Normally we expect that giving a process more RAM frames should reduce page faults. With FIFO, this is sometimes NOT true — adding more frames can <em>increase</em> page faults. This strange behavior is called <strong>Belady's Anomaly</strong>. It is unique to FIFO. LRU and Optimal algorithms do NOT suffer from this.</p>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Solved Numerical — FIFO Page Replacement</div>
+      <p>Reference String: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5 | Frames = 3</p>
+      <div class="step">  Ref:  1  2  3  4  1  2  5  1  2  3  4  5
+  F1:   1  1  1  4  4  4  5  5  5  5  4  4
+  F2:      2  2  2  1  1  1  1  1  1  1  5
+  F3:         3  3  3  2  2  2  2  2  2  2
+  PF:   *  *  *  *  *  *  *              *  *
+  Total FIFO Page Faults = 9</div>
+      <div class="answer">9 page faults with FIFO, 3 frames.</div>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Algorithm</th><th>Replace Rule</th><th>Implementable?</th><th>Belady's Anomaly</th><th>Performance</th></tr></thead>
+        <tbody>
+          <tr><td>FIFO</td><td>Oldest (first in)</td><td>Yes</td><td>Yes ⚠️</td><td>Worst</td></tr>
+          <tr><td>Optimal</td><td>Furthest future use</td><td>No (needs future)</td><td>No</td><td>Best (theoretical)</td></tr>
+          <tr><td>LRU</td><td>Least recently used</td><td>Yes</td><td>No</td><td>Near-optimal ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="trick">Page faults: FIFO ≥ LRU ≥ Optimal. LRU is always the best practical choice. Optimal is only a yardstick to compare against. FIFO is simplest but risky (Belady's Anomaly)!</div>
+    <div class="kwbox">
+      <span class="kw">Page Fault</span> <span class="kw">FIFO</span> <span class="kw">LRU</span> <span class="kw">Optimal</span> <span class="kw">Belady's Anomaly</span> <span class="kw">Thrashing</span> <span class="kw">Page Frame</span>
+    </div>
+
+    <div class="examq">
+      <div class="qlabel">⭐ Likely 5-Mark Question</div>
+      <div class="qtext">Q: Explain page replacement algorithms. Compare FIFO, LRU, and Optimal with an example.</div>
+      <div class="qans">Ans: Define page fault (0.5) → FIFO (1 mark: replace oldest, Belady's anomaly) → Optimal (1 mark: replace furthest future, theoretical only) → LRU (1 mark: replace least recently used, best practical) → Numerical example with table (1 mark) → Comparison table (0.5 mark) = 5 marks!</div>
+    </div>
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT 5 — DISK MANAGEMENT
+═══════════════════════════════════════════════════════ -->
+<div class="unit" id="disk" data-num="5">
+  <h2>📌 Unit 5 — Disk Management</h2>
+  <p>L-2.2.1 Device Management, Disk Structure, Disk Scheduling Algorithms</p>
+</div>
+
+<article class="topic">
+  <div class="topic-head"><span class="tno">5.1</span><h3>Physical Disk Structure &amp; Disk Access Time</h3></div>
+  <div class="tbody">
+
+    <p>A hard disk (HDD) is like a stack of circular gramophone records. Data is stored magnetically on these spinning platters, and a read/write head moves back and forth to read or write data.</p>
+
+    <!-- SVG: Disk Structure -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 16 — Physical Hard Disk Structure</div>
+      <svg viewBox="0 0 620 260" xmlns="http://www.w3.org/2000/svg" width="620">
+        <!-- Platter top view -->
+        <circle cx="200" cy="130" r="115" fill="#f5f5f5" stroke="#555" stroke-width="2"/>
+        <circle cx="200" cy="130" r="90" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <circle cx="200" cy="130" r="65" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <circle cx="200" cy="130" r="40" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <circle cx="200" cy="130" r="15" fill="#777" stroke="#555" stroke-width="2"/>
+        <!-- Sector divisions -->
+        <line x1="200" y1="15" x2="200" y2="245" stroke="#ccc" stroke-width="1"/>
+        <line x1="85" y1="130" x2="315" y2="130" stroke="#ccc" stroke-width="1"/>
+        <line x1="119" y1="49" x2="281" y2="211" stroke="#ccc" stroke-width="1"/>
+        <line x1="281" y1="49" x2="119" y2="211" stroke="#ccc" stroke-width="1"/>
+        <!-- Highlighted sector -->
+        <path d="M 200 130 L 265 130 A 65 65 0 0 1 240 175 Z" fill="#d3f9d8" stroke="#2f9e44" stroke-width="1.5"/>
+        <!-- R/W Head arm -->
+        <line x1="200" y1="130" x2="295" y2="65" stroke="#e03131" stroke-width="3"/>
+        <circle cx="295" cy="65" r="8" fill="#e03131"/>
+        <!-- Labels -->
+        <text x="200" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Platter (top view)</text>
+        <!-- Track label -->
+        <path d="M 285 60 Q 340 45 380 75" stroke="#aaa" stroke-width="1" fill="none"/>
+        <text x="385" y="78" font-size="10" fill="#555" font-family="Georgia">R/W Head</text>
+        <!-- Track annotation -->
+        <path d="M 200 40 Q 240 30 290 40" stroke="#1971c2" stroke-width="1.5" fill="none"/>
+        <text x="295" y="35" font-size="10" fill="#1971c2" font-family="Georgia">Track</text>
+        <!-- Sector annotation -->
+        <path d="M 255 165 Q 310 175 360 155" stroke="#2f9e44" stroke-width="1.5" fill="none"/>
+        <text x="365" y="152" font-size="10" fill="#2f9e44" font-family="Georgia">Sector</text>
+
+        <!-- Side view (right side) -->
+        <rect x="430" y="40" width="160" height="180" rx="6" fill="#f0f4ff" stroke="#1971c2" stroke-width="2"/>
+        <text x="510" y="28" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e" font-family="Georgia">Side view (Cylinder)</text>
+        <!-- Multiple platters -->
+        <ellipse cx="510" cy="80" rx="60" ry="10" fill="#dde" stroke="#888" stroke-width="1.5"/>
+        <ellipse cx="510" cy="105" rx="60" ry="10" fill="#dde" stroke="#888" stroke-width="1.5"/>
+        <ellipse cx="510" cy="130" rx="60" ry="10" fill="#dde" stroke="#888" stroke-width="1.5"/>
+        <ellipse cx="510" cy="155" rx="60" ry="10" fill="#dde" stroke="#888" stroke-width="1.5"/>
+        <ellipse cx="510" cy="180" rx="60" ry="10" fill="#dde" stroke="#888" stroke-width="1.5"/>
+        <!-- Spindle -->
+        <line x1="510" y1="55" x2="510" y2="200" stroke="#888" stroke-width="3"/>
+        <!-- Cylinder arrow -->
+        <line x1="575" y1="80" x2="575" y2="180" stroke="#e64980" stroke-width="2.5"/>
+        <polygon points="575,75 571,86 579,86" fill="#e64980"/>
+        <polygon points="575,185 571,174 579,174" fill="#e64980"/>
+        <text x="592" y="135" font-size="10" fill="#e64980" font-family="Georgia" transform="rotate(90,592,135)">Cylinder</text>
+        <!-- Labels -->
+        <text x="435" y="72" font-size="9" fill="#555" font-family="Georgia">Platter 1</text>
+        <text x="435" y="97" font-size="9" fill="#555" font-family="Georgia">Platter 2</text>
+        <text x="435" y="122" font-size="9" fill="#555" font-family="Georgia">Platter 3</text>
+      </svg>
+    </div>
+
+    <div class="g3">
+      <div class="card card-blue">
+        <div class="ctitle">Platter</div>
+        <p>A circular magnetic disk. A hard drive has multiple platters stacked on a spindle. Data is stored on both sides of each platter.</p>
+      </div>
+      <div class="card card-green">
+        <div class="ctitle">Track & Sector</div>
+        <p><strong>Track:</strong> Concentric circular ring on a platter. <strong>Sector:</strong> Smallest unit of storage — a pie-slice of a track. Usually 512 bytes or 4KB.</p>
+      </div>
+      <div class="card card-orange">
+        <div class="ctitle">Cylinder</div>
+        <p>All tracks with the same radius across ALL platters form a cylinder. The read/write head can access an entire cylinder without moving.</p>
+      </div>
+    </div>
+
+    <div class="defbox">
+      <div class="dlabel">Disk Access Time = Seek Time + Rotational Latency + Transfer Time</div>
+      <p><strong>Seek Time (~5-10ms):</strong> Time for the R/W head arm to move to the correct cylinder (track). This is the largest component and the main target for optimization.</p>
+      <p><strong>Rotational Latency (~2-4ms):</strong> Time for the disk to rotate until the correct sector is under the head.</p>
+      <p><strong>Transfer Time (&lt;1ms):</strong> Actual time to read or write the data from/to the sector.</p>
+    </div>
+
+    <div class="trick">Access Time = <strong>S + R + T</strong>. Seek is the slowest. Disk scheduling tries to minimize total seek time across all requests!</div>
+  </div>
+</article>
+
+<article class="topic">
+  <div class="topic-head"><span class="tno">5.2</span><h3>Disk Scheduling Algorithms</h3></div>
+  <div class="tbody">
+
+    <p>Many processes need disk access at the same time. The OS must decide the order in which to service these requests to minimize the total seek time (head movement). This is disk scheduling.</p>
+
+    <div class="defbox">
+      <div class="dlabel">Standard Exam Problem</div>
+      <p>Request queue (cylinders): <strong>98, 183, 37, 122, 14, 124, 65, 67</strong><br>
+      Initial head position: <strong>53</strong> | Disk range: <strong>0 to 199</strong></p>
+    </div>
+
+    <!-- SVG: All 5 scheduling algorithms visually -->
+    <div class="svgwrap">
+      <div class="svgtitle">Diagram 17 — Disk Scheduling: Head Movement for All Algorithms</div>
+      <svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" width="680">
+        <defs>
+          <marker id="dsa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#1971c2"/>
+          </marker>
+          <marker id="dsr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#e03131"/>
+          </marker>
+          <marker id="dsg" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#2f9e44"/>
+          </marker>
+          <marker id="dso" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#e67700"/>
+          </marker>
+          <marker id="dsp" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#7048e8"/>
+          </marker>
+        </defs>
+
+        <!-- Scale: cylinder 0-199 maps to x: 60-640 (width 580) -->
+        <!-- X position = 60 + cylinder * (580/199) ≈ 60 + cylinder*2.91 -->
+        <!-- Cylinder positions:
+             0=60, 14=101, 37=168, 53=214, 65=249, 67=255, 98=345, 122=415, 124=421, 183=593, 199=639 -->
+
+        <!-- Axis -->
+        <line x1="60" y1="400" x2="650" y2="400" stroke="#555" stroke-width="1.5"/>
+        <text x="60" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">0</text>
+        <text x="101" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">14</text>
+        <text x="168" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">37</text>
+        <text x="214" y="415" text-anchor="middle" font-size="9" font-weight="bold" fill="#e03131" font-family="Georgia">53</text>
+        <text x="249" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">65</text>
+        <text x="255" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia"></text>
+        <text x="345" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">98</text>
+        <text x="415" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">122</text>
+        <text x="593" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">183</text>
+        <text x="639" y="415" text-anchor="middle" font-size="9" fill="#555" font-family="Georgia">199</text>
+        <!-- Tick marks -->
+        <line x1="214" y1="396" x2="214" y2="404" stroke="#e03131" stroke-width="2"/>
+
+        <!-- Algorithm labels -->
+        <text x="5" y="42" font-size="10" font-weight="bold" fill="#1971c2" font-family="Georgia">FCFS</text>
+        <text x="5" y="102" font-size="10" font-weight="bold" fill="#e03131" font-family="Georgia">SSTF</text>
+        <text x="5" y="182" font-size="10" font-weight="bold" fill="#2f9e44" font-family="Georgia">SCAN</text>
+        <text x="5" y="262" font-size="10" font-weight="bold" fill="#e67700" font-family="Georgia">C-SCAN</text>
+        <text x="5" y="342" font-size="10" font-weight="bold" fill="#7048e8" font-family="Georgia">C-LOOK</text>
+
+        <!-- FCFS: 53→98→183→37→122→14→124→65→67 -->
+        <polyline points="214,30 345,30 593,30 168,30 415,30 101,30 421,30 249,30 255,30" 
+                  fill="none" stroke="#1971c2" stroke-width="2"/>
+        <circle cx="214" cy="30" r="4" fill="#e03131"/>
+        <circle cx="345" cy="30" r="3" fill="#1971c2"/>
+        <circle cx="593" cy="30" r="3" fill="#1971c2"/>
+        <circle cx="168" cy="30" r="3" fill="#1971c2"/>
+        <circle cx="415" cy="30" r="3" fill="#1971c2"/>
+        <circle cx="101" cy="30" r="3" fill="#1971c2"/>
+        <circle cx="421" cy="30" r="3" fill="#1971c2"/>
+        <circle cx="249" cy="30" r="3" fill="#1971c2"/>
+        <circle cx="255" cy="30" r="3" fill="#1971c2"/>
+        <text x="648" y="34" font-size="9" fill="#1971c2" font-family="Georgia">640</text>
+
+        <!-- SSTF: 53→65→67→37→14→98→122→124→183 -->
+        <polyline points="214,90 249,90 255,90 168,90 101,90 345,90 415,90 421,90 593,90" 
+                  fill="none" stroke="#e03131" stroke-width="2"/>
+        <circle cx="214" cy="90" r="4" fill="#e03131"/>
+        <circle cx="249" cy="90" r="3" fill="#e03131"/>
+        <circle cx="255" cy="90" r="3" fill="#e03131"/>
+        <circle cx="168" cy="90" r="3" fill="#e03131"/>
+        <circle cx="101" cy="90" r="3" fill="#e03131"/>
+        <circle cx="345" cy="90" r="3" fill="#e03131"/>
+        <circle cx="415" cy="90" r="3" fill="#e03131"/>
+        <circle cx="421" cy="90" r="3" fill="#e03131"/>
+        <circle cx="593" cy="90" r="3" fill="#e03131"/>
+        <text x="648" y="94" font-size="9" fill="#e03131" font-family="Georgia">236</text>
+
+        <!-- SCAN: 53→65→67→98→122→124→183→199→37→14 -->
+        <polyline points="214,170 249,170 255,170 345,170 415,170 421,170 593,170 639,170" 
+                  fill="none" stroke="#2f9e44" stroke-width="2"/>
+        <polyline points="639,170 639,185 168,185 101,185" 
+                  fill="none" stroke="#2f9e44" stroke-width="2" stroke-dasharray="6,3"/>
+        <circle cx="214" cy="170" r="4" fill="#e03131"/>
+        <circle cx="639" cy="170" r="3" fill="#2f9e44"/>
+        <text x="641" y="166" font-size="8" fill="#2f9e44" font-family="Georgia">end</text>
+        <text x="648" y="184" font-size="9" fill="#2f9e44" font-family="Georgia">~330</text>
+
+        <!-- C-SCAN: 53→65→67→98→122→124→183→199 JUMP→0→14→37 -->
+        <polyline points="214,250 249,250 255,250 345,250 415,250 421,250 593,250 639,250" 
+                  fill="none" stroke="#e67700" stroke-width="2"/>
+        <!-- Jump back: 639→60 (dashed) then continue to 14, 37 -->
+        <polyline points="639,250 639,265 60,265 60,250" 
+                  fill="none" stroke="#e67700" stroke-width="2" stroke-dasharray="8,4"/>
+        <polyline points="60,250 101,250 168,250" 
+                  fill="none" stroke="#e67700" stroke-width="2"/>
+        <text x="348" y="270" text-anchor="middle" font-size="8" fill="#e67700" font-family="Georgia">JUMP to start (no service)</text>
+        <text x="648" y="264" font-size="9" fill="#e67700" font-family="Georgia">~382</text>
+        <circle cx="214" cy="250" r="4" fill="#e03131"/>
+
+        <!-- C-LOOK: 53→65→67→98→122→124→183 JUMP→14→37 -->
+        <polyline points="214,330 249,330 255,330 345,330 415,330 421,330 593,330" 
+                  fill="none" stroke="#7048e8" stroke-width="2"/>
+        <polyline points="593,330 593,345 101,345 101,330" 
+                  fill="none" stroke="#7048e8" stroke-width="2" stroke-dasharray="8,4"/>
+        <polyline points="101,330 168,330" 
+                  fill="none" stroke="#7048e8" stroke-width="2"/>
+        <text x="345" y="350" text-anchor="middle" font-size="8" fill="#7048e8" font-family="Georgia">JUMP to first request (not disk start)</text>
+        <text x="648" y="344" font-size="9" fill="#7048e8" font-family="Georgia">~322</text>
+        <circle cx="214" cy="330" r="4" fill="#e03131"/>
+
+        <!-- Legend -->
+        <text x="5" y="395" font-size="9" fill="#e03131" font-family="Georgia">● = Head start (53)</text>
+        <text x="120" y="395" font-size="9" fill="#555" font-family="Georgia">Numbers at right = total seek distance (cylinders)</text>
+      </svg>
+    </div>
+
+    <h4 style="margin:16px 0 10px; color:#1a1a2e">Algorithm Explanations</h4>
+
+    <ul class="steps">
+      <li><span class="sn blue">1</span><div><strong>FCFS (First Come, First Served):</strong> Service requests exactly in the order they arrive. Fair but very inefficient — the head jumps randomly across the disk. Total: 640 cylinders. Works for light loads only.</div></li>
+      <li><span class="sn red">2</span><div><strong>SSTF (Shortest Seek Time First):</strong> Always move the head to the nearest request. Like a greedy algorithm. Much better than FCFS (236 cylinders) but can cause <em>starvation</em> — requests at far ends of the disk may never be served if there are always closer requests.</div></li>
+      <li><span class="sn green">3</span><div><strong>SCAN (Elevator Algorithm):</strong> The head moves in one direction serving all requests, reaches one end of the disk, then reverses and services in the other direction. Like an elevator. Fair, no starvation. Good for heavy loads.</div></li>
+      <li><span class="sn orange">4</span><div><strong>C-SCAN (Circular SCAN):</strong> Same as SCAN but only services requests going in ONE direction. When it reaches the end, it jumps straight back to the beginning without servicing on the return trip. Provides more <em>uniform waiting times</em> for all cylinder positions.</div></li>
+      <li><span class="sn" style="background:#7048e8">5</span><div><strong>C-LOOK:</strong> A smarter version of C-SCAN. Instead of going all the way to the disk's end (cylinder 199), the head only travels as far as the last request in that direction, then jumps to the first request in the queue. Avoids unnecessary travel. Generally the best practical algorithm!</div></li>
+    </ul>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Algorithm</th><th>Rule</th><th>Seek Distance (example)</th><th>Starvation?</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td>FCFS</td><td>Arrival order</td><td>640 (highest)</td><td>No</td><td>Very light load</td></tr>
+          <tr><td>SSTF</td><td>Nearest cylinder</td><td>236 (good)</td><td>Yes ⚠️</td><td>Light-moderate load</td></tr>
+          <tr><td>SCAN</td><td>Elevator (both ways, to end)</td><td>~330</td><td>No</td><td>Heavy load</td></tr>
+          <tr><td>C-SCAN</td><td>One way + jump to start</td><td>~382</td><td>No</td><td>Uniform wait needed</td></tr>
+          <tr><td>C-LOOK</td><td>One way to last request + jump</td><td>~322 (best!)</td><td>No</td><td>Default choice ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="numbox">
+      <div class="ntitle">Solved Numerical — SSTF Step by Step</div>
+      <p>Queue: 98, 183, 37, 122, 14, 124, 65, 67 | Head starts at 53</p>
+      <div class="step">At 53: distances → 98-53=45, 183-53=130, 37-53=16, 122-53=69,
+                          14-53=39, 124-53=71, 65-53=12, 67-53=14
+  Nearest: 65 (distance 12)  →  head moves to 65
+
+At 65: remaining: 98,183,37,122,14,124,67
+  Nearest: 67 (distance 2)  →  head moves to 67
+
+At 67: remaining: 98,183,37,122,14,124
+  Nearest: 98 (distance 31) →  head moves to 98
+
+At 98: → 122(24), At 122: → 124(2), At 124: → 183(59), At 183: → 37(146), At 37: → 14(23)
+
+Path: 53 → 65 → 67 → 98 → 122 → 124 → 183 → 37 → 14
+Distances: 12 + 2 + 31 + 24 + 2 + 59 + 146 + 23 = 299 cylinders</div>
+      <div class="answer">SSTF total seek distance = 299 cylinders (much better than FCFS's 640!)</div>
+    </div>
+
+    <div class="trick">SSTF = Self-serving (greedy, may starve far requests). SCAN = Elevator (fair, no starvation). C-LOOK = Smart elevator (stops at last request, no wasted travel). Best default = C-LOOK or SSTF!</div>
+    <div class="kwbox">
+      <span class="kw">Seek Time</span> <span class="kw">Rotational Latency</span> <span class="kw">FCFS</span> <span class="kw">SSTF</span> <span class="kw">SCAN</span> <span class="kw">C-SCAN</span> <span class="kw">C-LOOK</span> <span class="kw">Starvation</span> <span class="kw">Elevator Algorithm</span>
+    </div>
+
+    <div class="examq">
+      <div class="qlabel">⭐ Likely 5-Mark Question</div>
+      <div class="qtext">Q: Explain disk scheduling algorithms. Compare FCFS, SSTF, and SCAN with the queue {98,183,37,122,14,124,65,67} starting at head position 53.</div>
+      <div class="qans">Ans: Define disk scheduling (0.5) → FCFS (path + total 640) (1 mark) → SSTF (path + total ~299) (1 mark) → SCAN (path + total ~330) (1 mark) → Comparison table (1 mark) + best algorithm choice (0.5 mark) = 5 marks! Draw the diagram!</div>
+    </div>
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════
+     QUICK REVISION
+═══════════════════════════════════════════════════════ -->
+<div class="unit" id="rev" data-num="★" style="border-left-color: #e67700;">
+  <h2>⚡ Quick Revision — Exam Day Cheat Sheet</h2>
+  <p>All formulas, definitions and tricks in one place</p>
+</div>
+
+<article class="topic" style="border: 2px solid #e67700;">
+  <div class="topic-head" style="background: #fffbf0; border-bottom-color: #e67700;">
+    <span class="tno" style="background: #e67700;">★</span>
+    <h3 style="color: #e67700;">Master Formula &amp; Quick Definition Sheet</h3>
+  </div>
+  <div class="tbody">
+
+    <div class="g2">
+      <div>
+        <h4 style="color:#1971c2; margin-bottom:10px">📐 All Formulas</h4>
+        <div class="numbox" style="margin-top:0">
+          <div class="step">DEADLOCK:
+  Max ensuring DL  = Σxi - n
+  Min ensuring no DL = (Σxi - n) + 1
+  Need (Banker's) = Max - Allocation
+
+MEMORY:
+  Addr size (bits) = log₂(space_in_words)
+  Phys Addr (segmentation) = Base + Offset
+  Page# = Logical Addr ÷ Page Size
+  Offset = Logical Addr mod Page Size
+  Logical addr bits = page_bits + offset_bits
+  If space = 2^m, page = 2^n → page# = (m-n) bits
+
+DISK:
+  Access Time = Seek + Rotation + Transfer
+  C-LOOK: go to last request, jump to first request
+  C-SCAN: go to disk end, jump to cylinder 0</div>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:#e03131; margin-bottom:10px">🎯 Likely Exam Questions</h4>
+        <div class="card card-red" style="margin-bottom:10px">
+          <div class="ctitle">5 × 2 Mark Questions</div>
+          <ul>
+            <li>Define deadlock + 4 conditions</li>
+            <li>Internal vs External fragmentation</li>
+            <li>Paging vs Segmentation difference</li>
+            <li>What is TLB? Why is it needed?</li>
+            <li>What is Page Fault? Demand Paging?</li>
+            <li>FIFO vs LRU page replacement</li>
+            <li>What is Belady's Anomaly?</li>
+            <li>Disk Access Time formula + components</li>
+          </ul>
+        </div>
+        <div class="card card-green">
+          <div class="ctitle">2 × 5 Mark Questions</div>
+          <ul>
+            <li><strong>Banker's Algorithm</strong> (VERY likely!)</li>
+            <li>Page Replacement (FIFO+LRU+OPT)</li>
+            <li>Deadlock Handling (4 strategies)</li>
+            <li>Disk Scheduling with numerical</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div">
+    <h4 style="margin-bottom:12px; color:#1a1a2e">🧠 All Memory Tricks</h4>
+    <div class="g2">
+      <div class="trick" style="margin:0">4 Deadlock conditions: <strong>M-H-N-C</strong> = Mutual exclusion, Hold&amp;wait, No preemption, Circular wait</div>
+      <div class="trick" style="margin:0">Deadlock handling: <strong>P-A-D-I</strong> = Prevention, Avoidance, Detection, Ignorance</div>
+      <div class="trick" style="margin:0">Banker's first step: <strong>Need = Max − Allocation</strong> — always compute this first!</div>
+      <div class="trick" style="margin:0">Page faults: <strong>FIFO ≥ LRU ≥ Optimal</strong> — Optimal always minimum!</div>
+      <div class="trick" style="margin:0"><strong>Fixed partition = Internal frag, Dynamic partition = External frag</strong></div>
+      <div class="trick" style="margin:0"><strong>C-LOOK vs C-SCAN:</strong> C-LOOK stops at last request; C-SCAN goes to disk end (199)</div>
+      <div class="trick" style="margin:0">Paging = no external frag, Segmentation = no internal frag</div>
+      <div class="trick" style="margin:0"><strong>FIFO gets Belady's Anomaly — LRU and Optimal do NOT!</strong></div>
+    </div>
+
+    <hr class="div">
+    <h4 style="margin-bottom:10px; color:#1a1a2e">📊 All Algorithms — Final Summary Table</h4>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Topic</th><th>Algorithm</th><th>Key Rule</th><th>Main Problem</th></tr></thead>
+        <tbody>
+          <tr><td>Memory Alloc</td><td>First Fit</td><td>First sufficient hole</td><td>Fragments start of memory</td></tr>
+          <tr><td>Memory Alloc</td><td>Best Fit</td><td>Smallest sufficient hole</td><td>Leaves tiny fragments</td></tr>
+          <tr><td>Memory Alloc</td><td>Worst Fit</td><td>Largest hole</td><td>Least efficient overall</td></tr>
+          <tr><td>Page Replace</td><td>FIFO</td><td>Oldest page out</td><td>Belady's Anomaly</td></tr>
+          <tr><td>Page Replace</td><td>Optimal</td><td>Furthest future use</td><td>Not implementable</td></tr>
+          <tr><td>Page Replace</td><td>LRU</td><td>Least recently used</td><td>Overhead of tracking</td></tr>
+          <tr><td>Disk Sched</td><td>FCFS</td><td>Arrival order</td><td>Highest seek distance</td></tr>
+          <tr><td>Disk Sched</td><td>SSTF</td><td>Nearest cylinder</td><td>Starvation</td></tr>
+          <tr><td>Disk Sched</td><td>SCAN</td><td>Elevator (both ways)</td><td>Goes to disk end needlessly</td></tr>
+          <tr><td>Disk Sched</td><td>C-SCAN</td><td>One direction + jump to 0</td><td>More travel than C-LOOK</td></tr>
+          <tr><td>Disk Sched</td><td>C-LOOK</td><td>One direction to last + jump</td><td>Best default choice ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notebox">
+      <strong>Exam Strategy:</strong> For 2-mark answers — write definition + one diagram or example (~5 lines). For 5-mark answers — Introduction → Definition → Diagram → Algorithm/Steps → Numerical → Comparison Table → Conclusion. Always draw a diagram for 5-mark answers — it shows understanding and earns marks quickly!
+    </div>
+
+  </div>
+</article>
+
+</main><!-- /page -->
+
+<footer class="footer">
+  <h3>All the best! Full marks are yours! 💯</h3>
+  <p>Operating System Exam — 20 Marks | 5 Questions × 2 Marks + 2 Questions × 5 Marks<br>
+  Chandigarh University | Complete notes from all 8 PPTs with diagrams, numericals, and examples</p>
+</footer>
+
+</body>
+</html>
